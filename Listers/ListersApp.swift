@@ -10,11 +10,13 @@ import SwiftUI
 @main
 struct ListersApp: App {
     let persistenceController = PersistenceController.shared
+    @StateObject var persistenceManager = PersistenceManager()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environmentObject(persistenceManager)
         }
     }
 }
