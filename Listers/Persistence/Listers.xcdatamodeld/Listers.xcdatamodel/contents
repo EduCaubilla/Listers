@@ -7,28 +7,33 @@
     </entity>
     <entity name="DMItem" representedClassName="DMItem" syncable="YES" codeGenerationType="class">
         <attribute name="completed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="endDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="image" optional="YES" attributeType="String"/>
         <attribute name="link" optional="YES" attributeType="String"/>
-        <attribute name="listId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="name" optional="YES" attributeType="String" spotlightIndexingEnabled="YES"/>
+        <attribute name="listId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String" spotlightIndexingEnabled="YES"/>
         <attribute name="note" optional="YES" attributeType="String"/>
         <attribute name="priority" optional="YES" attributeType="String"/>
-        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="quantity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DMList" inverseName="items" inverseEntity="DMList"/>
     </entity>
     <entity name="DMList" representedClassName="DMList" syncable="YES" codeGenerationType="class">
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="image" optional="YES" attributeType="String"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="expanded" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="notes" optional="YES" attributeType="String"/>
+        <attribute name="pinned" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="selected" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DMItem" inverseName="list" inverseEntity="DMItem"/>
     </entity>
     <entity name="DMProduct" representedClassName="DMProduct" syncable="YES" codeGenerationType="class">
         <attribute name="active" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="categoryId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="note" optional="YES" attributeType="String"/>

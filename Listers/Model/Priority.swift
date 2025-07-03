@@ -8,11 +8,11 @@
 import Foundation
 
 enum Priority: String {
-    case low = "Low"
-    case medium = "Medium"
+    case normal = "Normal"
     case high = "High"
+    case veryHigh = "Very High"
 
     static var allCases: [String] {
-        ["Low", "Medium", "High"]
+        ["Normal", "High", "Very High"]
     }
 }
