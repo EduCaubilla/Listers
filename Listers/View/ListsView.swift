@@ -11,7 +11,7 @@ import CoreData
 struct ListsView: View {
     //MARK: - PROPERTIES
     @EnvironmentObject var router: NavigationRouter
-    @ObservedObject var vm: ContentViewViewModel
+    @ObservedObject var vm: MainItemsViewModel
 
     @State var lists: [DMList] = []
 
@@ -25,7 +25,7 @@ struct ListsView: View {
     var viewTitle : String = "My Lists"
 
     //MARK: - INITIALIZER
-    init(vm: ContentViewViewModel) {
+    init(vm: MainItemsViewModel) {
         self.vm = vm
     }
 
@@ -82,43 +82,7 @@ struct ListsView: View {
                 })
             })
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    HStack(alignment: .center, spacing: 10){
-                        //TODO - Add Search in Categories
-//                        Button(action: {
-//                            //TODO Navigate to Search product
-//                        }) {
-//                            Image("custom.list.bullet.clipboard.badge.magnifyingglass")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .foregroundStyle(.darkBlue)
-//                        }
-
-                        Button(action: {
-                            withTransaction(Transaction(animation: nil)) {
-                                router.navigateTo(.settings)
-                            }
-                        }) {
-                            Image(systemName: "gearshape")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundStyle(.darkBlue)
-                        }
-                    }
-                }
-
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        withTransaction(Transaction(animation: nil)) {
-                            router.navigateTo(.main)
-                        }
-                    }) {
-                        Image("custom.checklist.square")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundStyle(.darkBlue)
-                    }
-                }
+                toolbarContentView(router: router, route: .lists)
             } //: TOOLBAR
         } //: NAVIGATION STACK
         .onReceive(vm.$lists) { _ in
@@ -139,11 +103,11 @@ struct ListsView: View {
 
 //MARK: - PREVIEW
 #Preview {
-    ListsView(vm: ContentViewViewModel())
+    ListsView(vm: MainItemsViewModel())
         .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
 }
 
 #Preview("Mocked Data List") {
-    ListsView(vm: ContentViewViewModel())
+    ListsView(vm: MainItemsViewModel())
         .environment(\.managedObjectContext, PersistenceController.previewList.container.viewContext)
 }

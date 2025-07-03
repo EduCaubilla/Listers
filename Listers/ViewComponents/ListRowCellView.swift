@@ -10,7 +10,7 @@ import CoreData
 
 struct ListRowCellView: View {
     //MARK: - PROPERTIES
-    @ObservedObject var vm: ContentViewViewModel
+    @ObservedObject var vm: MainItemsViewModel
 
     var selectedList: DMList
 
@@ -25,7 +25,7 @@ struct ListRowCellView: View {
     private var deleteWarningMessage: String = "Are you sure you want to delete this list? You won't be able to restore it."
 
     //MARK: - INITIALIZER
-    init(vm: ContentViewViewModel, selectedList: DMList, listItems: [DMItem], actionEditList: @escaping () -> Void) {
+    init(vm: MainItemsViewModel, selectedList: DMList, listItems: [DMItem], actionEditList: @escaping () -> Void) {
         self.vm = vm
         self.selectedList = selectedList
         self.listItems = listItems
@@ -197,5 +197,5 @@ struct ListRowCellView: View {
 
     //MARK: - PREVIEW
     #Preview (traits: .sizeThatFitsLayout) {
-        ListRowCellView(vm: ContentViewViewModel(), selectedList: getListPreview(), listItems: getListItemsPreview(), actionEditList: {})
+        ListRowCellView(vm: MainItemsViewModel(), selectedList: getListPreview(), listItems: getListItemsPreview(), actionEditList: {})
     }

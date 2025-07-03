@@ -10,17 +10,17 @@ import SwiftUI
 struct RootView: View {
     //MARK: - PROPERTIES
     @StateObject var router = NavigationRouter()
-    @StateObject var vm = ContentViewViewModel()
+    @StateObject var vm = MainItemsViewModel()
 
     //MARK: - BODY
     var body: some View {
         NavigationStack (path: $router.path) {
-            ContentView(vm: vm)
+            MainItemsView(vm: vm)
                 .environmentObject(router)
                 .navigationDestination(for: NavRoute.self) { route in
                     switch route {
                         case .main:
-                            ContentView(vm: vm)
+                            MainItemsView(vm: vm)
                                 .environmentObject(router)
                         case .lists:
                             ListsView(vm: vm)
@@ -28,6 +28,9 @@ struct RootView: View {
                         case .settings:
                             SettingsView()
                                 .environmentObject(router)
+                        case .categories:
+                            //TODO - Add categories View
+                            Text("CATEGORIES VIEW")
                     }
                 } //: NAV DESTINATION
         } //: NAV STACK

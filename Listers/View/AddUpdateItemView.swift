@@ -11,7 +11,7 @@ struct AddUpdateItemView: View {
     //MARK: - PROPERTIES
     @Environment(\.dismiss) var dismiss
 
-    @ObservedObject var vm: ContentViewViewModel
+    @ObservedObject var vm: MainItemsViewModel
 
     var priorities: [String] = Priority.allCases
 
@@ -35,11 +35,11 @@ struct AddUpdateItemView: View {
     }
 
     //MARK: - INITIALIZER
-    init(vm: ContentViewViewModel) {
+    init(vm: MainItemsViewModel) {
         self.vm = vm
     }
 
-    init (item: DMItem? = nil, vm: ContentViewViewModel) {
+    init (item: DMItem? = nil, vm: MainItemsViewModel) {
         if let item = item {
             _name = State(initialValue: item.name ?? "Unknown")
             _description = State(initialValue:item.note ?? "")
@@ -213,5 +213,5 @@ struct AddUpdateItemView: View {
 
 //MARK: - PREVIEW
 #Preview {
-    AddUpdateItemView(vm: ContentViewViewModel())
+    AddUpdateItemView(vm: MainItemsViewModel())
 }

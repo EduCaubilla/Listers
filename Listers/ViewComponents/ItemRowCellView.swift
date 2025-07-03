@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ItemRowCellView: View {
     //MARK: - PROPERTIES
-    @ObservedObject var vm: ContentViewViewModel
+    @ObservedObject var vm: MainItemsViewModel
 
     @ObservedObject var item: DMItem
 
@@ -30,7 +30,7 @@ struct ItemRowCellView: View {
     }
 
     //MARK: - INITIALIZER
-    init(vm: ContentViewViewModel, item: DMItem, actionEditItem: @escaping () -> Void, isEditAvailable: Bool = true) {
+    init(vm: MainItemsViewModel, item: DMItem, actionEditItem: @escaping () -> Void, isEditAvailable: Bool = true) {
         self.vm = vm
         self.item = item
         self.actionEditItem = actionEditItem
@@ -158,6 +158,6 @@ private func getItemPreview() -> DMItem {
 
 //MARK: - PREVIEW
 #Preview (traits: .sizeThatFitsLayout) {
-    ItemRowCellView(vm: ContentViewViewModel(), item: getItemPreview(), actionEditItem: {})
+    ItemRowCellView(vm: MainItemsViewModel(), item: getItemPreview(), actionEditItem: {})
 }
 

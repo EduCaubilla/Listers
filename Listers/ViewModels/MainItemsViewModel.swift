@@ -8,12 +8,16 @@
 import SwiftUI
 import CoreData
 
-class ContentViewViewModel: ObservableObject {
+class MainItemsViewModel: ObservableObject {
     //MARK: - PROPERTIES
     @Published var selectedList: DMList?
     @Published var itemsOfSelectedList: [DMItem] = []
     @Published var lists: [DMList] = []
     @Published var isListEmpty: Bool = true
+
+    @Published var showingAddItemView : Bool = false
+    @Published var showingUpdateItemView : Bool = false
+    @Published var showingAddListView : Bool = false
 
     private let persistenceManager : any PersistenceManagerProtocol
 

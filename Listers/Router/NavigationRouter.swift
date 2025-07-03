@@ -11,6 +11,7 @@ enum NavRoute: Hashable {
     case main
     case lists
     case settings
+    case categories
 }
 
 

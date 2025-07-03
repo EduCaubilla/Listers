@@ -8,36 +8,28 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
+struct MainItemsView: View {
     //MARK: - PROPERTIES
-    @StateObject var vm : ContentViewViewModel
+    @StateObject var vm : MainItemsViewModel
     @EnvironmentObject var router : NavigationRouter
 
     @State private var selectedItem: DMItem?
 
-    @State private var showingAddItemView : Bool = false
-    @State private var showingUpdateItemView : Bool = false
-    @State private var showingAddListView : Bool = false
-
-    @State private var showingSettingsView : Bool = false
-
     @State private var isAnimationRunning : Bool = false
-
-    var selectedList: DMList?
 
     var selectedListName: String {
         vm.selectedList?.name ?? ""
     }
 
     //MARK: - INITIALIZER
-    init(vm: ContentViewViewModel = ContentViewViewModel()) {
-        _vm = StateObject(wrappedValue: vm)
+    init(vm: @autoclosure @escaping () -> MainItemsViewModel = MainItemsViewModel()) {
+        _vm = StateObject(wrappedValue: vm())
     }
 
     //MARK: - FUNCTIONS
     private func editItem(_ item: DMItem) {
         setSelectedItem(item)
-        showingUpdateItemView.toggle()
+        vm.showingUpdateItemView = true
         print("Edit item: \(String(describing: selectedItem))")
     }
 
@@ -68,7 +60,7 @@ struct ContentView: View {
                     .navigationBarBackButtonHidden(true)
                     .safeAreaInset(edge: .bottom, content: {
                         MainAddButtonView(label: "Add Item", icon: "plus", action: {
-                            showingAddItemView.toggle()
+                            vm.showingAddItemView.toggle()
                         })
                     })
                 } else {
@@ -83,7 +75,7 @@ struct ContentView: View {
                         isAnimationRunning.toggle()
                     }
                     .onTapGesture {
-                        showingAddListView.toggle()
+                        vm.showingAddListView.toggle()
                     }
                 }
             } //: VSTACK
@@ -91,54 +83,18 @@ struct ContentView: View {
                 vm.loadInitData()
             }
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    HStack(alignment: .center, spacing: 10){
-                        //TODO - Add search in categories
-//                        Button(action: {
-//                            //TODO Navigate to Search product
-//                        }) {
-//                            Image("custom.list.bullet.clipboard.badge.magnifyingglass")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .foregroundStyle(.darkBlue)
-//                        }
-
-                        Button(action: {
-                            withTransaction(Transaction(animation: nil)) {
-                                router.navigateTo(.settings)
-                            }
-                        }) {
-                            Image(systemName: "gearshape")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundStyle(.darkBlue)
-                        }
-                    }
-                }
-
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: {
-                        withTransaction(Transaction(animation: nil)) {
-                            router.navigateTo(.lists)
-                        }
-                    }) {
-                        Image("custom.checklist.square.stack")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundStyle(.darkBlue)
-                    }
-                }
+                toolbarContentView(router: router, route: .main)
             } //: TOOLBAR
         } //: NAVIGATION STACK
-        .sheet(isPresented: $showingAddItemView, onDismiss: vm.loadItemsForSelectedList) {
+        .sheet(isPresented: $vm.showingAddItemView, onDismiss: vm.loadItemsForSelectedList) {
             AddUpdateItemView(vm: vm)
                 .padding(.top, 20)
                 .presentationDetents([.medium])
         }
-        .sheet(isPresented: $showingUpdateItemView, onDismiss: vm.loadItemsForSelectedList) {
+        .sheet(isPresented: $vm.showingUpdateItemView, onDismiss: vm.loadItemsForSelectedList) {
             AddUpdateItemView(item: selectedItem, vm: vm)
         }
-        .sheet(isPresented: $showingAddListView, onDismiss: vm.loadInitData) {
+        .sheet(isPresented: $vm.showingAddListView, onDismiss: vm.loadInitData) {
             AddUpdateListView(vm: vm)
                 .padding(.top, 20)
                 .presentationDetents([.medium])
@@ -149,11 +105,11 @@ struct ContentView: View {
 
 //MARK: - PREVIEW
 #Preview {
-    ContentView(vm: ContentViewViewModel())
+    MainItemsView(vm: MainItemsViewModel())
         .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
 }
 
 #Preview("Mocked") {
-    ContentView(vm: ContentViewViewModel())
+    MainItemsView(vm: MainItemsViewModel())
         .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }

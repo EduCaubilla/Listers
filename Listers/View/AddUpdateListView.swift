@@ -11,7 +11,7 @@ struct AddUpdateListView: View {
     //MARK: - PROPERTIES
     @Environment(\.dismiss) var dismiss
 
-    @ObservedObject var vm: ContentViewViewModel
+    @ObservedObject var vm: MainItemsViewModel
 
     @State private var name: String = ""
     @State private var description: String = ""
@@ -29,11 +29,11 @@ struct AddUpdateListView: View {
     @FocusState private var isFocused: Bool
 
     //MARK: - INITIALIZER
-    init(vm: ContentViewViewModel) {
+    init(vm: MainItemsViewModel) {
         self.vm = vm
     }
 
-    init(vm: ContentViewViewModel, list: DMList? = nil) {
+    init(vm: MainItemsViewModel, list: DMList? = nil) {
         self.vm = vm
 
         if let list = list {
@@ -144,5 +144,5 @@ struct AddUpdateListView: View {
 
 //MARK: - PREVIEW
 #Preview {
-    AddUpdateListView(vm: ContentViewViewModel())
+    AddUpdateListView(vm: MainItemsViewModel())
 }

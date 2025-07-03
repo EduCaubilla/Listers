@@ -63,32 +63,7 @@ struct SettingsView: View {
             .navigationBarBackButtonHidden(true)
             .toolbarBackground(.visible, for: .navigationBar)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    HStack {
-                        Button(action: {
-                            withTransaction(Transaction(animation: nil)) {
-                                router.navigateTo(.lists)
-                            }
-                        }) {
-                            Image("custom.checklist.square.stack")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundStyle(.darkBlue)
-                        }
-
-
-                        Button(action: {
-                            withTransaction(Transaction(animation: nil)) {
-                                router.navigateTo(.main)
-                            }
-                        }) {
-                            Image("custom.checklist.square")
-                                .resizable()
-                                .scaledToFit()
-                                .foregroundStyle(.darkBlue)
-                        }
-                    }
-                }
+                toolbarContentView(router: router, route: .settings)
             }
         } //: NAVIGATION
         .onAppear{
