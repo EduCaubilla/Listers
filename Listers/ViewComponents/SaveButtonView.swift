@@ -17,13 +17,13 @@ struct SaveButtonView: View {
         }) {
             Text(text)
                 .font(.system(size: 20, weight: .medium))
+                .foregroundStyle(.secondaryText)
                 .padding(10)
                 .frame(minWidth: 0, maxWidth: .infinity)
                 .background(.mediumBlue)
                 .clipShape(
                     Capsule()
                 )
-                .foregroundStyle(.white)
         }
     }
 }

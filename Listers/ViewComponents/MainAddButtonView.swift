@@ -9,13 +9,13 @@ import SwiftUI
 
 struct MainAddButtonView: View {
 
-    var label: String = "Add"
-    var icon: String = "plus"
-    var action: () -> Void = {}
+    var addButtonLabel: String = "Add"
+    var addButtonIcon: String = "plus"
+    var addButtonAction: () -> Void = {}
 
     var body: some View {
-        Button(label, systemImage: icon) {
-            action()
+        Button(addButtonLabel, systemImage: addButtonIcon) {
+            addButtonAction()
         }
         .foregroundStyle(.white.opacity(0.8))
         .shadow(color: .black.opacity(0.5), radius: 3, x: 1, y: 1)

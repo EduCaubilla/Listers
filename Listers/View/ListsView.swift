@@ -19,10 +19,12 @@ struct ListsView: View {
     @State private var showingUpdateListView: Bool = false
     @State private var showingDeleteWarning: Bool = false
 
-    var deleteWarningTitle: String = "Delete List"
-    var deleteWarningMessage: String = "Delete List"
+    private var deleteWarningTitle: String = "Delete List"
+    private var deleteWarningMessage: String = "Delete List"
+    private var addListLabel : String = "Add List"
+    private var addIcon : String = "plus"
 
-    var viewTitle : String = "My Lists"
+    private var viewTitle : String = "My Lists"
 
     //MARK: - INITIALIZER
     init(vm: MainItemsViewModel) {
@@ -60,7 +62,6 @@ struct ListsView: View {
                         actionEditList: {editList(list)}
                     )
                     .onTapGesture {
-                        print("tapped \(list.name ?? "Unknown")")
                         vm.updateSelectedList(list)
                         print(vm.selectedList!)
 
@@ -70,6 +71,7 @@ struct ListsView: View {
                     }
                 }
                 .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
             } //: LIST
             .listStyle(.plain)
             .listRowSpacing(-3)
@@ -77,13 +79,17 @@ struct ListsView: View {
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .safeAreaInset(edge: .bottom, content: {
-                MainAddButtonView(label: "Add List", icon: "plus", action: {
-                    showingAddListView.toggle()
-                })
+                MainAddButtonView(
+                    addButtonLabel: addListLabel,
+                    addButtonIcon: addIcon,
+                    addButtonAction: {showingAddListView.toggle()}
+                )
             })
             .toolbar {
                 toolbarContentView(router: router, route: .lists)
             } //: TOOLBAR
+            .scrollContentBackground(.hidden)
+            .background(Color.background)
         } //: NAVIGATION STACK
         .onReceive(vm.$lists) { _ in
             sortLists()
@@ -103,11 +109,17 @@ struct ListsView: View {
 
 //MARK: - PREVIEW
 #Preview {
-    ListsView(vm: MainItemsViewModel())
-        .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+    NavigationStack{
+        ListsView(vm: MainItemsViewModel())
+            .environmentObject(NavigationRouter())
+            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+    }
 }
 
 #Preview("Mocked Data List") {
-    ListsView(vm: MainItemsViewModel())
-        .environment(\.managedObjectContext, PersistenceController.previewList.container.viewContext)
+    NavigationStack{
+        ListsView(vm: MainItemsViewModel())
+            .environmentObject(NavigationRouter())
+            .environment(\.managedObjectContext, PersistenceController.previewList.container.viewContext)
+    }
 }

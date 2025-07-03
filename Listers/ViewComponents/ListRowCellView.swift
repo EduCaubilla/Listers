@@ -24,6 +24,16 @@ struct ListRowCellView: View {
     private var deleteWarningTitle: String = "Delete List"
     private var deleteWarningMessage: String = "Are you sure you want to delete this list? You won't be able to restore it."
 
+    private var deleteLabel : String = "Delete"
+    private var deleteIcon : String = "trash"
+    private var addPinLabel : String = "Add Pin"
+    private var addPinIcon : String = "pin.fill"
+    private var removePinLabel : String = "Remove Pin"
+    private var removePinIcon : String = "pin"
+    private var editLabel : String = "Edit"
+    private var editIcon : String = "square.and.pencil"
+    private var cancelLabel : String = "Cancel"
+
     //MARK: - INITIALIZER
     init(vm: MainItemsViewModel, selectedList: DMList, listItems: [DMItem], actionEditList: @escaping () -> Void) {
         self.vm = vm
@@ -37,23 +47,17 @@ struct ListRowCellView: View {
     private func pinList() {
         selectedList.pinned.toggle()
         saveUpdatedList()
-        print("Pin")
-        print(selectedList)
     }
 
     private func deleteList() {
         vm.delete(selectedList)
         saveUpdatedList()
-        print("Delete")
-        print(selectedList)
     }
 
     private func updateExpanded() {
         isExpanded.toggle()
         selectedList.expanded.toggle()
         saveUpdatedList()
-        print("Expand")
-        print(selectedList)
     }
 
     private func saveUpdatedList() {
@@ -71,7 +75,7 @@ struct ListRowCellView: View {
                         .foregroundStyle(.darkBlue)
                     Text("^[\(listItems.count) Article](inflect: true)")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(.lightBlue)
                 } //: VSTACK
 
                 Spacer()
@@ -80,11 +84,13 @@ struct ListRowCellView: View {
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .padding(.trailing)
+                    .foregroundStyle(.mediumBlue)
 
                 Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
                     .onTapGesture {
                         isExpanded.toggle()
                     }
+                    .foregroundStyle(.darkBlue)
             } //: HSTACK
             .padding(.horizontal, 5)
             .padding(.vertical, -2)
@@ -92,7 +98,7 @@ struct ListRowCellView: View {
                 Button(action: {
                     showingDeleteConfirmation.toggle()
                 }) {
-                    Label("Delete", systemImage: "trash")
+                    Label(deleteLabel, systemImage: deleteIcon)
                 }
                 .tint(.red)
             }
@@ -101,10 +107,10 @@ struct ListRowCellView: View {
                     pinList()
                 }) {
                     if selectedList.pinned {
-                        Label("Add Pin", systemImage: "pin.fill")
+                        Label(addPinLabel, systemImage: addPinIcon)
                             .labelStyle(.titleAndIcon)
                     } else {
-                        Label("Remove Pin", systemImage: "pin")
+                        Label(removePinLabel, systemImage: removePinIcon)
                             .labelStyle(.titleAndIcon)
                     }
                 }
@@ -113,7 +119,7 @@ struct ListRowCellView: View {
                 Button(action: {
                     actionEditList()
                 }) {
-                    Label("Edit", systemImage: "square.and.pencil")
+                    Label(editLabel, systemImage: editIcon)
                 }
                 .tint(.mediumBlue)
             }
@@ -138,11 +144,11 @@ struct ListRowCellView: View {
                 }
             } //: VSTACK
             .padding(.top, 0)
-            .alert("Delete Item", isPresented: $showingDeleteConfirmation, presenting: selectedList) { _ in
-                Button("Delete", role: .destructive) {
+            .alert(deleteWarningTitle, isPresented: $showingDeleteConfirmation, presenting: selectedList) { _ in
+                Button(deleteLabel, role: .destructive) {
                     deleteList()
                 }
-                Button("Cancel", role: .cancel) { }
+                Button(cancelLabel, role: .cancel) { }
             } message: { list in
                 Text("Are you sure you want to delete \"\(list.name ?? "this list")\"?")
             }

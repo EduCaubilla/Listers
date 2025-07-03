@@ -107,6 +107,7 @@ struct AddUpdateItemView: View {
                     TextField(name.isEmpty ? "Add Name" : name, text: $name)
                         .autocorrectionDisabled(true)
                         .focused($isFocused)
+                        .foregroundStyle(.primaryText)
 
                     Divider()
                     
@@ -115,6 +116,7 @@ struct AddUpdateItemView: View {
                         .multilineTextAlignment(.leading)
                         .lineLimit(3)
                         .autocorrectionDisabled(true)
+                        .foregroundStyle(.primaryText)
 
                     Divider()
 
@@ -123,6 +125,7 @@ struct AddUpdateItemView: View {
                         .multilineTextAlignment(.leading)
                         .lineLimit(4)
                         .autocorrectionDisabled(true)
+                        .foregroundStyle(.primaryText)
 
                     Divider()
 
@@ -179,6 +182,7 @@ struct AddUpdateItemView: View {
 
                 Spacer()
             } //: VSTACK
+            .background(Color.background)
             .navigationTitle(Text(itemTitle))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

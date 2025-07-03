@@ -16,6 +16,15 @@ struct ItemRowCellView: View {
     var actionEditItem: () -> Void
     var isEditAvailable : Bool = true
 
+    private var deleteLabel : String = "Delete"
+    private var deleteIcon : String = "trash"
+    private var addFavLabel : String = "Add Favorite"
+    private var addFavIcon : String = "star.fill"
+    private var removeFavLabel : String = "Remove Favorite"
+    private var removeFavIcon : String = "star"
+    private var editLabel : String = "Edit"
+    private var editIcon : String = "square.and.pencil"
+
     private var color: Color {
         switch item.priority ?? Priority.normal.rawValue {
             case Priority.normal.rawValue:
@@ -72,7 +81,8 @@ struct ItemRowCellView: View {
                     saveItem()
                 })
                 .toggleStyle(CustomCheckboxStyle())
-                
+                .foregroundStyle(.darkBlue)
+
                 //TEXT & COMMENT
                 VStack(alignment: .leading, spacing: 2) {
                     Text(item.name ?? "Unknown")
@@ -94,6 +104,7 @@ struct ItemRowCellView: View {
                 //QUANTITY
                 HStack(alignment: .center, spacing: 5) {
                     Text("^[\(item.quantity) Unit](inflect: true)")
+                        .foregroundStyle(.mediumBlue)
                 } //: HSTACK
                 .padding()
 
@@ -103,7 +114,7 @@ struct ItemRowCellView: View {
                     Button(action: {
                         deleteItem()
                     }) {
-                        Label("Delete", systemImage: "trash")
+                        Label(deleteLabel, systemImage: deleteIcon)
                     }
                     .tint(.red)
                 }
@@ -114,10 +125,10 @@ struct ItemRowCellView: View {
                         favItem()
                     }) {
                         if item.favorite {
-                            Label("Add Fav", systemImage: "star.fill")
+                            Label(addFavLabel, systemImage: addFavIcon)
                                 .labelStyle(.titleAndIcon)
                         } else {
-                            Label("Remove Fav", systemImage: "star")
+                            Label(removeFavLabel, systemImage: removeFavIcon)
                                 .labelStyle(.titleAndIcon)
                         }
                     }
@@ -126,7 +137,7 @@ struct ItemRowCellView: View {
                     Button(action: {
                         actionEditItem()
                     }) {
-                        Label("Edit", systemImage: "square.and.pencil")
+                        Label(editLabel, systemImage: editIcon)
                     }
                     .tint(.mediumBlue)
                 }
@@ -137,6 +148,7 @@ struct ItemRowCellView: View {
                 .padding(.top, -8)
         } //: VSTACK MAIN
         .frame(minHeight: 40, idealHeight: 40, maxHeight: 50)
+        .background(Color.background)
     }
 }
 

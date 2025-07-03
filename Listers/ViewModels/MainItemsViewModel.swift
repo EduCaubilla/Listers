@@ -129,7 +129,6 @@ class MainItemsViewModel: ObservableObject {
     }
 
     func delete<T: NSManagedObject>(_ object: T) {
-        print("VM Delete \(object as Any)")
         persistenceManager.remove(object)
         refreshData()
     }
