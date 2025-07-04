@@ -8,8 +8,10 @@
 import SwiftUI
 import CoreData
 
-class MainItemsViewModel: ObservableObject {
+class MainItemsListsViewModel: ObservableObject {
     //MARK: - PROPERTIES
+    private let persistenceManager : any PersistenceManagerProtocol
+
     @Published var selectedList: DMList?
     @Published var itemsOfSelectedList: [DMItem] = []
     @Published var lists: [DMList] = []
@@ -19,16 +21,15 @@ class MainItemsViewModel: ObservableObject {
     @Published var showingUpdateItemView : Bool = false
     @Published var showingAddListView : Bool = false
 
-    private let persistenceManager : any PersistenceManagerProtocol
 
     //MARK: - INITIALIZER
     init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
         self.persistenceManager = persistenceManager
-        loadInitData()
+        loadListsItemsData()
     }
 
     //MARK: - FUNCTIONS
-    func loadInitData() {
+    func loadListsItemsData() {
         print("\n------\n\nLoad Init Data VM ----->")
 
         fetchLists()

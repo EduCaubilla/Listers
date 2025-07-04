@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CategoriesView: View {
+struct CategoriesProductsView: View {
     //MARK: - PROPERTIES
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var router: NavigationRouter
@@ -69,6 +69,6 @@ struct CategoriesView: View {
 
 //MARK: - PREVIEW
 #Preview {
-    CategoriesView()
+    CategoriesProductsView()
         .environmentObject(NavigationRouter())
 }
