@@ -14,6 +14,9 @@ struct PersistenceController {
 
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "Listers")
+
+//        deleteAllData()
+
         if inMemory {
             container.persistentStoreDescriptions.first!.url = URL(fileURLWithPath: "/dev/null")
         }
@@ -24,6 +27,7 @@ struct PersistenceController {
             }
         })
         container.viewContext.automaticallyMergesChangesFromParent = true
+
     }
 
     var context: NSManagedObjectContext {
@@ -41,6 +45,29 @@ struct PersistenceController {
 
             print("Context Saved successfully!")
         }
+    }
+
+    func deleteAllData() {
+//        let entityNames = ["DMProduct", "DMCategory", "DMItem", "DMList"]
+        let entityNames = ["DMItem", "DMList"]
+
+        for entityName in entityNames {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+            do {
+                try context.execute(deleteRequest)
+            } catch {
+                print("Error deleting \(entityName): \(error)")
+            }
+        }
+
+        do {
+            try context.save()
+        } catch {
+            print("Error saving: \(error)")
+        }
+        print("All data deleted successfully!")
     }
 
     //MARK: - PREVIEW CONTENT

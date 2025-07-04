@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "Food"
+    },
+    {
+        "id": 2,
+        "name": "Beverages"
+    },
+    {
+        "id": 3,
+        "name": "Fruits and vegetables"
+    },
+    {
+        "id": 4,
+        "name": "Home and kichen"
+    },
+    {
+        "id": 5,
+        "name": "Hardware and tools"
+    },
+    {
+        "id": 6,
+        "name": "Office and stationery"
+    },
+    {
+        "id": 7,
+        "name": "Clothes and footwear"
+    },
+    {
+        "id": 8,
+        "name": "Sports and outdoors"
+    },
+    {
+        "id": 9,
+        "name": "Health and beauty"
+    },
+    {
+        "id": 10,
+        "name": "Other"
+    }
+]

@@ -7,22 +7,21 @@
 
 import SwiftUI
 
-struct AddUpdateItemView: View {
+struct AddUpdateCategoryProductView: View {
     //MARK: - PROPERTIES
     @Environment(\.dismiss) var dismiss
 
-    @ObservedObject var vm: MainItemsViewModel
-
-    var priorities: [String] = Priority.allCases
+//    @ObservedObject var vm: MainItemsViewModel
 
     @State private var name : String = ""
     @State private var description : String = ""
-    @State private var quantity : String = ""
     @State private var favorite : Bool = false
-    @State private var priority : Priority = .normal
+    @State private var active : Bool = true
+    @State private var category : String = "General"
+    @State private var selectedCategory : String = "General" // TODO ENUM CATEGORIES
 
-    private var isItemToUpdate : Bool = false
-    private var itemToUpdate : DMItem?
+    private var isProductToUpdate : Bool = false
+    private var productToUpdate : DMProduct?
 
     @State private var errorShowing : Bool = false
     @State private var errorTitle : String = ""
@@ -31,49 +30,34 @@ struct AddUpdateItemView: View {
     @FocusState private var isFocused: Bool
 
     var itemTitle : String {
-        isItemToUpdate ? "Edit Item" : "New Item"
+        isProductToUpdate ? "Edit Product" : "New Product"
     }
 
     //MARK: - INITIALIZER
-    init(vm: MainItemsViewModel) {
-        self.vm = vm
-    }
+//    init(vm: MainItemsViewModel) {
+//        self.vm = vm
+//    }
 
-    init (item: DMItem? = nil, vm: MainItemsViewModel) {
-        if let item = item {
-            _name = State(initialValue: item.name ?? "Unknown")
-            _description = State(initialValue:item.note ?? "")
-            _quantity = State(initialValue:String(item.quantity))
-            _favorite = State(initialValue:item.favorite)
-            _priority = State(initialValue:Priority(rawValue: item.priority!)!)
-        }
-
-        itemToUpdate = item
-        isItemToUpdate = true
-
-        self.vm = vm
-    }
+//    init (item: DMItem? = nil, vm: MainItemsViewModel) {
+//        if let item = item {
+//            _name = State(initialValue: item.name ?? "Unknown")
+//            _description = State(initialValue:item.note ?? "")
+//            _quantity = State(initialValue:String(item.quantity))
+//            _favorite = State(initialValue:item.favorite)
+//            _priority = State(initialValue:Priority(rawValue: item.priority!)!)
+//        }
+//
+//        itemToUpdate = item
+//        isItemToUpdate = true
+//
+//        self.vm = vm
+//    }
 
 
     //MARK: - FUNCTIONS
-    private func saveNewItem() {
+    private func saveNewProduct() {
         if !name.isEmpty {
-            vm.addItem(
-                    name: name,
-                    description: description,
-                    quantity: Int16(
-                        quantity
-                    ) ?? 0,
-                    favorite: favorite,
-                    priority: priority,
-                    completed: false,
-                    selected: false,
-                    creationDate: Date.now,
-                    endDate: Date.now,
-                    image: "",
-                    link: "",
-                    listId: vm.selectedList?.id
-                )
+
         }
         else {
             errorShowing = true
@@ -83,15 +67,15 @@ struct AddUpdateItemView: View {
         }
     }
 
-    private func updateItem() {
-        if let itemToUpdate = itemToUpdate {
-            itemToUpdate.name = name
-            itemToUpdate.note = description
-            itemToUpdate.quantity = Int16(quantity) ?? 0
-            itemToUpdate.favorite = favorite
-            itemToUpdate.priority = priority.rawValue
+    private func updateProduct() {
+        if let productToUpdate = productToUpdate {
+            productToUpdate.name = name
+            productToUpdate.note = description
+            productToUpdate.favorite = favorite
+            productToUpdate.active = active
+//            productToUpdate.categoryId = 1 //TODO map from enum to number
 
-            vm.saveUpdates()
+//            vm.saveUpdates()
         } else {
             print("Item could not be updated.")
         }
@@ -119,46 +103,42 @@ struct AddUpdateItemView: View {
 
                 Divider()
 
-                //MARK: - QUANTITY
-                TextField(quantity.count == 0 ? "Add quantity" : String(quantity), text: $quantity)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(4)
-                    .autocorrectionDisabled(true)
-                    .foregroundStyle(.primaryText)
-
-                Divider()
-
                 //MARK: - FAVORITE
                 Toggle("Favorite", isOn: $favorite)
                     .padding(.top, 5)
 
-//                    //MARK: - DATE PICKER
-//                    DatePicker("End date", selection: $endDate)
-//                        .datePickerStyle(.compact)
-//                        .padding(.top, 10)
+                //MARK: - CATEGORY //TODO
+                Picker("Category", selection: $selectedCategory) {
+//                    Text("Light").tag(SettingsViewMode.light.rawValue)
+//                    Text("Dark").tag(SettingsViewMode.dark.rawValue)
+//                    Text("Automatic").tag(SettingsViewMode.automatic.rawValue)
+                }
+//                Picker("Category", selection: $priority) {
+//                    Text("Normal").tag(Priority.normal)
+//                    Text("High").tag(Priority.high)
+//                    Text("Very High").tag(Priority.veryHigh)
+//                } //: PICKER
+//                .pickerStyle(.segmented)
+//                .padding(.top, 5)
 
-                //MARK: - PRIORITY
-                Picker("Priority", selection: $priority) {
-                    Text("Normal").tag(Priority.normal)
-                    Text("High").tag(Priority.high)
-                    Text("Very High").tag(Priority.veryHigh)
-                } //: PICKER
-                .pickerStyle(.segmented)
-                .padding(.top, 5)
+                //MARK: - ACTIVE //TODO - only in edit
+                Toggle("Active", isOn: $active)
+                    .padding(.top, 5)
+
 
                 //MARK: - SAVE BUTTON
                 SaveButtonView(text: "Save", action: {
-                    if(isItemToUpdate) {
-                        updateItem()
+                    if(isProductToUpdate) {
+                        updateProduct()
                     } else {
-                        saveNewItem()
+                        saveNewProduct()
                     }
                     dismiss()
                 })
                 .padding(.top, 10)
 
                 //MARK: - SEARCH BUTTON
-                if(!isItemToUpdate) {
+                if(!isProductToUpdate) {
                     //TODO - Add search in categories
 //                        Button(action: {
 //                            //TODO - Open products page as sheet
@@ -213,5 +193,5 @@ struct AddUpdateItemView: View {
 
 //MARK: - PREVIEW
 #Preview {
-    AddUpdateItemView(vm: MainItemsViewModel())
+    AddUpdateCategoryProductView()
 }

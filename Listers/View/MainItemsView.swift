@@ -42,6 +42,12 @@ struct MainItemsView: View {
         selectedItem = item
     }
 
+    private func navigateToLists() {
+        withTransaction(Transaction(animation: nil)) {
+            router.navigateTo(.lists)
+        }
+    }
+
     //MARK: - BODY
     var body: some View {
             VStack {
@@ -103,19 +109,35 @@ struct MainItemsView: View {
                 .toolbar {
                     toolbarContentView(router: router, route: .main)
                 } //: TOOLBAR
+                .gesture(DragGesture(minimumDistance: 20, coordinateSpace: .global)
+                    .onChanged { value in
+                        if vm.lists.isEmpty { return }
+
+                        guard value.startLocation.x > 100,
+                              value.translation.width > -60 else {
+                            return
+                        }
+
+                        router.navigateTo(.lists)
+                    })
             } //: VSTACK MAIN
             .sheet(isPresented: $vm.showingAddItemView, onDismiss: vm.loadItemsForSelectedList) {
                 AddUpdateItemView(vm: vm)
                     .padding(.top, 20)
-                    .presentationDetents([.medium])
+                    .presentationDetents([.height(320)])
+                    .presentationBackground(Color.background)
             }
             .sheet(isPresented: $vm.showingUpdateItemView, onDismiss: vm.loadItemsForSelectedList) {
                 AddUpdateItemView(item: selectedItem, vm: vm)
+                    .padding(.top, 20)
+                    .presentationDetents([.height(320)])
+                    .presentationBackground(Color.background)
             }
             .sheet(isPresented: $vm.showingAddListView, onDismiss: vm.loadInitData) {
                 AddUpdateListView(vm: vm)
                     .padding(.top, 20)
-                    .presentationDetents([.medium])
+                    .presentationDetents([.height(220)])
+                    .presentationBackground(Color.background)
             }
 
     } //: VIEW

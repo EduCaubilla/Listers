@@ -9,9 +9,10 @@ import SwiftUI
 
 struct SettingsView: View {
     //MARK: - PROPERTIES
+    @AppStorage("selectedViewMode") private var selectedViewMode: String = SettingsViewMode.automatic.rawValue
+
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var router: NavigationRouter
-    @AppStorage("selectedViewMode") private var selectedViewMode: String = SettingsViewMode.automatic.rawValue
 
     @State private var isItemDateEnable: Bool = false
     @State private var isItemCategoryEnable: Bool = false
@@ -26,18 +27,13 @@ struct SettingsView: View {
         set { selectedViewMode = newValue.rawValue }
     }
 
-    var viewTitle: String = "Settings"
+    var settingsTitle: String = "Settings"
 
     var currentVisibility : Visibility {
-        if colorScheme == .dark {
-            .hidden
-        } else {
-            .visible
-        }
+        colorScheme == .dark ? .hidden : .visible
     }
 
     //MARK: - FUNCTIONS
-
 
     //MARK: - BODY
     var body: some View {
@@ -71,7 +67,7 @@ struct SettingsView: View {
 
             }
             .formStyle(.grouped)
-            .navigationTitle(Text(viewTitle))
+            .navigationTitle(Text(settingsTitle))
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarBackButtonHidden(true)
             .toolbarBackground(Color.background, for: .navigationBar)
@@ -80,7 +76,7 @@ struct SettingsView: View {
             }
             .scrollContentBackground(currentVisibility)
             .background(Color.clear)
-        } //: NAVIGATION
+        } //: VSTACK
         .background(Color.background)
     }
 }

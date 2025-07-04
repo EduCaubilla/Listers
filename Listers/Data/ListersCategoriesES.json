@@ -17,7 +17,7 @@
     },
     {
         "id": 5,
-        "name": "Bricolaje y Herramientas"
+        "name": "Bricolaje y herramientas"
     },
     {
         "id": 6,
@@ -34,5 +34,9 @@
     {
         "id": 9,
         "name": "Salud y belleza"
+    },
+    {
+        "id": 10,
+        "name": "Otros"
     }
 ]

@@ -28,6 +28,10 @@ struct AddUpdateListView: View {
 
     @FocusState private var isFocused: Bool
 
+    var listTitle : String {
+        isListToUpdate ? "Update list" : "New list"
+    }
+
     //MARK: - INITIALIZER
     init(vm: MainItemsViewModel) {
         self.vm = vm
@@ -82,64 +86,61 @@ struct AddUpdateListView: View {
 
     //MARK: - BODY
     var body: some View {
-        NavigationStack {
-            VStack {
-                VStack(alignment: .leading, spacing: 10) {
-                    //MARK: - NAME
-                    TextField("Name", text: $name)
-                        .autocorrectionDisabled(true)
-                        .focused($isFocused)
+        VStack {
+            VStack(alignment: .leading, spacing: 10) {
+                //MARK: - NAME
+                TextField("Name", text: $name)
+                    .autocorrectionDisabled(true)
+                    .focused($isFocused)
 
-                    Divider()
+                Divider()
 
-                    //MARK: - DESCRIPTION
-                    TextField("Description", text: $description)
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(3)
-                        .autocorrectionDisabled(true)
+                //MARK: - DESCRIPTION
+                TextField("Description", text: $description)
+                    .multilineTextAlignment(.leading)
+                    .lineLimit(3)
+                    .autocorrectionDisabled(true)
 
-                    Divider()
+                Divider()
 
-                    //MARK: - PINNED
-                    Toggle("Pinned to top", isOn: $pinned)
-                        .padding(.top, 5)
+                //MARK: - PINNED
+                Toggle("Pinned to top", isOn: $pinned)
+                    .padding(.top, 5)
 
-                    SaveButtonView(text: "Save", action: {
-                        if(isListToUpdate) {
-                            updateList()
-                        } else {
-                            saveNewList()
-                        }
-                        dismiss()
-                    })
-                    .padding(.top, 10)
+                SaveButtonView(text: "Save", action: {
+                    if(isListToUpdate) {
+                        updateList()
+                    } else {
+                        saveNewList()
+                    }
+                    dismiss()
+                })
+                .padding(.top, 10)
 
-                } //: VSTACK
-                .padding(20)
-
-                Spacer()
             } //: VSTACK
-            .navigationTitle(isListToUpdate ? "Update list" : "New list")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem {
-                    Button(action: {
-                        dismiss()
-                    }) {
-                        Image(systemName: "xmark")
-                            .foregroundStyle(.darkBlue)
-                    } //: DISSMISS BUTTON
-                }
+            .padding(20)
+
+            Spacer()
+        } //: VSTACK
+        .navigationTitle(listTitle)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem {
+                Button(action: {
+                    dismiss()
+                }) {
+                    Image(systemName: "xmark")
+                        .foregroundStyle(.darkBlue)
+                } //: DISSMISS BUTTON
             }
-            .alert(isPresented: $errorShowing) {
-                Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
-            }
-            .onAppear{
-                isFocused = true
-            }
-        } //: NAVIGATION
-        .navigationViewStyle(StackNavigationViewStyle())
-    }
+        }
+        .alert(isPresented: $errorShowing) {
+            Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+        }
+        .onAppear{
+            isFocused = true
+        }
+    } // VIEW
 }
 
 //MARK: - PREVIEW

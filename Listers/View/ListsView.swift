@@ -90,21 +90,34 @@ struct ListsView: View {
             } //: TOOLBAR
             .scrollContentBackground(.hidden)
             .background(Color.background)
-        } //: NAVIGATION STACK
+            .gesture(DragGesture(minimumDistance: 20, coordinateSpace: .global)
+                .onChanged { value in
+                    if vm.lists.isEmpty { return }
+
+                    guard value.startLocation.x < 100,
+                          value.translation.width > 60 else {
+                        return
+                    }
+
+                    router.navigateTo(.main)
+                })
+        } //: VSTACK MAIN
         .onReceive(vm.$lists) { _ in
             sortLists()
         }
         .sheet(isPresented: $showingAddListView) {
             AddUpdateListView(vm: vm)
                 .padding(.top, 20)
-                .presentationDetents([.medium])
+                .presentationDetents([.height(220)])
+                .presentationBackground(Color.background)
         }
         .sheet(isPresented: $showingUpdateListView) {
             AddUpdateListView(vm: vm, list: vm.selectedList)
                 .padding(.top, 20)
-                .presentationDetents([.medium])
+                .presentationDetents([.height(220)])
+                .presentationBackground(Color.background)
         }
-    }
+    } //: VIEW
 }
 
 //MARK: - PREVIEW

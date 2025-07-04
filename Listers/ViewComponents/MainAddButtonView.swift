@@ -17,21 +17,21 @@ struct MainAddButtonView: View {
         Button(addButtonLabel, systemImage: addButtonIcon) {
             addButtonAction()
         }
-        .foregroundStyle(.white.opacity(0.8))
+        .foregroundStyle(.secondaryText)
         .shadow(color: .black.opacity(0.5), radius: 3, x: 1, y: 1)
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
         .font(.system(size: 22, weight: .semibold))
         .background(
             Capsule()
-                .fill(Color.darkBlue)
+                .fill(Color.mediumBlue)
         )
-        .padding(10)
-        .background(
-            Capsule()
-                .fill(LinearGradient(colors: [.mediumBlue, .lightBlue], startPoint: .top, endPoint: .bottom))
-            )
-        .shadow(color: .black.opacity(0.25), radius: 2, x: 0.5, y: 0.5)
+        .padding(15)
+//        .background(
+//            Capsule()
+//                .fill(LinearGradient(colors: [.mediumBlue, .lightBlue], startPoint: .top, endPoint: .bottom))
+//            )
+        .shadow(color: .darkBlue.opacity(0.2), radius: 1, x: 0.5, y: 0.5)
     }
 }
 

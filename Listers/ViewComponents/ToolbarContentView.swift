@@ -12,14 +12,14 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute) -> some Toolb
     ToolbarItemGroup(placement: .topBarLeading) {
         // TODO - Add search in categories
         if route != .categories {
-//            Button(action: {
-//                //TODO Navigate to Search product
-//            }) {
-//                Image("custom.list.bullet.clipboard.badge.magnifyingglass")
-//                    .resizable()
-//                    .scaledToFit()
-//                    .foregroundStyle(.darkBlue)
-//            }
+            Button(action: {
+                router.navigateTo(.categories)
+            }) {
+                Image("custom.list.bullet.clipboard.badge.magnifyingglass")
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundStyle(.darkBlue)
+            }
         }
 
         if route != .settings {
