@@ -10,7 +10,7 @@ import CoreData
 
 struct ListRowCellView: View {
     //MARK: - PROPERTIES
-    @ObservedObject var vm: MainItemsViewModel
+    @ObservedObject var vm: MainItemsListsViewModel
 
     var selectedList: DMList
 
@@ -35,7 +35,7 @@ struct ListRowCellView: View {
     private var cancelLabel : String = "Cancel"
 
     //MARK: - INITIALIZER
-    init(vm: MainItemsViewModel, selectedList: DMList, listItems: [DMItem], actionEditList: @escaping () -> Void) {
+    init(vm: MainItemsListsViewModel, selectedList: DMList, listItems: [DMItem], actionEditList: @escaping () -> Void) {
         self.vm = vm
         self.selectedList = selectedList
         self.listItems = listItems
@@ -84,7 +84,7 @@ struct ListRowCellView: View {
                     .font(.footnote)
                     .foregroundStyle(.secondary)
                     .padding(.trailing)
-                    .foregroundStyle(.mediumBlue)
+                    .foregroundStyle(.lightBlue)
 
                 Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
                     .onTapGesture {
@@ -155,6 +155,7 @@ struct ListRowCellView: View {
 
         } //: VSTACK MAIN
         .padding(.top, isExpanded ? 6 : 0)
+        .background(Color.background)
     } //: VIEW
 
 }
@@ -203,5 +204,5 @@ struct ListRowCellView: View {
 
     //MARK: - PREVIEW
     #Preview (traits: .sizeThatFitsLayout) {
-        ListRowCellView(vm: MainItemsViewModel(), selectedList: getListPreview(), listItems: getListItemsPreview(), actionEditList: {})
+        ListRowCellView(vm: MainItemsListsViewModel(), selectedList: getListPreview(), listItems: getListItemsPreview(), actionEditList: {})
     }

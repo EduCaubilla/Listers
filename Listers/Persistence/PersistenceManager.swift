@@ -127,4 +127,70 @@ struct PersistenceManager : PersistenceManagerProtocol {
         viewContext.delete(object)
         savePersistence()
     }
+
+    func fetchLastProductId() -> Int {
+        if let lastProductId = try? viewContext.fetch(NSFetchRequest<NSNumber>(entityName: "DMProduct")).last {
+            return Int(truncating:lastProductId)
+        }
+        return 0
+    }
+
+    func createProduct(id: Int, name: String, note: String?, categoryId: Int, active: Bool, favorite: Bool) {
+        let newProduct = DMProduct(context: viewContext)
+        newProduct.id = Int16(id)
+        newProduct.name = name
+        newProduct.note = note
+        newProduct.categoryId = Int16(categoryId)
+        newProduct.active = active
+        newProduct.favorite = favorite
+        
+        savePersistence()
+    }
+
+    func fetchProductsByCategory(_ category: DMCategory) -> [DMProduct]? {
+        let fetchRequest: NSFetchRequest<DMProduct> = DMProduct.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "categoryId == %d", category.id)
+
+        do {
+            let fetchResult = try viewContext.fetch(fetchRequest)
+            if !fetchResult.isEmpty {
+                print("fetchProductsByCategory result:")
+                for product in fetchResult {
+                    print("\(product.id): \(product.name ?? "Unknown")")
+                }
+
+                return fetchResult
+            }
+        } catch {
+            print("There was an error fetching products by category: \(error.localizedDescription)")
+        }
+
+        return nil
+    }
+
+    func fetchAllCategories() -> [DMCategory]? {
+        let categoriesFetch : NSFetchRequest<DMCategory> = DMCategory.fetchRequest()
+        categoriesFetch.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        do {
+            return try viewContext.fetch(categoriesFetch)
+        }
+        catch {
+            print("Error fetching lists in PersistenceManager: \(error.localizedDescription)")
+        }
+
+        return nil
+    }
+
+    func fetchAllProducts() -> [DMProduct]? {
+        let productsFetch : NSFetchRequest<DMProduct> = DMProduct.fetchRequest()
+        productsFetch.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        do {
+            return try viewContext.fetch(productsFetch)
+        }
+        catch {
+            print("Error fetching lists in PersistenceManager: \(error.localizedDescription)")
+        }
+
+        return nil
+    }
 }

@@ -108,11 +108,11 @@ struct AddUpdateCategoryProductView: View {
                     .padding(.top, 5)
 
                 //MARK: - CATEGORY //TODO
-                Picker("Category", selection: $selectedCategory) {
+//                Picker("Category", selection: $selectedCategory) {
 //                    Text("Light").tag(SettingsViewMode.light.rawValue)
 //                    Text("Dark").tag(SettingsViewMode.dark.rawValue)
 //                    Text("Automatic").tag(SettingsViewMode.automatic.rawValue)
-                }
+//                }
 //                Picker("Category", selection: $priority) {
 //                    Text("Normal").tag(Priority.normal)
 //                    Text("High").tag(Priority.high)

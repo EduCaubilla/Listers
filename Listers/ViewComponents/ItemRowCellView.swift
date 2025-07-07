@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ItemRowCellView: View {
     //MARK: - PROPERTIES
-    @ObservedObject var vm: MainItemsViewModel
+    @ObservedObject var vm: MainItemsListsViewModel
 
     @ObservedObject var item: DMItem
 
@@ -39,7 +39,7 @@ struct ItemRowCellView: View {
     }
 
     //MARK: - INITIALIZER
-    init(vm: MainItemsViewModel, item: DMItem, actionEditItem: @escaping () -> Void, isEditAvailable: Bool = true) {
+    init(vm: MainItemsListsViewModel, item: DMItem, actionEditItem: @escaping () -> Void, isEditAvailable: Bool = true) {
         self.vm = vm
         self.item = item
         self.actionEditItem = actionEditItem
@@ -93,7 +93,7 @@ struct ItemRowCellView: View {
                     if(!(item.note == nil) && !item.note!.isEmpty) {
                         Text(item.note ?? "")
                             .font(.system(size: 14, weight: .light))
-                            .foregroundStyle(.mediumBlue)
+                            .foregroundStyle(.lightBlue)
                             .lineLimit(1)
                     }
                     
@@ -104,7 +104,7 @@ struct ItemRowCellView: View {
                 //QUANTITY
                 HStack(alignment: .center, spacing: 5) {
                     Text("^[\(item.quantity) Unit](inflect: true)")
-                        .foregroundStyle(.mediumBlue)
+                        .foregroundStyle(.lightBlue)
                 } //: HSTACK
                 .padding()
 
@@ -126,10 +126,10 @@ struct ItemRowCellView: View {
                     }) {
                         if item.favorite {
                             Label(addFavLabel, systemImage: addFavIcon)
-                                .labelStyle(.titleAndIcon)
+                                .labelStyle(.iconOnly)
                         } else {
                             Label(removeFavLabel, systemImage: removeFavIcon)
-                                .labelStyle(.titleAndIcon)
+                                .labelStyle(.iconOnly)
                         }
                     }
                     .tint(item.favorite ? .yellow : .gray)
@@ -152,6 +152,7 @@ struct ItemRowCellView: View {
     }
 }
 
+#if DEBUG
 private func getItemPreview() -> DMItem {
     @Environment(\.managedObjectContext) var viewContext
     let itemNumber = Int.random(in: 0..<10)
@@ -167,9 +168,10 @@ private func getItemPreview() -> DMItem {
 
     return newItem
 }
+#endif
 
 //MARK: - PREVIEW
 #Preview (traits: .sizeThatFitsLayout) {
-    ItemRowCellView(vm: MainItemsViewModel(), item: getItemPreview(), actionEditItem: {})
+    ItemRowCellView(vm: MainItemsListsViewModel(), item: getItemPreview(), actionEditItem: {})
 }
 

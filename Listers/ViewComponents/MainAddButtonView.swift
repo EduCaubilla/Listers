@@ -17,7 +17,7 @@ struct MainAddButtonView: View {
         Button(addButtonLabel, systemImage: addButtonIcon) {
             addButtonAction()
         }
-        .foregroundStyle(.secondaryText)
+        .foregroundStyle(.white)
         .shadow(color: .black.opacity(0.5), radius: 3, x: 1, y: 1)
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
@@ -27,10 +27,6 @@ struct MainAddButtonView: View {
                 .fill(Color.mediumBlue)
         )
         .padding(15)
-//        .background(
-//            Capsule()
-//                .fill(LinearGradient(colors: [.mediumBlue, .lightBlue], startPoint: .top, endPoint: .bottom))
-//            )
         .shadow(color: .darkBlue.opacity(0.2), radius: 1, x: 0.5, y: 0.5)
     }
 }

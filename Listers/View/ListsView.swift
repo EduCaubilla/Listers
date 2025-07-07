@@ -11,7 +11,7 @@ import CoreData
 struct ListsView: View {
     //MARK: - PROPERTIES
     @EnvironmentObject var router: NavigationRouter
-    @ObservedObject var vm: MainItemsViewModel
+    @ObservedObject var vm: MainItemsListsViewModel
 
     @State var lists: [DMList] = []
 
@@ -27,7 +27,7 @@ struct ListsView: View {
     private var viewTitle : String = "My Lists"
 
     //MARK: - INITIALIZER
-    init(vm: MainItemsViewModel) {
+    init(vm: MainItemsListsViewModel) {
         self.vm = vm
     }
 
@@ -123,16 +123,18 @@ struct ListsView: View {
 //MARK: - PREVIEW
 #Preview {
     NavigationStack{
-        ListsView(vm: MainItemsViewModel())
+        ListsView(vm: MainItemsListsViewModel())
             .environmentObject(NavigationRouter())
             .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
     }
 }
 
 #Preview("Mocked Data List") {
+    let previewVM = MainItemsListsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewListItems.container.viewContext))
+
     NavigationStack{
-        ListsView(vm: MainItemsViewModel())
+        ListsView(vm: previewVM)
             .environmentObject(NavigationRouter())
-            .environment(\.managedObjectContext, PersistenceController.previewList.container.viewContext)
+            .environment(\.managedObjectContext, PersistenceController.previewListItems.container.viewContext)
     }
 }

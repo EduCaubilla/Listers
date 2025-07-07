@@ -46,4 +46,17 @@ protocol PersistenceManagerProtocol {
     func savePersistence()
 
     func remove<T: NSManagedObject>(_ object: T)
+
+    func fetchLastProductId() -> Int
+    func createProduct(
+        id: Int,
+        name: String,
+        note: String?,
+        categoryId: Int,
+        active: Bool,
+        favorite: Bool
+    )
+    func fetchAllCategories() -> [DMCategory]?
+    func fetchAllProducts() -> [DMProduct]?
+    func fetchProductsByCategory(_ category: DMCategory) -> [DMProduct]?
 }

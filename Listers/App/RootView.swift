@@ -10,7 +10,7 @@ import SwiftUI
 struct RootView: View {
     //MARK: - PROPERTIES
     @StateObject var router = NavigationRouter()
-    @StateObject var vm = MainItemsViewModel()
+    @StateObject var vm = MainItemsListsViewModel()
 
     //MARK: - BODY
     var body: some View {
@@ -31,8 +31,7 @@ struct RootView: View {
                             SettingsView()
                                 .environmentObject(router)
                         case .categories:
-                            //TODO - Add categories View
-                            CategoriesView()
+                            CategoriesProductsView()
                                 .environmentObject(router)
                     }
                 } //: NAV DESTINATION

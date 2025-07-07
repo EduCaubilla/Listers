@@ -11,7 +11,7 @@ struct AddUpdateListView: View {
     //MARK: - PROPERTIES
     @Environment(\.dismiss) var dismiss
 
-    @ObservedObject var vm: MainItemsViewModel
+    @ObservedObject var vm: MainItemsListsViewModel
 
     @State private var name: String = ""
     @State private var description: String = ""
@@ -33,11 +33,11 @@ struct AddUpdateListView: View {
     }
 
     //MARK: - INITIALIZER
-    init(vm: MainItemsViewModel) {
+    init(vm: MainItemsListsViewModel) {
         self.vm = vm
     }
 
-    init(vm: MainItemsViewModel, list: DMList? = nil) {
+    init(vm: MainItemsListsViewModel, list: DMList? = nil) {
         self.vm = vm
 
         if let list = list {
@@ -145,5 +145,5 @@ struct AddUpdateListView: View {
 
 //MARK: - PREVIEW
 #Preview {
-    AddUpdateListView(vm: MainItemsViewModel())
+    AddUpdateListView(vm: MainItemsListsViewModel())
 }

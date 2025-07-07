@@ -10,8 +10,9 @@ import CoreData
 
 struct MainItemsView: View {
     //MARK: - PROPERTIES
-    @StateObject var vm : MainItemsViewModel
     @EnvironmentObject var router : NavigationRouter
+
+    @StateObject var vm : MainItemsListsViewModel
 
     @State private var selectedItem: DMItem?
 
@@ -27,8 +28,8 @@ struct MainItemsView: View {
     var addItemIconCircle: String = "plus.circle"
 
     //MARK: - INITIALIZER
-    init(vm: @autoclosure @escaping () -> MainItemsViewModel = MainItemsViewModel()) {
-        _vm = StateObject(wrappedValue: vm())
+    init(vm: MainItemsListsViewModel = MainItemsListsViewModel()) {
+        _vm = StateObject(wrappedValue: vm)
     }
 
     //MARK: - FUNCTIONS
@@ -104,7 +105,7 @@ struct MainItemsView: View {
                     }
                 } //: VSTACK
                 .onAppear {
-                    vm.loadInitData()
+                    vm.loadListsItemsData()
                 }
                 .toolbar {
                     toolbarContentView(router: router, route: .main)
@@ -133,7 +134,7 @@ struct MainItemsView: View {
                     .presentationDetents([.height(320)])
                     .presentationBackground(Color.background)
             }
-            .sheet(isPresented: $vm.showingAddListView, onDismiss: vm.loadInitData) {
+            .sheet(isPresented: $vm.showingAddListView, onDismiss: {vm.loadListsItemsData()}) {
                 AddUpdateListView(vm: vm)
                     .padding(.top, 20)
                     .presentationDetents([.height(220)])
@@ -147,16 +148,18 @@ struct MainItemsView: View {
 //MARK: - PREVIEW
 #Preview {
     NavigationStack{
-        MainItemsView(vm: MainItemsViewModel())
+        MainItemsView(vm: MainItemsListsViewModel())
             .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
             .environmentObject(NavigationRouter())
     }
 }
 
 #Preview("Mocked") {
+    let previewVM = MainItemsListsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewListItems.container.viewContext))
+
     NavigationStack{
-        MainItemsView(vm: MainItemsViewModel())
-            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        MainItemsView(vm: previewVM)
             .environmentObject(NavigationRouter())
+            .environment(\.managedObjectContext, PersistenceController.previewListItems.container.viewContext)
     }
 }
