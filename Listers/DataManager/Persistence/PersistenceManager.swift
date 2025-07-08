@@ -129,21 +129,30 @@ struct PersistenceManager : PersistenceManagerProtocol {
     }
 
     func fetchLastProductId() -> Int {
-        if let lastProductId = try? viewContext.fetch(NSFetchRequest<NSNumber>(entityName: "DMProduct")).last {
-            return Int(truncating:lastProductId)
+        let allProducts = fetchAllProducts()
+        if let allProducts = allProducts {
+            let lastProduct = allProducts.last
+            if let lastProduct = lastProduct {
+                return Int(lastProduct.id)
+            }
+        } else {
+            print("No products found.")
         }
-        return 0
+
+        return 1000
     }
 
-    func createProduct(id: Int, name: String, note: String?, categoryId: Int, active: Bool, favorite: Bool) {
+    func createProduct(id: Int, name: String, note: String?, categoryId: Int, active: Bool, favorite: Bool, custom: Bool = true) {
         let newProduct = DMProduct(context: viewContext)
+        newProduct.uuid = UUID()
         newProduct.id = Int16(id)
         newProduct.name = name
         newProduct.note = note
         newProduct.categoryId = Int16(categoryId)
         newProduct.active = active
         newProduct.favorite = favorite
-        
+        newProduct.custom = custom
+
         savePersistence()
     }
 
@@ -154,11 +163,6 @@ struct PersistenceManager : PersistenceManagerProtocol {
         do {
             let fetchResult = try viewContext.fetch(fetchRequest)
             if !fetchResult.isEmpty {
-                print("fetchProductsByCategory result:")
-                for product in fetchResult {
-                    print("\(product.id): \(product.name ?? "Unknown")")
-                }
-
                 return fetchResult
             }
         } catch {

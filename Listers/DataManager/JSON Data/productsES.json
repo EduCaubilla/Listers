@@ -1,6 +1,6 @@
 [
     {
-        "id": 2,
+        "id": 1,
         "name": "Arroz",
         "categoryId": 1,
         "active": true,
@@ -8,375 +8,7 @@
         "note": ""
     },
     {
-        "id": 3,
-        "name": "Pasta",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 4,
-        "name": "Lentejas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 5,
-        "name": "Harina",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 6,
-        "name": "Sal",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 7,
-        "name": "Azúcar",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 8,
-        "name": "Atún",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 9,
-        "name": "Maíz en conserva",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 10,
-        "name": "Tomate triturado",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 11,
-        "name": "Sopa instantánea",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 12,
-        "name": "Galletas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 13,
-        "name": "Cereales",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 14,
-        "name": "Pan de molde",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 15,
-        "name": "Leche en polvo",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 16,
-        "name": "Mantequilla",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 17,
-        "name": "Yogur",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 18,
-        "name": "Queso",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 19,
-        "name": "Huevos",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 20,
-        "name": "Tomate frito",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 21,
-        "name": "Mayonesa",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 22,
-        "name": "Mostaza",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 23,
-        "name": "Bebida de avena",
-        "categoryId": 2,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 24,
-        "name": "Alioli",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 25,
-        "name": "Pizza",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 26,
-        "name": "Bases de pizza",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 27,
-        "name": "Masas de pizza",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 28,
-        "name": "Masas de quiche",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 29,
-        "name": "Masa de empanadillas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 30,
-        "name": "Bebida de soja",
-        "categoryId": 2,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 31,
-        "name": "Bebida de almendra",
-        "categoryId": 2,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 32,
-        "name": "Servilletas de papel",
-        "categoryId": 4,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 33,
-        "name": "Celo",
-        "categoryId": 6,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 33,
-        "name": "Cinta de pintor",
-        "categoryId": 5,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 33,
-        "name": "Cinta aislante",
-        "categoryId": 5,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-//    {
-//        "id": 34,
-//        "name": "",
-//        "categoryId": 0,
-//        "active": true,
-//        "favorite": false,
-//        "note": ""
-//    },
-    {
-        "id": 125,
-        "name": "Aceite de oliva",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 126,
-        "name": "Aceite de girasol",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 127,
-        "name": "Aceite de coco",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 128,
-        "name": "Pizza congelada",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 129,
-        "name": "Verduras congeladas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 130,
-        "name": "Croquetas congeladas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 131,
-        "name": "Nuggets de pollo congelados",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 132,
-        "name": "Helado",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 133,
-        "name": "Garbanzos",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 134,
-        "name": "Alubias",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 135,
-        "name": "Quinoa",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 136,
-        "name": "Avena",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 137,
+        "id": 2,
         "name": "Fideos",
         "categoryId": 1,
         "active": true,
@@ -384,7 +16,15 @@
         "note": ""
     },
     {
-        "id": 138,
+        "id": 3,
+        "name": "Pasta de legumbre",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 4,
         "name": "Macarrones",
         "categoryId": 1,
         "active": true,
@@ -392,7 +32,7 @@
         "note": ""
     },
     {
-        "id": 139,
+        "id": 5,
         "name": "Espaguetis",
         "categoryId": 1,
         "active": true,
@@ -400,7 +40,7 @@
         "note": ""
     },
     {
-        "id": 140,
+        "id": 6,
         "name": "Tallarines",
         "categoryId": 1,
         "active": true,
@@ -408,7 +48,7 @@
         "note": ""
     },
     {
-        "id": 141,
+        "id": 7,
         "name": "Ñoquis",
         "categoryId": 1,
         "active": true,
@@ -416,7 +56,7 @@
         "note": ""
     },
     {
-        "id": 142,
+        "id": 8,
         "name": "Lasaña",
         "categoryId": 1,
         "active": true,
@@ -424,823 +64,55 @@
         "note": ""
     },
     {
-        "id": 143,
-        "name": "Jamón Cocido",
+        "id": 9,
+        "name": "Lentejas",
         "categoryId": 1,
         "active": true,
         "favorite": false,
         "note": ""
     },
     {
-        "id": 144,
-        "name": "Pollo",
+        "id": 10,
+        "name": "Garbanzos",
         "categoryId": 1,
         "active": true,
         "favorite": false,
         "note": ""
     },
     {
-        "id": 145,
-        "name": "Pescado",
+        "id": 11,
+        "name": "Alubias",
         "categoryId": 1,
         "active": true,
         "favorite": false,
         "note": ""
     },
     {
-        "id": 146,
-        "name": "Salmón",
+        "id": 12,
+        "name": "Quinoa",
         "categoryId": 1,
         "active": true,
         "favorite": false,
         "note": ""
     },
     {
-        "id": 147,
-        "name": "Merluza",
+        "id": 13,
+        "name": "Avena",
         "categoryId": 1,
         "active": true,
         "favorite": false,
         "note": ""
     },
     {
-        "id": 148,
-        "name": "Jamón Serrano",
+        "id": 14,
+        "name": "Harina",
         "categoryId": 1,
         "active": true,
         "favorite": false,
         "note": ""
     },
     {
-        "id": 149,
-        "name": "Chorizo",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 150,
-        "name": "Salami",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 151,
-        "name": "Mortadela",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 152,
-        "name": "Bacon",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 153,
-        "name": "Leche",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 154,
-        "name": "Nata",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 155,
-        "name": "Crema agria",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 156,
-        "name": "Queso cheddar",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 157,
-        "name": "Queso mozzarella",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 158,
-        "name": "Queso parmesano",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 159,
-        "name": "Queso fresco",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 160,
-        "name": "Yogur griego",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 161,
-        "name": "Yogur natural",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 162,
-        "name": "Yogur con frutas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 163,
-        "name": "Kéfir",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 164,
-        "name": "Pan baguette",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 165,
-        "name": "Pan integral",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 166,
-        "name": "Pan de centeno",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 167,
-        "name": "Pan tostado",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 168,
-        "name": "Croissant",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 169,
-        "name": "Bollería",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 170,
-        "name": "Magdalenas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 171,
-        "name": "Donuts",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 172,
-        "name": "Churros",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 173,
-        "name": "Bizcocho",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 174,
-        "name": "Tarta",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 175,
-        "name": "Galletas maría",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 176,
-        "name": "Galletas de chocolate",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 177,
-        "name": "Galletas digestivas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 178,
-        "name": "Galletas saladas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 179,
-        "name": "Crackers",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 180,
-        "name": "Patatas Chips",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 181,
-        "name": "Nachos",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 182,
-        "name": "Palomitas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 183,
-        "name": "Frutos secos",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 184,
-        "name": "Nueces",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 185,
-        "name": "Almendras",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 186,
-        "name": "Cacahuetes",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 187,
-        "name": "Pistachos",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 188,
-        "name": "Avellanas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 189,
-        "name": "Chocolate",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 190,
-        "name": "Chocolate blanco",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 191,
-        "name": "Chocolate negro",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 192,
-        "name": "Caramelos",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 193,
-        "name": "Chicles",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 194,
-        "name": "Gelatina",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 195,
-        "name": "Miel",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 196,
-        "name": "Mermelada",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 197,
-        "name": "Crema de cacao",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 198,
-        "name": "Mantequilla de cacahuete",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 199,
-        "name": "Conservas de pescado",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 200,
-        "name": "Sardinas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 201,
-        "name": "Anchoas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 202,
-        "name": "Mejillones",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 203,
-        "name": "Almejas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 204,
-        "name": "Tomate concentrado",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 205,
-        "name": "Tomate entero",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 206,
-        "name": "Pimientos rojos",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 207,
-        "name": "Aceitunas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 208,
-        "name": "Aceitunas negras",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 209,
-        "name": "Alcaparras",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 210,
-        "name": "Pepinillos",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 211,
-        "name": "Cebolletas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 212,
-        "name": "Vinagre",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 213,
-        "name": "Vinagre de vino",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 214,
-        "name": "Vinagre balsámico",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 215,
-        "name": "Salsa worcestershire",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 216,
-        "name": "Salsa de soja",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 217,
-        "name": "Salsa picante",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 218,
-        "name": "Tabasco",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 219,
-        "name": "Ketchup",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 220,
-        "name": "Especias",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 221,
-        "name": "Pimienta",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 222,
-        "name": "Pimentón",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 223,
-        "name": "Orégano",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 224,
-        "name": "Albahaca",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 225,
-        "name": "Perejil",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 226,
-        "name": "Cilantro",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 227,
-        "name": "Curry",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 228,
-        "name": "Comino",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 229,
-        "name": "Canela",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 230,
-        "name": "Azafrán",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 231,
-        "name": "Ajo en polvo",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 232,
-        "name": "Cebolla en polvo",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 233,
-        "name": "Hamburguesas congeladas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 234,
-        "name": "Salchichas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 235,
-        "name": "Empanadillas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 236,
-        "name": "Patatas fritas congeladas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 237,
-        "name": "Sorbete",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-//    {
-//        "id": 238,
-//        "name": "Postre lácteo",
-//        "categoryId": 1,
-//        "active": true,
-//        "favorite": false,
-//        "note": ""
-//    },
-    {
-        "id": 239,
-        "name": "Natillas",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 240,
-        "name": "Flan",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 241,
-        "name": "Mousse",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 242,
-        "name": "Arroz con leche",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 243,
-        "name": "Cuajada",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 244,
-        "name": "Levadura",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "note": ""
-    },
-    {
-        "id": 245,
+        "id": 15,
         "name": "Harina integral",
         "categoryId": 1,
         "active": true,
@@ -1248,7 +120,7 @@
         "note": ""
     },
     {
-        "id": 246,
+        "id": 16,
         "name": "Harina de maíz",
         "categoryId": 1,
         "active": true,
@@ -1256,7 +128,23 @@
         "note": ""
     },
     {
-        "id": 247,
+        "id": 17,
+        "name": "Sal",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 18,
+        "name": "Azúcar",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 19,
         "name": "Azúcar moreno",
         "categoryId": 1,
         "active": true,
@@ -1264,7 +152,7 @@
         "note": ""
     },
     {
-        "id": 248,
+        "id": 20,
         "name": "Edulcorante",
         "categoryId": 1,
         "active": true,
@@ -1272,23 +160,1063 @@
         "note": ""
     },
     {
-        "id": 249,
+        "id": 21,
+        "name": "Aceite de oliva",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 22,
+        "name": "Aceite de girasol",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 23,
+        "name": "Aceite de coco",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 24,
+        "name": "Vinagre",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 25,
+        "name": "Vinagre de vino",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 26,
+        "name": "Vinagre balsámico",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 27,
+        "name": "Atún",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 28,
+        "name": "Conservas de pescado",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 29,
+        "name": "Sardinas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 30,
+        "name": "Anchoas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 31,
+        "name": "Mejillones",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 32,
+        "name": "Almejas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 33,
+        "name": "Maíz en conserva",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 34,
+        "name": "Tomate triturado",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 35,
+        "name": "Tomate concentrado",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 36,
+        "name": "Tomate entero",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 37,
+        "name": "Tomate frito",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 38,
+        "name": "Pimientos rojos",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 39,
+        "name": "Aceitunas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 40,
+        "name": "Aceitunas negras",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 41,
+        "name": "Alcaparras",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 42,
+        "name": "Pepinillos",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 43,
+        "name": "Cebollitas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 44,
+        "name": "Sopa instantánea",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 45,
         "name": "Caldo de pollo",
         "categoryId": 1,
         "active": true,
         "favorite": false,
         "note": ""
     },
-//    {
-//        "id": 250,
-//        "name": "Tomate frito",
-//        "categoryId": 1,
-//        "active": true,
-//        "favorite": false,
-//        "note": ""
-//    },
     {
-        "id": 253,
+        "id": 46,
+        "name": "Galletas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 47,
+        "name": "Galletas maría",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 48,
+        "name": "Galletas de chocolate",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 49,
+        "name": "Galletas digestivas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 50,
+        "name": "Galletas saladas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 51,
+        "name": "Crackers",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 52,
+        "name": "Cereal",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 53,
+        "name": "Pan de molde",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 54,
+        "name": "Pan baguette",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 55,
+        "name": "Pan integral",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 56,
+        "name": "Pan de centeno",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 57,
+        "name": "Pan tostado",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 58,
+        "name": "Croissant",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 59,
+        "name": "Bollería",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 60,
+        "name": "Magdalenas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 61,
+        "name": "Donuts",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 62,
+        "name": "Churros",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 63,
+        "name": "Bizcocho",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 64,
+        "name": "Tarta",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 65,
+        "name": "Leche en polvo",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 66,
+        "name": "Leche",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 67,
+        "name": "Nata",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 68,
+        "name": "Crema agria",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 69,
+        "name": "Mantequilla",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 70,
+        "name": "Yogur",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 71,
+        "name": "Yogur griego",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 72,
+        "name": "Yogur natural",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 73,
+        "name": "Yogur con frutas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 74,
+        "name": "Kéfir",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 75,
+        "name": "Queso",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 76,
+        "name": "Queso cheddar",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 77,
+        "name": "Queso mozzarella",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 78,
+        "name": "Queso parmesano",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 79,
+        "name": "Queso fresco",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 80,
+        "name": "Huevos",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 81,
+        "name": "Carne molida",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 82,
+        "name": "Pollo",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 83,
+        "name": "Pescado",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 84,
+        "name": "Salmón",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 85,
+        "name": "Merluza",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 86,
+        "name": "Jamón",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 87,
+        "name": "Chorizo",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 88,
+        "name": "Salami",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 89,
+        "name": "Mortadela",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 90,
+        "name": "Bacon",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 91,
+        "name": "Salchichas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 92,
+        "name": "Salsa de tomate",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 93,
+        "name": "Mayonesa",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 94,
+        "name": "Mostaza",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 95,
+        "name": "Ketchup",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 96,
+        "name": "Salsa worcestershire",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 97,
+        "name": "Salsa de soja",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 98,
+        "name": "Salsa picante",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 99,
+        "name": "Tabasco",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 100,
+        "name": "Especias",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 101,
+        "name": "Pimienta",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 102,
+        "name": "Pimentón",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 103,
+        "name": "Orégano",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 104,
+        "name": "Albahaca",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 105,
+        "name": "Perejil",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 106,
+        "name": "Cilantro",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 107,
+        "name": "Curry",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 108,
+        "name": "Comino",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 109,
+        "name": "Canela",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 110,
+        "name": "Azafrán",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 111,
+        "name": "Ajo en polvo",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 112,
+        "name": "Cebolla en polvo",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 113,
+        "name": "Chips",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 114,
+        "name": "Nachos",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 115,
+        "name": "Palomitas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 116,
+        "name": "Frutos secos",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 117,
+        "name": "Nueces",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 118,
+        "name": "Almendras",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 119,
+        "name": "Cacahuetes",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 120,
+        "name": "Pistachos",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 121,
+        "name": "Avellanas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 122,
+        "name": "Chocolate",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 123,
+        "name": "Chocolate blanco",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 124,
+        "name": "Chocolate negro",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 125,
+        "name": "Caramelos",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 126,
+        "name": "Chicles",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 127,
+        "name": "Gelatina",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 128,
+        "name": "Miel",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 129,
+        "name": "Mermelada",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 130,
+        "name": "Nutella",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 131,
+        "name": "Mantequilla de maní",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 132,
+        "name": "Pizza congelada",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 133,
+        "name": "Verduras congeladas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 134,
+        "name": "Croquetas congeladas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 135,
+        "name": "Nuggets de pollo congelados",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 136,
+        "name": "Hamburguesas congeladas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 137,
+        "name": "Empanadillas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 138,
+        "name": "Patatas fritas congeladas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 139,
+        "name": "Helado",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 140,
+        "name": "Sorbete",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 141,
+        "name": "Postre lácteo",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 142,
+        "name": "Natillas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 143,
+        "name": "Flan",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 144,
+        "name": "Mousse",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 145,
+        "name": "Arroz con leche",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 146,
+        "name": "Cuajada",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 147,
+        "name": "Levadura",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 148,
+        "name": "Harina integral",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 149,
+        "name": "Harina de maíz",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 150,
+        "name": "Azúcar moreno",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 151,
+        "name": "Edulcorante",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 152,
+        "name": "Caldo de pollo",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 153,
         "name": "Agua",
         "categoryId": 2,
         "active": true,
@@ -1296,7 +1224,7 @@
         "note": ""
     },
     {
-        "id": 254,
+        "id": 154,
         "name": "Zumo",
         "categoryId": 2,
         "active": true,
@@ -1304,15 +1232,15 @@
         "note": ""
     },
     {
-        "id": 255,
-        "name": "Refrescos",
+        "id": 155,
+        "name": "Refresco",
         "categoryId": 2,
         "active": true,
         "favorite": false,
         "note": ""
     },
     {
-        "id": 256,
+        "id": 156,
         "name": "Cerveza",
         "categoryId": 2,
         "active": true,
@@ -1320,7 +1248,7 @@
         "note": ""
     },
     {
-        "id": 257,
+        "id": 157,
         "name": "Vino",
         "categoryId": 2,
         "active": true,
@@ -1328,7 +1256,7 @@
         "note": ""
     },
     {
-        "id": 258,
+        "id": 158,
         "name": "Bebida energética",
         "categoryId": 2,
         "active": true,
@@ -1336,15 +1264,15 @@
         "note": ""
     },
     {
-        "id": 259,
-        "name": "Bebida isotonica",
+        "id": 159,
+        "name": "Bebida vegetal",
         "categoryId": 2,
         "active": true,
         "favorite": false,
         "note": ""
     },
     {
-        "id": 260,
+        "id": 160,
         "name": "Té",
         "categoryId": 2,
         "active": true,
@@ -1352,7 +1280,7 @@
         "note": ""
     },
     {
-        "id": 261,
+        "id": 161,
         "name": "Café",
         "categoryId": 2,
         "active": true,
@@ -1360,7 +1288,7 @@
         "note": ""
     },
     {
-        "id": 262,
+        "id": 162,
         "name": "Manzana",
         "categoryId": 3,
         "active": true,
@@ -1368,7 +1296,7 @@
         "note": ""
     },
     {
-        "id": 263,
+        "id": 163,
         "name": "Banana",
         "categoryId": 3,
         "active": true,
@@ -1376,7 +1304,7 @@
         "note": ""
     },
     {
-        "id": 264,
+        "id": 164,
         "name": "Naranja",
         "categoryId": 3,
         "active": true,
@@ -1384,7 +1312,7 @@
         "note": ""
     },
     {
-        "id": 265,
+        "id": 165,
         "name": "Pera",
         "categoryId": 3,
         "active": true,
@@ -1392,7 +1320,7 @@
         "note": ""
     },
     {
-        "id": 266,
+        "id": 166,
         "name": "Zanahoria",
         "categoryId": 3,
         "active": true,
@@ -1400,7 +1328,7 @@
         "note": ""
     },
     {
-        "id": 267,
+        "id": 167,
         "name": "Lechuga",
         "categoryId": 3,
         "active": true,
@@ -1408,7 +1336,7 @@
         "note": ""
     },
     {
-        "id": 268,
+        "id": 168,
         "name": "Tomate",
         "categoryId": 3,
         "active": true,
@@ -1416,7 +1344,7 @@
         "note": ""
     },
     {
-        "id": 269,
+        "id": 169,
         "name": "Patatas",
         "categoryId": 3,
         "active": true,
@@ -1424,7 +1352,7 @@
         "note": ""
     },
     {
-        "id": 270,
+        "id": 170,
         "name": "Cebolla",
         "categoryId": 3,
         "active": true,
@@ -1432,15 +1360,15 @@
         "note": ""
     },
     {
-        "id": 271,
-        "name": "Pimiento rojo",
+        "id": 171,
+        "name": "Pimiento",
         "categoryId": 3,
         "active": true,
         "favorite": false,
         "note": ""
     },
     {
-        "id": 272,
+        "id": 172,
         "name": "Detergente",
         "categoryId": 4,
         "active": true,
@@ -1448,7 +1376,7 @@
         "note": ""
     },
     {
-        "id": 273,
+        "id": 173,
         "name": "Lavavajillas",
         "categoryId": 4,
         "active": true,
@@ -1456,7 +1384,7 @@
         "note": ""
     },
     {
-        "id": 274,
+        "id": 174,
         "name": "Limpiador multiusos",
         "categoryId": 4,
         "active": true,
@@ -1464,7 +1392,7 @@
         "note": ""
     },
     {
-        "id": 275,
+        "id": 175,
         "name": "Esponjas",
         "categoryId": 4,
         "active": true,
@@ -1472,7 +1400,7 @@
         "note": ""
     },
     {
-        "id": 276,
+        "id": 176,
         "name": "Bolsas de basura",
         "categoryId": 4,
         "active": true,
@@ -1480,7 +1408,7 @@
         "note": ""
     },
     {
-        "id": 277,
+        "id": 177,
         "name": "Papel higiénico",
         "categoryId": 4,
         "active": true,
@@ -1488,15 +1416,15 @@
         "note": ""
     },
     {
-        "id": 278,
-        "name": "Papel de cocina",
+        "id": 178,
+        "name": "Toallas de papel",
         "categoryId": 4,
         "active": true,
         "favorite": false,
         "note": ""
     },
     {
-        "id": 279,
+        "id": 179,
         "name": "Fregasuelos",
         "categoryId": 4,
         "active": true,
@@ -1504,7 +1432,7 @@
         "note": ""
     },
     {
-        "id": 280,
+        "id": 180,
         "name": "Ambientador",
         "categoryId": 4,
         "active": true,
@@ -1512,7 +1440,7 @@
         "note": ""
     },
     {
-        "id": 281,
+        "id": 181,
         "name": "Taladro",
         "categoryId": 5,
         "active": true,
@@ -1520,7 +1448,7 @@
         "note": ""
     },
     {
-        "id": 282,
+        "id": 182,
         "name": "Martillo",
         "categoryId": 5,
         "active": true,
@@ -1528,7 +1456,7 @@
         "note": ""
     },
     {
-        "id": 283,
+        "id": 183,
         "name": "Destornillador",
         "categoryId": 5,
         "active": true,
@@ -1536,7 +1464,7 @@
         "note": ""
     },
     {
-        "id": 284,
+        "id": 184,
         "name": "Llave inglesa",
         "categoryId": 5,
         "active": true,
@@ -1544,7 +1472,7 @@
         "note": ""
     },
     {
-        "id": 285,
+        "id": 185,
         "name": "Clavos",
         "categoryId": 5,
         "active": true,
@@ -1552,7 +1480,7 @@
         "note": ""
     },
     {
-        "id": 286,
+        "id": 186,
         "name": "Tornillos",
         "categoryId": 5,
         "active": true,
@@ -1560,7 +1488,7 @@
         "note": ""
     },
     {
-        "id": 287,
+        "id": 187,
         "name": "Cinta métrica",
         "categoryId": 5,
         "active": true,
@@ -1568,7 +1496,7 @@
         "note": ""
     },
     {
-        "id": 288,
+        "id": 188,
         "name": "Nivel de burbuja",
         "categoryId": 5,
         "active": true,
@@ -1576,7 +1504,7 @@
         "note": ""
     },
     {
-        "id": 289,
+        "id": 189,
         "name": "Cuaderno",
         "categoryId": 6,
         "active": true,
@@ -1584,7 +1512,7 @@
         "note": ""
     },
     {
-        "id": 290,
+        "id": 190,
         "name": "Lápiz",
         "categoryId": 6,
         "active": true,
@@ -1592,7 +1520,7 @@
         "note": ""
     },
     {
-        "id": 291,
+        "id": 191,
         "name": "Bolígrafo",
         "categoryId": 6,
         "active": true,
@@ -1600,7 +1528,7 @@
         "note": ""
     },
     {
-        "id": 292,
+        "id": 192,
         "name": "Folios",
         "categoryId": 6,
         "active": true,
@@ -1608,7 +1536,7 @@
         "note": ""
     },
     {
-        "id": 293,
+        "id": 193,
         "name": "Carpeta",
         "categoryId": 6,
         "active": true,
@@ -1616,7 +1544,7 @@
         "note": ""
     },
     {
-        "id": 294,
+        "id": 194,
         "name": "Tijeras",
         "categoryId": 6,
         "active": true,
@@ -1624,7 +1552,7 @@
         "note": ""
     },
     {
-        "id": 295,
+        "id": 195,
         "name": "Pegamento",
         "categoryId": 6,
         "active": true,
@@ -1632,7 +1560,7 @@
         "note": ""
     },
     {
-        "id": 296,
+        "id": 196,
         "name": "Grapadora",
         "categoryId": 6,
         "active": true,
@@ -1640,7 +1568,7 @@
         "note": ""
     },
     {
-        "id": 297,
+        "id": 197,
         "name": "Notas adhesivas",
         "categoryId": 6,
         "active": true,
@@ -1648,7 +1576,7 @@
         "note": ""
     },
     {
-        "id": 298,
+        "id": 198,
         "name": "Camiseta",
         "categoryId": 7,
         "active": true,
@@ -1656,7 +1584,7 @@
         "note": ""
     },
     {
-        "id": 299,
+        "id": 199,
         "name": "Pantalones",
         "categoryId": 7,
         "active": true,
@@ -1664,7 +1592,7 @@
         "note": ""
     },
     {
-        "id": 300,
+        "id": 200,
         "name": "Zapatos",
         "categoryId": 7,
         "active": true,
@@ -1672,7 +1600,7 @@
         "note": ""
     },
     {
-        "id": 301,
+        "id": 201,
         "name": "Calcetines",
         "categoryId": 7,
         "active": true,
@@ -1680,7 +1608,7 @@
         "note": ""
     },
     {
-        "id": 302,
+        "id": 202,
         "name": "Chaqueta",
         "categoryId": 7,
         "active": true,
@@ -1688,7 +1616,7 @@
         "note": ""
     },
     {
-        "id": 303,
+        "id": 203,
         "name": "Ropa interior",
         "categoryId": 7,
         "active": true,
@@ -1696,7 +1624,7 @@
         "note": ""
     },
     {
-        "id": 304,
+        "id": 204,
         "name": "Zapatillas deportivas",
         "categoryId": 7,
         "active": true,
@@ -1704,7 +1632,7 @@
         "note": ""
     },
     {
-        "id": 305,
+        "id": 205,
         "name": "Sudadera",
         "categoryId": 7,
         "active": true,
@@ -1712,23 +1640,23 @@
         "note": ""
     },
     {
-        "id": 306,
+        "id": 206,
         "name": "Balón",
         "categoryId": 8,
         "active": true,
         "favorite": false,
         "note": ""
     },
-//    {
-//        "id": 307,
-//        "name": "Bicicleta",
-//        "categoryId": 8,
-//        "active": true,
-//        "favorite": false,
-//        "note": ""
-//    },
     {
-        "id": 308,
+        "id": 207,
+        "name": "Bicicleta",
+        "categoryId": 8,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 208,
         "name": "Mochila",
         "categoryId": 8,
         "active": true,
@@ -1736,7 +1664,7 @@
         "note": ""
     },
     {
-        "id": 309,
+        "id": 209,
         "name": "Pesas",
         "categoryId": 8,
         "active": true,
@@ -1744,7 +1672,7 @@
         "note": ""
     },
     {
-        "id": 310,
+        "id": 210,
         "name": "Cuerda para saltar",
         "categoryId": 8,
         "active": true,
@@ -1752,7 +1680,7 @@
         "note": ""
     },
     {
-        "id": 311,
+        "id": 211,
         "name": "Esterilla de yoga",
         "categoryId": 8,
         "active": true,
@@ -1760,7 +1688,7 @@
         "note": ""
     },
     {
-        "id": 312,
+        "id": 212,
         "name": "Tienda de campaña",
         "categoryId": 8,
         "active": true,
@@ -1768,7 +1696,7 @@
         "note": ""
     },
     {
-        "id": 313,
+        "id": 213,
         "name": "Saco de dormir",
         "categoryId": 8,
         "active": true,
@@ -1776,7 +1704,7 @@
         "note": ""
     },
     {
-        "id": 314,
+        "id": 214,
         "name": "Champú",
         "categoryId": 9,
         "active": true,
@@ -1784,7 +1712,7 @@
         "note": ""
     },
     {
-        "id": 315,
+        "id": 215,
         "name": "Jabón",
         "categoryId": 9,
         "active": true,
@@ -1792,7 +1720,7 @@
         "note": ""
     },
     {
-        "id": 316,
+        "id": 216,
         "name": "Cepillo de dientes",
         "categoryId": 9,
         "active": true,
@@ -1800,7 +1728,7 @@
         "note": ""
     },
     {
-        "id": 317,
+        "id": 217,
         "name": "Pasta dental",
         "categoryId": 9,
         "active": true,
@@ -1808,7 +1736,7 @@
         "note": ""
     },
     {
-        "id": 318,
+        "id": 218,
         "name": "Desodorante",
         "categoryId": 9,
         "active": true,
@@ -1816,7 +1744,7 @@
         "note": ""
     },
     {
-        "id": 319,
+        "id": 219,
         "name": "Toallitas húmedas",
         "categoryId": 9,
         "active": true,
@@ -1824,7 +1752,7 @@
         "note": ""
     },
     {
-        "id": 320,
+        "id": 220,
         "name": "Crema hidratante",
         "categoryId": 9,
         "active": true,
@@ -1832,7 +1760,7 @@
         "note": ""
     },
     {
-        "id": 321,
+        "id": 221,
         "name": "Maquinilla de afeitar",
         "categoryId": 9,
         "active": true,
@@ -1840,7 +1768,7 @@
         "note": ""
     },
     {
-        "id": 322,
+        "id": 222,
         "name": "Protector solar",
         "categoryId": 9,
         "active": true,
@@ -1848,7 +1776,7 @@
         "note": ""
     },
     {
-        "id": 323,
+        "id": 223,
         "name": "Manzanas",
         "categoryId": 3,
         "active": true,
@@ -1856,7 +1784,7 @@
         "note": ""
     },
     {
-        "id": 324,
+        "id": 224,
         "name": "Plátanos",
         "categoryId": 3,
         "active": true,
@@ -1864,7 +1792,7 @@
         "note": ""
     },
     {
-        "id": 325,
+        "id": 225,
         "name": "Naranjas",
         "categoryId": 3,
         "active": true,
@@ -1872,7 +1800,7 @@
         "note": ""
     },
     {
-        "id": 326,
+        "id": 226,
         "name": "Peras",
         "categoryId": 3,
         "active": true,
@@ -1880,7 +1808,7 @@
         "note": ""
     },
     {
-        "id": 327,
+        "id": 227,
         "name": "Fresas",
         "categoryId": 3,
         "active": true,
@@ -1888,7 +1816,7 @@
         "note": ""
     },
     {
-        "id": 328,
+        "id": 228,
         "name": "Melón",
         "categoryId": 3,
         "active": true,
@@ -1896,7 +1824,7 @@
         "note": ""
     },
     {
-        "id": 329,
+        "id": 229,
         "name": "Sandía",
         "categoryId": 3,
         "active": true,
@@ -1904,7 +1832,7 @@
         "note": ""
     },
     {
-        "id": 330,
+        "id": 230,
         "name": "Uvas",
         "categoryId": 3,
         "active": true,
@@ -1912,7 +1840,7 @@
         "note": ""
     },
     {
-        "id": 331,
+        "id": 231,
         "name": "Kiwis",
         "categoryId": 3,
         "active": true,
@@ -1920,7 +1848,7 @@
         "note": ""
     },
     {
-        "id": 332,
+        "id": 232,
         "name": "Piña",
         "categoryId": 3,
         "active": true,
@@ -1928,31 +1856,31 @@
         "note": ""
     },
     {
-        "id": 333,
-        "name": "Zanahoria",
+        "id": 233,
+        "name": "Zanahorias",
         "categoryId": 3,
         "active": true,
         "favorite": false,
         "note": ""
     },
     {
-        "id": 334,
+        "id": 234,
         "name": "Lechuga",
         "categoryId": 3,
         "active": true,
         "favorite": false,
         "note": ""
     },
-//    {
-//        "id": 335,
-//        "name": "Tomate",
-//        "categoryId": 3,
-//        "active": true,
-//        "favorite": false,
-//        "note": ""
-//    },
     {
-        "id": 336,
+        "id": 235,
+        "name": "Tomate",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 236,
         "name": "Cebolla",
         "categoryId": 3,
         "active": true,
@@ -1960,7 +1888,15 @@
         "note": ""
     },
     {
-        "id": 337,
+        "id": 237,
+        "name": "Pimiento rojo",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 238,
         "name": "Pimiento verde",
         "categoryId": 3,
         "active": true,
@@ -1968,7 +1904,7 @@
         "note": ""
     },
     {
-        "id": 338,
+        "id": 239,
         "name": "Pepinos",
         "categoryId": 3,
         "active": true,
@@ -1976,7 +1912,7 @@
         "note": ""
     },
     {
-        "id": 339,
+        "id": 240,
         "name": "Espinacas",
         "categoryId": 3,
         "active": true,
@@ -1984,7 +1920,7 @@
         "note": ""
     },
     {
-        "id": 340,
+        "id": 241,
         "name": "Calabacín",
         "categoryId": 3,
         "active": true,
@@ -1992,7 +1928,7 @@
         "note": ""
     },
     {
-        "id": 341,
+        "id": 242,
         "name": "Brócoli",
         "categoryId": 3,
         "active": true,
@@ -2000,8 +1936,144 @@
         "note": ""
     },
     {
-        "id": 342,
+        "id": 243,
         "name": "Berenjena",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 244,
+        "name": "Mango",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 245,
+        "name": "Melocotones",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 246,
+        "name": "Nectarinas",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 247,
+        "name": "Albaricoques",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 248,
+        "name": "Papaya",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 249,
+        "name": "Mandarinas",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 250,
+        "name": "Paraguayos",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 251,
+        "name": "Ciruelas",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 252,
+        "name": "Dátiles",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 253,
+        "name": "Arándanos",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 254,
+        "name": "Moras",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 255,
+        "name": "Frambuesas",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 256,
+        "name": "Caquis",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 257,
+        "name": "Persimon",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 258,
+        "name": "Aguacates",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 259,
+        "name": "Cerezas",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "note": ""
+    },
+    {
+        "id": 260,
+        "name": "Limas",
         "categoryId": 3,
         "active": true,
         "favorite": false,

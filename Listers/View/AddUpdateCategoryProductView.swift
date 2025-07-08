@@ -11,17 +11,17 @@ struct AddUpdateCategoryProductView: View {
     //MARK: - PROPERTIES
     @Environment(\.dismiss) var dismiss
 
-//    @ObservedObject var vm: MainItemsViewModel
+    @ObservedObject var vm: CategoriesProductsViewModel
 
     @State private var name : String = ""
     @State private var description : String = ""
     @State private var favorite : Bool = false
     @State private var active : Bool = true
     @State private var category : String = "General"
-    @State private var selectedCategory : String = "General" // TODO ENUM CATEGORIES
+    @State private var selectedCategory : Categories = .Grocery
 
-    private var isProductToUpdate : Bool = false
     private var productToUpdate : DMProduct?
+    private var isProductToUpdate : Bool = false
 
     @State private var errorShowing : Bool = false
     @State private var errorTitle : String = ""
@@ -34,30 +34,39 @@ struct AddUpdateCategoryProductView: View {
     }
 
     //MARK: - INITIALIZER
-//    init(vm: MainItemsViewModel) {
-//        self.vm = vm
-//    }
+    init(vm: CategoriesProductsViewModel) {
+        self.vm = vm
+    }
+    
+    init(product: DMProduct? = nil, vm: CategoriesProductsViewModel) {
+        if let product = product {
+            _name = State(initialValue: product.name ?? "Unknown")
+            _description = State(initialValue:product.note ?? "")
+            _favorite = State(initialValue:product.favorite)
+            _active = State(initialValue:product.active)
+            _selectedCategory = State(initialValue:Categories.idMapper(for: product.categoryId))
+        }
 
-//    init (item: DMItem? = nil, vm: MainItemsViewModel) {
-//        if let item = item {
-//            _name = State(initialValue: item.name ?? "Unknown")
-//            _description = State(initialValue:item.note ?? "")
-//            _quantity = State(initialValue:String(item.quantity))
-//            _favorite = State(initialValue:item.favorite)
-//            _priority = State(initialValue:Priority(rawValue: item.priority!)!)
-//        }
-//
-//        itemToUpdate = item
-//        isItemToUpdate = true
-//
-//        self.vm = vm
-//    }
+        print("Init AddUpdateCategoryProductView to EDIT")
+        print(product ?? "No item passed")
 
+        productToUpdate = product
+        isProductToUpdate = true
+
+        self.vm = vm
+    }
 
     //MARK: - FUNCTIONS
     private func saveNewProduct() {
         if !name.isEmpty {
-
+            vm.saveNewProduct(
+                id: vm.createIdForNewProduct(),
+                name: name,
+                description: description,
+                categoryId: selectedCategory.categoryId,
+                active: active,
+                favorite: favorite
+            )
         }
         else {
             errorShowing = true
@@ -73,9 +82,9 @@ struct AddUpdateCategoryProductView: View {
             productToUpdate.note = description
             productToUpdate.favorite = favorite
             productToUpdate.active = active
-//            productToUpdate.categoryId = 1 //TODO map from enum to number
+            productToUpdate.categoryId = Int16(selectedCategory.categoryId)
 
-//            vm.saveUpdates()
+            vm.saveUpdates()
         } else {
             print("Item could not be updated.")
         }
@@ -103,23 +112,25 @@ struct AddUpdateCategoryProductView: View {
 
                 Divider()
 
+                //MARK: - CATEGORY
+                HStack {
+                    Text("Category")
+                    
+                    Spacer()
+                    
+                    Picker("Category", selection: $selectedCategory) {
+                        ForEach(Categories.allCases) { category in
+                            Text(category.displayName).tag(category)
+                        }
+                    } //: PICKER
+                    .pickerStyle(MenuPickerStyle())
+                    .padding(.trailing, -10)
+                }
+
                 //MARK: - FAVORITE
                 Toggle("Favorite", isOn: $favorite)
                     .padding(.top, 5)
 
-                //MARK: - CATEGORY //TODO
-//                Picker("Category", selection: $selectedCategory) {
-//                    Text("Light").tag(SettingsViewMode.light.rawValue)
-//                    Text("Dark").tag(SettingsViewMode.dark.rawValue)
-//                    Text("Automatic").tag(SettingsViewMode.automatic.rawValue)
-//                }
-//                Picker("Category", selection: $priority) {
-//                    Text("Normal").tag(Priority.normal)
-//                    Text("High").tag(Priority.high)
-//                    Text("Very High").tag(Priority.veryHigh)
-//                } //: PICKER
-//                .pickerStyle(.segmented)
-//                .padding(.top, 5)
 
                 //MARK: - ACTIVE //TODO - only in edit
                 Toggle("Active", isOn: $active)
@@ -172,14 +183,14 @@ struct AddUpdateCategoryProductView: View {
                         .foregroundStyle(.darkBlue)
                 } //: DISSMISS BUTTON
             }
-            ToolbarItem(placement: .topBarLeading) {
-                Button(action: {
-                    //TODO - Open products page as sheet
-                }) {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundStyle(.darkBlue)
-                } //: SEARCH BUTTON
-            }
+//            ToolbarItem(placement: .topBarLeading) {
+//                Button(action: {
+//                    //TODO - Open products page as sheet
+//                }) {
+//                    Image(systemName: "magnifyingglass")
+//                        .foregroundStyle(.darkBlue)
+//                } //: SEARCH BUTTON
+//            }
         }
         .alert(isPresented: $errorShowing) {
             Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
@@ -193,5 +204,5 @@ struct AddUpdateCategoryProductView: View {
 
 //MARK: - PREVIEW
 #Preview {
-    AddUpdateCategoryProductView()
+    AddUpdateCategoryProductView(vm: CategoriesProductsViewModel())
 }

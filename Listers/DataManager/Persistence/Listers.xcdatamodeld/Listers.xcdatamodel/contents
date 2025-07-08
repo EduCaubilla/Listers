@@ -35,6 +35,7 @@
     <entity name="DMProduct" representedClassName="DMProduct" syncable="YES" codeGenerationType="class">
         <attribute name="active" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="categoryId" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="custom" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>

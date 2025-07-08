@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     //MARK: - PROPERTIES
-    @AppStorage("selectedViewMode") private var selectedViewMode: String = SettingsViewMode.automatic.rawValue
+    @AppStorage("selectedViewMode") private var selectedViewMode: SettingsViewMode = .automatic
 
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var router: NavigationRouter
@@ -23,8 +23,8 @@ struct SettingsView: View {
     @State private var isListDescriptionEnable: Bool = false
 
     private var viewMode: SettingsViewMode {
-        get { SettingsViewMode(rawValue: selectedViewMode) ?? .automatic }
-        set { selectedViewMode = newValue.rawValue }
+        get { selectedViewMode }
+        set { selectedViewMode = newValue }
     }
 
     var settingsTitle: String = "Settings"
@@ -41,9 +41,9 @@ struct SettingsView: View {
             Form {
                 Section("General Settings".capitalized) {
                     Picker("View Mode", selection: $selectedViewMode) {
-                        Text("Light").tag(SettingsViewMode.light.rawValue)
-                        Text("Dark").tag(SettingsViewMode.dark.rawValue)
-                        Text("Automatic").tag(SettingsViewMode.automatic.rawValue)
+                        ForEach(SettingsViewMode.allCases) { mode in
+                            Text(mode.displayName).tag(mode)
+                        }
                     }
                 }
                 .padding(.vertical,3)
@@ -81,14 +81,16 @@ struct SettingsView: View {
     }
 }
 
-enum SettingsViewMode : String, CaseIterable {
-    case light = "Light"
-    case dark = "Dark"
-    case automatic = "Automatic"
+enum SettingsViewMode : String, CaseIterable, Identifiable {
+    case light
+    case dark
+    case automatic
 
-    static var allCases: [String] {
-        ["Light", "Dark", "Automatic"]
+    var displayName: String {
+        rawValue.capitalized
     }
+
+    var id: String { self.rawValue }
 }
 
 //MARK: - PREVIEW

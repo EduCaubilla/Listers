@@ -21,8 +21,8 @@ struct AddUpdateItemView: View {
     @State private var favorite : Bool = false
     @State private var priority : Priority = .normal
 
-    private var isItemToUpdate : Bool = false
     private var itemToUpdate : DMItem?
+    private var isItemToUpdate : Bool = false
 
     @State private var errorShowing : Bool = false
     @State private var errorTitle : String = ""
@@ -54,26 +54,25 @@ struct AddUpdateItemView: View {
         self.vm = vm
     }
 
-
     //MARK: - FUNCTIONS
     private func saveNewItem() {
         if !name.isEmpty {
             vm.addItem(
-                    name: name,
-                    description: description,
-                    quantity: Int16(
-                        quantity
-                    ) ?? 0,
-                    favorite: favorite,
-                    priority: priority,
-                    completed: false,
-                    selected: false,
-                    creationDate: Date.now,
-                    endDate: Date.now,
-                    image: "",
-                    link: "",
-                    listId: vm.selectedList?.id
-                )
+                name: name,
+                description: description,
+                quantity: Int16(
+                    quantity
+                ) ?? 0,
+                favorite: favorite,
+                priority: priority,
+                completed: false,
+                selected: false,
+                creationDate: Date.now,
+                endDate: Date.now,
+                image: "",
+                link: "",
+                listId: vm.selectedList?.id
+            )
         }
         else {
             errorShowing = true

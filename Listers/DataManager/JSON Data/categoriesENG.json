@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "name": "Food"
+        "name": "Grocery"
     },
     {
         "id": 2,
@@ -9,31 +9,31 @@
     },
     {
         "id": 3,
-        "name": "Fruits and vegetables"
+        "name": "Fruits & vegetables"
     },
     {
         "id": 4,
-        "name": "Home and kichen"
+        "name": "Home & kitchen"
     },
     {
         "id": 5,
-        "name": "Hardware and tools"
+        "name": "Hardware & tools"
     },
     {
         "id": 6,
-        "name": "Office and stationery"
+        "name": "Office & stationery"
     },
     {
         "id": 7,
-        "name": "Clothes and footwear"
+        "name": "Clothes & footwear"
     },
     {
         "id": 8,
-        "name": "Sports and outdoors"
+        "name": "Sports & outdoors"
     },
     {
         "id": 9,
-        "name": "Health and beauty"
+        "name": "Health & beauty"
     },
     {
         "id": 10,

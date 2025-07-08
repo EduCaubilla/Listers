@@ -21,7 +21,7 @@ struct MainAddButtonView: View {
         .shadow(color: .black.opacity(0.5), radius: 3, x: 1, y: 1)
         .padding(.horizontal, 20)
         .padding(.vertical, 10)
-        .font(.system(size: 22, weight: .semibold))
+        .font(.system(size: 20, weight: .regular, design: .default))
         .background(
             Capsule()
                 .fill(Color.mediumBlue)

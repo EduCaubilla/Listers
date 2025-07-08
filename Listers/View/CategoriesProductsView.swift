@@ -15,6 +15,8 @@ struct CategoriesProductsView: View {
 
     @StateObject var vm : CategoriesProductsViewModel
 
+    @State private var selectedProduct: DMProduct?
+
     var categoriesTitle : String = "Categories"
     var addProductLabel: String = "Add Product"
     var addIcon: String = "plus"
@@ -30,11 +32,15 @@ struct CategoriesProductsView: View {
 
     //MARK: - FUNCTIONS
     private func editProduct(_ product: DMProduct) {
-        vm.selectedProduct = product
+//        setSelectedProduct(product)
+        selectedProduct = product
         vm.showingEditProductView = true
         print("Edit item: \(String(describing: vm.selectedProduct))")
     }
 
+//    private func setSelectedProduct(_ product: DMProduct) {
+//        selectedProduct = product
+//    }
 
     //MARK: - BODY
     var body: some View {
@@ -72,7 +78,7 @@ struct CategoriesProductsView: View {
                     } //: LOOP
 //                    .padding(.top, -10)
                 } //: LIST
-                .listStyle(GroupedListStyle())
+                .listStyle(.insetGrouped)
                 .listRowSpacing(-3)
                 .onAppear {
                     vm.loadCategoriesProductsData()
@@ -106,30 +112,30 @@ struct CategoriesProductsView: View {
                 }
             }
         } //: VSTACK MAIN
-
         .background(Color.background, ignoresSafeAreaEdges: .all)
         .sheet(isPresented: $vm.showingAddProductView) {
-            AddUpdateCategoryProductView()
+            AddUpdateCategoryProductView(vm: vm)
                 .padding(.top, 20)
-                .presentationDetents([.height(260)])
+                .presentationDetents([.height(320)])
                 .presentationBackground(Color.background)
         }
-        // TODO - ADD EDIT PRODUCT
-//        .sheet(isPresented: $vm.showingEditProductView) {
-//            AddUpdateCategoryProductView()
-//                .padding(.top, 20)
-//                .presentationDetents([.height(260)])
-//                .presentationBackground(Color.background)
-//        }
+        .sheet(isPresented: $vm.showingEditProductView) {
+            AddUpdateCategoryProductView(product: selectedProduct, vm: vm)
+                .padding(.top, 20)
+                .presentationDetents([.height(320)])
+                .presentationBackground(Color.background)
+        }
 
     } //: VIEW
 }
 
 //MARK: - PREVIEW
 #Preview {
-    CategoriesProductsView(vm: CategoriesProductsViewModel())
-        .environmentObject(NavigationRouter())
-        .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+    NavigationStack{
+        CategoriesProductsView(vm: CategoriesProductsViewModel())
+            .environmentObject(NavigationRouter())
+            .environment(\.managedObjectContext, PersistenceController.shared.container.viewContext)
+    }
 }
 
 #Preview("Mocked Data") {

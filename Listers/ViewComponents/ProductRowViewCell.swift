@@ -30,7 +30,7 @@ struct ProductRowViewCell: View {
         self.vm = vm
         self.product = product
         self.actionEditProduct = actionEditProduct
-        self.isEditAvailable = isEditAvailable
+        self.isEditAvailable = product.custom
     }
 
     //MARK: - FUNCTIONS

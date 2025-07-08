@@ -40,7 +40,6 @@ class CategoriesProductsViewModel: ObservableObject {
     func fetchCategories() {
         let categoriesResult = persistenceManager.fetchAllCategories()
         if let categoriesFetched = categoriesResult {
-            print(categoriesFetched)
             categories = categoriesFetched
             print("Loaded categories in view model")
 
@@ -51,7 +50,6 @@ class CategoriesProductsViewModel: ObservableObject {
     func fetchProducts() {
         let productsResult = persistenceManager.fetchAllProducts()
         if let productsFetched = productsResult {
-            print(productsFetched)
             products = productsFetched
             print("Loaded products in view model")
 
@@ -62,12 +60,23 @@ class CategoriesProductsViewModel: ObservableObject {
     func getProductsByCategory(_ category: DMCategory) -> [DMProduct] {
         let productsCategory = persistenceManager.fetchProductsByCategory(category)
         if let productsFetched = productsCategory {
-            print("Get products for category")
-            for product in productsFetched {
-                print("\(product.id) - \(String(describing: product.name)) - \(product.categoryId)")
-            }
             return productsFetched
         }
+        return []
+    }
+
+    func getProductsByCategoryId(_ categoryId: Int16) -> [DMProduct] {
+        let getCategoryPredicate = NSPredicate(format: "id == %d", categoryId)
+        let selectedCategory = persistenceManager.fetch(type: DMCategory.self, predicate: getCategoryPredicate)?.first
+        print(selectedCategory ?? "No category found")
+
+        if let selectedCategory = selectedCategory {
+            let productsCategory = persistenceManager.fetchProductsByCategory(selectedCategory)
+            if let productsFetched = productsCategory {
+                return productsFetched
+            }
+        }
+
         return []
     }
 
@@ -87,7 +96,8 @@ class CategoriesProductsViewModel: ObservableObject {
             note: description ?? "",
             categoryId: categoryId,
             active: active,
-            favorite: favorite
+            favorite: favorite,
+            custom: true
         )
         saveUpdates()
     }

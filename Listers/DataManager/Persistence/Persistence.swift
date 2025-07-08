@@ -37,12 +37,19 @@ struct PersistenceController {
         description?.shouldMigrateStoreAutomatically = true
         description?.shouldInferMappingModelAutomatically = true
 
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores { [weak container] _, error in
             if let error = error as NSError? {
                 NSLog("Unresolved error \(error), \(error.userInfo)")
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
-        })
+
+            guard let container = container else { return }
+            let context = container.viewContext
+
+            DataManager.shared.loadInitialDataIfEmpty(for: DMProduct.self, context: context)
+            DataManager.shared.loadInitialDataIfEmpty(for: DMCategory.self, context: context)
+
+        }
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
 
@@ -62,35 +69,6 @@ struct PersistenceController {
             print("Context Saved successfully!")
         }
     }
-
-//    private func loadDataFromJSON() {
-//        guard let url = Bundle.main.url(forResource: "ListersCategoriesES", withExtension: "json"),
-//              let data = try? Data(contentsOf: url) else {
-//            print("Error: the json file was not found")
-//            return
-//        }
-//
-//        do {
-//            let decoder = JSONDecoder()
-//            let jsonData = try decoder.decode([DMCategory].self, from: data)
-//
-//            let context = container.viewContext
-//
-//            // Crear entidades de Core Data desde JSON
-//            for item in jsonData {
-//                let entity = TuEntidad(context: context)
-//                entity.nombre = item.nombre
-//                entity.id = item.id
-//                // Mapear otros campos...
-//            }
-//
-//            try context.save()
-//            print("Datos cargados exitosamente desde JSON")
-//
-//        } catch {
-//            print("Error cargando datos desde JSON: \(error)")
-//        }
-//    }
 
     //MARK: - PREVIEW CONTENT
 

@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "name": "Alimentación",
+        "expanded": false
+    },
+    {
+        "id": 2,
+        "name": "Bebidas",
+        "expanded": false
+    },
+    {
+        "id": 3,
+        "name": "Frutas y verduras",
+        "expanded": false
+    },
+    {
+        "id": 4,
+        "name": "Hogar y cocina",
+        "expanded": false
+    },
+    {
+        "id": 5,
+        "name": "Bricolaje y herramientas",
+        "expanded": false
+    },
+    {
+        "id": 6,
+        "name": "Oficina y papelería",
+        "expanded": false
+    },
+    {
+        "id": 7,
+        "name": "Ropa y calzado",
+        "expanded": false
+    },
+    {
+        "id": 8,
+        "name": "Deporte y aire libre",
+        "expanded": false
+    },
+    {
+        "id": 9,
+        "name": "Salud y belleza",
+        "expanded": false
+    },
+    {
+        "id": 10,
+        "name": "Otros",
+        "expanded": false
+    }
+]
