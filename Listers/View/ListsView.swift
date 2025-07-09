@@ -54,24 +54,28 @@ struct ListsView: View {
     var body: some View {
         VStack {
             List {
-                ForEach(lists, id: \.self) { list in
-                    ListRowCellView(
-                        vm: vm,
-                        selectedList: list,
-                        listItems: vm.fetchItemsForList(list),
-                        actionEditList: {editList(list)}
-                    )
-                    .onTapGesture {
-                        vm.updateSelectedList(list)
-                        print(vm.selectedList!)
+                if vm.isListEmpty {
+                    EmptyView()
+                } else {
+                    ForEach(lists, id: \.self) { list in
+                        ListRowCellView(
+                            vm: vm,
+                            selectedList: list,
+                            listItems: vm.fetchItemsForList(list),
+                            actionEditList: {editList(list)}
+                        )
+                        .onTapGesture {
+                            vm.updateSelectedList(list)
+                            print(vm.selectedList!)
 
-                        withTransaction(Transaction(animation: nil)) {
-                            router.navigateTo(.main)
+                            withTransaction(Transaction(animation: nil)) {
+                                router.navigateTo(.main)
+                            }
                         }
                     }
+                    .listRowSeparator(.hidden)
+                    .listRowBackground(Color.clear)
                 }
-                .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
             } //: LIST
             .listStyle(.plain)
             .listRowSpacing(-3)
@@ -91,16 +95,16 @@ struct ListsView: View {
             .scrollContentBackground(.hidden)
             .background(Color.background)
             .gesture(DragGesture(minimumDistance: 20, coordinateSpace: .global)
-                .onChanged { value in
-                    if vm.lists.isEmpty { return }
+            .onChanged { value in
+                if vm.lists.isEmpty { return }
 
-                    guard value.startLocation.x < 100,
-                          value.translation.width > 60 else {
-                        return
-                    }
+                guard value.startLocation.x < 100,
+                      value.translation.width > 60 else {
+                    return
+                }
 
-                    router.navigateTo(.main)
-                })
+                router.navigateTo(.main)
+            })
         } //: VSTACK MAIN
         .onReceive(vm.$lists) { _ in
             sortLists()
@@ -117,8 +121,9 @@ struct ListsView: View {
                 .presentationDetents([.height(220)])
                 .presentationBackground(Color.background)
         }
-    } //: VIEW
-}
+    } //: VIEW BODY
+} //: VIEW MAIN
+
 
 //MARK: - PREVIEW
 #Preview {

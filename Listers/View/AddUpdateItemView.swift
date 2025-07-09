@@ -28,7 +28,15 @@ struct AddUpdateItemView: View {
     @State private var errorTitle : String = ""
     @State private var errorMessage : String = ""
 
-    @FocusState private var isFocused: Bool
+    @FocusState private var isNameTextFieldFocused: Bool
+    @FocusState private var isSearchBarFocused: Bool
+
+    @State private var showSearchBar: Bool = false
+    @State private var searchText: String = ""
+
+    var searchResults: [String] {
+        return vm.productNames.filter { $0.lowercased().contains(searchText.lowercased()) }
+    }
 
     var itemTitle : String {
         isItemToUpdate ? "Edit Item" : "New Item"
@@ -104,7 +112,7 @@ struct AddUpdateItemView: View {
                 //MARK: - NAME
                 TextField(name.isEmpty ? "Add Name" : name, text: $name)
                     .autocorrectionDisabled(true)
-                    .focused($isFocused)
+                    .focused($isNameTextFieldFocused)
                     .foregroundStyle(.primaryText)
 
                 Divider()
@@ -158,22 +166,76 @@ struct AddUpdateItemView: View {
 
                 //MARK: - SEARCH BUTTON
                 if(!isItemToUpdate) {
-                    //TODO - Add search in categories
-//                        Button(action: {
-//                            //TODO - Open products page as sheet
-//
-//                        }) {
-//                            Text("Search in products")
-//                                .font(.system(size: 20, weight: .medium))
-//                                .padding(10)
-//                                .frame(minWidth: 0, maxWidth: .infinity)
-//                                .background(
-//                                    Capsule()
-//                                        .fill(.white)
-//                                        .stroke(Color.darkBlue, lineWidth: 1)
-//                                )
-//                                .foregroundStyle(.darkBlue)
-//                        } //: SEARCH BUTTON
+                    if !showSearchBar {
+                        Button(action: {
+                            //TODO - Open products page as sheet
+                            showSearchBar = true
+                        }) {
+                            Text("Search in products")
+                                .font(.system(size: 20, weight: .medium))
+                                .padding(10)
+                                .frame(minWidth: 0, maxWidth: .infinity)
+                                .background(
+                                    Capsule()
+                                        .fill(Color.background)
+                                        .stroke(Color.mediumBlue, lineWidth: 1)
+                                )
+                                .foregroundStyle(.lightBlue)
+                        } //: SEARCH BUTTON
+                    } else {
+                        VStack {
+                            HStack {
+                                TextField("Search...", text: $searchText)
+                                    .autocorrectionDisabled(true)
+                                    .textFieldStyle(.plain)
+
+                                    .focused($isSearchBarFocused)
+                                    .onAppear {
+                                        isSearchBarFocused = true
+                                    }
+                                    .onSubmit {
+                                        self.name = searchText
+                                    }
+
+                                Spacer()
+
+                                Image(systemName: "xmark.circle.fill")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .foregroundStyle(.gray)
+                                    .onTapGesture {
+                                        showSearchBar = false
+                                    }
+                            } //: HSTACK - SEARCHBAR
+                            .padding(.horizontal, 15)
+                            .padding(.vertical, 11)
+                            .background(
+                                Capsule()
+                                    .fill(Color.background)
+                                    .stroke(Color.mediumBlue, lineWidth: 1)
+                            )
+
+                            VStack {
+                                List(searchResults, id: \.self) { name in
+                                    Text(name)
+                                        .onTapGesture {
+                                            self.name = name
+                                            showSearchBar = false
+                                            searchText = ""
+                                        }
+                                        .listRowBackground(Color.background)
+                                } //: LIST - SEARCH OPTIONS
+                                .scrollIndicators(.visible)
+                                .scrollContentBackground(.hidden)
+                                .listStyle(.inset)
+                                .listRowSpacing(-5)
+                                .padding(EdgeInsets(top: -8, leading: -5, bottom: 10, trailing: 0))
+                            } //: VSTACK
+                        } //: VSTACK SEARCH BLOCK
+                        .onAppear {
+                            vm.setProductNames()
+                        }
+                    }
                 }
             } //: VSTACK
             .padding(20)
@@ -191,20 +253,20 @@ struct AddUpdateItemView: View {
                         .foregroundStyle(.darkBlue)
                 } //: DISSMISS BUTTON
             }
-            ToolbarItem(placement: .topBarLeading) {
-                Button(action: {
-                    //TODO - Open products page as sheet
-                }) {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundStyle(.darkBlue)
-                } //: SEARCH BUTTON
-            }
+//            ToolbarItem(placement: .topBarLeading) {
+//                Button(action: {
+//                    //TODO - Open products page as sheet
+//                }) {
+//                    Image(systemName: "magnifyingglass")
+//                        .foregroundStyle(.darkBlue)
+//                } //: SEARCH BUTTON
+//            }
         }
         .alert(isPresented: $errorShowing) {
             Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
         }
         .onAppear{
-            isFocused = true
+            isNameTextFieldFocused = true
         }
     } //: VIEW
 }

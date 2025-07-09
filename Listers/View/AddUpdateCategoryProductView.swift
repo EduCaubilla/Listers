@@ -27,7 +27,15 @@ struct AddUpdateCategoryProductView: View {
     @State private var errorTitle : String = ""
     @State private var errorMessage : String = ""
 
-    @FocusState private var isFocused: Bool
+    @FocusState private var isNameTextFieldFocused: Bool
+    @FocusState private var isSearchBarFocused: Bool
+
+    @State private var showSearchBar: Bool = false
+    @State private var searchText: String = ""
+
+    var searchResults: [String] {
+        return vm.productNames.filter { $0.lowercased().contains(searchText.lowercased()) }
+    }
 
     var itemTitle : String {
         isProductToUpdate ? "Edit Product" : "New Product"
@@ -90,83 +98,165 @@ struct AddUpdateCategoryProductView: View {
         }
     }
 
+    private func getCategoryFromProductName(_ name: String) -> Categories {
+        if let categoryId = vm.getCategoryIdByProductName(name) {
+            return Categories.idMapper(for: Int16(categoryId))
+        }
+        print(selectedCategory)
+        return selectedCategory
+    }
 
     //MARK: - BODY
     var body: some View {
         VStack {
             VStack(alignment: .leading, spacing: 10) {
-                //MARK: - NAME
-                TextField(name.isEmpty ? "Add Name" : name, text: $name)
-                    .autocorrectionDisabled(true)
-                    .focused($isFocused)
-                    .foregroundStyle(.primaryText)
-
-                Divider()
-
-                //MARK: - DESCRIPTION
-                TextField(description.isEmpty ? "Add description" : description, text: $description)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(3)
-                    .autocorrectionDisabled(true)
-                    .foregroundStyle(.primaryText)
-
-                Divider()
-
-                //MARK: - CATEGORY
-                HStack {
-                    Text("Category")
-                    
-                    Spacer()
-                    
-                    Picker("Category", selection: $selectedCategory) {
-                        ForEach(Categories.allCases) { category in
-                            Text(category.displayName).tag(category)
+                //MARK: - MAIN FORM
+                VStack {
+                    TextField(name.isEmpty ? "Add Name" : name, text: $name)
+                        .autocorrectionDisabled(true)
+                        .focused($isNameTextFieldFocused)
+                        .foregroundStyle(.primaryText)
+                        .onChange(of: name) { oldValue, newValue in
+                            showSearchBar = false
+                            if newValue == "" {
+                                selectedCategory = .allCases.first!
+                            }
                         }
-                    } //: PICKER
-                    .pickerStyle(MenuPickerStyle())
-                    .padding(.trailing, -10)
-                }
 
-                //MARK: - FAVORITE
-                Toggle("Favorite", isOn: $favorite)
-                    .padding(.top, 5)
+                    Divider()
 
+                    //MARK: - DESCRIPTION
+                    TextField(description.isEmpty ? "Add description" : description, text: $description)
+                        .autocorrectionDisabled(true)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(3)
+                        .autocorrectionDisabled(true)
+                        .foregroundStyle(.primaryText)
 
-                //MARK: - ACTIVE //TODO - only in edit
-                Toggle("Active", isOn: $active)
-                    .padding(.top, 5)
+                    Divider()
 
+                    //MARK: - CATEGORY
+                    HStack {
+                        Text("Category")
 
-                //MARK: - SAVE BUTTON
-                SaveButtonView(text: "Save", action: {
-                    if(isProductToUpdate) {
-                        updateProduct()
-                    } else {
-                        saveNewProduct()
+                        Spacer()
+
+                        Picker("Category", selection: $selectedCategory) {
+                            ForEach(Categories.allCases, id: \.self) { category in
+                                Text(category.displayName).tag(category)
+                            }
+                        } //: PICKER
+                        .pickerStyle(MenuPickerStyle())
+                        .padding(.trailing, -10)
                     }
-                    dismiss()
-                })
-                .padding(.top, 10)
+
+                    //MARK: - FAVORITE
+                    Toggle("Favorite", isOn: $favorite)
+                        .padding(.top, 5)
+
+
+                    //MARK: - ACTIVE //TODO - only in edit
+                    Toggle("Active", isOn: $active)
+                        .padding(.top, 5)
+
+
+                    //MARK: - SAVE BUTTON
+                    SaveButtonView(text: "Save", action: {
+                        if(isProductToUpdate) {
+                            updateProduct()
+                        } else {
+                            saveNewProduct()
+                        }
+                        dismiss()
+                    })
+                    .padding(.top, 10)
+                } //: VSTACK MAIN
+                .onTapGesture {
+                    if showSearchBar {
+                        showSearchBar = false
+                    }
+                }
 
                 //MARK: - SEARCH BUTTON
-                if(!isProductToUpdate) {
-                    //TODO - Add search in categories
-//                        Button(action: {
-//                            //TODO - Open products page as sheet
-//
-//                        }) {
-//                            Text("Search in products")
-//                                .font(.system(size: 20, weight: .medium))
-//                                .padding(10)
-//                                .frame(minWidth: 0, maxWidth: .infinity)
-//                                .background(
-//                                    Capsule()
-//                                        .fill(.white)
-//                                        .stroke(Color.darkBlue, lineWidth: 1)
-//                                )
-//                                .foregroundStyle(.darkBlue)
-//                        } //: SEARCH BUTTON
-                }
+                VStack {
+                    if !isProductToUpdate {
+                        if !showSearchBar {
+                            Button(action: {
+                                //TODO - Open products page as sheet
+                                showSearchBar = true
+                            }) {
+                                Text("Search in products")
+                                    .font(.system(size: 20, weight: .medium))
+                                    .padding(10)
+                                    .frame(minWidth: 0, maxWidth: .infinity)
+                                    .background(
+                                        Capsule()
+                                            .fill(Color.background)
+                                            .stroke(Color.mediumBlue, lineWidth: 1)
+                                    )
+                                    .foregroundStyle(.lightBlue)
+                            } //: SEARCH BUTTON
+                        } else {
+                            VStack {
+                                HStack {
+                                    TextField("Search...", text: $searchText)
+                                        .autocorrectionDisabled(true)
+                                        .textFieldStyle(.plain)
+
+                                        .focused($isSearchBarFocused)
+                                        .onAppear {
+                                            isSearchBarFocused = true
+                                        }
+                                        .onSubmit {
+                                            self.name = searchText
+                                            withAnimation {
+                                                self.selectedCategory = getCategoryFromProductName(searchText)
+                                            }
+                                        }
+
+                                    Spacer()
+
+                                    Image(systemName: "xmark.circle.fill")
+                                        .resizable()
+                                        .frame(width: 20, height: 20)
+                                        .foregroundStyle(.gray)
+                                        .onTapGesture {
+                                            showSearchBar = false
+                                        }
+                                } //: HSTACK - SEARCHBAR
+                                .padding(.horizontal, 15)
+                                .padding(.vertical, 11)
+                                .background(
+                                    Capsule()
+                                        .fill(Color.background)
+                                        .stroke(Color.mediumBlue, lineWidth: 1)
+                                )
+
+                                VStack {
+                                    List(searchResults, id: \.self) { name in
+                                        Text(name)
+                                            .onTapGesture {
+                                                self.name = name
+                                                withAnimation {
+                                                    self.selectedCategory = getCategoryFromProductName(name)
+                                                }
+                                                showSearchBar = false
+                                                searchText = ""
+                                            }
+                                            .listRowBackground(Color.background)
+//                                            .listRowSeparator(.hidden)
+                                    } //: LIST - SEARCH OPTIONS
+                                    .scrollIndicators(.visible)
+                                    .scrollContentBackground(.hidden)
+                                    .listStyle(.inset)
+                                    .listRowSpacing(-5)
+                                    .padding(EdgeInsets(top: -8, leading: -5, bottom: 10, trailing: 0))
+                                } //: VSTACK
+                            } //: VSTACK SEARCH BLOCK
+                        }
+                    }
+                } //: VSTACK SEARCH
+                .animation(.easeInOut, value: showSearchBar)
             } //: VSTACK
             .padding(20)
 
@@ -183,21 +273,14 @@ struct AddUpdateCategoryProductView: View {
                         .foregroundStyle(.darkBlue)
                 } //: DISSMISS BUTTON
             }
-//            ToolbarItem(placement: .topBarLeading) {
-//                Button(action: {
-//                    //TODO - Open products page as sheet
-//                }) {
-//                    Image(systemName: "magnifyingglass")
-//                        .foregroundStyle(.darkBlue)
-//                } //: SEARCH BUTTON
-//            }
         }
         .alert(isPresented: $errorShowing) {
             Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
         }
         .onAppear{
-            isFocused = true
+            isNameTextFieldFocused = true
         }
+        .background(Color.background)
     } //: VIEW
 }
 

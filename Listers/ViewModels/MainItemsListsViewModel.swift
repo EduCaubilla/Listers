@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 
+@MainActor
 class MainItemsListsViewModel: ObservableObject {
     //MARK: - PROPERTIES
     private let persistenceManager : any PersistenceManagerProtocol
@@ -15,12 +16,16 @@ class MainItemsListsViewModel: ObservableObject {
     @Published var selectedList: DMList?
     @Published var itemsOfSelectedList: [DMItem] = []
     @Published var lists: [DMList] = []
-    @Published var isListEmpty: Bool = true
+
+    @Published var productNames: [String] = []
 
     @Published var showingAddItemView : Bool = false
     @Published var showingUpdateItemView : Bool = false
     @Published var showingAddListView : Bool = false
 
+    var isListEmpty: Bool {
+        lists.isEmpty
+    }
 
     //MARK: - INITIALIZER
     init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
@@ -52,14 +57,12 @@ class MainItemsListsViewModel: ObservableObject {
 
     func fetchLists() {
         let listsResult = persistenceManager.fetchAllLists()
-        print("Lists fetched: \(listsResult?.count ?? 0) -->")
+        print("Lists fetched: \(listsResult?.count ?? 0)")
         if let listsResult = listsResult {
             self.lists = listsResult
-            isListEmpty = listsResult.isEmpty
-            lists.forEach { print($0.name ?? "Unknown") }
-            print("----")
             return
         } else {
+            lists = []
             print("There are no lists.")
         }
     }
@@ -111,7 +114,10 @@ class MainItemsListsViewModel: ObservableObject {
     }
 
     func fetchItemsForList(_ list: DMList) -> [DMItem] {
-        return persistenceManager.fetchItemsForList(withId: list.id!) ?? []
+        if list.id != nil {
+            return persistenceManager.fetchItemsForList(withId: list.id!) ?? []
+        }
+        return []
     }
 
     func addList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool) {
@@ -126,16 +132,34 @@ class MainItemsListsViewModel: ObservableObject {
 
     func saveUpdates() {
         persistenceManager.savePersistence()
-        refreshData()
+        refreshItemsListData()
     }
 
     func delete<T: NSManagedObject>(_ object: T) {
         persistenceManager.remove(object)
-        refreshData()
+        refreshItemsListData()
     }
 
-    private func refreshData() {
+    private func refreshItemsListData() {
         fetchLists()
         loadItemsForSelectedList()
+    }
+
+    func getProductNames() -> [String] {
+        var productNameList: [String] = []
+
+        let productsResult = persistenceManager.fetchAllProducts()
+        if let products = productsResult {
+            for product in products {
+                productNameList.append(product.name!)
+            }
+        }
+
+        return productNameList
+    }
+
+    func setProductNames() {
+        productNames = getProductNames()
+        print("Product names set in MainItemsListsViewModel : \(productNames.count)")
     }
 }

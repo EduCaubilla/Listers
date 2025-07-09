@@ -23,6 +23,8 @@ struct PersistenceManager : PersistenceManagerProtocol {
     }
 
     //MARK: - FUNCTIONS
+
+    //MARK: - ITEMS/LISTS
     func createItem(name: String, description: String?, quantity: Int16, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) {
         print("PersistenceManager: Create item \(name)")
 
@@ -97,6 +99,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         return nil
     }
 
+    //MARK: - GENERIC
     func fetch<T: NSManagedObject>(type: T.Type, predicate: NSPredicate?) -> [T]? {
         let fetchRequest = T.fetchRequest()
         fetchRequest.predicate = predicate
@@ -128,6 +131,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         savePersistence()
     }
 
+    //MARK: - CATEGORIES/PRODUCTS
     func fetchLastProductId() -> Int {
         let allProducts = fetchAllProducts()
         if let allProducts = allProducts {
@@ -142,34 +146,18 @@ struct PersistenceManager : PersistenceManagerProtocol {
         return 1000
     }
 
-    func createProduct(id: Int, name: String, note: String?, categoryId: Int, active: Bool, favorite: Bool, custom: Bool = true) {
+    func createProduct(id: Int, name: String, note: String?, categoryId: Int16, active: Bool, favorite: Bool, custom: Bool = true) {
         let newProduct = DMProduct(context: viewContext)
         newProduct.uuid = UUID()
         newProduct.id = Int16(id)
         newProduct.name = name
         newProduct.note = note
-        newProduct.categoryId = Int16(categoryId)
+        newProduct.categoryId = categoryId
         newProduct.active = active
         newProduct.favorite = favorite
         newProduct.custom = custom
 
         savePersistence()
-    }
-
-    func fetchProductsByCategory(_ category: DMCategory) -> [DMProduct]? {
-        let fetchRequest: NSFetchRequest<DMProduct> = DMProduct.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "categoryId == %d", category.id)
-
-        do {
-            let fetchResult = try viewContext.fetch(fetchRequest)
-            if !fetchResult.isEmpty {
-                return fetchResult
-            }
-        } catch {
-            print("There was an error fetching products by category: \(error.localizedDescription)")
-        }
-
-        return nil
     }
 
     func fetchAllCategories() -> [DMCategory]? {
@@ -193,6 +181,39 @@ struct PersistenceManager : PersistenceManagerProtocol {
         }
         catch {
             print("Error fetching lists in PersistenceManager: \(error.localizedDescription)")
+        }
+
+        return nil
+    }
+
+    func fetchProductsByCategory(_ category: DMCategory) -> [DMProduct]? {
+        let fetchRequest: NSFetchRequest<DMProduct> = DMProduct.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "categoryId == %d", category.id)
+
+        do {
+            let fetchResult = try viewContext.fetch(fetchRequest)
+            if !fetchResult.isEmpty {
+                return fetchResult
+            }
+        } catch {
+            print("There was an error fetching products by category: \(error.localizedDescription)")
+        }
+
+        return nil
+    }
+
+    func fetchProductByCategoryId(_ categoryId: Int16) -> DMProduct? {
+        let fetchRequest: NSFetchRequest<DMProduct> = DMProduct.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %d", categoryId)
+
+        do {
+            let fetchResult = try viewContext.fetch(fetchRequest)
+            if !fetchResult.isEmpty,
+               let fetchResultProduct = fetchResult.first {
+                return fetchResultProduct
+            }
+        } catch {
+            print("There was an error fetching products by category: \(error.localizedDescription)")
         }
 
         return nil

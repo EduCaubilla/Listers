@@ -15,6 +15,7 @@ class CategoriesProductsViewModel: ObservableObject {
     @Published var categories: [DMCategory] = []
     @Published var products: [DMProduct] = []
     @Published var productsByCategory: [DMProduct] = []
+    @Published var productNames: [String] = []
 
     @Published var selectedCategory: DMCategory?
     @Published var selectedProduct: DMProduct?
@@ -41,9 +42,8 @@ class CategoriesProductsViewModel: ObservableObject {
         let categoriesResult = persistenceManager.fetchAllCategories()
         if let categoriesFetched = categoriesResult {
             categories = categoriesFetched
-            print("Loaded categories in view model")
 
-            print(categories.count)
+            print("Loaded categories in view model: \(categories.count)")
         }
     }
 
@@ -51,33 +51,32 @@ class CategoriesProductsViewModel: ObservableObject {
         let productsResult = persistenceManager.fetchAllProducts()
         if let productsFetched = productsResult {
             products = productsFetched
-            print("Loaded products in view model")
+            productNames = getProductNames()
 
-            print(products.count)
+            print("Loaded products in view model \(products.count)")
         }
     }
 
+    func getProductNames() -> [String] {
+        var productNames: [String] = []
+        for product in products {
+            productNames.append(product.name!)
+        }
+        return productNames
+    }
+
     func getProductsByCategory(_ category: DMCategory) -> [DMProduct] {
-        let productsCategory = persistenceManager.fetchProductsByCategory(category)
-        if let productsFetched = productsCategory {
+        if let productsFetched = persistenceManager.fetchProductsByCategory(category) {
             return productsFetched
         }
         return []
     }
 
-    func getProductsByCategoryId(_ categoryId: Int16) -> [DMProduct] {
-        let getCategoryPredicate = NSPredicate(format: "id == %d", categoryId)
-        let selectedCategory = persistenceManager.fetch(type: DMCategory.self, predicate: getCategoryPredicate)?.first
-        print(selectedCategory ?? "No category found")
-
-        if let selectedCategory = selectedCategory {
-            let productsCategory = persistenceManager.fetchProductsByCategory(selectedCategory)
-            if let productsFetched = productsCategory {
-                return productsFetched
-            }
+    func getProductByCategoryId(_ categoryId: Int16) -> DMProduct? {
+        if let productFetched = persistenceManager.fetchProductByCategoryId(categoryId) {
+            return productFetched
         }
-
-        return []
+        return nil
     }
 
     func setProductsByCategory(_ category: DMCategory) {
@@ -89,12 +88,23 @@ class CategoriesProductsViewModel: ObservableObject {
         return newId != 0 ? newId + 1 : 0
     }
 
+    func getCategoryIdByProductName(_ name: String) -> Int16? {
+        if !products.isEmpty,
+            !name.isEmpty {
+            if let product = products.first(where: { $0.name == name }) {
+                return product.categoryId
+            }
+        }
+
+        return nil
+    }
+
     func saveNewProduct(id: Int, name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
         persistenceManager.createProduct(
             id: createIdForNewProduct(),
             name: name,
             note: description ?? "",
-            categoryId: categoryId,
+            categoryId: Int16(categoryId),
             active: active,
             favorite: favorite,
             custom: true
@@ -104,17 +114,16 @@ class CategoriesProductsViewModel: ObservableObject {
 
     func saveUpdates() {
         persistenceManager.savePersistence()
-        refreshData()
+        refreshCategoriesProductsData()
     }
 
     func delete<T: NSManagedObject>(_ object: T) {
         persistenceManager.remove(object)
-        refreshData()
+        refreshCategoriesProductsData()
     }
 
-    private func refreshData() {
+    private func refreshCategoriesProductsData() {
+        fetchProducts()
         fetchCategories()
-        // TODO - Update products from category containing the new/updated product to refresh view?
     }
-
 }

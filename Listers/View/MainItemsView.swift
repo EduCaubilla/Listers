@@ -125,7 +125,7 @@ struct MainItemsView: View {
             .sheet(isPresented: $vm.showingAddItemView, onDismiss: vm.loadItemsForSelectedList) {
                 AddUpdateItemView(vm: vm)
                     .padding(.top, 20)
-                    .presentationDetents([.height(320)])
+                    .presentationDetents([.medium])
                     .presentationBackground(Color.background)
             }
             .sheet(isPresented: $vm.showingUpdateItemView, onDismiss: vm.loadItemsForSelectedList) {

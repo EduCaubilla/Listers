@@ -21,8 +21,10 @@ struct PersistenceController {
 
         if inMemory {
             description?.url = URL(fileURLWithPath: "/dev/null")
-//        } else {
-//            #if DEBUG
+        }
+//        // TO REMOVE STORED DATA IN CASE OF ERROR IN DEBUG PREVIEW
+//        else {
+//        #if DEBUG
 //            if let storeURL = description?.url {
 //                do {
 //                    try FileManager.default.removeItem(at: storeURL)
@@ -31,8 +33,7 @@ struct PersistenceController {
 //                    print("Couldn't remove store data: \(error)")
 //                }
 //            }
-//            #endif
-        }
+//        #endif
 
         description?.shouldMigrateStoreAutomatically = true
         description?.shouldInferMappingModelAutomatically = true

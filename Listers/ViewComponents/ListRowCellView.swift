@@ -159,7 +159,7 @@ struct ListRowCellView: View {
     } //: VIEW
 
 }
-
+#if DEBUG
     private func getListPreview() -> DMList {
         @Environment(\.managedObjectContext) var viewContext
 
@@ -201,6 +201,7 @@ struct ListRowCellView: View {
 
         return result
     }
+#endif
 
     //MARK: - PREVIEW
     #Preview (traits: .sizeThatFitsLayout) {

@@ -52,7 +52,7 @@ protocol PersistenceManagerProtocol {
         id: Int,
         name: String,
         note: String?,
-        categoryId: Int,
+        categoryId: Int16,
         active: Bool,
         favorite: Bool,
         custom: Bool
@@ -60,4 +60,6 @@ protocol PersistenceManagerProtocol {
     func fetchAllCategories() -> [DMCategory]?
     func fetchAllProducts() -> [DMProduct]?
     func fetchProductsByCategory(_ category: DMCategory) -> [DMProduct]?
+    func fetchProductByCategoryId(_ categoryId: Int16) -> DMProduct?
+
 }
