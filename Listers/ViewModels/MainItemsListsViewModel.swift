@@ -56,7 +56,7 @@ class MainItemsListsViewModel: ObservableObject {
     func loadListsItemsData() {
         print("\n------\n\nLoad Init Data VM ----->")
 
-        fetchLists()
+        loadLists()
 
         guard !isListEmpty else {
             print ("Lists is empty")
@@ -67,7 +67,7 @@ class MainItemsListsViewModel: ObservableObject {
         loadItemsForSelectedList()
     }
 
-    func fetchLists() {
+    func loadLists() {
         let listsResult = persistenceManager.fetchAllLists()
         print("Lists fetched: \(listsResult?.count ?? 0)")
         if let listsResult = listsResult {
@@ -112,7 +112,7 @@ class MainItemsListsViewModel: ObservableObject {
     }
 
     private func refreshItemsListData() {
-        fetchLists()
+        loadLists()
         loadItemsForSelectedList()
     }
 

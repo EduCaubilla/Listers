@@ -90,8 +90,9 @@ struct AddUpdateListView: View {
             VStack(alignment: .leading, spacing: 10) {
                 //MARK: - NAME
                 TextField("Name", text: $name)
-                    .autocorrectionDisabled(true)
                     .focused($isFocused)
+                    .lineLimit(1)
+                    .autocorrectionDisabled(true)
 
                 Divider()
 

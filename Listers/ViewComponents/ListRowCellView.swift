@@ -18,9 +18,10 @@ struct ListRowCellView: View {
 
     var actionEditList: () -> Void
 
-    @State var isExpanded: Bool = true
-
     @State private var showingDeleteConfirmation: Bool = false
+    @State private var showingChangeName: Bool = false
+    @State private var nameToChange: String = ""
+
     private var deleteWarningTitle: String = "Delete List"
     private var deleteWarningMessage: String = "Are you sure you want to delete this list? You won't be able to restore it."
 
@@ -40,7 +41,6 @@ struct ListRowCellView: View {
         self.selectedList = selectedList
         self.listItems = listItems
         self.actionEditList = actionEditList
-        self.isExpanded = selectedList.expanded
     }
 
     //MARK: - FUNCTIONS
@@ -54,15 +54,9 @@ struct ListRowCellView: View {
         saveUpdatedList()
     }
 
-    private func updateExpanded() {
-        isExpanded.toggle()
-        selectedList.expanded.toggle()
-        saveUpdatedList()
-    }
-
     private func saveUpdatedList() {
         vm.saveItemListsChanges()
-        vm.fetchLists()
+        vm.loadLists()
     }
 
     //MARK: - BODY
@@ -70,9 +64,23 @@ struct ListRowCellView: View {
         VStack {
             HStack(alignment: .center, spacing: 5) {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text(selectedList.name ?? "")
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundStyle(.darkBlue)
+                    if showingChangeName {
+                        TextField("List Title", text: $nameToChange)
+                            .font(.system(size: 22, weight: .semibold))
+                            .foregroundStyle(.darkBlue)
+                            .onSubmit {
+                                selectedList.name = nameToChange
+                            }
+                    } else {
+                        Text(selectedList.name ?? "")
+                            .font(.system(size: 22, weight: .semibold))
+                            .foregroundStyle(.darkBlue)
+                            .onTapGesture(count: 2) {
+                                showingChangeName = true
+                                nameToChange = selectedList.name ?? ""
+                            }
+                    }
+
                     Text("^[\(listItems.count) Article](inflect: true)")
                         .font(.subheadline)
                         .foregroundStyle(.lightBlue)
@@ -86,9 +94,10 @@ struct ListRowCellView: View {
                     .padding(.trailing)
                     .foregroundStyle(.lightBlue)
 
-                Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
+                Image(systemName: selectedList.expanded ? "chevron.down" : "chevron.right")
                     .onTapGesture {
-                        isExpanded.toggle()
+                        selectedList.expanded = !selectedList.expanded
+                        vm.updateSelectedList(selectedList)
                     }
                     .foregroundStyle(.darkBlue)
             } //: HSTACK
@@ -125,7 +134,7 @@ struct ListRowCellView: View {
             }
 
             VStack(alignment: .center, spacing: 0) {
-                if(isExpanded) {
+                if(selectedList.expanded) {
                     //MARK: - List items
                     ForEach(listItems, id: \.self) { item in
                         ItemRowCellView(
@@ -154,7 +163,7 @@ struct ListRowCellView: View {
             }
 
         } //: VSTACK MAIN
-        .padding(.top, isExpanded ? 6 : 0)
+        .padding(.top, selectedList.expanded ? 6 : 0)
         .background(Color.background)
     } //: VIEW
 
