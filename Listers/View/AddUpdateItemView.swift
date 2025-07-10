@@ -98,7 +98,7 @@ struct AddUpdateItemView: View {
             itemToUpdate.favorite = favorite
             itemToUpdate.priority = priority.rawValue
 
-            vm.saveUpdates()
+            vm.saveItemListsChanges()
         } else {
             print("Item could not be updated.")
         }
@@ -233,7 +233,7 @@ struct AddUpdateItemView: View {
                             } //: VSTACK
                         } //: VSTACK SEARCH BLOCK
                         .onAppear {
-                            vm.setProductNames()
+                            vm.loadProductNames()
                         }
                     }
                 }

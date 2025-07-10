@@ -61,7 +61,7 @@ struct ListRowCellView: View {
     }
 
     private func saveUpdatedList() {
-        vm.saveUpdates()
+        vm.saveItemListsChanges()
         vm.fetchLists()
     }
 

@@ -7,11 +7,12 @@
 
 import SwiftUI
 import CoreData
+import Combine
 
-@MainActor
 class MainItemsListsViewModel: ObservableObject {
     //MARK: - PROPERTIES
     private let persistenceManager : any PersistenceManagerProtocol
+    private var cancellables = Set<AnyCancellable>()
 
     @Published var selectedList: DMList?
     @Published var itemsOfSelectedList: [DMItem] = []
@@ -27,13 +28,31 @@ class MainItemsListsViewModel: ObservableObject {
         lists.isEmpty
     }
 
+    var hasSelectedList: Bool {
+        selectedList != nil
+    }
+
+    var selectedListName: String {
+        selectedList?.name ?? ""
+    }
+
     //MARK: - INITIALIZER
     init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
         self.persistenceManager = persistenceManager
+        setupSelectedListDataBinding()
         loadListsItemsData()
     }
 
     //MARK: - FUNCTIONS
+    private func setupSelectedListDataBinding() {
+        $selectedList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.loadItemsForSelectedList()
+            }
+            .store(in: &cancellables)
+    }
+
     func loadListsItemsData() {
         print("\n------\n\nLoad Init Data VM ----->")
 
@@ -45,13 +64,6 @@ class MainItemsListsViewModel: ObservableObject {
         }
 
         checkSelectedList()
-
-        guard selectedList != nil else {
-            print ("There's no selected list")
-            setDefaultSelectedList()
-            return
-        }
-
         loadItemsForSelectedList()
     }
 
@@ -67,13 +79,13 @@ class MainItemsListsViewModel: ObservableObject {
         }
     }
 
-    func checkSelectedList() {
+    private func checkSelectedList() {
         if(selectedList == nil) {
             setSelectedList()
         }
     }
 
-    func setSelectedList() {
+    private func setSelectedList() {
         if lists.isEmpty { return }
 
         selectedList = lists.first(where: { $0.selected })
@@ -85,18 +97,30 @@ class MainItemsListsViewModel: ObservableObject {
         print("Set selected List \(String(describing: selectedList?.name))")
     }
 
-    func setDefaultSelectedList() {
-        if !lists.isEmpty {
-            selectedList = lists[0]
-            lists[0].selected = true
-            saveUpdates()
-        }
-    }
-
     func updateSelectedList(_ newList: DMList) {
         selectedList = newList
         lists.forEach { $0.selected = $0.id == newList.id }
-        saveUpdates()
+        saveItemListsChanges()
+    }
+
+    private func setDefaultSelectedList() {
+        guard !lists.isEmpty else { return }
+
+        selectedList = lists[0]
+        lists[0].selected = true
+        saveItemListsChanges()
+    }
+
+    private func refreshItemsListData() {
+        fetchLists()
+        loadItemsForSelectedList()
+    }
+
+    func fetchItemsForList(_ list: DMList) -> [DMItem] {
+        if list.id != nil {
+            return persistenceManager.fetchItemsForList(withId: list.id!) ?? []
+        }
+        return []
     }
 
     func loadItemsForSelectedList() {
@@ -113,24 +137,25 @@ class MainItemsListsViewModel: ObservableObject {
         }
     }
 
-    func fetchItemsForList(_ list: DMList) -> [DMItem] {
-        if list.id != nil {
-            return persistenceManager.fetchItemsForList(withId: list.id!) ?? []
+    func loadProductNames(){
+        let productsResult = persistenceManager.fetchAllProducts()
+        if let products = productsResult {
+            productNames = products.map { $0.name! }
+            print("Product names loaded: \(productNames.count)")
         }
-        return []
     }
 
     func addList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool) {
         _ = persistenceManager.createList(name: name, description: description, creationDate: creationDate, endDate: endDate, pinned: pinned, selected: selected, expanded: expanded)
-        saveUpdates()
+        saveItemListsChanges()
     }
 
     func addItem(name: String, description: String?, quantity: Int16, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) {
         _ = persistenceManager.createItem(name: name, description: description, quantity: quantity, favorite: favorite, priority: priority, completed: completed, selected: selected, creationDate: creationDate, endDate: endDate, image: image, link: link, listId: listId)
-        saveUpdates()
+        saveItemListsChanges()
     }
 
-    func saveUpdates() {
+    func saveItemListsChanges() {
         persistenceManager.savePersistence()
         refreshItemsListData()
     }
@@ -138,28 +163,5 @@ class MainItemsListsViewModel: ObservableObject {
     func delete<T: NSManagedObject>(_ object: T) {
         persistenceManager.remove(object)
         refreshItemsListData()
-    }
-
-    private func refreshItemsListData() {
-        fetchLists()
-        loadItemsForSelectedList()
-    }
-
-    func getProductNames() -> [String] {
-        var productNameList: [String] = []
-
-        let productsResult = persistenceManager.fetchAllProducts()
-        if let products = productsResult {
-            for product in products {
-                productNameList.append(product.name!)
-            }
-        }
-
-        return productNameList
-    }
-
-    func setProductNames() {
-        productNames = getProductNames()
-        print("Product names set in MainItemsListsViewModel : \(productNames.count)")
     }
 }

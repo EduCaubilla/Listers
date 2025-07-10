@@ -49,7 +49,7 @@ struct ItemRowCellView: View {
     //MARK: - FUNCTIONS
     private func favItem() {
         item.favorite.toggle()
-        vm.saveUpdates()
+        vm.saveItemListsChanges()
     }
 
     private func deleteItem() {
@@ -57,7 +57,7 @@ struct ItemRowCellView: View {
     }
 
     private func saveItem() {
-        vm.saveUpdates()
+        vm.saveItemListsChanges()
         print("Item saved: \(item.name!)")
     }
 

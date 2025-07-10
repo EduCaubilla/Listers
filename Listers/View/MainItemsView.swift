@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 
+@MainActor
 struct MainItemsView: View {
     //MARK: - PROPERTIES
     @EnvironmentObject var router : NavigationRouter

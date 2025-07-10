@@ -78,7 +78,7 @@ struct AddUpdateListView: View {
             listToUpdate.notes = description
             listToUpdate.pinned = pinned
 
-            vm.saveUpdates()
+            vm.saveItemListsChanges()
         } else {
             print("List could not be updated.")
         }
