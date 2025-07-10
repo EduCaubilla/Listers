@@ -85,7 +85,7 @@ struct CategoriesProductsView: View {
                 }
                 .navigationTitle(Text(categoriesTitle))
                 .navigationBarTitleDisplayMode(.inline)
-                .navigationBarBackButtonHidden(true)
+//                .navigationBarBackButtonHidden(true)
                 .safeAreaInset(
                     edge: .bottom,
                     content: {
@@ -96,9 +96,9 @@ struct CategoriesProductsView: View {
                         )
                     })
                 .toolbarBackground(Color.background, for: .navigationBar)
-                .toolbar {
-                    toolbarContentView(router: router, route: .categories)
-                }
+//                .toolbar {
+//                    toolbarContentView(router: router, route: .categories)
+//                }
                 .scrollContentBackground(currentVisibility)
             } else {
                 ZStack {

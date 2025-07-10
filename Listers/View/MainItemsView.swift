@@ -112,12 +112,12 @@ struct MainItemsView: View {
                 .toolbar {
                     toolbarContentView(router: router, route: .main)
                 } //: TOOLBAR
-                .gesture(DragGesture(minimumDistance: 20, coordinateSpace: .global)
+                .gesture(DragGesture(minimumDistance: 30, coordinateSpace: .global)
                     .onChanged { value in
                         if vm.lists.isEmpty { return }
 
                         guard value.startLocation.x > 100,
-                              value.translation.width > -60 else {
+                              value.translation.width > -50 else {
                             return
                         }
 

@@ -69,11 +69,11 @@ struct SettingsView: View {
             .formStyle(.grouped)
             .navigationTitle(Text(settingsTitle))
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarBackButtonHidden(true)
+//            .navigationBarBackButtonHidden(true)
             .toolbarBackground(Color.background, for: .navigationBar)
-            .toolbar {
-                toolbarContentView(router: router, route: .settings)
-            }
+//            .toolbar {
+//                toolbarContentView(router: router, route: .settings)
+//            }
             .scrollContentBackground(currentVisibility)
             .background(Color.clear)
         } //: VSTACK
