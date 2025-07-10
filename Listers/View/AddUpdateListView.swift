@@ -86,60 +86,62 @@ struct AddUpdateListView: View {
 
     //MARK: - BODY
     var body: some View {
-        VStack {
-            VStack(alignment: .leading, spacing: 10) {
-                //MARK: - NAME
-                TextField("Name", text: $name)
-                    .focused($isFocused)
-                    .lineLimit(1)
-                    .autocorrectionDisabled(true)
+        NavigationStack {
+            VStack {
+                VStack(alignment: .leading, spacing: 10) {
+                    //MARK: - NAME
+                    TextField("Name", text: $name)
+                        .focused($isFocused)
+                        .lineLimit(1)
+                        .autocorrectionDisabled(true)
 
-                Divider()
+                    Divider()
 
-                //MARK: - DESCRIPTION
-                TextField("Description", text: $description)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(3)
-                    .autocorrectionDisabled(true)
+                    //MARK: - DESCRIPTION
+                    TextField("Description", text: $description)
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(3)
+                        .autocorrectionDisabled(true)
 
-                Divider()
+                    Divider()
 
-                //MARK: - PINNED
-                Toggle("Pinned to top", isOn: $pinned)
-                    .padding(.top, 5)
+                    //MARK: - PINNED
+                    Toggle("Pinned to top", isOn: $pinned)
+                        .padding(.top, 5)
 
-                SaveButtonView(text: "Save", action: {
-                    if(isListToUpdate) {
-                        updateList()
-                    } else {
-                        saveNewList()
-                    }
-                    dismiss()
-                })
-                .padding(.top, 10)
+                    SaveButtonView(text: "Save", action: {
+                        if(isListToUpdate) {
+                            updateList()
+                        } else {
+                            saveNewList()
+                        }
+                        dismiss()
+                    })
+                    .padding(.top, 10)
 
+                } //: VSTACK
+                .padding(20)
+
+                Spacer()
             } //: VSTACK
-            .padding(20)
-
-            Spacer()
-        } //: VSTACK
-        .navigationTitle(listTitle)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "xmark")
-                        .foregroundStyle(.darkBlue)
-                } //: DISSMISS BUTTON
+            .navigationTitle(listTitle)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "xmark")
+                            .foregroundStyle(.darkBlue)
+                    } //: DISSMISS BUTTON
+                }
             }
-        }
-        .alert(isPresented: $errorShowing) {
-            Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
-        }
-        .onAppear{
-            isFocused = true
+            .alert(isPresented: $errorShowing) {
+                Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+            }
+            .onAppear{
+                isFocused = true
+            }
         }
     } // VIEW
 }

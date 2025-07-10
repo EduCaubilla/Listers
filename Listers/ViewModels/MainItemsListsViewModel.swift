@@ -65,6 +65,7 @@ class MainItemsListsViewModel: ObservableObject {
 
         checkSelectedList()
         loadItemsForSelectedList()
+        loadProductNames()
     }
 
     func loadLists() {
@@ -138,10 +139,12 @@ class MainItemsListsViewModel: ObservableObject {
     }
 
     func loadProductNames(){
-        let productsResult = persistenceManager.fetchAllProducts()
-        if let products = productsResult {
-            productNames = products.map { $0.name! }
-            print("Product names loaded: \(productNames.count)")
+        if productNames.isEmpty {
+            let productsResult = persistenceManager.fetchAllProducts()
+            if let products = productsResult {
+                productNames = products.map { $0.name! }
+                print("Product names loaded: \(productNames.count)")
+            }
         }
     }
 

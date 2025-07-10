@@ -31,11 +31,14 @@ struct AddUpdateItemView: View {
     @FocusState private var isNameTextFieldFocused: Bool
     @FocusState private var isSearchBarFocused: Bool
 
+    @State private var showNameSuggestions: Bool = true
+    @State private var nameSet: String = ""
+
     @State private var showSearchBar: Bool = false
     @State private var searchText: String = ""
 
     var searchResults: [String] {
-        return vm.productNames.filter { $0.lowercased().contains(searchText.lowercased()) }
+        return vm.productNames.filter { $0.lowercased().contains(name.lowercased()) }
     }
 
     var itemTitle : String {
@@ -107,167 +110,137 @@ struct AddUpdateItemView: View {
 
     //MARK: - BODY
     var body: some View {
-        VStack {
-            VStack(alignment: .leading, spacing: 10) {
-                //MARK: - NAME
-                TextField(name.isEmpty ? "Add Name" : name, text: $name)
-                    .autocorrectionDisabled(true)
-                    .focused($isNameTextFieldFocused)
-                    .foregroundStyle(.primaryText)
+        NavigationStack {
+            VStack {
+                VStack(alignment: .leading, spacing: 10) {
+                    //MARK: - NAME
+                    VStack(spacing: 10) {
+                        HStack(alignment: .center, spacing: 10){
+                            TextField(name.isEmpty ? "Add Name" : name, text: $name)
+                                .autocorrectionDisabled(true)
+                                .focused($isNameTextFieldFocused)
+                                .foregroundStyle(.primaryText)
 
-                Divider()
+                            Spacer()
 
-                //MARK: - DESCRIPTION
-                TextField(description.isEmpty ? "Add description" : description, text: $description)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(3)
-                    .autocorrectionDisabled(true)
-                    .foregroundStyle(.primaryText)
-
-                Divider()
-
-                //MARK: - QUANTITY
-                TextField(quantity.count == 0 ? "Add quantity" : String(quantity), text: $quantity)
-                    .multilineTextAlignment(.leading)
-                    .lineLimit(4)
-                    .autocorrectionDisabled(true)
-                    .foregroundStyle(.primaryText)
-
-                Divider()
-
-                //MARK: - FAVORITE
-                Toggle("Favorite", isOn: $favorite)
-                    .padding(.top, 5)
-
-//                    //MARK: - DATE PICKER
-//                    DatePicker("End date", selection: $endDate)
-//                        .datePickerStyle(.compact)
-//                        .padding(.top, 10)
-
-                //MARK: - PRIORITY
-                Picker("Priority", selection: $priority) {
-                    Text("Normal").tag(Priority.normal)
-                    Text("High").tag(Priority.high)
-                    Text("Very High").tag(Priority.veryHigh)
-                } //: PICKER
-                .pickerStyle(.segmented)
-                .padding(.top, 5)
-
-                //MARK: - SAVE BUTTON
-                SaveButtonView(text: "Save", action: {
-                    if(isItemToUpdate) {
-                        updateItem()
-                    } else {
-                        saveNewItem()
-                    }
-                    dismiss()
-                })
-                .padding(.top, 10)
-
-                //MARK: - SEARCH BUTTON
-                if(!isItemToUpdate) {
-                    if !showSearchBar {
-                        Button(action: {
-                            //TODO - Open products page as sheet
-                            showSearchBar = true
-                        }) {
-                            Text("Search in products")
-                                .font(.system(size: 20, weight: .medium))
-                                .padding(10)
-                                .frame(minWidth: 0, maxWidth: .infinity)
-                                .background(
-                                    Capsule()
-                                        .fill(Color.background)
-                                        .stroke(Color.mediumBlue, lineWidth: 1)
-                                )
-                                .foregroundStyle(.lightBlue)
-                        } //: SEARCH BUTTON
-                    } else {
-                        VStack {
-                            HStack {
-                                TextField("Search...", text: $searchText)
-                                    .autocorrectionDisabled(true)
-                                    .textFieldStyle(.plain)
-
-                                    .focused($isSearchBarFocused)
-                                    .onAppear {
-                                        isSearchBarFocused = true
-                                    }
-                                    .onSubmit {
-                                        self.name = searchText
-                                    }
-
-                                Spacer()
-
+                            if showNameSuggestions,
+                               !name.isEmpty {
                                 Image(systemName: "xmark.circle.fill")
                                     .resizable()
                                     .frame(width: 20, height: 20)
-                                    .foregroundStyle(.gray)
+                                    .foregroundStyle(Color.gray)
                                     .onTapGesture {
-                                        showSearchBar = false
+                                        showNameSuggestions = false
                                     }
-                            } //: HSTACK - SEARCHBAR
-                            .padding(.horizontal, 15)
-                            .padding(.vertical, 11)
-                            .background(
-                                Capsule()
-                                    .fill(Color.background)
-                                    .stroke(Color.mediumBlue, lineWidth: 1)
-                            )
+                            }
+                        }
+                        Divider()
+                    }
+                    .onChange(of: name) { oldValue, newValue in
+                        if oldValue == nameSet, newValue != oldValue {
+                            showNameSuggestions = true
+                        }
+                    }
 
-                            VStack {
+                    ZStack {
+                        VStack(spacing: 10) {
+                            //MARK: - DESCRIPTION
+                            TextField(description.isEmpty ? "Add description" : description, text: $description)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(3)
+                                .autocorrectionDisabled(true)
+                                .foregroundStyle(.primaryText)
+                            
+                            Divider()
+                            
+                            //MARK: - QUANTITY
+                            TextField(quantity.count == 0 ? "Add quantity" : String(quantity), text: $quantity)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(4)
+                                .autocorrectionDisabled(true)
+                                .foregroundStyle(.primaryText)
+                            
+                            Divider()
+                            
+                            //MARK: - FAVORITE
+                            Toggle("Favorite", isOn: $favorite)
+                                .padding(.top, 5)
+                            
+                            //                    //MARK: - DATE PICKER
+                            //                    DatePicker("End date", selection: $endDate)
+                            //                        .datePickerStyle(.compact)
+                            //                        .padding(.top, 10)
+                            
+                            //MARK: - PRIORITY
+                            Picker("Priority", selection: $priority) {
+                                Text("Normal").tag(Priority.normal)
+                                Text("High").tag(Priority.high)
+                                Text("Very High").tag(Priority.veryHigh)
+                            } //: PICKER
+                            .pickerStyle(.segmented)
+                            .padding(.top, 5)
+                            
+                            //MARK: - SAVE BUTTON
+                            SaveButtonView(text: "Save", action: {
+                                if(isItemToUpdate) {
+                                    updateItem()
+                                } else {
+                                    saveNewItem()
+                                }
+                                dismiss()
+                            })
+                            .padding(.top, 10)
+
+                            Spacer()
+                        }
+
+                        //MARK: - Suggestions list
+                        if showNameSuggestions {
+                            VStack(alignment: .leading, spacing: 10) {
                                 List(searchResults, id: \.self) { name in
                                     Text(name)
                                         .onTapGesture {
                                             self.name = name
-                                            showSearchBar = false
-                                            searchText = ""
+                                            nameSet = name
+                                            showNameSuggestions = false
                                         }
-                                        .listRowBackground(Color.background)
+                                        .listRowBackground(Color.backgroundGray)
                                 } //: LIST - SEARCH OPTIONS
                                 .scrollIndicators(.visible)
                                 .scrollContentBackground(.hidden)
                                 .listStyle(.inset)
                                 .listRowSpacing(-5)
-                                .padding(EdgeInsets(top: -8, leading: -5, bottom: 10, trailing: 0))
+                                .padding(EdgeInsets(top: -10, leading: -5, bottom: 0, trailing: -2))
+
+                                Spacer()
                             } //: VSTACK
-                        } //: VSTACK SEARCH BLOCK
-                        .onAppear {
-                            vm.loadProductNames()
                         }
                     }
-                }
-            } //: VSTACK
-            .padding(20)
+                } //: VSTACK
+                .padding(.horizontal, 20)
+                .padding(.top, 10)
 
-            Spacer()
-        } //: VSTACK
-        .navigationTitle(Text(itemTitle))
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            ToolbarItem {
-                Button(action: {
-                    dismiss()
-                }) {
-                    Image(systemName: "xmark")
-                        .foregroundStyle(.darkBlue)
-                } //: DISSMISS BUTTON
+                Spacer()
+            } //: VSTACK
+            .navigationTitle(Text(itemTitle))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "xmark")
+                            .foregroundStyle(.darkBlue)
+                    } //: DISSMISS BUTTON
+                }
+            } //: TOOLBAR
+            .alert(isPresented: $errorShowing) {
+                Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
             }
-//            ToolbarItem(placement: .topBarLeading) {
-//                Button(action: {
-//                    //TODO - Open products page as sheet
-//                }) {
-//                    Image(systemName: "magnifyingglass")
-//                        .foregroundStyle(.darkBlue)
-//                } //: SEARCH BUTTON
-//            }
-        }
-        .alert(isPresented: $errorShowing) {
-            Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
-        }
-        .onAppear{
-            isNameTextFieldFocused = true
-        }
+            .onAppear{
+                isNameTextFieldFocused = true
+            }
+        } //: NAVIGATION STACK
     } //: VIEW
 }
 

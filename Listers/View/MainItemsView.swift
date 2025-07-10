@@ -107,6 +107,7 @@ struct MainItemsView: View {
                 } //: VSTACK
                 .onAppear {
                     vm.loadListsItemsData()
+                    vm.loadProductNames()
                 }
                 .toolbar {
                     toolbarContentView(router: router, route: .main)
@@ -135,13 +136,12 @@ struct MainItemsView: View {
                     .presentationDetents([.height(320)])
                     .presentationBackground(Color.background)
             }
-            .sheet(isPresented: $vm.showingAddListView, onDismiss: {vm.loadListsItemsData()}) {
+            .sheet(isPresented: $vm.showingAddListView, onDismiss: vm.loadListsItemsData) {
                 AddUpdateListView(vm: vm)
                     .padding(.top, 20)
                     .presentationDetents([.height(220)])
                     .presentationBackground(Color.background)
             }
-
     } //: VIEW
 }
 

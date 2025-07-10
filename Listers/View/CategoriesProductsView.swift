@@ -116,7 +116,7 @@ struct CategoriesProductsView: View {
         .sheet(isPresented: $vm.showingAddProductView) {
             AddUpdateCategoryProductView(vm: vm)
                 .padding(.top, 20)
-                .presentationDetents([.medium])
+                .presentationDetents([.fraction(0.7)])
                 .presentationBackground(Color.background)
         }
         .sheet(isPresented: $vm.showingEditProductView) {
