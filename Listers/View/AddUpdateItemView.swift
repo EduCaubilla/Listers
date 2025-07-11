@@ -33,6 +33,7 @@ struct AddUpdateItemView: View {
 
     @State private var searchText: String = ""
     @State private var showNameSuggestions: Bool = true
+    @State private var nameSetFromList: String = ""
 
     @State private var showSaveNewProductAlert: Bool = false
 
@@ -84,7 +85,6 @@ struct AddUpdateItemView: View {
             )
 
             if (!searchResults.contains(name) && !isItemToUpdate) {
-                print("OPTION TO SAVE NEW ITEM WITH NAME \(name)")
                 showSaveNewProductAlert.toggle()
             }
         } else {
@@ -109,11 +109,6 @@ struct AddUpdateItemView: View {
         }
     }
 
-    private func finishShowingSuggestions() {
-        isNameTextFieldFocused = false
-        showNameSuggestions = false
-    }
-
     //MARK: - BODY
     var body: some View {
         NavigationStack {
@@ -128,7 +123,7 @@ struct AddUpdateItemView: View {
                                 .foregroundStyle(.primaryText)
                                 .onSubmit {
                                     print("Name submitted")
-                                    finishShowingSuggestions()
+                                    isNameTextFieldFocused = false
                                     isDescriptionFieldFocused = true
                                 }
 
@@ -147,8 +142,16 @@ struct AddUpdateItemView: View {
                         }
                         Divider()
                     } //: VSTACK - NAME FIELD
-                    .onChange(of: name) { _, _ in
-                        showNameSuggestions = !searchResults.isEmpty
+                    .onChange(of: name) { oldValue, newValue in
+                        if oldValue == nameSetFromList, !searchResults.isEmpty {
+                            showNameSuggestions = true
+                        }
+
+                        if searchResults.isEmpty {
+                            showNameSuggestions = false
+                        } else if !searchResults.isEmpty && !showNameSuggestions && nameSetFromList != name {
+                            showNameSuggestions = true
+                        }
                     }
 
                     ZStack {
@@ -192,6 +195,7 @@ struct AddUpdateItemView: View {
                             
                             //MARK: - SAVE BUTTON
                             SaveButtonView(text: "Save", action: {
+                                print("Tap SAVE")
                                 if(isItemToUpdate) {
                                     updateItem()
                                 } else {
@@ -227,7 +231,9 @@ struct AddUpdateItemView: View {
                                     Text(name)
                                         .onTapGesture {
                                             self.name = name
+                                            self.nameSetFromList = name
                                             showNameSuggestions = false
+                                            print("Name set from list \(name)")
                                         }
                                         .listRowBackground(Color.backgroundGray)
                                 } //: LIST - SEARCH OPTIONS
@@ -239,10 +245,6 @@ struct AddUpdateItemView: View {
 
                                 Spacer()
                             } //: VSTACK - SUGGESTIONS
-                            .onTapGesture {
-                                finishShowingSuggestions()
-                                print("Tap on results")
-                            }
                         }
                     }
                 } //: VSTACK
