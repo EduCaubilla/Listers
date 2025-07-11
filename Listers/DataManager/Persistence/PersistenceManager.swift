@@ -160,19 +160,6 @@ struct PersistenceManager : PersistenceManagerProtocol {
         savePersistence()
     }
 
-    func fetchAllCategories() -> [DMCategory]? {
-        let categoriesFetch : NSFetchRequest<DMCategory> = DMCategory.fetchRequest()
-        categoriesFetch.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
-        do {
-            return try viewContext.fetch(categoriesFetch)
-        }
-        catch {
-            print("Error fetching lists in PersistenceManager: \(error.localizedDescription)")
-        }
-
-        return nil
-    }
-
     func fetchAllProducts() -> [DMProduct]? {
         let productsFetch : NSFetchRequest<DMProduct> = DMProduct.fetchRequest()
         productsFetch.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
@@ -216,6 +203,35 @@ struct PersistenceManager : PersistenceManagerProtocol {
             print("There was an error fetching products by category: \(error.localizedDescription)")
         }
 
+        return nil
+    }
+
+    func fetchAllCategories() -> [DMCategory]? {
+        let categoriesFetch : NSFetchRequest<DMCategory> = DMCategory.fetchRequest()
+        categoriesFetch.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        do {
+            return try viewContext.fetch(categoriesFetch)
+        }
+        catch {
+            print("Error fetching lists in PersistenceManager: \(error.localizedDescription)")
+        }
+
+        return nil
+    }
+
+    func fetchCategoryByProductId(_ productId: Int16) -> DMCategory? {
+        let fetchRequest: NSFetchRequest<DMCategory> = DMCategory.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "products CONTAINS %d", productId)
+        
+        do {
+            let fetchResult = try viewContext.fetch(fetchRequest)
+            if !fetchResult.isEmpty,
+               let fetchResultCategory = fetchResult.first {
+                return fetchResultCategory
+            }
+        } catch {
+            print("Error fetching category by productId in PersistenceManager: \(error.localizedDescription)")
+        }
         return nil
     }
 }

@@ -17,6 +17,12 @@ struct CategoriesProductsView: View {
 
     @State private var selectedProduct: DMProduct?
 
+    @State private var isShowingFavorites: Bool = false
+
+    private var filteredCategories: [DMCategory] {
+        isShowingFavorites ? vm.categories.filter({ $0.favorite }) : vm.categories
+    }
+
     var categoriesTitle : String = "Categories"
     var addProductLabel: String = "Add Product"
     var addIcon: String = "plus"
@@ -32,22 +38,17 @@ struct CategoriesProductsView: View {
 
     //MARK: - FUNCTIONS
     private func editProduct(_ product: DMProduct) {
-//        setSelectedProduct(product)
         selectedProduct = product
         vm.showingEditProductView = true
         print("Edit item: \(String(describing: vm.selectedProduct))")
     }
-
-//    private func setSelectedProduct(_ product: DMProduct) {
-//        selectedProduct = product
-//    }
 
     //MARK: - BODY
     var body: some View {
         VStack {
             if !vm.categories.isEmpty && !vm.products.isEmpty {
                 List {
-                    ForEach(vm.categories, id: \.objectID) { category in
+                    ForEach(filteredCategories, id: \.objectID) { category in
                         Section(header:
                             HStack {
                                 HStack {
@@ -59,24 +60,23 @@ struct CategoriesProductsView: View {
 
                                 Image(systemName: category.expanded ? "chevron.down" : "chevron.right")
                             } //: HSTACK
-                        .contentShape(Rectangle()) // Makes the whole header tappable
-                        .onTapGesture {
-                            withAnimation {
-                                category.expanded.toggle()
-                                vm.saveUpdates()
-                            }
-                        }) {
-                            if(category.expanded) {
-                                ForEach(vm.getProductsByCategory(category)) { product in
-                                    ProductRowViewCell(vm: vm, product: product, actionEditProduct: {editProduct(product)})
+                            .contentShape(Rectangle()) // Makes the whole header tappable
+                            .onTapGesture {
+                                withAnimation {
+                                    category.expanded.toggle()
+                                    vm.saveUpdates()
+                                }
+                            }) {
+                                if(category.expanded) {
+                                    ForEach(vm.getFavoriteProducts(for: category,incase: isShowingFavorites)) { product in
+                                        ProductRowViewCell(vm: vm, product: product, actionEditProduct: {editProduct(product)})
+                                    }
                                 }
                             }
-                        }
-                        .listRowBackground(Color.background)
-                        .listSectionSpacing(0)
-                        .listRowSeparator(.hidden)
+                            .listRowBackground(Color.background)
+                            .listSectionSpacing(0)
+                            .listRowSeparator(.hidden)
                     } //: LOOP
-//                    .padding(.top, -10)
                 } //: LIST
                 .listStyle(.insetGrouped)
                 .listRowSpacing(-3)
@@ -85,7 +85,6 @@ struct CategoriesProductsView: View {
                 }
                 .navigationTitle(Text(categoriesTitle))
                 .navigationBarTitleDisplayMode(.inline)
-//                .navigationBarBackButtonHidden(true)
                 .safeAreaInset(
                     edge: .bottom,
                     content: {
@@ -96,9 +95,26 @@ struct CategoriesProductsView: View {
                         )
                     })
                 .toolbarBackground(Color.background, for: .navigationBar)
-//                .toolbar {
-//                    toolbarContentView(router: router, route: .categories)
-//                }
+                .toolbar {
+                    ToolbarItem(id: "Favorites", showsByDefault: false) {
+                        Button(action: {
+                            //TODO
+                            isShowingFavorites.toggle()
+                        }) {
+                            if isShowingFavorites {
+                                Image(systemName: "star.fill")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundStyle(.yellow)
+                            } else {
+                                Image(systemName: "star")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundStyle(.darkBlue)
+                            }
+                        }
+                    }
+                }
                 .scrollContentBackground(currentVisibility)
             } else {
                 ZStack {

@@ -42,6 +42,12 @@ struct ProductRowViewCell: View {
     func favProduct() {
         product.favorite.toggle()
         vm.saveUpdates()
+        favCategory()
+    }
+
+    func favCategory() {
+        vm.setFavoriteCategory()
+        vm.saveUpdates()
     }
 
 
@@ -58,7 +64,7 @@ struct ProductRowViewCell: View {
                         .foregroundStyle(.yellow)
                 }
 
-            }
+            } //: HSTACK PRODUCT
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 if isEditAvailable {
                     Button(action: {
@@ -92,18 +98,13 @@ struct ProductRowViewCell: View {
                     .tint(.mediumBlue)
                 }
             }
-//
-//            Divider()
-//                .padding(.horizontal, 5)
-//                .padding(.top, 5)
-
         } //: VSTACK MAIN
         .frame(minHeight: 25, idealHeight: 25, maxHeight: 35)
         .background(Color.background)
         .onTapGesture(count: 2) {
             favProduct()
         }
-    }
+    } //: VIEW
 }
 
 #if DEBUG

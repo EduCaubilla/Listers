@@ -7,10 +7,13 @@
 
 import SwiftUI
 import CoreData
+import Combine
 
 class CategoriesProductsViewModel: ObservableObject {
     //MARK: - PROPERTIES
     private let persistenceManager : any PersistenceManagerProtocol
+
+    @Published var selectedList: DMList?
 
     @Published var categories: [DMCategory] = []
     @Published var products: [DMProduct] = []
@@ -50,11 +53,22 @@ class CategoriesProductsViewModel: ObservableObject {
     func fetchProducts() {
         let productsResult = persistenceManager.fetchAllProducts()
         if let productsFetched = productsResult {
-            products = productsFetched
+            products = productsFetched.sorted { $0.name! < $1.name! }
             productNames = getProductNames()
 
             print("Loaded products in view model \(products.count)")
         }
+    }
+
+    func getFavoriteProducts(for category: DMCategory,incase showFavoritesOnly: Bool) -> [DMProduct] {
+        if let productsFetched = persistenceManager.fetchProductsByCategory(category) {
+            if category.favorite, showFavoritesOnly {
+                return productsFetched.filter({ $0.favorite })
+            } else if !showFavoritesOnly {
+                return productsFetched
+            }
+        }
+        return []
     }
 
     func getProductNames() -> [String] {
@@ -88,17 +102,6 @@ class CategoriesProductsViewModel: ObservableObject {
         return newId != 0 ? newId + 1 : 0
     }
 
-    func getCategoryIdByProductName(_ name: String) -> Int16? {
-        if !products.isEmpty,
-            !name.isEmpty {
-            if let product = products.first(where: { $0.name == name }) {
-                return product.categoryId
-            }
-        }
-
-        return nil
-    }
-
     func saveNewProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
         persistenceManager.createProduct(
             id: createIdForNewProduct(),
@@ -111,6 +114,40 @@ class CategoriesProductsViewModel: ObservableObject {
         )
         saveUpdates()
     }
+
+    func getCategoryIdByProductName(_ name: String) -> Int16? {
+        if !products.isEmpty,
+            !name.isEmpty {
+            if let product = products.first(where: { $0.name == name }) {
+                return product.categoryId
+            }
+        }
+        return nil
+    }
+
+    func getCategoryByProductId(_ productId: Int16) -> DMCategory? {
+        if let categoryFetched = persistenceManager.fetchCategoryByProductId(productId) {
+            return categoryFetched
+        }
+
+        return nil
+    }
+
+    func setFavoriteCategory() {
+        for category in categories {
+            let categoryProducts = getProductsByCategory(category)
+
+            if categoryProducts.contains(where: { $0.favorite }) {
+                print("Category \(String(describing: category.name)) is favorite")
+                category.favorite = true
+            } else {
+                print("Category \(String(describing: category.name)) is NOT favorite")
+                category.favorite = false
+            }
+        }
+        refreshCategoriesProductsData()
+    }
+
 
     func saveUpdates() {
         persistenceManager.savePersistence()

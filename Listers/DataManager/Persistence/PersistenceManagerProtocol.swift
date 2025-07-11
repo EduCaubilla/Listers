@@ -35,16 +35,13 @@ protocol PersistenceManagerProtocol {
         selected: Bool,
         expanded: Bool
     )
-
     func fetchList(_ listId : UUID) -> DMList?
     func fetchSelectedList() -> DMList?
     func fetchAllLists() -> [DMList]?
     func fetchItemsForList(withId listId: UUID) -> [DMItem]?
 
     func fetch<T : NSManagedObject>(type: T.Type, predicate: NSPredicate?) -> [T]?
-
     func savePersistence()
-
     func remove<T: NSManagedObject>(_ object: T)
 
     func fetchLastProductId() -> Int
@@ -57,9 +54,10 @@ protocol PersistenceManagerProtocol {
         favorite: Bool,
         custom: Bool
     )
-    func fetchAllCategories() -> [DMCategory]?
     func fetchAllProducts() -> [DMProduct]?
     func fetchProductsByCategory(_ category: DMCategory) -> [DMProduct]?
     func fetchProductByCategoryId(_ categoryId: Int16) -> DMProduct?
 
+    func fetchAllCategories() -> [DMCategory]?
+    func fetchCategoryByProductId(_ productId: Int16) -> DMCategory?
 }
