@@ -148,6 +148,24 @@ class MainItemsListsViewModel: ObservableObject {
         }
     }
 
+    func createIdForNewProduct() -> Int {
+        let newId = persistenceManager.fetchLastProductId()
+        return newId != 0 ? newId + 1 : 0
+    }
+
+    func saveNewProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
+        persistenceManager.createProduct(
+            id: createIdForNewProduct(),
+            name: name,
+            note: description ?? "",
+            categoryId: Int16(categoryId),
+            active: active,
+            favorite: favorite,
+            custom: true
+        )
+        saveItemListsChanges()
+    }
+
     func addList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool) {
         _ = persistenceManager.createList(name: name, description: description, creationDate: creationDate, endDate: endDate, pinned: pinned, selected: selected, expanded: expanded)
         saveItemListsChanges()

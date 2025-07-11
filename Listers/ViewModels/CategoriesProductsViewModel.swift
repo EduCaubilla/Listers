@@ -99,7 +99,7 @@ class CategoriesProductsViewModel: ObservableObject {
         return nil
     }
 
-    func saveNewProduct(id: Int, name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
+    func saveNewProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
         persistenceManager.createProduct(
             id: createIdForNewProduct(),
             name: name,

@@ -68,7 +68,6 @@ struct AddUpdateCategoryProductView: View {
     private func saveNewProduct() {
         if !name.isEmpty {
             vm.saveNewProduct(
-                id: vm.createIdForNewProduct(),
                 name: name,
                 description: description,
                 categoryId: selectedCategory.categoryId,

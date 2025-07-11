@@ -29,16 +29,16 @@ struct AddUpdateItemView: View {
     @State private var errorMessage : String = ""
 
     @FocusState private var isNameTextFieldFocused: Bool
-    @FocusState private var isSearchBarFocused: Bool
+    @FocusState private var isDescriptionFieldFocused: Bool
 
-    @State private var showNameSuggestions: Bool = true
-    @State private var nameSet: String = ""
-
-    @State private var showSearchBar: Bool = false
     @State private var searchText: String = ""
+    @State private var showNameSuggestions: Bool = true
+
+    @State private var showSaveNewProductAlert: Bool = false
+
 
     var searchResults: [String] {
-        return vm.productNames.filter { $0.lowercased().contains(name.lowercased()) }
+        vm.productNames.filter { $0.lowercased().contains(name.lowercased()) }
     }
 
     var itemTitle : String {
@@ -71,9 +71,7 @@ struct AddUpdateItemView: View {
             vm.addItem(
                 name: name,
                 description: description,
-                quantity: Int16(
-                    quantity
-                ) ?? 0,
+                quantity: Int16(quantity) ?? 0,
                 favorite: favorite,
                 priority: priority,
                 completed: false,
@@ -84,8 +82,12 @@ struct AddUpdateItemView: View {
                 link: "",
                 listId: vm.selectedList?.id
             )
-        }
-        else {
+
+            if (!searchResults.contains(name) && !isItemToUpdate) {
+                print("OPTION TO SAVE NEW ITEM WITH NAME \(name)")
+                showSaveNewProductAlert.toggle()
+            }
+        } else {
             errorShowing = true
             errorTitle = "Invalid name"
             errorMessage = "Please enter a name for your todo item."
@@ -107,6 +109,10 @@ struct AddUpdateItemView: View {
         }
     }
 
+    private func finishShowingSuggestions() {
+        isNameTextFieldFocused = false
+        showNameSuggestions = false
+    }
 
     //MARK: - BODY
     var body: some View {
@@ -120,6 +126,11 @@ struct AddUpdateItemView: View {
                                 .autocorrectionDisabled(true)
                                 .focused($isNameTextFieldFocused)
                                 .foregroundStyle(.primaryText)
+                                .onSubmit {
+                                    print("Name submitted")
+                                    finishShowingSuggestions()
+                                    isDescriptionFieldFocused = true
+                                }
 
                             Spacer()
 
@@ -135,11 +146,9 @@ struct AddUpdateItemView: View {
                             }
                         }
                         Divider()
-                    }
-                    .onChange(of: name) { oldValue, newValue in
-                        if oldValue == nameSet, newValue != oldValue {
-                            showNameSuggestions = true
-                        }
+                    } //: VSTACK - NAME FIELD
+                    .onChange(of: name) { _, _ in
+                        showNameSuggestions = !searchResults.isEmpty
                     }
 
                     ZStack {
@@ -150,7 +159,8 @@ struct AddUpdateItemView: View {
                                 .lineLimit(3)
                                 .autocorrectionDisabled(true)
                                 .foregroundStyle(.primaryText)
-                            
+                                .focused($isDescriptionFieldFocused)
+
                             Divider()
                             
                             //MARK: - QUANTITY
@@ -190,18 +200,33 @@ struct AddUpdateItemView: View {
                                 dismiss()
                             })
                             .padding(.top, 10)
+                            .alert("The item saved is not on your product's library yet.\nWould you like to add it?", isPresented: $showSaveNewProductAlert, presenting: name) { name in
+                                Button("Cancel", role: .cancel){
+                                    showSaveNewProductAlert = false
+                                }
+                                Button("Add"){
+                                    vm.saveNewProduct(
+                                        name: name,
+                                        description: description,
+                                        categoryId: 10,
+                                        active: true,
+                                        favorite: favorite
+                                    )
+                                    print("Added product \(name) to library list")
+                                    showSaveNewProductAlert = false
+                                }
+                            }
 
                             Spacer()
-                        }
+                    } //: VSTACK FORM
 
-                        //MARK: - Suggestions list
-                        if showNameSuggestions {
+                        //MARK: - SUGGESTION LIST
+                        if showNameSuggestions, !searchResults.isEmpty {
                             VStack(alignment: .leading, spacing: 10) {
                                 List(searchResults, id: \.self) { name in
                                     Text(name)
                                         .onTapGesture {
                                             self.name = name
-                                            nameSet = name
                                             showNameSuggestions = false
                                         }
                                         .listRowBackground(Color.backgroundGray)
@@ -213,7 +238,11 @@ struct AddUpdateItemView: View {
                                 .padding(EdgeInsets(top: -10, leading: -5, bottom: 0, trailing: -2))
 
                                 Spacer()
-                            } //: VSTACK
+                            } //: VSTACK - SUGGESTIONS
+                            .onTapGesture {
+                                finishShowingSuggestions()
+                                print("Tap on results")
+                            }
                         }
                     }
                 } //: VSTACK
