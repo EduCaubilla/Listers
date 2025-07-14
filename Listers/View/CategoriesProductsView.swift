@@ -19,15 +19,19 @@ struct CategoriesProductsView: View {
 
     @State private var isShowingFavorites: Bool = false
 
+    @State private var name : String = ""
+    @State private var showSearchBar: Bool = false
+    @State private var searchBarFixedHeight: Bool = true
+
+    private var categoriesTitle : String = "Categories"
+    private var addProductLabel: String = "Add Product"
+    private var addIcon: String = "plus"
+
     private var filteredCategories: [DMCategory] {
         isShowingFavorites ? vm.categories.filter({ $0.favorite }) : vm.categories
     }
 
-    var categoriesTitle : String = "Categories"
-    var addProductLabel: String = "Add Product"
-    var addIcon: String = "plus"
-
-    var currentVisibility : Visibility {
+    private var currentVisibility : Visibility {
         colorScheme == .dark ? .hidden : .visible
     }
 
@@ -43,92 +47,151 @@ struct CategoriesProductsView: View {
         print("Edit item: \(String(describing: vm.selectedProduct))")
     }
 
+    private func setProductSelection(for product: DMProduct) -> Bool {
+        return product.name == selectedProduct?.name ?? ""
+    }
+
+    private func scrollToFoundProduct(proxy: ScrollViewProxy) {
+        let productsToScroll = vm.products.filter { $0.name == name }
+        if let productToScroll = productsToScroll.first {
+            if let categoryToScroll = vm.getCategoryByProductId(productToScroll.id) {
+                print("Category to Scroll: \(String(describing: categoryToScroll.name))")
+
+                for category in vm.categories {
+                    if category.id == categoryToScroll.id {
+                        print("Category to expand: \(String(describing: category.name))")
+                        category.expanded = true
+                    } else {
+                        print("Category to NOT expand: \(String(describing: category.name))")
+                        category.expanded = false
+                    }
+                }
+
+                vm.saveCategoriesProductsUpdates()
+
+                print("Scroll to found product: \(name) with id: \(productToScroll.id)")
+                selectedProduct = productToScroll
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    withAnimation(.default){
+                        proxy.scrollTo(productToScroll.id, anchor: .center)
+                    }
+                }
+            } else {
+                print("Category to scroll to not found with id: \(productToScroll.id)")
+            }
+        } else {
+            print("Product to scroll to not found: \(name)")
+        }
+    }
+
     //MARK: - BODY
     var body: some View {
-        VStack {
-            if !vm.categories.isEmpty && !vm.products.isEmpty {
-                List {
-                    ForEach(filteredCategories, id: \.objectID) { category in
-                        Section(header:
-                            HStack {
+        VStack (alignment: .leading, spacing: 0) {
+            ScrollViewReader { value in
+                if showSearchBar {
+                    VStack(alignment: .leading, spacing: 0){
+                        SearchBarCustomView(name: $name, showSearchBar: $showSearchBar, productNameList: vm.productNames, resultAction: {scrollToFoundProduct(proxy: value)})
+                    }
+                    .padding(.bottom, 0)
+                }
+                if !vm.categories.isEmpty && !vm.products.isEmpty {
+                    List {
+                        ForEach(filteredCategories) { category in
+                            Section(header: HStack {
                                 HStack {
                                     Text(category.name!)
                                         .font(.system(size: 18, weight: .thin ))
                                 }
+                                .padding(.leading, -10)
 
                                 Spacer()
 
                                 Image(systemName: category.expanded ? "chevron.down" : "chevron.right")
-                            } //: HSTACK
-                            .contentShape(Rectangle()) // Makes the whole header tappable
-                            .onTapGesture {
-                                withAnimation {
-                                    category.expanded.toggle()
-                                    vm.saveUpdates()
-                                }
-                            }) {
-                                if(category.expanded) {
-                                    ForEach(vm.getFavoriteProducts(for: category,incase: isShowingFavorites)) { product in
-                                        ProductRowViewCell(vm: vm, product: product, actionEditProduct: {editProduct(product)})
+                                    .padding(.trailing, -10)
+                            } //: HSTACK HEADER
+                                .contentShape(Rectangle()) // Makes the whole header tappable
+                                .onTapGesture {
+                                    withAnimation {
+                                        category.expanded.toggle()
+                                        vm.saveCategoriesProductsUpdates()
                                     }
-                                }
-                            }
-                            .listRowBackground(Color.background)
-                            .listSectionSpacing(0)
-                            .listRowSeparator(.hidden)
-                    } //: LOOP
-                } //: LIST
-                .listStyle(.insetGrouped)
-                .listRowSpacing(-3)
-                .onAppear {
-                    vm.loadCategoriesProductsData()
-                }
-                .navigationTitle(Text(categoriesTitle))
-                .navigationBarTitleDisplayMode(.inline)
-                .safeAreaInset(
-                    edge: .bottom,
-                    content: {
-                        MainAddButtonView(
-                            addButtonLabel: addProductLabel,
-                            addButtonIcon: addIcon,
-                            addButtonAction: {vm.showingAddProductView = true}
-                        )
-                    })
-                .toolbarBackground(Color.background, for: .navigationBar)
-                .toolbar {
-                    ToolbarItem(id: "Favorites", showsByDefault: false) {
-                        Button(action: {
-                            //TODO
-                            isShowingFavorites.toggle()
-                        }) {
-                            if isShowingFavorites {
-                                Image(systemName: "star.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundStyle(.yellow)
-                            } else {
-                                Image(systemName: "star")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundStyle(.darkBlue)
-                            }
+                                }) {
+                                    if(category.expanded) {
+                                        ForEach(vm.getFavoriteProducts(for: category,inCase: isShowingFavorites), id: \.id) { product in
+                                            HStack {
+                                                ProductRowViewCell(vm: vm, product: product, actionEditProduct: {editProduct(product)}, selected: setProductSelection(for: product))
+                                            }
+                                        }
+                                    }
+                                } //: SECTION
+                                .listRowBackground(Color.background)
+                                .listSectionSpacing(0)
+                                .listRowSeparator(.hidden)
+                        } //: LOOP
+                    } //: LIST
+                    .listStyle(SidebarListStyle())
+                    .listRowSpacing(-3)
+                    .onAppear {
+                        vm.loadCategoriesProductsData()
+                    }
+                    .navigationTitle(Text(categoriesTitle))
+                    .navigationBarTitleDisplayMode(.inline)
+                    .safeAreaInset(
+                        edge: .bottom,
+                        content: {
+                            MainAddButtonView(
+                                addButtonLabel: addProductLabel,
+                                addButtonIcon: addIcon,
+                                addButtonAction: {vm.showingAddProductView = true}
+                            )
+                        })
+                    .toolbarBackground(Color.background, for: .navigationBar)
+                        .toolbar {
+                            ToolbarItem(id: "Search", showsByDefault: true) {
+                                Button(action: {
+                                    showSearchBar = true
+                                }) {
+                                    Image(systemName: "magnifyingglass")
+                                        .foregroundStyle(.darkBlue)
+                                } //: SEARCH BUTTON
+                            } //: TOOLBAR ITEM
+
+                            ToolbarItem(id: "Favorites", showsByDefault: false) {
+                                Button(action: {
+                                    isShowingFavorites.toggle()
+                                }) {
+                                    if isShowingFavorites {
+                                        Image(systemName: "star.fill")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .foregroundStyle(.yellow)
+                                    } else {
+                                        Image(systemName: "star")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .foregroundStyle(.darkBlue)
+                                    }
+                                } //: FAV BUTTON
+                                .padding(EdgeInsets(top: 0, leading: -5, bottom: 0, trailing: 10))
+                            } //: TOOLBAR ITEM
+
+                        } //: TOOLBAR
+                    .scrollContentBackground(currentVisibility)
+                } else {
+                    ZStack {
+                        Color.background
+                            .ignoresSafeArea(edges: .all)
+                        VStack {
+                            Text("No categories or products found.")
+                                .foregroundColor(Color.mediumBlue)
                         }
-                    }
+                        .padding(.vertical, 3)
+                    } //: ZSTACK
                 }
-                .scrollContentBackground(currentVisibility)
-            } else {
-                ZStack {
-                    Color.background
-                        .ignoresSafeArea(edges: .all)
-                    VStack {
-                        Text("No categories or products found.")
-                            .foregroundColor(Color.mediumBlue)
-                    }
-                    .padding(.vertical, 3)
-                }
-            }
+            } //: SCROLLVIEWREADER
         } //: VSTACK MAIN
-        .background(Color.background, ignoresSafeAreaEdges: .all)
+        .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : .background, ignoresSafeAreaEdges: .all)
         .sheet(isPresented: $vm.showingAddProductView) {
             AddUpdateCategoryProductView(vm: vm)
                 .padding(.top, 20)
@@ -141,7 +204,6 @@ struct CategoriesProductsView: View {
                 .presentationDetents([.medium])
                 .presentationBackground(Color.background)
         }
-
     } //: VIEW
 }
 

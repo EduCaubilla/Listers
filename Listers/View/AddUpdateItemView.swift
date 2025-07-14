@@ -179,10 +179,10 @@ struct AddUpdateItemView: View {
                             Toggle("Favorite", isOn: $favorite)
                                 .padding(.top, 5)
                             
-                            //                    //MARK: - DATE PICKER
-                            //                    DatePicker("End date", selection: $endDate)
-                            //                        .datePickerStyle(.compact)
-                            //                        .padding(.top, 10)
+//                            //MARK: - DATE PICKER
+//                            DatePicker("End date", selection: $endDate)
+//                                .datePickerStyle(.compact)
+//                                .padding(.top, 10)
                             
                             //MARK: - PRIORITY
                             Picker("Priority", selection: $priority) {
@@ -245,6 +245,7 @@ struct AddUpdateItemView: View {
 
                                 Spacer()
                             } //: VSTACK - SUGGESTIONS
+                            .presentationCornerRadius(12)
                         }
                     }
                 } //: VSTACK

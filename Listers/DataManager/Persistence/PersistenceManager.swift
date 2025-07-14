@@ -173,6 +173,21 @@ struct PersistenceManager : PersistenceManagerProtocol {
         return nil
     }
 
+    func fetchProductById(_ id: Int16) -> DMProduct? {
+        let fetchRequest: NSFetchRequest<DMProduct> = DMProduct.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %d", id)
+
+        do {
+            let fetchResult = try viewContext.fetch(fetchRequest)
+            if !fetchResult.isEmpty {
+                return fetchResult.first
+            }
+        } catch {
+            print("Error fetching product by id in PersistenceManager: \(error.localizedDescription)")
+        }
+        return nil
+    }
+
     func fetchProductsByCategory(_ category: DMCategory) -> [DMProduct]? {
         let fetchRequest: NSFetchRequest<DMProduct> = DMProduct.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "categoryId == %d", category.id)
@@ -220,18 +235,21 @@ struct PersistenceManager : PersistenceManagerProtocol {
     }
 
     func fetchCategoryByProductId(_ productId: Int16) -> DMCategory? {
-        let fetchRequest: NSFetchRequest<DMCategory> = DMCategory.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "products CONTAINS %d", productId)
-        
-        do {
-            let fetchResult = try viewContext.fetch(fetchRequest)
-            if !fetchResult.isEmpty,
-               let fetchResultCategory = fetchResult.first {
-                return fetchResultCategory
+        if let categoryFetched = fetchProductById(productId) {
+            let fetchRequest: NSFetchRequest<DMCategory> = DMCategory.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "id == %d", categoryFetched.categoryId)
+
+            do {
+                let fetchResult = try viewContext.fetch(fetchRequest)
+                if !fetchResult.isEmpty,
+                   let fetchResultCategory = fetchResult.first {
+                    return fetchResultCategory
+                }
+            } catch {
+                print("Error fetching category by productId in PersistenceManager: \(error.localizedDescription)")
             }
-        } catch {
-            print("Error fetching category by productId in PersistenceManager: \(error.localizedDescription)")
         }
+
         return nil
     }
 }

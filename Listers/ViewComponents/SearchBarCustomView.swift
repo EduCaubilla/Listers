@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SearchBarCustomView: View {
     //MARK: - PROPERTIES
+    @Environment(\.colorScheme) var colorScheme
 
     @Binding var name: String
     @Binding var showSearchBar: Bool
@@ -19,8 +20,10 @@ struct SearchBarCustomView: View {
     var productNameList: [String]
 
     var searchResults: [String] {
-        return productNameList.filter { $0.lowercased().contains(searchText.lowercased()) }
+        return productNameList.filter { $0.lowercased().contains(searchText.lowercased()) && !$0.isEmpty }
     }
+
+    var resultAction: () -> Void = { }
 
     //MARK: - BODY
     var body: some View {
@@ -51,27 +54,35 @@ struct SearchBarCustomView: View {
             .padding(.vertical, 11)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.background)
-                    .stroke(Color.backgroundGray, lineWidth: 0.5)
+                    .fill(Color.clear)
+                    .stroke(Color.gray.opacity(0.8), lineWidth: 0.4)
             )
+            .padding(.horizontal)
 
-            VStack {
-                List(searchResults, id: \.self) { name in
-                    Text(name)
-                        .onTapGesture {
-                            self.name = name
-                            showSearchBar = false
-                            searchText = ""
+            VStack(alignment: .center, spacing: 10) {
+                if !searchResults.isEmpty {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 5) {
+                            ForEach(searchResults, id: \.self) { name in
+                                Text(name)
+                                    .padding(.vertical, 5)
+                                    .padding(.leading, 10)
+                                    .onTapGesture {
+                                        self.name = name
+                                        showSearchBar = false
+                                        searchText = ""
+                                        resultAction()
+                                    }
+                                Divider()
+                            }
                         }
-                        .listRowBackground(Color.background)
-                } //: LIST - SEARCH OPTIONS
-                .scrollIndicators(.visible)
-                .scrollContentBackground(.hidden)
-                .listStyle(.inset)
-                .listRowSpacing(-5)
-                .padding(EdgeInsets(top: -8, leading: -5, bottom: 10, trailing: 0))
-            } //: VSTACK
-        }
+                    }
+                    .frame(maxHeight: CGFloat(searchResults.count * 33), alignment: .leading)
+                    .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+                }
+            } //: VSTACK - SEARCH RESULTS
+        } //: HSTACK - MAIN
+        .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : .background)
     }
 }
 

@@ -16,6 +16,8 @@ struct ProductRowViewCell: View {
     var actionEditProduct: () -> Void
     var isEditAvailable : Bool = false
 
+    private var selected : Bool = false
+
     private var deleteLabel : String = "Delete"
     private var deleteIcon : String = "trash"
     private var addFavLabel : String = "Add Favorite"
@@ -26,44 +28,45 @@ struct ProductRowViewCell: View {
     private var editIcon : String = "square.and.pencil"
 
     //MARK: - INITIALIZATION
-    init(vm: CategoriesProductsViewModel, product: DMProduct, actionEditProduct: @escaping () -> Void, isEditAvailable: Bool = false) {
+    init(vm: CategoriesProductsViewModel, product: DMProduct, actionEditProduct: @escaping () -> Void, isEditAvailable: Bool = false, selected: Bool = false) {
         self.vm = vm
         self.product = product
         self.actionEditProduct = actionEditProduct
         self.isEditAvailable = product.custom
+        self.selected = selected
     }
 
     //MARK: - FUNCTIONS
     func disableProduct() {
         product.active.toggle()
-        vm.saveUpdates()
+        vm.saveCategoriesProductsUpdates()
     }
 
     func favProduct() {
         product.favorite.toggle()
-        vm.saveUpdates()
+        vm.saveCategoriesProductsUpdates()
         favCategory()
     }
 
     func favCategory() {
         vm.setFavoriteCategory()
-        vm.saveUpdates()
+        vm.saveCategoriesProductsUpdates()
     }
-
 
     //MARK: - BODY
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .top, spacing: 0) {
-                Text(product.name ?? "Product Name Unknown")
+                Text(product.name ?? "Product Unknown")
+                    .fontWeight(selected ? .black : .regular)
 
                 Spacer()
 
                 if product.favorite {
                     Image(systemName: "star.fill")
                         .foregroundStyle(.yellow)
+                        .padding(.trailing, -8)
                 }
-
             } //: HSTACK PRODUCT
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 if isEditAvailable {
@@ -104,7 +107,7 @@ struct ProductRowViewCell: View {
         .onTapGesture(count: 2) {
             favProduct()
         }
-    } //: VIEW
+    } //: VIEW  
 }
 
 #if DEBUG

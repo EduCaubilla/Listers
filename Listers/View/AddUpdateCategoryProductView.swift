@@ -91,7 +91,7 @@ struct AddUpdateCategoryProductView: View {
             productToUpdate.active = active
             productToUpdate.categoryId = Int16(selectedCategory.categoryId)
 
-            vm.saveUpdates()
+            vm.saveCategoriesProductsUpdates()
         } else {
             print("Item could not be updated.")
         }

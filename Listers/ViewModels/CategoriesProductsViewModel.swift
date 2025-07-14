@@ -60,7 +60,7 @@ class CategoriesProductsViewModel: ObservableObject {
         }
     }
 
-    func getFavoriteProducts(for category: DMCategory,incase showFavoritesOnly: Bool) -> [DMProduct] {
+    func getFavoriteProducts(for category: DMCategory,inCase showFavoritesOnly: Bool) -> [DMProduct] {
         if let productsFetched = persistenceManager.fetchProductsByCategory(category) {
             if category.favorite, showFavoritesOnly {
                 return productsFetched.filter({ $0.favorite })
@@ -86,13 +86,6 @@ class CategoriesProductsViewModel: ObservableObject {
         return []
     }
 
-    func getProductByCategoryId(_ categoryId: Int16) -> DMProduct? {
-        if let productFetched = persistenceManager.fetchProductByCategoryId(categoryId) {
-            return productFetched
-        }
-        return nil
-    }
-
     func setProductsByCategory(_ category: DMCategory) {
         self.productsByCategory = getProductsByCategory(category)
     }
@@ -112,7 +105,7 @@ class CategoriesProductsViewModel: ObservableObject {
             favorite: favorite,
             custom: true
         )
-        saveUpdates()
+        saveCategoriesProductsUpdates()
     }
 
     func getCategoryIdByProductName(_ name: String) -> Int16? {
@@ -149,7 +142,7 @@ class CategoriesProductsViewModel: ObservableObject {
     }
 
 
-    func saveUpdates() {
+    func saveCategoriesProductsUpdates() {
         persistenceManager.savePersistence()
         refreshCategoriesProductsData()
     }
