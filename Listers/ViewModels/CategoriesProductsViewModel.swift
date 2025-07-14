@@ -53,21 +53,25 @@ class CategoriesProductsViewModel: ObservableObject {
     func fetchProducts() {
         let productsResult = persistenceManager.fetchAllProducts()
         if let productsFetched = productsResult {
-            products = productsFetched.sorted { $0.name! < $1.name! }
+            let activeProducts = productsFetched.filter({ $0.active })
+            let resultProducts = activeProducts.sorted { $0.name! < $1.name! }
+            products = resultProducts
+
             productNames = getProductNames()
 
-            print("Loaded products in view model \(products.count)")
+            print("Loaded active products in view model \(products.count)")
         }
     }
 
     func getFavoriteProducts(for category: DMCategory,inCase showFavoritesOnly: Bool) -> [DMProduct] {
-        if let productsFetched = persistenceManager.fetchProductsByCategory(category) {
-            if category.favorite, showFavoritesOnly {
-                return productsFetched.filter({ $0.favorite })
-            } else if !showFavoritesOnly {
-                return productsFetched
-            }
+        let productsFetched = getProductsByCategory(category)
+
+        if category.favorite, showFavoritesOnly {
+            return productsFetched.filter({ $0.favorite })
+        } else if !showFavoritesOnly {
+            return productsFetched
         }
+
         return []
     }
 
@@ -81,7 +85,9 @@ class CategoriesProductsViewModel: ObservableObject {
 
     func getProductsByCategory(_ category: DMCategory) -> [DMProduct] {
         if let productsFetched = persistenceManager.fetchProductsByCategory(category) {
-            return productsFetched
+            let activeProducts = productsFetched.filter({ $0.active })
+            let resultProducts = activeProducts.sorted { $0.name! < $1.name! }
+            return resultProducts
         }
         return []
     }
@@ -95,6 +101,24 @@ class CategoriesProductsViewModel: ObservableObject {
         return newId != 0 ? newId + 1 : 0
     }
 
+    func addProductToList(_ product: DMProduct) {
+        persistenceManager.createItem(
+            name: product.name!,
+            description: product.description,
+            quantity: 0,
+            favorite: product.favorite,
+            priority: .normal,
+            completed: false,
+            selected: false,
+            creationDate: Date.now,
+            endDate: Date.now,
+            image: "",
+            link: "",
+            listId: selectedList?.id
+        )
+        saveCategoriesProductsUpdates()
+    }
+
     func saveNewProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
         persistenceManager.createProduct(
             id: createIdForNewProduct(),
@@ -106,6 +130,27 @@ class CategoriesProductsViewModel: ObservableObject {
             custom: true
         )
         saveCategoriesProductsUpdates()
+    }
+
+    func duplicate(product: DMProduct) -> Int {
+        let newId = createIdForNewProduct()
+
+        persistenceManager.createProduct(
+            id: newId,
+            name: product.name!,
+            note: product.note,
+            categoryId: Int16(product.categoryId),
+            active: product.active,
+            favorite: product.favorite,
+            custom: true
+        )
+        saveCategoriesProductsUpdates()
+
+        return newId
+    }
+
+    func getProductById(_ id: Int) -> DMProduct? {
+        return products.first(where: { $0.id == id })
     }
 
     func getCategoryIdByProductName(_ name: String) -> Int16? {
@@ -140,7 +185,6 @@ class CategoriesProductsViewModel: ObservableObject {
         }
         refreshCategoriesProductsData()
     }
-
 
     func saveCategoriesProductsUpdates() {
         persistenceManager.savePersistence()

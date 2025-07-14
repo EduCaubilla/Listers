@@ -167,12 +167,35 @@ class MainItemsListsViewModel: ObservableObject {
     }
 
     func addList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool) {
-        _ = persistenceManager.createList(name: name, description: description, creationDate: creationDate, endDate: endDate, pinned: pinned, selected: selected, expanded: expanded)
+        persistenceManager
+            .createList(
+                name: name,
+                description: description,
+                creationDate: creationDate,
+                endDate: endDate,
+                pinned: pinned,
+                selected: selected,
+                expanded: expanded
+            )
         saveItemListsChanges()
     }
 
-    func addItem(name: String, description: String?, quantity: Int16, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) {
-        _ = persistenceManager.createItem(name: name, description: description, quantity: quantity, favorite: favorite, priority: priority, completed: completed, selected: selected, creationDate: creationDate, endDate: endDate, image: image, link: link, listId: listId)
+    func addItemToList(name: String, description: String?, quantity: Int16, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) {
+        persistenceManager
+            .createItem(
+                name: name,
+                description: description,
+                quantity: quantity,
+                favorite: favorite,
+                priority: priority,
+                completed: completed,
+                selected: selected,
+                creationDate: creationDate,
+                endDate: endDate,
+                image: image,
+                link: link,
+                listId: listId
+            )
         saveItemListsChanges()
     }
 

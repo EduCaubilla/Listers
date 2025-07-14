@@ -71,7 +71,7 @@ struct AddUpdateCategoryProductView: View {
                 name: name,
                 description: description,
                 categoryId: selectedCategory.categoryId,
-                active: active,
+                active: true,
                 favorite: favorite
             )
         }
@@ -155,9 +155,9 @@ struct AddUpdateCategoryProductView: View {
                             .padding(.top, 5)
 
 
-                        //MARK: - ACTIVE //TODO - only in edit
-                        Toggle("Active", isOn: $active)
-                            .padding(.top, 5)
+//                        //MARK: - ACTIVE //TODO - only in edit
+//                        Toggle("Active", isOn: $active)
+//                            .padding(.top, 5)
 
 
                         //MARK: - SAVE BUTTON

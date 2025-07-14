@@ -27,6 +27,13 @@ struct ProductRowViewCell: View {
     private var editLabel : String = "Edit"
     private var editIcon : String = "square.and.pencil"
 
+    @State private var showAddedToListAlert: Bool = false
+    @State private var showAddedToSelectedListAlert: Bool = false
+    @State private var showEditedAlert: Bool = false
+    @State private var showRemovedFromLibraryAlert: Bool = false
+
+    @State private var showingListSelectionToAddProductView: Bool = false
+
     //MARK: - INITIALIZATION
     init(vm: CategoriesProductsViewModel, product: DMProduct, actionEditProduct: @escaping () -> Void, isEditAvailable: Bool = false, selected: Bool = false) {
         self.vm = vm
@@ -37,11 +44,6 @@ struct ProductRowViewCell: View {
     }
 
     //MARK: - FUNCTIONS
-    func disableProduct() {
-        product.active.toggle()
-        vm.saveCategoriesProductsUpdates()
-    }
-
     func favProduct() {
         product.favorite.toggle()
         vm.saveCategoriesProductsUpdates()
@@ -53,61 +55,106 @@ struct ProductRowViewCell: View {
         vm.saveCategoriesProductsUpdates()
     }
 
+    func addProductToList(){
+        vm.addProductToList(product)
+        showAddedToListAlert = true
+        print("Add product \(self.product.name ?? "Unknown product") to list \(String(describing: vm.selectedList))")
+    }
+
+    func addProductToListWithSelection() {
+        //TODO - Create sheet to select list and then save it
+
+        showingListSelectionToAddProductView = true
+        print("Add product \(self.product.name ?? "Unknown product") to list with selection")
+    }
+
+    func editProduct() {
+        actionEditProduct()
+        showEditedAlert = true
+        print("Edit product \(self.product.name ?? "Unknown product")")
+    }
+
+    func duplicateAndEditProduct() {
+        let newProductId: Int = vm.duplicate(product: product)
+        let newProduct = vm.getProductById(newProductId)
+        if let newProduct = newProduct {
+            vm.selectedProduct = newProduct
+            vm.showingEditProductView.toggle()
+            print("Duplicate product \(self.product.name ?? "Unknown product") and edit")
+        } else {
+            print( "Error duplicating product \(self.product.name ?? "Unknown product")")
+        }
+    }
+
+    func removeProductFromLibrary() {
+        product.active = false
+        vm.saveCategoriesProductsUpdates()
+        showRemovedFromLibraryAlert = true
+        vm.selectedProduct = nil
+        print("Remove product \(self.product.name ?? "Unknown product") from library")
+    }
+
     //MARK: - BODY
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 0) {
+            HStack(alignment: .center, spacing: 10) {
                 Text(product.name ?? "Product Unknown")
                     .fontWeight(selected ? .black : .regular)
 
                 Spacer()
 
-                if product.favorite {
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(.yellow)
-                        .padding(.trailing, -8)
+                Image(systemName: "star.fill")
+                    .foregroundStyle(.yellow)
+                    .opacity(product.favorite ? 1 : 0)
+
+                Menu {
+                    Button("Add to current list", action: addProductToList)
+//                    Button("Add to list with selection", action: addProductToListWithSelection)
+                    Button(product.favorite ? "Remove favorite " : "Add to favorites", action: favProduct)
+                    Button("Edit product", action: editProduct)
+                    Button("Duplicate and edit", action: duplicateAndEditProduct)
+                    Button("Remove", action: removeProductFromLibrary)
+                } label: {
+                    Image(systemName: "ellipsis.circle")
                 }
             } //: HSTACK PRODUCT
-            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                if isEditAvailable {
-                    Button(action: {
-                        disableProduct()
-                    }) {
-                        Label(deleteLabel, systemImage: deleteIcon)
-                    }
-                    .tint(.red)
-                }
-            }
-            .swipeActions(edge: .leading) {
-                Button(action: {
-                    favProduct()
-                }) {
-                    if product.favorite {
-                        Label(addFavLabel, systemImage: addFavIcon)
-                            .labelStyle(.iconOnly)
-                    } else {
-                        Label(removeFavLabel, systemImage: removeFavIcon)
-                            .labelStyle(.iconOnly)
-                    }
-                }
-                .tint(product.favorite ? .yellow : .gray)
-
-                if isEditAvailable {
-                    Button(action: {
-                        actionEditProduct()
-                    }) {
-                        Label(editLabel, systemImage: editIcon)
-                    }
-                    .tint(.mediumBlue)
-                }
-            }
+            .contentShape(Rectangle())
         } //: VSTACK MAIN
         .frame(minHeight: 25, idealHeight: 25, maxHeight: 35)
         .background(Color.background)
         .onTapGesture(count: 2) {
             favProduct()
         }
-    } //: VIEW  
+        .alert("Adding Successful", isPresented: $showAddedToListAlert) {
+            Button("Ok") {
+                showAddedToListAlert = false
+            }
+        } message: {
+                Text("Product \(product.name!) successfully added to current list")
+        }
+//        .alert("Adding Successful", isPresented: $showAddedToSelectedListAlert) {
+//            Button("Ok") {
+//                showAddedToSelectedListAlert = false
+//            }
+//        } message: {
+//            Text("Product \(product.name!) successfully added to selected list \(selectedList.name ?? "")")
+//        }
+        .alert("Edit Successful", isPresented: $showEditedAlert) {
+            Button("Ok") {
+                showEditedAlert = false
+            }
+        } message: {
+            Text("Product \(product.name!) successfully edited")
+        }
+        .alert("Removing Successful", isPresented: $showRemovedFromLibraryAlert) {
+            Button("Ok") {
+                showRemovedFromLibraryAlert = false
+            }
+        } message: {
+            Text("Product \(product.name!) successfully removed from library")
+        }
+
+    } //: VIEW
 }
 
 #if DEBUG

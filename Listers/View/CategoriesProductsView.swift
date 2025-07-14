@@ -15,8 +15,6 @@ struct CategoriesProductsView: View {
 
     @StateObject var vm : CategoriesProductsViewModel
 
-    @State private var selectedProduct: DMProduct?
-
     @State private var isShowingFavorites: Bool = false
 
     @State private var name : String = ""
@@ -42,13 +40,14 @@ struct CategoriesProductsView: View {
 
     //MARK: - FUNCTIONS
     private func editProduct(_ product: DMProduct) {
-        selectedProduct = product
+        vm.selectedProduct = product
         vm.showingEditProductView = true
-        print("Edit item: \(String(describing: vm.selectedProduct))")
+        print("Edit item local: \(String(describing: vm.selectedProduct))")
+        print("Edit item from vm: \(String(describing: vm.selectedProduct))")
     }
 
     private func setProductSelection(for product: DMProduct) -> Bool {
-        return product.name == selectedProduct?.name ?? ""
+        return product.name == vm.selectedProduct?.name ?? ""
     }
 
     private func scrollToFoundProduct(proxy: ScrollViewProxy) {
@@ -70,7 +69,7 @@ struct CategoriesProductsView: View {
                 vm.saveCategoriesProductsUpdates()
 
                 print("Scroll to found product: \(name) with id: \(productToScroll.id)")
-                selectedProduct = productToScroll
+                vm.selectedProduct = productToScroll
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                     withAnimation(.default){
@@ -148,15 +147,6 @@ struct CategoriesProductsView: View {
                         })
                     .toolbarBackground(Color.background, for: .navigationBar)
                         .toolbar {
-                            ToolbarItem(id: "Search", showsByDefault: true) {
-                                Button(action: {
-                                    showSearchBar = true
-                                }) {
-                                    Image(systemName: "magnifyingglass")
-                                        .foregroundStyle(.darkBlue)
-                                } //: SEARCH BUTTON
-                            } //: TOOLBAR ITEM
-
                             ToolbarItem(id: "Favorites", showsByDefault: false) {
                                 Button(action: {
                                     isShowingFavorites.toggle()
@@ -173,7 +163,16 @@ struct CategoriesProductsView: View {
                                             .foregroundStyle(.darkBlue)
                                     }
                                 } //: FAV BUTTON
-                                .padding(EdgeInsets(top: 0, leading: -5, bottom: 0, trailing: 10))
+                                .padding(.trailing, -10)
+                            } //: TOOLBAR ITEM
+
+                            ToolbarItem(id: "Search", showsByDefault: true) {
+                                Button(action: {
+                                    showSearchBar = true
+                                }) {
+                                    Image(systemName: "magnifyingglass")
+                                        .foregroundStyle(.darkBlue)
+                                } //: SEARCH BUTTON
                             } //: TOOLBAR ITEM
 
                         } //: TOOLBAR
@@ -199,7 +198,7 @@ struct CategoriesProductsView: View {
                 .presentationBackground(Color.background)
         }
         .sheet(isPresented: $vm.showingEditProductView) {
-            AddUpdateCategoryProductView(product: selectedProduct, vm: vm)
+            AddUpdateCategoryProductView(product: vm.selectedProduct, vm: vm)
                 .padding(.top, 20)
                 .presentationDetents([.medium])
                 .presentationBackground(Color.background)

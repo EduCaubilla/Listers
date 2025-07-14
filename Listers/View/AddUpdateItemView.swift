@@ -69,7 +69,7 @@ struct AddUpdateItemView: View {
     //MARK: - FUNCTIONS
     private func saveNewItem() {
         if !name.isEmpty {
-            vm.addItem(
+            vm.addItemToList(
                 name: name,
                 description: description,
                 quantity: Int16(quantity) ?? 0,
