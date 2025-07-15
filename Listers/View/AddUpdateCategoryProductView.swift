@@ -28,14 +28,6 @@ struct AddUpdateCategoryProductView: View {
     @State private var errorMessage : String = ""
 
     @FocusState private var isNameTextFieldFocused: Bool
-//    @FocusState private var isSearchBarFocused: Bool
-
-    @State private var showSearchBar: Bool = false
-    @State private var searchText: String = ""
-
-    var searchResults: [String] {
-        return vm.productNames.filter { $0.lowercased().contains(searchText.lowercased()) }
-    }
 
     var itemTitle : String {
         isProductToUpdate ? "Edit Product" : "New Product"
@@ -47,6 +39,8 @@ struct AddUpdateCategoryProductView: View {
     }
     
     init(product: DMProduct? = nil, vm: CategoriesProductsViewModel) {
+        self.vm = vm
+
         if let product = product {
             _name = State(initialValue: product.name ?? "Unknown")
             _description = State(initialValue:product.note ?? "")
@@ -55,13 +49,10 @@ struct AddUpdateCategoryProductView: View {
             _selectedCategory = State(initialValue:Categories.idMapper(for: product.categoryId))
         }
 
-        print("Init AddUpdateCategoryProductView to EDIT")
-        print(product ?? "No item passed")
+        print("Init AddUpdateCategoryProductView to EDIT: \(String(describing: product?.name))")
 
         productToUpdate = product
         isProductToUpdate = true
-
-        self.vm = vm
     }
 
     //MARK: - FUNCTIONS
@@ -91,7 +82,15 @@ struct AddUpdateCategoryProductView: View {
             productToUpdate.active = active
             productToUpdate.categoryId = Int16(selectedCategory.categoryId)
 
+            print("SAVE Updated product \(String(describing: productToUpdate.name))")
+
             vm.saveCategoriesProductsUpdates()
+
+            vm.setSelectedProduct(productToUpdate)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                vm.activeAlert = ProductAlert(type: .edited)
+            }
         } else {
             print("Item could not be updated.")
         }
@@ -116,12 +115,6 @@ struct AddUpdateCategoryProductView: View {
                             .autocorrectionDisabled(true)
                             .focused($isNameTextFieldFocused)
                             .foregroundStyle(.primaryText)
-                            .onChange(of: name) { oldValue, newValue in
-                                showSearchBar = false
-                                if newValue == "" {
-                                    selectedCategory = .allCases.first!
-                                }
-                            }
 
                         Divider()
 
@@ -154,15 +147,13 @@ struct AddUpdateCategoryProductView: View {
                         Toggle("Favorite", isOn: $favorite)
                             .padding(.top, 5)
 
-
 //                        //MARK: - ACTIVE //TODO - only in edit
 //                        Toggle("Active", isOn: $active)
 //                            .padding(.top, 5)
 
-
                         //MARK: - SAVE BUTTON
                         SaveButtonView(text: "Save", action: {
-                            if(isProductToUpdate) {
+                            if isProductToUpdate {
                                 updateProduct()
                             } else {
                                 saveNewProduct()
@@ -171,37 +162,6 @@ struct AddUpdateCategoryProductView: View {
                         })
                         .padding(.top, 10)
                     } //: VSTACK MAIN
-                    .onTapGesture {
-                        if showSearchBar {
-                            showSearchBar = false
-                        }
-                    }
-
-                    //MARK: - SEARCH BUTTON
-                    VStack {
-                        if !isProductToUpdate {
-                            if !showSearchBar {
-                                Button(action: {
-                                    //TODO - Open products page as sheet
-                                    showSearchBar = true
-                                }) {
-                                    Text("Search in products")
-                                        .font(.system(size: 20, weight: .medium))
-                                        .padding(10)
-                                        .frame(minWidth: 0, maxWidth: .infinity)
-                                        .background(
-                                            Capsule()
-                                                .fill(Color.background)
-                                                .stroke(Color.mediumBlue, lineWidth: 1)
-                                        )
-                                        .foregroundStyle(.lightBlue)
-                                } //: SEARCH BUTTON
-                            } else {
-                                SearchBarCustomView(name: $name, showSearchBar: $showSearchBar, productNameList: vm.productNames)
-                            }
-                        }
-                    } //: VSTACK SEARCH
-                    .animation(.easeInOut, value: showSearchBar)
                 } //: VSTACK
                 .padding(20)
 
@@ -217,15 +177,6 @@ struct AddUpdateCategoryProductView: View {
                         Image(systemName: "xmark")
                             .foregroundStyle(.darkBlue)
                     } //: DISSMISS BUTTON
-                }
-                ToolbarItem(placement: .topBarLeading) {
-                    Button(action: {
-                        //Open products searchbar below
-                        showSearchBar = true
-                    }) {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundStyle(.darkBlue)
-                    } //: SEARCH BUTTON
                 }
             } //: TOOLBAR
             .alert(isPresented: $errorShowing) {

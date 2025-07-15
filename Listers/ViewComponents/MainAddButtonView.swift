@@ -12,25 +12,23 @@ struct MainAddButtonView: View {
     var addButtonLabel: String = "Add"
     var addButtonIcon: String = "plus"
     var addButtonAction: () -> Void = {}
+    var isSystemImage: Bool = true
 
     var body: some View {
-        Button(addButtonLabel, systemImage: addButtonIcon) {
-            addButtonAction()
+        if isSystemImage {
+            Button(addButtonLabel, systemImage: addButtonIcon) {
+                addButtonAction()
+            }
+            .modifier(MainAddButtonModifier())
+        } else {
+            Button(addButtonLabel, image: ImageResource(name: addButtonIcon, bundle: Bundle.main)) {
+                addButtonAction()
+            }
+            .modifier(MainAddButtonModifier())
         }
-        .foregroundStyle(.white)
-        .shadow(color: .black.opacity(0.5), radius: 3, x: 1, y: 1)
-        .padding(.horizontal, 20)
-        .padding(.vertical, 10)
-        .font(.system(size: 20, weight: .regular, design: .default))
-        .background(
-            Capsule()
-                .fill(Color.mediumBlue)
-        )
-        .padding(15)
-        .shadow(color: .darkBlue.opacity(0.2), radius: 1, x: 0.5, y: 0.5)
     }
 }
 
 #Preview (traits: .sizeThatFitsLayout) {
-    MainAddButtonView()
+    MainAddButtonView(addButtonLabel: "Add", addButtonIcon: "plus", addButtonAction: {}, isSystemImage: true)
 }

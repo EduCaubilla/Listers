@@ -72,7 +72,13 @@ class MainItemsListsViewModel: ObservableObject {
         let listsResult = persistenceManager.fetchAllLists()
         print("Lists fetched: \(listsResult?.count ?? 0)")
         if let listsResult = listsResult {
-            self.lists = listsResult
+            // Sort - Pinned first ordered by date, if it has, and then by name, then the unpinned with same date/name order
+            let sortedItems = listsResult.sorted {
+                ($0.pinned ? 0 : 1, $0.creationDate ?? .distantFuture, $0.name!)
+                <
+                ($1.pinned ? 0 : 1, $1.creationDate ?? .distantFuture, $1.name!)
+            }
+            self.lists = sortedItems
             return
         } else {
             lists = []
@@ -110,11 +116,6 @@ class MainItemsListsViewModel: ObservableObject {
         selectedList = lists[0]
         lists[0].selected = true
         saveItemListsChanges()
-    }
-
-    private func refreshItemsListData() {
-        loadLists()
-        loadItemsForSelectedList()
     }
 
     func fetchItemsForList(_ list: DMList) -> [DMItem] {
@@ -161,7 +162,8 @@ class MainItemsListsViewModel: ObservableObject {
             categoryId: Int16(categoryId),
             active: active,
             favorite: favorite,
-            custom: true
+            custom: true,
+            selected: false
         )
         saveItemListsChanges()
     }
@@ -197,6 +199,11 @@ class MainItemsListsViewModel: ObservableObject {
                 listId: listId
             )
         saveItemListsChanges()
+    }
+
+    private func refreshItemsListData() {
+        loadLists()
+        loadItemsForSelectedList()
     }
 
     func saveItemListsChanges() {

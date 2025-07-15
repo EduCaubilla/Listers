@@ -17,12 +17,12 @@ struct PersistenceController {
 
         //Enable lightweight migration
         let description = container.persistentStoreDescriptions.first
-        print("Core Data SQLite file is located at: \(description?.url?.path ?? "Unknown")")
+        print("START PERSISTENCE\nCore Data SQLite file is located at: \(description?.url?.path ?? "Unknown")")
 
         if inMemory {
             description?.url = URL(fileURLWithPath: "/dev/null")
         }
-//        // TO REMOVE STORED DATA IN CASE OF ERROR IN DEBUG PREVIEW
+//        // UNCOMMENT TO REMOVE STORED DATA IN CASE OF ERROR IN DEBUG PREVIEW
 //        else {
 //        #if DEBUG
 //            if let storeURL = description?.url {
@@ -108,6 +108,8 @@ struct PersistenceController {
             newProduct.note = ""
             newProduct.active = true
             newProduct.favorite = false
+            newProduct.selected = false
+            newProduct.custom = false
 
             switch i {
                 case 0..<3:

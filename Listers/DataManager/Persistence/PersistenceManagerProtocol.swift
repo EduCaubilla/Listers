@@ -52,7 +52,8 @@ protocol PersistenceManagerProtocol {
         categoryId: Int16,
         active: Bool,
         favorite: Bool,
-        custom: Bool
+        custom: Bool,
+        selected: Bool
     )
     func fetchAllProducts() -> [DMProduct]?
     func fetchProductsByCategory(_ category: DMCategory) -> [DMProduct]?

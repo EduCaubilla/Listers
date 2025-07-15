@@ -35,7 +35,8 @@ struct ListsView: View {
     private func sortLists() {
         if vm.lists.count > 0 {
             lists = vm.lists.sorted {
-                ($0.pinned ? 0 : 1, $0.name?.lowercased() ?? "") <
+                ($0.pinned ? 0 : 1, $0.name?.lowercased() ?? "")
+                <
                 ($1.pinned ? 0 : 1, $1.name?.lowercased() ?? "")
             }
         }
@@ -72,7 +73,7 @@ struct ListsView: View {
                                 router.navigateTo(.main)
                             }
                         }
-                    }
+                    } //: LOOP
                     .listRowSeparator(.hidden)
                     .listRowBackground(Color.clear)
                 }
@@ -112,13 +113,13 @@ struct ListsView: View {
         .sheet(isPresented: $showingAddListView) {
             AddUpdateListView(vm: vm)
                 .padding(.top, 20)
-                .presentationDetents([.height(220)])
+                .presentationDetents([.height(260)])
                 .presentationBackground(Color.background)
         }
         .sheet(isPresented: $showingUpdateListView) {
             AddUpdateListView(vm: vm, list: vm.selectedList)
                 .padding(.top, 20)
-                .presentationDetents([.height(220)])
+                .presentationDetents([.height(260)])
                 .presentationBackground(Color.background)
         }
     } //: VIEW BODY

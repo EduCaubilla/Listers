@@ -52,6 +52,8 @@ struct AddUpdateItemView: View {
     }
 
     init (item: DMItem? = nil, vm: MainItemsListsViewModel) {
+        self.vm = vm
+
         if let item = item {
             _name = State(initialValue: item.name ?? "Unknown")
             _description = State(initialValue:item.note ?? "")
@@ -62,8 +64,6 @@ struct AddUpdateItemView: View {
 
         itemToUpdate = item
         isItemToUpdate = true
-
-        self.vm = vm
     }
 
     //MARK: - FUNCTIONS
@@ -142,6 +142,11 @@ struct AddUpdateItemView: View {
                         }
                         Divider()
                     } //: VSTACK - NAME FIELD
+                    .onAppear(perform: {
+                        if isItemToUpdate {
+                            showNameSuggestions = false
+                        }
+                    })
                     .onChange(of: name) { oldValue, newValue in
                         if oldValue == nameSetFromList, !searchResults.isEmpty {
                             showNameSuggestions = true
@@ -149,7 +154,9 @@ struct AddUpdateItemView: View {
 
                         if searchResults.isEmpty {
                             showNameSuggestions = false
-                        } else if !searchResults.isEmpty && !showNameSuggestions && nameSetFromList != name {
+                        } else if !searchResults.isEmpty &&
+                                !showNameSuggestions &&
+                                nameSetFromList != name {
                             showNameSuggestions = true
                         }
                     }
@@ -259,6 +266,9 @@ struct AddUpdateItemView: View {
             .toolbar {
                 ToolbarItem {
                     Button(action: {
+                        if isItemToUpdate {
+                            updateItem()
+                        }
                         dismiss()
                     }) {
                         Image(systemName: "xmark")

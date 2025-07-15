@@ -16,36 +16,21 @@ struct ProductRowViewCell: View {
     var actionEditProduct: () -> Void
     var isEditAvailable : Bool = false
 
-    private var selected : Bool = false
-
-    private var deleteLabel : String = "Delete"
-    private var deleteIcon : String = "trash"
-    private var addFavLabel : String = "Add Favorite"
-    private var addFavIcon : String = "star.fill"
-    private var removeFavLabel : String = "Remove Favorite"
-    private var removeFavIcon : String = "star"
-    private var editLabel : String = "Edit"
-    private var editIcon : String = "square.and.pencil"
-
-    @State private var showAddedToListAlert: Bool = false
-    @State private var showAddedToSelectedListAlert: Bool = false
-    @State private var showEditedAlert: Bool = false
-    @State private var showRemovedFromLibraryAlert: Bool = false
-
     @State private var showingListSelectionToAddProductView: Bool = false
 
     //MARK: - INITIALIZATION
-    init(vm: CategoriesProductsViewModel, product: DMProduct, actionEditProduct: @escaping () -> Void, isEditAvailable: Bool = false, selected: Bool = false) {
+    init(vm: CategoriesProductsViewModel, product: DMProduct, actionEditProduct: @escaping () -> Void, isEditAvailable: Bool = false) {
         self.vm = vm
         self.product = product
         self.actionEditProduct = actionEditProduct
         self.isEditAvailable = product.custom
-        self.selected = selected
     }
 
     //MARK: - FUNCTIONS
     func favProduct() {
+        print("Fav product \(product.name ?? "Unknown product")")
         product.favorite.toggle()
+        vm.setSelectedProduct(product)
         vm.saveCategoriesProductsUpdates()
         favCategory()
     }
@@ -56,21 +41,21 @@ struct ProductRowViewCell: View {
     }
 
     func addProductToList(){
+        vm.setSelectedProduct(product)
         vm.addProductToList(product)
-        showAddedToListAlert = true
+        vm.activeAlert = ProductAlert(type: .addedToList)
         print("Add product \(self.product.name ?? "Unknown product") to list \(String(describing: vm.selectedList))")
     }
 
     func addProductToListWithSelection() {
-        //TODO - Create sheet to select list and then save it
-
-        showingListSelectionToAddProductView = true
+        vm.setSelectedProduct(product)
+        vm.showingListSelectionToAddProductView = true
         print("Add product \(self.product.name ?? "Unknown product") to list with selection")
     }
 
     func editProduct() {
         actionEditProduct()
-        showEditedAlert = true
+        vm.setSelectedProduct(product)
         print("Edit product \(self.product.name ?? "Unknown product")")
     }
 
@@ -78,18 +63,25 @@ struct ProductRowViewCell: View {
         let newProductId: Int = vm.duplicate(product: product)
         let newProduct = vm.getProductById(newProductId)
         if let newProduct = newProduct {
-            vm.selectedProduct = newProduct
+            vm.setSelectedProduct(newProduct)
             vm.showingEditProductView.toggle()
             print("Duplicate product \(self.product.name ?? "Unknown product") and edit")
         } else {
-            print( "Error duplicating product \(self.product.name ?? "Unknown product")")
+            print("Error duplicating product \(self.product.name ?? "Unknown product")")
         }
+    }
+
+    func confirmationToRemoveProductFromLibrary() {
+        vm.setSelectedProduct(product)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            vm.activeAlert = ProductAlert(type: .confirmRemove)
+        }
+        print("Confirmation to remove product \(self.product.name ?? "Unknown product") from library")
     }
 
     func removeProductFromLibrary() {
         product.active = false
         vm.saveCategoriesProductsUpdates()
-        showRemovedFromLibraryAlert = true
         vm.selectedProduct = nil
         print("Remove product \(self.product.name ?? "Unknown product") from library")
     }
@@ -99,7 +91,7 @@ struct ProductRowViewCell: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .center, spacing: 10) {
                 Text(product.name ?? "Product Unknown")
-                    .fontWeight(selected ? .black : .regular)
+                    .fontWeight(product.selected ? .black : .regular)
 
                 Spacer()
 
@@ -109,11 +101,11 @@ struct ProductRowViewCell: View {
 
                 Menu {
                     Button("Add to current list", action: addProductToList)
-//                    Button("Add to list with selection", action: addProductToListWithSelection)
+                    Button("Add to list with selection", action: addProductToListWithSelection)
                     Button(product.favorite ? "Remove favorite " : "Add to favorites", action: favProduct)
-                    Button("Edit product", action: editProduct)
+                    if(isEditAvailable) { Button("Edit product", action: editProduct) }
                     Button("Duplicate and edit", action: duplicateAndEditProduct)
-                    Button("Remove", action: removeProductFromLibrary)
+                    Button("Remove", action: confirmationToRemoveProductFromLibrary)
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
@@ -125,35 +117,41 @@ struct ProductRowViewCell: View {
         .onTapGesture(count: 2) {
             favProduct()
         }
-        .alert("Adding Successful", isPresented: $showAddedToListAlert) {
-            Button("Ok") {
-                showAddedToListAlert = false
+        .alert(
+            vm.activeAlert?.type.title ?? "",
+            isPresented: Binding<Bool>(
+                get: { vm.activeAlert != nil },
+                set: { if !$0 { vm.activeAlert = nil } }
+            ),
+            presenting: vm.activeAlert,
+            actions: { alert in
+                switch alert.type {
+                    case .addedToList, .addedToSelectedList, .edited:
+                        Button("Ok", role: .cancel) {
+                            vm.activeAlert = nil
+                        }
+                    case .confirmRemove:
+                        Button("Remove", role: .destructive) {
+                            removeProductFromLibrary()
+                        }
+                        Button("Cancel", role: .cancel) {
+                            vm.activeAlert = nil
+                        }
+                }
+            },
+            message: { alert in
+                switch alert.type {
+                    case .addedToList:
+                        Text("Product \(vm.selectedProduct?.name ?? "") added to current list \(vm.selectedList?.name ?? "").")
+                    case .addedToSelectedList:
+                        Text("Product \(vm.selectedProduct?.name ?? "") added to selected list.")
+                    case .edited:
+                        Text("Product \(vm.selectedProduct?.name ?? "") edited successfully.")
+                    case .confirmRemove:
+                        Text("Are you sure you want to remove product \(vm.selectedProduct?.name ?? "") from the library?")
+                }
             }
-        } message: {
-                Text("Product \(product.name!) successfully added to current list")
-        }
-//        .alert("Adding Successful", isPresented: $showAddedToSelectedListAlert) {
-//            Button("Ok") {
-//                showAddedToSelectedListAlert = false
-//            }
-//        } message: {
-//            Text("Product \(product.name!) successfully added to selected list \(selectedList.name ?? "")")
-//        }
-        .alert("Edit Successful", isPresented: $showEditedAlert) {
-            Button("Ok") {
-                showEditedAlert = false
-            }
-        } message: {
-            Text("Product \(product.name!) successfully edited")
-        }
-        .alert("Removing Successful", isPresented: $showRemovedFromLibraryAlert) {
-            Button("Ok") {
-                showRemovedFromLibraryAlert = false
-            }
-        } message: {
-            Text("Product \(product.name!) successfully removed from library")
-        }
-
+        )
     } //: VIEW
 }
 

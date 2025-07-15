@@ -146,7 +146,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         return 1000
     }
 
-    func createProduct(id: Int, name: String, note: String?, categoryId: Int16, active: Bool, favorite: Bool, custom: Bool = true) {
+    func createProduct(id: Int, name: String, note: String?, categoryId: Int16, active: Bool, favorite: Bool, custom: Bool = true, selected: Bool = false) {
         let newProduct = DMProduct(context: viewContext)
         newProduct.uuid = UUID()
         newProduct.id = Int16(id)
@@ -156,6 +156,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         newProduct.active = active
         newProduct.favorite = favorite
         newProduct.custom = custom
+        newProduct.selected = selected
 
         savePersistence()
     }

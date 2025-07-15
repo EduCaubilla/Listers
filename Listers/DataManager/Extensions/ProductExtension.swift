@@ -9,10 +9,10 @@ import SwiftUI
 import CoreData
 
 extension DMProduct : JSONLoadable {
+
     typealias JSONModel = ProductModel
 
     static var entityName: String { "DMProduct" }
-
     static var jsonFileName: String { "productsES" }
 
     static func mapper(from jsonModel: ProductModel, context: NSManagedObjectContext) -> Self {

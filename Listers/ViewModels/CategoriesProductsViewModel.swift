@@ -13,6 +13,8 @@ class CategoriesProductsViewModel: ObservableObject {
     //MARK: - PROPERTIES
     private let persistenceManager : any PersistenceManagerProtocol
 
+    static let shared = CategoriesProductsViewModel()
+
     @Published var selectedList: DMList?
 
     @Published var categories: [DMCategory] = []
@@ -26,6 +28,14 @@ class CategoriesProductsViewModel: ObservableObject {
     @Published var showingAddProductView: Bool = false
     @Published var showingEditProductView: Bool = false
     @Published var showingDuplicateProductView: Bool = false
+    @Published var showingListSelectionToAddProductView: Bool = false
+
+    @Published var showAddedToListAlert: Bool = false
+    @Published var showAddedToSelectedListAlert: Bool = false
+    @Published var showEditedAlert: Bool = false
+    @Published var showConfirmationToRemoveAlert: Bool = false
+
+    @Published var activeAlert: ProductAlert?
 
     //MARK: - INITIALIZER
     init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
@@ -35,7 +45,7 @@ class CategoriesProductsViewModel: ObservableObject {
 
     //MARK: - FUNCTIONS
     func loadCategoriesProductsData() {
-        print("\nLoad Init Data VM CATPRO -->")
+        print("\nLoad Init Data CategoriesProductsViewModel -->")
         fetchCategories()
         fetchProducts()
         print("All products loaded")
@@ -45,7 +55,6 @@ class CategoriesProductsViewModel: ObservableObject {
         let categoriesResult = persistenceManager.fetchAllCategories()
         if let categoriesFetched = categoriesResult {
             categories = categoriesFetched
-
             print("Loaded categories in view model: \(categories.count)")
         }
     }
@@ -56,10 +65,9 @@ class CategoriesProductsViewModel: ObservableObject {
             let activeProducts = productsFetched.filter({ $0.active })
             let resultProducts = activeProducts.sorted { $0.name! < $1.name! }
             products = resultProducts
+            print("Loaded active products in view model \(products.count)")
 
             productNames = getProductNames()
-
-            print("Loaded active products in view model \(products.count)")
         }
     }
 
@@ -102,9 +110,15 @@ class CategoriesProductsViewModel: ObservableObject {
     }
 
     func addProductToList(_ product: DMProduct) {
+        if selectedList == nil {
+            setSelectedList()
+        }
+
+        print("Add product: \(product.name!) to list: \(selectedList?.name ?? "Unknown list")")
+
         persistenceManager.createItem(
             name: product.name!,
-            description: product.description,
+            description: product.note,
             quantity: 0,
             favorite: product.favorite,
             priority: .normal,
@@ -127,12 +141,15 @@ class CategoriesProductsViewModel: ObservableObject {
             categoryId: Int16(categoryId),
             active: active,
             favorite: favorite,
-            custom: true
+            custom: true,
+            selected: true
         )
         saveCategoriesProductsUpdates()
     }
 
     func duplicate(product: DMProduct) -> Int {
+        product.selected = false
+
         let newId = createIdForNewProduct()
 
         persistenceManager.createProduct(
@@ -142,7 +159,8 @@ class CategoriesProductsViewModel: ObservableObject {
             categoryId: Int16(product.categoryId),
             active: product.active,
             favorite: product.favorite,
-            custom: true
+            custom: true,
+            selected: true
         )
         saveCategoriesProductsUpdates()
 
@@ -151,6 +169,20 @@ class CategoriesProductsViewModel: ObservableObject {
 
     func getProductById(_ id: Int) -> DMProduct? {
         return products.first(where: { $0.id == id })
+    }
+
+    func setSelectedProduct(_ product: DMProduct) {
+        products = products.map {
+            let newProduct = $0
+            newProduct.selected = $0.id == product.id
+            return newProduct
+        }
+
+        let productSelected = products.filter { $0.selected }.first!
+        print(productSelected)
+
+        selectedProduct = product
+        print("Set Selected Product: \(String(describing: product.name))")
     }
 
     func getCategoryIdByProductName(_ name: String) -> Int16? {
@@ -184,6 +216,24 @@ class CategoriesProductsViewModel: ObservableObject {
             }
         }
         refreshCategoriesProductsData()
+    }
+
+    private func setSelectedList() {
+        if let selectedListFetched = getSelectedList() {
+            selectedList = selectedListFetched
+        } else {
+            setDefaultSelectedList()
+        }
+    }
+
+    private func getSelectedList() -> DMList? {
+        return persistenceManager.fetchSelectedList()
+    }
+
+    private func setDefaultSelectedList() {
+        if let fetchedSelectedList = persistenceManager.fetchAllLists()?.first {
+            selectedList = fetchedSelectedList
+        }
     }
 
     func saveCategoriesProductsUpdates() {

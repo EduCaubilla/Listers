@@ -24,6 +24,4 @@ extension DMCategory: JSONLoadable {
 
         return category as! Self
     }
-
 }
-

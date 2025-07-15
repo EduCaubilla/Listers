@@ -113,7 +113,9 @@ struct ListRowCellView: View {
             }
             .swipeActions(edge: .leading) {
                 Button(action: {
-                    pinList()
+                    withAnimation {
+                        pinList()
+                    }
                 }) {
                     if selectedList.pinned {
                         Label(addPinLabel, systemImage: addPinIcon)

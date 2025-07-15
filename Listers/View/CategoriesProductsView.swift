@@ -42,8 +42,6 @@ struct CategoriesProductsView: View {
     private func editProduct(_ product: DMProduct) {
         vm.selectedProduct = product
         vm.showingEditProductView = true
-        print("Edit item local: \(String(describing: vm.selectedProduct))")
-        print("Edit item from vm: \(String(describing: vm.selectedProduct))")
     }
 
     private func setProductSelection(for product: DMProduct) -> Bool {
@@ -119,7 +117,7 @@ struct CategoriesProductsView: View {
                                     if(category.expanded) {
                                         ForEach(vm.getFavoriteProducts(for: category,inCase: isShowingFavorites), id: \.id) { product in
                                             HStack {
-                                                ProductRowViewCell(vm: vm, product: product, actionEditProduct: {editProduct(product)}, selected: setProductSelection(for: product))
+                                                ProductRowViewCell(vm: vm, product: product, actionEditProduct: {editProduct(product)})
                                             }
                                         }
                                     }
@@ -194,11 +192,19 @@ struct CategoriesProductsView: View {
         .sheet(isPresented: $vm.showingAddProductView) {
             AddUpdateCategoryProductView(vm: vm)
                 .padding(.top, 20)
-                .presentationDetents([.fraction(0.7)])
+                .presentationDetents([.height(320)])
                 .presentationBackground(Color.background)
         }
         .sheet(isPresented: $vm.showingEditProductView) {
             AddUpdateCategoryProductView(product: vm.selectedProduct, vm: vm)
+                .padding(.top, 20)
+                .presentationDetents([.height(320)])
+                .presentationBackground(Color.background)
+        }
+        .sheet(isPresented: $vm.showingListSelectionToAddProductView,
+               onDismiss: {vm.activeAlert = ProductAlert(type: .addedToSelectedList)}
+        ) {
+            ListsToAddProductView(vm: MainItemsListsViewModel(), itemToAdd: vm.selectedProduct)
                 .padding(.top, 20)
                 .presentationDetents([.medium])
                 .presentationBackground(Color.background)
