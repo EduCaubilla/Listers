@@ -13,8 +13,6 @@ struct ListsView: View {
     @EnvironmentObject var router: NavigationRouter
     @ObservedObject var vm: MainItemsListsViewModel
 
-    @State var lists: [DMList] = []
-
     @State private var showingAddListView: Bool = false
     @State private var showingUpdateListView: Bool = false
     @State private var showingDeleteWarning: Bool = false
@@ -32,16 +30,6 @@ struct ListsView: View {
     }
 
     //MARK: - FUNCTIONS
-    private func sortLists() {
-        if vm.lists.count > 0 {
-            lists = vm.lists.sorted {
-                ($0.pinned ? 0 : 1, $0.name?.lowercased() ?? "")
-                <
-                ($1.pinned ? 0 : 1, $1.name?.lowercased() ?? "")
-            }
-        }
-    }
-
     private func editList(_ list: DMList) {
         setListSelected(list)
         showingUpdateListView.toggle()
@@ -58,7 +46,7 @@ struct ListsView: View {
                 if vm.isListEmpty {
                     EmptyView()
                 } else {
-                    ForEach(lists, id: \.self) { list in
+                    ForEach(vm.lists, id: \.self) { list in
                         ListRowCellView(
                             vm: vm,
                             selectedList: list,
@@ -107,9 +95,6 @@ struct ListsView: View {
                 router.navigateTo(.main)
             })
         } //: VSTACK MAIN
-        .onReceive(vm.$lists) { _ in
-            sortLists()
-        }
         .sheet(isPresented: $showingAddListView) {
             AddUpdateListView(vm: vm)
                 .padding(.top, 20)

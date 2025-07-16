@@ -79,6 +79,7 @@ struct ListRowCellView: View {
                                 showingChangeName = true
                                 nameToChange = selectedList.name ?? ""
                             }
+                            .strikethrough(selectedList.completed)
                     }
 
                     Text("^[\(listItems.count) Article](inflect: true)")

@@ -62,9 +62,7 @@ class CategoriesProductsViewModel: ObservableObject {
     func fetchProducts() {
         let productsResult = persistenceManager.fetchAllProducts()
         if let productsFetched = productsResult {
-            let activeProducts = productsFetched.filter({ $0.active })
-            let resultProducts = activeProducts.sorted { $0.name! < $1.name! }
-            products = resultProducts
+            products = productsFetched
             print("Loaded active products in view model \(products.count)")
 
             productNames = getProductNames()
@@ -231,7 +229,7 @@ class CategoriesProductsViewModel: ObservableObject {
     }
 
     private func setDefaultSelectedList() {
-        if let fetchedSelectedList = persistenceManager.fetchAllLists()?.first {
+        if let fetchedSelectedList = persistenceManager.fetchSelectedList() {
             selectedList = fetchedSelectedList
         }
     }

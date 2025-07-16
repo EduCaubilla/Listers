@@ -46,7 +46,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         savePersistence()
     }
     
-    func createList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool) {
+    func createList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool, completed: Bool) {
         print("PersistenceManager: Create list \(name)")
 
         let newList = DMList(context: viewContext)
@@ -57,6 +57,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         newList.pinned = pinned
         newList.selected = selected
         newList.expanded = expanded
+        newList.completed = completed
 
         savePersistence()
     }
@@ -99,6 +100,22 @@ struct PersistenceManager : PersistenceManagerProtocol {
         return nil
     }
 
+    func setListCompleteness(for listId: UUID) {
+        let itemsForList = fetchItemsForList(withId: listId)
+        guard let items = itemsForList else {
+            print("Error fetching items for selected list in PersistenceManager.")
+            return
+        }
+        
+        let isListComplete = items.allSatisfy { $0.completed }
+
+        if let listToUpdate = fetchList(listId) {
+            listToUpdate.completed = isListComplete
+            print("Set list completed : \(listToUpdate.name!) -> \(isListComplete)")
+        }
+
+    }
+
     //MARK: - GENERIC
     func fetch<T: NSManagedObject>(type: T.Type, predicate: NSPredicate?) -> [T]? {
         let fetchRequest = T.fetchRequest()
@@ -135,8 +152,16 @@ struct PersistenceManager : PersistenceManagerProtocol {
     func fetchLastProductId() -> Int {
         let allProducts = fetchAllProducts()
         if let allProducts = allProducts {
-            let lastProduct = allProducts.last
+            let sortedProducts = allProducts.sorted { $0.id < $1.id }
+            let lastProduct = sortedProducts.last
             if let lastProduct = lastProduct {
+                print("Last product id: \(lastProduct.id)")
+
+                let productDuplicated = fetchProductById(lastProduct.id)
+                if productDuplicated != nil {
+                    return 1000
+                }
+
                 return Int(lastProduct.id)
             }
         } else {
@@ -163,7 +188,8 @@ struct PersistenceManager : PersistenceManagerProtocol {
 
     func fetchAllProducts() -> [DMProduct]? {
         let productsFetch : NSFetchRequest<DMProduct> = DMProduct.fetchRequest()
-        productsFetch.sortDescriptors = [NSSortDescriptor(key: "id", ascending: true)]
+        productsFetch.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        productsFetch.predicate = NSPredicate(format: "active == true")
         do {
             return try viewContext.fetch(productsFetch)
         }

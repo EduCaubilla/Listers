@@ -25,8 +25,9 @@ struct MainItemsView: View {
 
     var addItemLabel: String = "Add Item"
     var addItemIcon: String = "plus"
-    var noItemsLabel: String = "No items yet"
+    var noItemsLabel: String = "No lists yet.\nCreate one now."
     var addItemIconCircle: String = "plus.circle"
+    var completedListTitle: String = "Congratulations!\nThe list is complete."
 
     //MARK: - INITIALIZER
     init(vm: MainItemsListsViewModel = MainItemsListsViewModel()) {
@@ -45,8 +46,22 @@ struct MainItemsView: View {
     }
 
     private func navigateToLists() {
-        withTransaction(Transaction(animation: nil)) {
-            router.navigateTo(.lists)
+        DispatchQueue.main.async {
+            withTransaction(Transaction(animation: nil)) {
+                router.navigateTo(.lists)
+            }
+        }
+    }
+
+    private func onDismissModal() {
+        if vm.selectedList == nil {
+            vm.loadListsItemsData()
+        } else {
+            vm.loadItemsForSelectedList()
+        }
+
+        if vm.itemsOfSelectedList.isEmpty {
+            vm.showingAddItemView = true
         }
     }
 
@@ -88,11 +103,12 @@ struct MainItemsView: View {
                                 .ignoresSafeArea(edges: .all)
                             VStack(alignment: .center, spacing: 20) {
                                 Text(noItemsLabel)
-                                    .font(.system(size: 30, weight: .light))
+                                    .font(.system(size: 40, weight: .thin))
                                     .foregroundStyle(.primaryText)
+                                    .multilineTextAlignment(.center)
                                 Image(systemName: addItemIconCircle)
-                                    .font(.system(size: 60, weight: .light))
-                                    .symbolEffect(.bounce, options: .speed(0.1).repeat(3))
+                                    .font(.system(size: 60, weight: .thin))
+                                    .symbolEffect(.bounce, options: .speed(0.2).repeat(.periodic(25, delay: 1)))
                                     .foregroundStyle(.primaryText)
                             }
                             .onAppear {
@@ -124,24 +140,38 @@ struct MainItemsView: View {
                         router.navigateTo(.lists)
                     })
             } //: VSTACK MAIN
-            .sheet(isPresented: $vm.showingAddItemView, onDismiss: vm.loadItemsForSelectedList) {
+            .sheet(isPresented: $vm.showingAddItemView, onDismiss: onDismissModal) {
                 AddUpdateItemView(vm: vm)
                     .padding(.top, 20)
                     .presentationDetents([.medium])
                     .presentationBackground(Color.background)
             }
-            .sheet(isPresented: $vm.showingUpdateItemView, onDismiss: vm.loadItemsForSelectedList) {
+            .sheet(isPresented: $vm.showingUpdateItemView, onDismiss: onDismissModal) {
                 AddUpdateItemView(item: selectedItem, vm: vm)
                     .padding(.top, 20)
                     .presentationDetents([.medium])
                     .presentationBackground(Color.background)
             }
-            .sheet(isPresented: $vm.showingAddListView, onDismiss: vm.loadListsItemsData) {
+            .sheet(isPresented: $vm.showingAddListView, onDismiss: onDismissModal) {
                 AddUpdateListView(vm: vm)
                     .padding(.top, 20)
-                    .presentationDetents([.height(220)])
+                    .presentationDetents([.height(260)])
                     .presentationBackground(Color.background)
             }
+            .alert(
+                completedListTitle,
+                isPresented: $vm.showCompletedListMessage,
+                actions: {
+                    Button("Cancel") {
+                        vm.showCompletedListMessage = false
+                    }
+                    Button("Ok") {
+                        navigateToLists()
+                    }
+                },
+                message: {
+                    Text("Do you want to go to lists screen to create a new one?")
+            })
     } //: VIEW
 }
 

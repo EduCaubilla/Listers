@@ -24,7 +24,7 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute) -> some Toolb
 
         if route != .settings {
             Button(action: {
-                withTransaction(Transaction(animation: nil)) {
+                withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.settings)
                 }
             }) {
@@ -39,7 +39,7 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute) -> some Toolb
     ToolbarItemGroup(placement: .topBarTrailing) {
         if route != .lists {
             Button(action: {
-                withTransaction(Transaction(animation: nil)) {
+                withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.lists)
                 }
             }) {
@@ -52,7 +52,7 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute) -> some Toolb
 
         if route != .main {
             Button(action: {
-                withTransaction(Transaction(animation: nil)) {
+                withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.main)
                 }
             }) {

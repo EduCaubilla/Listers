@@ -24,6 +24,7 @@
         <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DMList" inverseName="items" inverseEntity="DMList"/>
     </entity>
     <entity name="DMList" representedClassName="DMList" syncable="YES" codeGenerationType="class">
+        <attribute name="completed" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="creationDate" optional="YES" attributeType="Date" minDateTimeInterval="773568240" usesScalarValueType="NO"/>
         <attribute name="expanded" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>

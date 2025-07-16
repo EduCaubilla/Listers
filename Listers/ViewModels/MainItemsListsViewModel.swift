@@ -24,6 +24,9 @@ class MainItemsListsViewModel: ObservableObject {
     @Published var showingUpdateItemView : Bool = false
     @Published var showingAddListView : Bool = false
 
+    @Published var showSaveNewProductMessage: Bool = false
+    @Published var showCompletedListMessage: Bool = false
+
     var isListEmpty: Bool {
         lists.isEmpty
     }
@@ -71,12 +74,14 @@ class MainItemsListsViewModel: ObservableObject {
     func loadLists() {
         let listsResult = persistenceManager.fetchAllLists()
         print("Lists fetched: \(listsResult?.count ?? 0)")
+
         if let listsResult = listsResult {
+            listsResult.forEach { persistenceManager.setListCompleteness(for: $0.id!) }
             // Sort - Pinned first ordered by date, if it has, and then by name, then the unpinned with same date/name order
             let sortedItems = listsResult.sorted {
-                ($0.pinned ? 0 : 1, $0.creationDate ?? .distantFuture, $0.name!)
+                ($0.pinned ? 0 : 1, $0.creationDate ?? .distantFuture, $0.name?.lowercased() ?? "")
                 <
-                ($1.pinned ? 0 : 1, $1.creationDate ?? .distantFuture, $1.name!)
+                ($1.pinned ? 0 : 1, $1.creationDate ?? .distantFuture, $1.name?.lowercased() ?? "")
             }
             self.lists = sortedItems
             return
@@ -133,10 +138,18 @@ class MainItemsListsViewModel: ObservableObject {
 
         let itemsResult = persistenceManager.fetchItemsForList(withId: selectedListId)
         if let itemsResult = itemsResult {
-            itemsOfSelectedList = itemsResult
+            let sortedItems = itemsResult.sorted { !$0.completed && $1.completed }
+            itemsOfSelectedList = sortedItems
         } else {
             print("There are no items in the selected list.")
         }
+    }
+
+    func checkListCompletedStatus() {
+        if let selectedListId = selectedList?.id {
+            persistenceManager.setListCompleteness(for: selectedListId)
+        }
+        refreshItemsListData()
     }
 
     func loadProductNames(){
@@ -155,17 +168,20 @@ class MainItemsListsViewModel: ObservableObject {
     }
 
     func saveNewProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
+        let newProductId = createIdForNewProduct()
         persistenceManager.createProduct(
-            id: createIdForNewProduct(),
+            id: newProductId,
             name: name,
             note: description ?? "",
             categoryId: Int16(categoryId),
             active: active,
             favorite: favorite,
             custom: true,
-            selected: false
+            selected: true
         )
         saveItemListsChanges()
+
+        print("New product created: \(name) with id: \(newProductId)")
     }
 
     func addList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool) {
@@ -177,7 +193,8 @@ class MainItemsListsViewModel: ObservableObject {
                 endDate: endDate,
                 pinned: pinned,
                 selected: selected,
-                expanded: expanded
+                expanded: expanded,
+                completed: false
             )
         saveItemListsChanges()
     }

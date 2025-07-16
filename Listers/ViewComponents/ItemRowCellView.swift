@@ -61,6 +61,14 @@ struct ItemRowCellView: View {
         print("Item saved: \(item.name!)")
     }
 
+    private func checkListCompleted() {
+        vm.checkListCompletedStatus()
+
+        if vm.selectedList!.completed {
+            vm.showCompletedListMessage = true
+        }
+    }
+
 
     //MARK: - BODY
     var body: some View {
@@ -77,8 +85,8 @@ struct ItemRowCellView: View {
                     set: { item.completed = $0 }
                 ))
                 .onChange(of: item.completed, { oldValue, newValue in
-                    print("Item changed: \(oldValue) -> \(newValue)")
                     saveItem()
+                    checkListCompleted()
                 })
                 .toggleStyle(CustomCheckboxStyle())
                 .foregroundStyle(.darkBlue)
@@ -89,7 +97,8 @@ struct ItemRowCellView: View {
                         .font(.system(size: 18, weight: .bold))
                         .foregroundStyle(.darkBlue)
                         .lineLimit(1)
-                    
+                        .strikethrough(item.completed ? true : false)
+
                     if(!(item.note == nil) && !item.note!.isEmpty) {
                         Text(item.note ?? "")
                             .font(.system(size: 14, weight: .light))

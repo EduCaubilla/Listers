@@ -35,9 +35,6 @@ struct AddUpdateItemView: View {
     @State private var showNameSuggestions: Bool = true
     @State private var nameSetFromList: String = ""
 
-    @State private var showSaveNewProductAlert: Bool = false
-
-
     var searchResults: [String] {
         vm.productNames.filter { $0.lowercased().contains(name.lowercased()) }
     }
@@ -67,6 +64,14 @@ struct AddUpdateItemView: View {
     }
 
     //MARK: - FUNCTIONS
+    private func triggerAlertSaveNewItemForLibrary() {
+        if (!searchResults.contains(name) && !isItemToUpdate) {
+            vm.showSaveNewProductMessage = true
+        } else {
+            dismiss()
+        }
+    }
+    
     private func saveNewItem() {
         if !name.isEmpty {
             vm.addItemToList(
@@ -84,9 +89,8 @@ struct AddUpdateItemView: View {
                 listId: vm.selectedList?.id
             )
 
-            if (!searchResults.contains(name) && !isItemToUpdate) {
-                showSaveNewProductAlert.toggle()
-            }
+            triggerAlertSaveNewItemForLibrary()
+
         } else {
             errorShowing = true
             errorTitle = "Invalid name"
@@ -202,31 +206,15 @@ struct AddUpdateItemView: View {
                             
                             //MARK: - SAVE BUTTON
                             SaveButtonView(text: "Save", action: {
-                                print("Tap SAVE")
                                 if(isItemToUpdate) {
                                     updateItem()
+                                    dismiss()
                                 } else {
                                     saveNewItem()
                                 }
-                                dismiss()
                             })
                             .padding(.top, 10)
-                            .alert("The item saved is not on your product's library yet.\nWould you like to add it?", isPresented: $showSaveNewProductAlert, presenting: name) { name in
-                                Button("Cancel", role: .cancel){
-                                    showSaveNewProductAlert = false
-                                }
-                                Button("Add"){
-                                    vm.saveNewProduct(
-                                        name: name,
-                                        description: description,
-                                        categoryId: 10,
-                                        active: true,
-                                        favorite: favorite
-                                    )
-                                    print("Added product \(name) to library list")
-                                    showSaveNewProductAlert = false
-                                }
-                            }
+
 
                             Spacer()
                     } //: VSTACK FORM
@@ -276,11 +264,31 @@ struct AddUpdateItemView: View {
                     } //: DISSMISS BUTTON
                 }
             } //: TOOLBAR
+            .onAppear{
+                isNameTextFieldFocused = true
+            }
             .alert(isPresented: $errorShowing) {
                 Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
             }
-            .onAppear{
-                isNameTextFieldFocused = true
+            .alert("The item \(name) is not on your product's library yet.\nWould you like to add it?", isPresented: $vm.showSaveNewProductMessage, presenting: name) { name in
+                Button("Cancel", role: .cancel){
+                    vm.showSaveNewProductMessage = false
+                    dismiss()
+                }
+                Button("Add"){
+                    vm.saveNewProduct(
+                        name: name,
+                        description: description,
+                        categoryId: 10,
+                        active: true,
+                        favorite: favorite
+                    )
+                    print("Added product \(name) to library list")
+                    vm.showSaveNewProductMessage = false
+                    vm.loadProductNames()
+
+                    dismiss()
+                }
             }
         } //: NAVIGATION STACK
     } //: VIEW

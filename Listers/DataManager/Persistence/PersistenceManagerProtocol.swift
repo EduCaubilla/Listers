@@ -33,12 +33,14 @@ protocol PersistenceManagerProtocol {
         endDate: Date?,
         pinned: Bool,
         selected: Bool,
-        expanded: Bool
+        expanded: Bool,
+        completed: Bool
     )
     func fetchList(_ listId : UUID) -> DMList?
     func fetchSelectedList() -> DMList?
     func fetchAllLists() -> [DMList]?
     func fetchItemsForList(withId listId: UUID) -> [DMItem]?
+    func setListCompleteness(for listId: UUID)
 
     func fetch<T : NSManagedObject>(type: T.Type, predicate: NSPredicate?) -> [T]?
     func savePersistence()
