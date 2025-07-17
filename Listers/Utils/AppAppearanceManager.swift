@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct ViewModeManager {
-    static let shared = ViewModeManager()
+struct AppAppearanceManager {
+    static let shared = AppAppearanceManager()
 
-    public func resolveViewMode(for viewMode: String) -> ColorScheme? {
-        switch viewMode {
+    public func resolveAppearance(for appearance: String) -> ColorScheme? {
+        switch appearance {
             case "Light":
                 print("Resolve ViewMode light")
                 return .light

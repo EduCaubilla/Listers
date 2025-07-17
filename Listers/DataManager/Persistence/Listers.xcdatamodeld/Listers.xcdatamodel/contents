@@ -10,7 +10,7 @@
     </entity>
     <entity name="DMItem" representedClassName="DMItem" syncable="YES" codeGenerationType="class">
         <attribute name="completed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="creationDate" optional="YES" attributeType="Date" minDateTimeInterval="773568180" usesScalarValueType="NO"/>
+        <attribute name="creationDate" optional="YES" attributeType="Date" minDateTimeInterval="774434940" usesScalarValueType="NO"/>
         <attribute name="endDate" optional="YES" attributeType="Date" minDateTimeInterval="773568180" usesScalarValueType="NO"/>
         <attribute name="favorite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
@@ -20,7 +20,7 @@
         <attribute name="name" attributeType="String" spotlightIndexingEnabled="YES"/>
         <attribute name="note" optional="YES" attributeType="String"/>
         <attribute name="priority" optional="YES" attributeType="String"/>
-        <attribute name="quantity" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="quantity" optional="YES" attributeType="Double" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="list" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DMList" inverseName="items" inverseEntity="DMList"/>
     </entity>
     <entity name="DMList" representedClassName="DMList" syncable="YES" codeGenerationType="class">
@@ -45,5 +45,12 @@
         <attribute name="selected" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="uuid" attributeType="UUID" usesScalarValueType="NO"/>
         <relationship name="category" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DMCategory" inverseName="product" inverseEntity="DMCategory"/>
+    </entity>
+    <entity name="DMSettings" representedClassName="DMSettings" syncable="YES" codeGenerationType="class">
+        <attribute name="itemDeadline" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="itemDescription" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="itemQuantity" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="listDeadline" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="listDescription" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
 </model>

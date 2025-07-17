@@ -10,17 +10,21 @@ import SwiftUI
 @main
 struct ListersApp: App {
     //MARK: - PROPERTIES
-    @AppStorage("selectedViewMode") var selectedViewMode: String = SettingsViewMode.automatic.rawValue
+    @AppStorage("selectedAppearance") var selectedAppearance: String = AppAppearance.automatic.rawValue
 
     let persistenceController = PersistenceController.shared
-    let viewModeManager = ViewModeManager.shared
+    let appAppearanceManager = AppAppearanceManager.shared
+    let settingsManager = SettingsManager.shared
 
     //MARK: - BODY
     var body: some Scene {
         WindowGroup {
                 RootView()
-                    .preferredColorScheme(viewModeManager.resolveViewMode(for: selectedViewMode))
+                    .preferredColorScheme(appAppearanceManager.resolveAppearance(for: selectedAppearance))
                     .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification), perform: handleEnterForeround)
+                    .onAppear{
+                        settingsManager.loadSettings()
+                    }
         }
     }
 

@@ -199,7 +199,7 @@ class MainItemsListsViewModel: ObservableObject {
         saveItemListsChanges()
     }
 
-    func addItemToList(name: String, description: String?, quantity: Int16, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) {
+    func addItemToList(name: String, description: String?, quantity: Double, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) {
         persistenceManager
             .createItem(
                 name: name,

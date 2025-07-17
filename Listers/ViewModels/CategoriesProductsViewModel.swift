@@ -12,7 +12,6 @@ import Combine
 class CategoriesProductsViewModel: ObservableObject {
     //MARK: - PROPERTIES
     private let persistenceManager : any PersistenceManagerProtocol
-
     static let shared = CategoriesProductsViewModel()
 
     @Published var selectedList: DMList?

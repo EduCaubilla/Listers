@@ -48,6 +48,7 @@ struct AddUpdateItemView: View {
         self.vm = vm
     }
 
+//    init (item: DMItem?, vm: MainItemsListsViewModel) {
     init (item: DMItem? = nil, vm: MainItemsListsViewModel) {
         self.vm = vm
 
@@ -57,10 +58,10 @@ struct AddUpdateItemView: View {
             _quantity = State(initialValue:String(item.quantity))
             _favorite = State(initialValue:item.favorite)
             _priority = State(initialValue:Priority(rawValue: item.priority!)!)
-        }
 
-        itemToUpdate = item
-        isItemToUpdate = true
+            itemToUpdate = item
+            isItemToUpdate = true
+        }
     }
 
     //MARK: - FUNCTIONS
@@ -77,7 +78,7 @@ struct AddUpdateItemView: View {
             vm.addItemToList(
                 name: name,
                 description: description,
-                quantity: Int16(quantity) ?? 0,
+                quantity: Double(quantity) ?? 0,
                 favorite: favorite,
                 priority: priority,
                 completed: false,
@@ -103,7 +104,7 @@ struct AddUpdateItemView: View {
         if let itemToUpdate = itemToUpdate {
             itemToUpdate.name = name
             itemToUpdate.note = description
-            itemToUpdate.quantity = Int16(quantity) ?? 0
+            itemToUpdate.quantity = Double(quantity) ?? 0
             itemToUpdate.favorite = favorite
             itemToUpdate.priority = priority.rawValue
 

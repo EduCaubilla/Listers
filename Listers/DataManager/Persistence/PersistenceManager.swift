@@ -22,10 +22,8 @@ struct PersistenceManager : PersistenceManagerProtocol {
         self.viewContext = context
     }
 
-    //MARK: - FUNCTIONS
-
     //MARK: - ITEMS/LISTS
-    func createItem(name: String, description: String?, quantity: Int16, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) {
+    func createItem(name: String, description: String?, quantity: Double, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) -> Bool {
         print("PersistenceManager: Create item \(name)")
 
         let newItem = DMItem(context: viewContext)
@@ -43,10 +41,24 @@ struct PersistenceManager : PersistenceManagerProtocol {
         newItem.list = listId != nil ? fetchSelectedList(): nil
         newItem.listId = listId
 
-        savePersistence()
+        return savePersistence()
     }
-    
-    func createList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool, completed: Bool) {
+
+    func fetchItemsForList(withId listId: UUID) -> [DMItem]? {
+        let fetchRequest: NSFetchRequest<DMItem> = DMItem.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "%K == %@", "listId", listId as CVarArg)
+
+        do {
+            return try viewContext.fetch(fetchRequest)
+        } catch {
+            print("There was an error fetching items for selected list: \(error.localizedDescription)")
+        }
+
+        return nil
+    }
+
+
+    func createList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool, completed: Bool) -> Bool {
         print("PersistenceManager: Create list \(name)")
 
         let newList = DMList(context: viewContext)
@@ -59,7 +71,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         newList.expanded = expanded
         newList.completed = completed
 
-        savePersistence()
+        return savePersistence()
     }
 
     func fetchList(_ listId : UUID) -> DMList? {
@@ -74,7 +86,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         let lists = fetchAllLists()
         return lists?.first(where: { $0.selected })
     }
-    
+
     func fetchAllLists() -> [DMList]? {
         let listsFetch : NSFetchRequest<DMList> = DMList.fetchRequest()
         do {
@@ -86,19 +98,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
 
         return nil
     }
-    
-    func fetchItemsForList(withId listId: UUID) -> [DMItem]? {
-        let fetchRequest: NSFetchRequest<DMItem> = DMItem.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "%K == %@", "listId", listId as CVarArg)
 
-        do {
-            return try viewContext.fetch(fetchRequest)
-        } catch {
-            print("There was an error fetching items for selected list: \(error.localizedDescription)")
-        }
-
-        return nil
-    }
 
     func setListCompleteness(for listId: UUID) {
         let itemsForList = fetchItemsForList(withId: listId)
@@ -114,38 +114,6 @@ struct PersistenceManager : PersistenceManagerProtocol {
             print("Set list completed : \(listToUpdate.name!) -> \(isListComplete)")
         }
 
-    }
-
-    //MARK: - GENERIC
-    func fetch<T: NSManagedObject>(type: T.Type, predicate: NSPredicate?) -> [T]? {
-        let fetchRequest = T.fetchRequest()
-        fetchRequest.predicate = predicate
-
-        guard let typedRequest = fetchRequest as? NSFetchRequest<T> else {
-            print("Failed to cast fetch request to NSFetchRequest<T>")
-            return nil
-        }
-
-        do {
-            return try viewContext.fetch(typedRequest)
-        } catch {
-            print("There was an error fetching items for selected list: \(error.localizedDescription)")
-        }
-
-        return nil
-    }
-
-    func savePersistence() {
-        do {
-            try viewContext.save()
-        } catch {
-            print("Error trying to save in PersistenceManager: \(error.localizedDescription)")
-        }
-    }
-    
-    func remove<T: NSManagedObject>(_ object: T) {
-        viewContext.delete(object)
-        savePersistence()
     }
 
     //MARK: - CATEGORIES/PRODUCTS
@@ -171,7 +139,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         return 1000
     }
 
-    func createProduct(id: Int, name: String, note: String?, categoryId: Int16, active: Bool, favorite: Bool, custom: Bool = true, selected: Bool = false) {
+    func createProduct(id: Int, name: String, note: String?, categoryId: Int16, active: Bool, favorite: Bool, custom: Bool = true, selected: Bool = false) -> Bool {
         let newProduct = DMProduct(context: viewContext)
         newProduct.uuid = UUID()
         newProduct.id = Int16(id)
@@ -183,7 +151,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         newProduct.custom = custom
         newProduct.selected = selected
 
-        savePersistence()
+        return savePersistence()
     }
 
     func fetchAllProducts() -> [DMProduct]? {
@@ -278,5 +246,74 @@ struct PersistenceManager : PersistenceManagerProtocol {
         }
 
         return nil
+    }
+
+    //MARK: - SETTINGS
+    func fetchSettings() -> DMSettings? {
+        return fetch(type: DMSettings.self, predicate: nil)?.first
+    }
+
+    func createSettings(itemDescription: Bool, itemQuantity: Bool, itemDeadline: Bool, listDescription: Bool, listDeadline: Bool) -> Bool {
+        let newSettings = DMSettings(context: viewContext)
+        newSettings.itemDeadline = itemDeadline
+        newSettings.itemDescription = itemDescription
+        newSettings.itemQuantity = itemQuantity
+        newSettings.listDeadline = listDeadline
+        newSettings.listDescription = listDescription
+
+        return savePersistence()
+    }
+
+    func updateSettings(itemDescription: Bool, itemQuantity: Bool, itemDeadline: Bool, listDescription: Bool, listDeadline: Bool) -> Bool {
+        let updatedSettings = DMSettings(context: viewContext)
+        updatedSettings.itemDescription = itemDescription
+        updatedSettings.itemQuantity = itemQuantity
+        updatedSettings.itemDeadline = itemDeadline
+        updatedSettings.listDescription = listDescription
+        updatedSettings.listDeadline = listDeadline
+
+        if let settingsToUpdate = fetchSettings() {
+            settingsToUpdate.itemDescription = updatedSettings.itemDescription
+            settingsToUpdate.itemQuantity = updatedSettings.itemQuantity
+            settingsToUpdate.itemDeadline = updatedSettings.itemDeadline
+            settingsToUpdate.listDescription = updatedSettings.listDescription
+            settingsToUpdate.listDeadline = updatedSettings.listDeadline
+        }
+
+        return savePersistence()
+    }
+
+    //MARK: - GENERIC
+    func fetch<T: NSManagedObject>(type: T.Type, predicate: NSPredicate?) -> [T]? {
+        let fetchRequest = T.fetchRequest()
+        fetchRequest.predicate = predicate
+
+        guard let typedRequest = fetchRequest as? NSFetchRequest<T> else {
+            print("Failed to cast fetch request to NSFetchRequest<T>")
+            return nil
+        }
+
+        do {
+            return try viewContext.fetch(typedRequest)
+        } catch {
+            print("There was an error fetching items for selected list: \(error.localizedDescription)")
+        }
+
+        return nil
+    }
+
+    func savePersistence() -> Bool {
+        do {
+            try viewContext.save()
+        } catch {
+            print("Error trying to save in PersistenceManager: \(error.localizedDescription)")
+            return false
+        }
+        return true
+    }
+
+    func remove<T: NSManagedObject>(_ object: T) -> Bool {
+        viewContext.delete(object)
+        return savePersistence()
     }
 }

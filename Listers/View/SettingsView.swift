@@ -9,28 +9,27 @@ import SwiftUI
 
 struct SettingsView: View {
     //MARK: - PROPERTIES
-    @AppStorage("selectedViewMode") private var selectedViewMode: SettingsViewMode = .automatic
+    @AppStorage("selectedAppearance") private var selectedAppearance: AppAppearance = .automatic
 
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var router: NavigationRouter
 
-    @State private var isItemDateEnable: Bool = false
-    @State private var isItemCategoryEnable: Bool = false
-    @State private var isItemDescriptionEnable: Bool = false
+    @StateObject var vm : SettingsViewModel
 
-    @State private var isListDateEnable: Bool = false
-    @State private var isListCategoryEnable: Bool = false
-    @State private var isListDescriptionEnable: Bool = false
-
-    private var viewMode: SettingsViewMode {
-        get { selectedViewMode }
-        set { selectedViewMode = newValue }
+    private var viewMode: AppAppearance {
+        get { selectedAppearance }
+        set { selectedAppearance = newValue }
     }
 
     var settingsTitle: String = "Settings"
 
     var currentVisibility : Visibility {
         colorScheme == .dark ? .hidden : .visible
+    }
+
+    //MARK: - INITIALIZER
+    init(vm: SettingsViewModel = SettingsViewModel()) {
+        _vm = StateObject(wrappedValue: vm)
     }
 
     //MARK: - FUNCTIONS
@@ -40,40 +39,40 @@ struct SettingsView: View {
         VStack {
             Form {
                 Section("General Settings".capitalized) {
-                    Picker("View Mode", selection: $selectedViewMode) {
-                        ForEach(SettingsViewMode.allCases) { mode in
+                    Picker("View Mode", selection: $selectedAppearance) {
+                        ForEach(AppAppearance.allCases) { mode in
                             Text(mode.displayName).tag(mode)
                         }
                     }
+                    .padding(.vertical, -5)
                 }
                 .padding(.vertical,3)
                 .listRowBackground(colorScheme == .dark ? Color.accentColor.opacity(0.3) : Color.background)
 
-//                Section("Item Settings".capitalized) {
-//                    Toggle("Show Date", isOn: $isItemDateEnable)
-//                    Toggle("Show Category", isOn: $isItemCategoryEnable)
-//                    Toggle("Show Description", isOn: $isItemDescriptionEnable)
-//                }
-//                .padding(.vertical,3)
-//                .listRowBackground(colorScheme == .dark ? Color.accentColor.opacity(0.3) : Color.background)
-//
-//                Section("List Settings".capitalized) {
-//                    Toggle("Show Date", isOn: $isListDateEnable)
-//                    Toggle("Show Category", isOn: $isListCategoryEnable)
-//                    Toggle("Show Description", isOn: $isListDescriptionEnable)
-//                }
-//                .padding(.vertical,3)
-//                .listRowBackground(colorScheme == .dark ? Color.accentColor.opacity(0.3) : Color.background)
+                Section("Item Settings".capitalized) {
+                    Toggle("Show Description", isOn: $vm.isItemDescriptionEnable)
+                        .padding(.vertical, -5)
+                    Toggle("Show Quantity", isOn: $vm.isItemQuantityEnable)
+                        .padding(.vertical, -5)
+                    Toggle("Show Deadline", isOn: $vm.isItemDeadlineEnable)
+                        .padding(.vertical, -5)
+                }
+                .padding(.vertical,3)
+                .listRowBackground(colorScheme == .dark ? Color.accentColor.opacity(0.3) : Color.background)
 
+                Section("List Settings".capitalized) {
+                    Toggle("Show Description", isOn: $vm.isListDescriptionEnable)
+                        .padding(.vertical, -5)
+                    Toggle("Show Deadline", isOn: $vm.isListDeadlineEnable)
+                        .padding(.vertical, -5)
+                }
+                .padding(.vertical,3)
+                .listRowBackground(colorScheme == .dark ? Color.accentColor.opacity(0.3) : Color.background)
             }
             .formStyle(.grouped)
             .navigationTitle(Text(settingsTitle))
             .navigationBarTitleDisplayMode(.inline)
-//            .navigationBarBackButtonHidden(true)
             .toolbarBackground(Color.background, for: .navigationBar)
-//            .toolbar {
-//                toolbarContentView(router: router, route: .settings)
-//            }
             .scrollContentBackground(currentVisibility)
             .background(Color.clear)
         } //: VSTACK
@@ -81,22 +80,11 @@ struct SettingsView: View {
     }
 }
 
-enum SettingsViewMode : String, CaseIterable, Identifiable {
-    case light
-    case dark
-    case automatic
-
-    var displayName: String {
-        rawValue.capitalized
-    }
-
-    var id: String { self.rawValue }
-}
 
 //MARK: - PREVIEW
 #Preview {
     NavigationStack{
-        SettingsView()
+        SettingsView(vm: SettingsViewModel())
             .environmentObject(NavigationRouter())
     }
 }

@@ -11,10 +11,11 @@ import Foundation
 
 protocol PersistenceManagerProtocol {
 
+    //MARK: - ITEMS
     func createItem(
         name: String,
         description: String?,
-        quantity: Int16,
+        quantity: Double,
         favorite: Bool,
         priority: Priority,
         completed: Bool,
@@ -24,8 +25,10 @@ protocol PersistenceManagerProtocol {
         image: String?,
         link: String?,
         listId: UUID?
-    )
+    ) -> Bool
+    func fetchItemsForList(withId listId: UUID) -> [DMItem]?
 
+    //MARK: - LISTS
     func createList(
         name: String,
         description: String,
@@ -35,17 +38,13 @@ protocol PersistenceManagerProtocol {
         selected: Bool,
         expanded: Bool,
         completed: Bool
-    )
+    ) -> Bool
     func fetchList(_ listId : UUID) -> DMList?
     func fetchSelectedList() -> DMList?
     func fetchAllLists() -> [DMList]?
-    func fetchItemsForList(withId listId: UUID) -> [DMItem]?
     func setListCompleteness(for listId: UUID)
 
-    func fetch<T : NSManagedObject>(type: T.Type, predicate: NSPredicate?) -> [T]?
-    func savePersistence()
-    func remove<T: NSManagedObject>(_ object: T)
-
+    //MARK: - PRODUCTS
     func fetchLastProductId() -> Int
     func createProduct(
         id: Int,
@@ -56,11 +55,34 @@ protocol PersistenceManagerProtocol {
         favorite: Bool,
         custom: Bool,
         selected: Bool
-    )
+    ) -> Bool
     func fetchAllProducts() -> [DMProduct]?
     func fetchProductsByCategory(_ category: DMCategory) -> [DMProduct]?
     func fetchProductByCategoryId(_ categoryId: Int16) -> DMProduct?
 
+    //MARK: - CATEGORIES
     func fetchAllCategories() -> [DMCategory]?
     func fetchCategoryByProductId(_ productId: Int16) -> DMCategory?
+
+    //MARK: - SETTINGS
+    func fetchSettings() -> DMSettings?
+    func createSettings(
+        itemDescription: Bool,
+        itemQuantity: Bool,
+        itemDeadline: Bool,
+        listDescription: Bool,
+        listDeadline: Bool
+    ) -> Bool
+    func updateSettings(
+        itemDescription: Bool,
+        itemQuantity: Bool,
+        itemDeadline: Bool,
+        listDescription: Bool,
+        listDeadline: Bool
+    ) -> Bool
+
+    //MARK: - COMMON
+    func fetch<T : NSManagedObject>(type: T.Type, predicate: NSPredicate?) -> [T]?
+    func savePersistence() -> Bool
+    func remove<T: NSManagedObject>(_ object: T) -> Bool
 }

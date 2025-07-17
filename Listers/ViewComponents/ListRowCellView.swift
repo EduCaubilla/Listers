@@ -89,11 +89,11 @@ struct ListRowCellView: View {
 
                 Spacer()
 
-                Text(selectedList.creationDate ?? Date.now, style: .date)
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    .padding(.trailing)
-                    .foregroundStyle(.lightBlue)
+//                Text(selectedList.creationDate ?? Date.now, style: .date)
+//                    .font(.footnote)
+//                    .foregroundStyle(.secondary)
+//                    .padding(.trailing)
+//                    .foregroundStyle(.lightBlue)
 
                 Image(systemName: selectedList.expanded ? "chevron.down" : "chevron.right")
                     .onTapGesture {
@@ -202,7 +202,7 @@ struct ListRowCellView: View {
             newItem.id = UUID()
             newItem.name = "Item \(itemNumber)"
             newItem.note = "This is item \(itemNumber)."
-            newItem.quantity = Int16.random(in: 1...10)
+            newItem.quantity = Double.random(in: 0...10)
             newItem.creationDate = Date.now
             newItem.favorite = Bool.random()
             newItem.completed = Bool.random()
