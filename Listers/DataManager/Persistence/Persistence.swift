@@ -104,7 +104,7 @@ struct PersistenceController {
             newProduct.uuid = UUID()
             newProduct.id = Int16(i)
             newProduct.name = productArray[i]
-            newProduct.note = ""
+            newProduct.notes = ""
             newProduct.active = true
             newProduct.favorite = false
             newProduct.selected = false
@@ -172,7 +172,7 @@ struct PersistenceController {
 
                 newItem.id = UUID()
                 newItem.name = "Item \(itemNumber)"
-                newItem.note = "This is item \(itemNumber)."
+                newItem.notes = "This is item \(itemNumber)."
                 newItem.quantity = Double.random(in: 0...10)
                 newItem.creationDate = Date.now
                 newItem.favorite = Bool.random()

@@ -14,6 +14,8 @@ class SettingsManager {
 
     static let shared = SettingsManager()
 
+    private(set) var currentSettings : DMSettings?
+
     //MARK: - INITIALIZER
     init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
         self.persistenceManager = persistenceManager
@@ -21,19 +23,32 @@ class SettingsManager {
 
     //MARK: - FUNCTIONS
     func loadSettings() {
-        if persistenceManager.fetchSettings() == nil {
-            let newSettings = persistenceManager.createSettings(
-                itemDeadline: false,
+        if let existingSettings = persistenceManager.fetchSettings() {
+            self.currentSettings = existingSettings
+        } else {
+            let newDefaultSettings = persistenceManager.createSettings(
                 itemDescription: true,
                 itemQuantity: true,
-                listDeadline: false,
-                listDescription: true
+                itemEndDate: true,
+                listDescription: true,
+                listEndDate: true
             )
 
-            if newSettings {
+            if newDefaultSettings {
+                reloadSettings()
                 print("Default settings created")
             } else {
                 print("There was an error creating default settings")
+            }
+        }
+    }
+
+    func reloadSettings() {
+        if currentSettings == nil {
+            if let existingSettings = persistenceManager.fetchSettings() {
+                self.currentSettings = existingSettings
+            } else {
+                loadSettings()
             }
         }
     }

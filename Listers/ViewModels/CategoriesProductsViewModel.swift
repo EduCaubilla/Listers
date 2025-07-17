@@ -113,9 +113,9 @@ class CategoriesProductsViewModel: ObservableObject {
 
         print("Add product: \(product.name!) to list: \(selectedList?.name ?? "Unknown list")")
 
-        persistenceManager.createItem(
+        let productToAddCreated = persistenceManager.createItem(
             name: product.name!,
-            description: product.note,
+            description: product.notes,
             quantity: 0,
             favorite: product.favorite,
             priority: .normal,
@@ -127,21 +127,33 @@ class CategoriesProductsViewModel: ObservableObject {
             link: "",
             listId: selectedList?.id
         )
-        saveCategoriesProductsUpdates()
+
+        if productToAddCreated {
+            print("Product created added successfully.")
+            saveCategoriesProductsUpdates()
+        } else {
+            print("There was an error creating the product to add.")
+        }
     }
 
     func saveNewProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
-        persistenceManager.createProduct(
+        let productCreated = persistenceManager.createProduct(
             id: createIdForNewProduct(),
             name: name,
-            note: description ?? "",
+            notes: description ?? "",
             categoryId: Int16(categoryId),
             active: active,
             favorite: favorite,
             custom: true,
             selected: true
         )
-        saveCategoriesProductsUpdates()
+
+        if productCreated {
+            print("Product created successfully.")
+            saveCategoriesProductsUpdates()
+        } else {
+            print("There was an error creating the product.")
+        }
     }
 
     func duplicate(product: DMProduct) -> Int {
@@ -149,17 +161,23 @@ class CategoriesProductsViewModel: ObservableObject {
 
         let newId = createIdForNewProduct()
 
-        persistenceManager.createProduct(
+        let productDuplicated = persistenceManager.createProduct(
             id: newId,
             name: product.name!,
-            note: product.note,
+            notes: product.notes,
             categoryId: Int16(product.categoryId),
             active: product.active,
             favorite: product.favorite,
             custom: true,
             selected: true
         )
-        saveCategoriesProductsUpdates()
+
+        if productDuplicated {
+            print("Product duplicated successfully.")
+            saveCategoriesProductsUpdates()
+        } else {
+            print("There was an error duplicating the product.")
+        }
 
         return newId
     }
@@ -234,12 +252,12 @@ class CategoriesProductsViewModel: ObservableObject {
     }
 
     func saveCategoriesProductsUpdates() {
-        persistenceManager.savePersistence()
+        _ = persistenceManager.savePersistence()
         refreshCategoriesProductsData()
     }
 
     func delete<T: NSManagedObject>(_ object: T) {
-        persistenceManager.remove(object)
+        _ = persistenceManager.remove(object)
         refreshCategoriesProductsData()
     }
 

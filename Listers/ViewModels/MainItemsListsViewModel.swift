@@ -14,6 +14,9 @@ class MainItemsListsViewModel: ObservableObject {
     private let persistenceManager : any PersistenceManagerProtocol
     private var cancellables = Set<AnyCancellable>()
 
+    let settingsManager = SettingsManager.shared
+    var userSettings : DMSettings? = nil
+
     @Published var selectedList: DMList?
     @Published var itemsOfSelectedList: [DMItem] = []
     @Published var lists: [DMList] = []
@@ -39,14 +42,44 @@ class MainItemsListsViewModel: ObservableObject {
         selectedList?.name ?? ""
     }
 
+    var isItemDescriptionVisible: Bool {
+        settingsManager.currentSettings?.itemDescription ?? false
+    }
+
+    var isItemQuantityVisible: Bool {
+        settingsManager.currentSettings?.itemQuantity ?? false
+    }
+
+    var isItemEndDateVisible: Bool {
+        settingsManager.currentSettings?.itemEndDate ?? false
+    }
+
+    var isListDescriptionVisible: Bool {
+        settingsManager.currentSettings?.listDescription ?? false
+    }
+
+    var isListEndDateVisible: Bool {
+        settingsManager.currentSettings?.listEndDate ?? false
+    }
+
     //MARK: - INITIALIZER
     init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
         self.persistenceManager = persistenceManager
+
+        loadSettings()
         setupSelectedListDataBinding()
         loadListsItemsData()
     }
 
     //MARK: - FUNCTIONS
+    private func loadSettings() {
+        if let userSettings = settingsManager.currentSettings {
+            self.userSettings = userSettings
+        } else {
+            settingsManager.loadSettings()
+        }
+    }
+
     private func setupSelectedListDataBinding() {
         $selectedList
             .receive(on: DispatchQueue.main)
@@ -169,24 +202,30 @@ class MainItemsListsViewModel: ObservableObject {
 
     func saveNewProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
         let newProductId = createIdForNewProduct()
-        persistenceManager.createProduct(
+
+        let createdProduct = persistenceManager.createProduct(
             id: newProductId,
             name: name,
-            note: description ?? "",
+            notes: description ?? "",
             categoryId: Int16(categoryId),
             active: active,
             favorite: favorite,
             custom: true,
             selected: true
         )
-        saveItemListsChanges()
 
-        print("New product created: \(name) with id: \(newProductId)")
+        if createdProduct {
+            print("New product created: \(name) with id: \(newProductId)")
+            saveItemListsChanges()
+        } else {
+            print("There was an error creating the product: \(name) with id: \(newProductId).")
+        }
+
+
     }
 
     func addList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool) {
-        persistenceManager
-            .createList(
+        let createdList = persistenceManager.createList(
                 name: name,
                 description: description,
                 creationDate: creationDate,
@@ -195,13 +234,18 @@ class MainItemsListsViewModel: ObservableObject {
                 selected: selected,
                 expanded: expanded,
                 completed: false
-            )
-        saveItemListsChanges()
+        )
+
+        if createdList {
+            print("List \(name) created successfully.")
+            saveItemListsChanges()
+        } else {
+            print("There was an error creating the List \(name).")
+        }
     }
 
     func addItemToList(name: String, description: String?, quantity: Double, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) {
-        persistenceManager
-            .createItem(
+        let createdItem = persistenceManager.createItem(
                 name: name,
                 description: description,
                 quantity: quantity,
@@ -215,7 +259,13 @@ class MainItemsListsViewModel: ObservableObject {
                 link: link,
                 listId: listId
             )
-        saveItemListsChanges()
+
+        if createdItem {
+            print("Item \(name) created successfully.")
+            saveItemListsChanges()
+        } else {
+            print("There was an error creating the Item \(name).")
+        }
     }
 
     private func refreshItemsListData() {
@@ -224,12 +274,12 @@ class MainItemsListsViewModel: ObservableObject {
     }
 
     func saveItemListsChanges() {
-        persistenceManager.savePersistence()
+        _ = persistenceManager.savePersistence()
         refreshItemsListData()
     }
 
     func delete<T: NSManagedObject>(_ object: T) {
-        persistenceManager.remove(object)
+        _ = persistenceManager.remove(object)
         refreshItemsListData()
     }
 }

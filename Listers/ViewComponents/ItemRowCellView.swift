@@ -99,23 +99,33 @@ struct ItemRowCellView: View {
                         .lineLimit(1)
                         .strikethrough(item.completed ? true : false)
 
-                    if(!(item.note == nil) && !item.note!.isEmpty) {
-                        Text(item.note ?? "")
+                    if vm.isItemDescriptionVisible &&
+                       !(item.notes == nil) &&
+                       !item.notes!.isEmpty {
+                        Text(item.notes ?? "")
                             .font(.system(size: 14, weight: .light))
                             .foregroundStyle(.lightBlue)
                             .lineLimit(1)
                     }
                     
                 } //: VSTACK
-                
+
+                if vm.isItemEndDateVisible {
+                    HStack(alignment: .center, spacing: 0) {
+                        Text(item.endDate ?? Date.now, style: .date)
+                    }
+                }
+
                 Spacer(minLength: 2)
                 
                 //QUANTITY
-                HStack(alignment: .center, spacing: 5) {
-                    Text("^[\(item.quantity) Unit](inflect: true)")
-                        .foregroundStyle(.lightBlue)
-                } //: HSTACK
-                .padding()
+                if vm.isItemQuantityVisible {
+                    HStack(alignment: .center, spacing: 5) {
+                        Text("^[\(item.quantity.trimmedString) Unit](inflect: true)")
+                            .foregroundStyle(.lightBlue)
+                    } //: HSTACK
+                    .padding()
+                }
 
             } //: HSTACK
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -169,9 +179,10 @@ private func getItemPreview() -> DMItem {
     let newItem = DMItem(context: viewContext)
     newItem.id = UUID()
     newItem.name = "Item \(itemNumber)"
-    newItem.note = "This is item \(itemNumber)."
+    newItem.notes = "This is item \(itemNumber)."
     newItem.quantity = Double.random(in: 0...10)
-    newItem.creationDate = Date()
+    newItem.creationDate = Date.now
+    newItem.endDate = Date.now
     newItem.favorite = false
     newItem.completed = Bool.random()
 

@@ -17,7 +17,7 @@ class SettingsViewModel: ObservableObject {
     @Published var isItemDeadlineEnable: Bool = false
 
     @Published var isListDescriptionEnable: Bool = false
-    @Published var isListDeadlineEnable: Bool = false
+    @Published var islistEndDateEnable: Bool = false
 
     //MARK: - INITIALIZER
     init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
@@ -29,20 +29,21 @@ class SettingsViewModel: ObservableObject {
         if let fetchedSettings = persistenceManager.fetchSettings() {
             isItemDescriptionEnable = fetchedSettings.itemDescription
             isItemQuantityEnable = fetchedSettings.itemQuantity
-            isItemDeadlineEnable = fetchedSettings.itemDeadline
+            isItemDeadlineEnable = fetchedSettings.itemEndDate
 
             isListDescriptionEnable = fetchedSettings.listDescription
-            isListDeadlineEnable = fetchedSettings.listDeadline
+            islistEndDateEnable = fetchedSettings.listEndDate
         }
+        print("Settings loaded successfully")
     }
 
     func updateSettingsData() {
         let updatedSettings = persistenceManager.updateSettings(
             itemDescription: isItemDescriptionEnable,
             itemQuantity: isItemQuantityEnable,
-            itemDeadline: isItemDeadlineEnable,
+            itemEndDate: isItemDeadlineEnable,
             listDescription: isListDescriptionEnable,
-            listDeadline: isListDeadlineEnable
+            listEndDate: islistEndDateEnable
         )
         if updatedSettings {
             print("Settings updated successfully")

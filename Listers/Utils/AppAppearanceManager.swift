@@ -13,16 +13,16 @@ struct AppAppearanceManager {
     public func resolveAppearance(for appearance: String) -> ColorScheme? {
         switch appearance {
             case "Light":
-                print("Resolve ViewMode light")
+                print("Resolve Appearance light")
                 return .light
             case "Dark":
-                print("Resolve ViewMode dark")
+                print("Resolve Appearance dark")
                 return .dark
             case "Automatic", "None":
-                print("Resolve ViewMode nil")
+                print("Resolve Appearance nil")
                 return nil
             default :
-                print("Resolve ViewMode nil")
+                print("Resolve Appearance nil")
                 return nil
         }
     }

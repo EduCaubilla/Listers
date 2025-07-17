@@ -19,6 +19,7 @@ struct AddUpdateItemView: View {
     @State private var description : String = ""
     @State private var quantity : String = ""
     @State private var favorite : Bool = false
+    @State private var endDate : Date = Date.now
     @State private var priority : Priority = .normal
 
     private var itemToUpdate : DMItem?
@@ -53,11 +54,12 @@ struct AddUpdateItemView: View {
         self.vm = vm
 
         if let item = item {
-            _name = State(initialValue: item.name ?? "Unknown")
-            _description = State(initialValue:item.note ?? "")
-            _quantity = State(initialValue:String(item.quantity))
-            _favorite = State(initialValue:item.favorite)
-            _priority = State(initialValue:Priority(rawValue: item.priority!)!)
+            _name = State(initialValue: item.name ?? "Unknown Item")
+            _description = State(initialValue: item.notes ?? "")
+            _quantity = State(initialValue: item.quantity.trimmedString)
+            _favorite = State(initialValue: item.favorite)
+            _priority = State(initialValue: Priority(rawValue: item.priority!)!)
+            _endDate = State(initialValue: endDate)
 
             itemToUpdate = item
             isItemToUpdate = true
@@ -84,7 +86,7 @@ struct AddUpdateItemView: View {
                 completed: false,
                 selected: false,
                 creationDate: Date.now,
-                endDate: Date.now,
+                endDate: endDate,
                 image: "",
                 link: "",
                 listId: vm.selectedList?.id
@@ -103,9 +105,10 @@ struct AddUpdateItemView: View {
     private func updateItem() {
         if let itemToUpdate = itemToUpdate {
             itemToUpdate.name = name
-            itemToUpdate.note = description
+            itemToUpdate.notes = description
             itemToUpdate.quantity = Double(quantity) ?? 0
             itemToUpdate.favorite = favorite
+            itemToUpdate.endDate = endDate
             itemToUpdate.priority = priority.rawValue
 
             vm.saveItemListsChanges()
@@ -157,45 +160,52 @@ struct AddUpdateItemView: View {
                             showNameSuggestions = true
                         }
 
-                        if searchResults.isEmpty {
+                        if searchResults.isEmpty || newValue == name {
                             showNameSuggestions = false
                         } else if !searchResults.isEmpty &&
                                 !showNameSuggestions &&
                                 nameSetFromList != name {
                             showNameSuggestions = true
                         }
+                        print("Text changed: \(oldValue) -> \(newValue)")
                     }
 
                     ZStack {
                         VStack(spacing: 10) {
                             //MARK: - DESCRIPTION
-                            TextField(description.isEmpty ? "Add description" : description, text: $description)
-                                .multilineTextAlignment(.leading)
-                                .lineLimit(3)
-                                .autocorrectionDisabled(true)
-                                .foregroundStyle(.primaryText)
-                                .focused($isDescriptionFieldFocused)
+                            if vm.userSettings?.itemDescription ?? false {
+                                TextField(description.isEmpty ? "Add description" : description, text: $description)
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(3)
+                                    .autocorrectionDisabled(true)
+                                    .foregroundStyle(.primaryText)
+                                    .focused($isDescriptionFieldFocused)
 
-                            Divider()
-                            
+                                Divider()
+                            }
+
                             //MARK: - QUANTITY
-                            TextField(quantity.count == 0 ? "Add quantity" : String(quantity), text: $quantity)
-                                .multilineTextAlignment(.leading)
-                                .lineLimit(4)
-                                .autocorrectionDisabled(true)
-                                .foregroundStyle(.primaryText)
-                            
-                            Divider()
-                            
+                            if vm.userSettings?.itemQuantity ?? false {
+                                TextField(quantity.count == 0 ? "Add quantity" : quantity, text: $quantity)
+                                    .multilineTextAlignment(.leading)
+                                    .lineLimit(4)
+                                    .autocorrectionDisabled(true)
+                                    .foregroundStyle(.primaryText)
+
+                                Divider()
+                            }
+
                             //MARK: - FAVORITE
                             Toggle("Favorite", isOn: $favorite)
                                 .padding(.top, 5)
                             
-//                            //MARK: - DATE PICKER
-//                            DatePicker("End date", selection: $endDate)
-//                                .datePickerStyle(.compact)
-//                                .padding(.top, 10)
-                            
+                            //MARK: - DATE PICKER
+                            if vm.userSettings?.itemEndDate ?? false {
+                                DatePicker("Deadline", selection: $endDate)
+                                    .datePickerStyle(.compact)
+                                    .padding(.top, 10)
+                            }
+
                             //MARK: - PRIORITY
                             Picker("Priority", selection: $priority) {
                                 Text("Normal").tag(Priority.normal)
@@ -215,7 +225,6 @@ struct AddUpdateItemView: View {
                                 }
                             })
                             .padding(.top, 10)
-
 
                             Spacer()
                     } //: VSTACK FORM
@@ -241,7 +250,6 @@ struct AddUpdateItemView: View {
 
                                 Spacer()
                             } //: VSTACK - SUGGESTIONS
-                            .presentationCornerRadius(12)
                         }
                     }
                 } //: VSTACK
@@ -255,9 +263,6 @@ struct AddUpdateItemView: View {
             .toolbar {
                 ToolbarItem {
                     Button(action: {
-                        if isItemToUpdate {
-                            updateItem()
-                        }
                         dismiss()
                     }) {
                         Image(systemName: "xmark")

@@ -49,7 +49,7 @@ protocol PersistenceManagerProtocol {
     func createProduct(
         id: Int,
         name: String,
-        note: String?,
+        notes: String?,
         categoryId: Int16,
         active: Bool,
         favorite: Bool,
@@ -69,16 +69,16 @@ protocol PersistenceManagerProtocol {
     func createSettings(
         itemDescription: Bool,
         itemQuantity: Bool,
-        itemDeadline: Bool,
+        itemEndDate: Bool,
         listDescription: Bool,
-        listDeadline: Bool
+        listEndDate: Bool
     ) -> Bool
     func updateSettings(
         itemDescription: Bool,
         itemQuantity: Bool,
-        itemDeadline: Bool,
+        itemEndDate: Bool,
         listDescription: Bool,
-        listDeadline: Bool
+        listEndDate: Bool
     ) -> Bool
 
     //MARK: - COMMON

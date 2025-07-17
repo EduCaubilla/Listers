@@ -39,7 +39,7 @@ struct ListsToAddProductView: View {
     private func addItemToSelectedList() {
         vm.addItemToList(
             name: itemToAdd?.name ?? "Product",
-            description: itemToAdd?.note,
+            description: itemToAdd?.notes,
             quantity: 0,
             favorite: false,
             priority: .normal,
@@ -148,7 +148,7 @@ var itemToAddPreview: DMProduct {
     newItem.active = true
     newItem.categoryId = 0
     newItem.favorite = false
-    newItem.note = "Description"
+    newItem.notes = "Description"
     newItem.custom = false
     newItem.selected = false
     return newItem

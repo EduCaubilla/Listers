@@ -164,7 +164,7 @@ private func getProductPreview() -> DMProduct {
     newProduct.uuid = UUID()
     newProduct.id = Int16(productId)
     newProduct.name = "Product \(productId)"
-    newProduct.note = "Note for product \(productId)"
+    newProduct.notes = "notes for product \(productId)"
     newProduct.categoryId = Int16(1)
     newProduct.active = true
     newProduct.favorite = true

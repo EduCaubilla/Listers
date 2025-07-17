@@ -29,7 +29,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         let newItem = DMItem(context: viewContext)
         newItem.id = UUID()
         newItem.name = name
-        newItem.note = description
+        newItem.notes = description
         newItem.quantity = quantity
         newItem.favorite = favorite
         newItem.priority = priority.rawValue
@@ -139,12 +139,12 @@ struct PersistenceManager : PersistenceManagerProtocol {
         return 1000
     }
 
-    func createProduct(id: Int, name: String, note: String?, categoryId: Int16, active: Bool, favorite: Bool, custom: Bool = true, selected: Bool = false) -> Bool {
+    func createProduct(id: Int, name: String, notes: String?, categoryId: Int16, active: Bool, favorite: Bool, custom: Bool = true, selected: Bool = false) -> Bool {
         let newProduct = DMProduct(context: viewContext)
         newProduct.uuid = UUID()
         newProduct.id = Int16(id)
         newProduct.name = name
-        newProduct.note = note
+        newProduct.notes = notes
         newProduct.categoryId = categoryId
         newProduct.active = active
         newProduct.favorite = favorite
@@ -253,31 +253,31 @@ struct PersistenceManager : PersistenceManagerProtocol {
         return fetch(type: DMSettings.self, predicate: nil)?.first
     }
 
-    func createSettings(itemDescription: Bool, itemQuantity: Bool, itemDeadline: Bool, listDescription: Bool, listDeadline: Bool) -> Bool {
+    func createSettings(itemDescription: Bool, itemQuantity: Bool, itemEndDate: Bool, listDescription: Bool, listEndDate: Bool) -> Bool {
         let newSettings = DMSettings(context: viewContext)
-        newSettings.itemDeadline = itemDeadline
+        newSettings.itemEndDate = itemEndDate
         newSettings.itemDescription = itemDescription
         newSettings.itemQuantity = itemQuantity
-        newSettings.listDeadline = listDeadline
+        newSettings.listEndDate = listEndDate
         newSettings.listDescription = listDescription
 
         return savePersistence()
     }
 
-    func updateSettings(itemDescription: Bool, itemQuantity: Bool, itemDeadline: Bool, listDescription: Bool, listDeadline: Bool) -> Bool {
+    func updateSettings(itemDescription: Bool, itemQuantity: Bool, itemEndDate: Bool, listDescription: Bool, listEndDate: Bool) -> Bool {
         let updatedSettings = DMSettings(context: viewContext)
         updatedSettings.itemDescription = itemDescription
         updatedSettings.itemQuantity = itemQuantity
-        updatedSettings.itemDeadline = itemDeadline
+        updatedSettings.itemEndDate = itemEndDate
         updatedSettings.listDescription = listDescription
-        updatedSettings.listDeadline = listDeadline
+        updatedSettings.listEndDate = listEndDate
 
         if let settingsToUpdate = fetchSettings() {
             settingsToUpdate.itemDescription = updatedSettings.itemDescription
             settingsToUpdate.itemQuantity = updatedSettings.itemQuantity
-            settingsToUpdate.itemDeadline = updatedSettings.itemDeadline
+            settingsToUpdate.itemEndDate = updatedSettings.itemEndDate
             settingsToUpdate.listDescription = updatedSettings.listDescription
-            settingsToUpdate.listDeadline = updatedSettings.listDeadline
+            settingsToUpdate.listEndDate = updatedSettings.listEndDate
         }
 
         return savePersistence()

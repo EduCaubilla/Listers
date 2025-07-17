@@ -20,7 +20,7 @@ extension DMProduct : JSONLoadable {
         product.uuid = UUID()
         product.id = jsonModel.id
         product.name = jsonModel.name
-        product.note = jsonModel.note
+        product.notes = jsonModel.notes
         product.categoryId = jsonModel.categoryId
         product.favorite = false
         product.active = true

@@ -63,24 +63,39 @@ struct ListRowCellView: View {
     var body: some View {
         VStack {
             HStack(alignment: .center, spacing: 5) {
-                VStack(alignment: .leading, spacing: 5) {
-                    if showingChangeName {
-                        TextField("List Title", text: $nameToChange)
-                            .font(.system(size: 22, weight: .semibold))
-                            .foregroundStyle(.darkBlue)
-                            .onSubmit {
-                                selectedList.name = nameToChange
+                HStack(alignment: .center, spacing: 5) {
+                    VStack(alignment: .leading, spacing: 5) {
+                        HStack{
+                            if showingChangeName {
+                                TextField("List Title", text: $nameToChange)
+                                    .font(.system(size: 22, weight: .semibold))
+                                    .foregroundStyle(.darkBlue)
+                                    .onSubmit {
+                                        selectedList.name = nameToChange
+                                    }
+                            } else {
+                                Text(selectedList.name ?? "")
+                                    .font(.system(size: 22, weight: .semibold))
+                                    .foregroundStyle(.darkBlue)
+                                    .onTapGesture(count: 2) {
+                                        showingChangeName = true
+                                        nameToChange = selectedList.name ?? ""
+                                    }
+                                    .strikethrough(selectedList.completed)
                             }
-                    } else {
-                        Text(selectedList.name ?? "")
-                            .font(.system(size: 22, weight: .semibold))
-                            .foregroundStyle(.darkBlue)
-                            .onTapGesture(count: 2) {
-                                showingChangeName = true
-                                nameToChange = selectedList.name ?? ""
-                            }
-                            .strikethrough(selectedList.completed)
-                    }
+                        } //: HSTACK
+
+                        if vm.isListDescriptionVisible &&
+                            !(selectedList.notes == nil) &&
+                            !selectedList.notes!.isEmpty {
+                            Text(selectedList.notes ?? "")
+                                .font(.system(size: 17, weight: .regular))
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(3)
+                                .padding(.vertical, 3)
+                        }
+                    } //: VSTACK
+                    .padding(.trailing, 5)
 
                     Text("^[\(listItems.count) Article](inflect: true)")
                         .font(.subheadline)
@@ -89,11 +104,13 @@ struct ListRowCellView: View {
 
                 Spacer()
 
-//                Text(selectedList.creationDate ?? Date.now, style: .date)
-//                    .font(.footnote)
-//                    .foregroundStyle(.secondary)
-//                    .padding(.trailing)
-//                    .foregroundStyle(.lightBlue)
+                if vm.isListEndDateVisible {
+                    Text(selectedList.endDate ?? Date.now, style: .date)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .padding(.trailing)
+                        .foregroundStyle(.lightBlue)
+                }
 
                 Image(systemName: selectedList.expanded ? "chevron.down" : "chevron.right")
                     .onTapGesture {
@@ -201,9 +218,10 @@ struct ListRowCellView: View {
 
             newItem.id = UUID()
             newItem.name = "Item \(itemNumber)"
-            newItem.note = "This is item \(itemNumber)."
+            newItem.notes = "This is item \(itemNumber)."
             newItem.quantity = Double.random(in: 0...10)
             newItem.creationDate = Date.now
+            newItem.endDate = Date.now
             newItem.favorite = Bool.random()
             newItem.completed = Bool.random()
             newItem.listId = listId

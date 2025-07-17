@@ -43,7 +43,7 @@ struct AddUpdateCategoryProductView: View {
 
         if let product = product {
             _name = State(initialValue: product.name ?? "Unknown")
-            _description = State(initialValue:product.note ?? "")
+            _description = State(initialValue:product.notes ?? "")
             _favorite = State(initialValue:product.favorite)
             _active = State(initialValue:product.active)
             _selectedCategory = State(initialValue:Categories.idMapper(for: product.categoryId))
@@ -77,7 +77,7 @@ struct AddUpdateCategoryProductView: View {
     private func updateProduct() {
         if let productToUpdate = productToUpdate {
             productToUpdate.name = name
-            productToUpdate.note = description
+            productToUpdate.notes = description
             productToUpdate.favorite = favorite
             productToUpdate.active = active
             productToUpdate.categoryId = Int16(selectedCategory.categoryId)

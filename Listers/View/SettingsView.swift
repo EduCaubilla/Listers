@@ -63,7 +63,7 @@ struct SettingsView: View {
                 Section("List Settings".capitalized) {
                     Toggle("Show Description", isOn: $vm.isListDescriptionEnable)
                         .padding(.vertical, -5)
-                    Toggle("Show Deadline", isOn: $vm.isListDeadlineEnable)
+                    Toggle("Show Deadline", isOn: $vm.islistEndDateEnable)
                         .padding(.vertical, -5)
                 }
                 .padding(.vertical,3)
@@ -75,6 +75,12 @@ struct SettingsView: View {
             .toolbarBackground(Color.background, for: .navigationBar)
             .scrollContentBackground(currentVisibility)
             .background(Color.clear)
+            .onAppear{
+                vm.loadSettingsData()
+            }
+            .onDisappear {
+                vm.updateSettingsData()
+            }
         } //: VSTACK
         .background(Color.background)
     }
