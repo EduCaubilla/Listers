@@ -29,7 +29,7 @@ struct ListRowCellView: View {
     private var deleteIcon : String = "trash"
     private var addPinLabel : String = "Add Pin"
     private var addPinIcon : String = "pin.fill"
-    private var removePinLabel : String = "Remove Pin"
+    private var removePinLabel : String = "Remove\nPin"
     private var removePinIcon : String = "pin"
     private var editLabel : String = "Edit"
     private var editIcon : String = "square.and.pencil"
@@ -63,44 +63,42 @@ struct ListRowCellView: View {
     var body: some View {
         VStack {
             HStack(alignment: .center, spacing: 5) {
-                HStack(alignment: .center, spacing: 5) {
-                    VStack(alignment: .leading, spacing: 5) {
-                        HStack{
-                            if showingChangeName {
-                                TextField("List Title", text: $nameToChange)
-                                    .font(.system(size: 22, weight: .semibold))
-                                    .foregroundStyle(.darkBlue)
-                                    .onSubmit {
-                                        selectedList.name = nameToChange
-                                    }
-                            } else {
-                                Text(selectedList.name ?? "")
-                                    .font(.system(size: 22, weight: .semibold))
-                                    .foregroundStyle(.darkBlue)
-                                    .onTapGesture(count: 2) {
-                                        showingChangeName = true
-                                        nameToChange = selectedList.name ?? ""
-                                    }
-                                    .strikethrough(selectedList.completed)
-                            }
-                        } //: HSTACK
+                HStack(alignment: .center, spacing: 2) {
+                    VStack(alignment: .leading, spacing: 3) {
+                        if showingChangeName {
+                            TextField("List Title", text: $nameToChange)
+                                .font(.system(size: 22, weight: .semibold))
+                                .foregroundStyle(.darkBlue)
+                                .onSubmit {
+                                    selectedList.name = nameToChange
+                                }
+                        } else {
+                            Text(selectedList.name ?? "")
+                                .font(.system(size: 22, weight: .semibold))
+                                .foregroundStyle(.darkBlue)
+                                .onTapGesture(count: 2) {
+                                    showingChangeName = true
+                                    nameToChange = selectedList.name ?? ""
+                                }
+                                .strikethrough(selectedList.completed)
+                        }
+
+                        Text("^[\(listItems.count) Article](inflect: true)")
+                            .font(.subheadline)
+                            .foregroundStyle(.lightBlue)
 
                         if vm.isListDescriptionVisible &&
                             !(selectedList.notes == nil) &&
                             !selectedList.notes!.isEmpty {
                             Text(selectedList.notes ?? "")
-                                .font(.system(size: 17, weight: .regular))
+                                .font(.system(size: 14, weight: .light))
                                 .multilineTextAlignment(.leading)
                                 .lineLimit(3)
-                                .padding(.vertical, 3)
+                                .foregroundStyle(.gray.opacity(0.7))
+                                .padding(.vertical, 0)
                         }
                     } //: VSTACK
-                    .padding(.trailing, 5)
-
-                    Text("^[\(listItems.count) Article](inflect: true)")
-                        .font(.subheadline)
-                        .foregroundStyle(.lightBlue)
-                } //: VSTACK
+                } //: HSTACK
 
                 Spacer()
 
@@ -119,13 +117,13 @@ struct ListRowCellView: View {
                     }
                     .foregroundStyle(.darkBlue)
             } //: HSTACK
-            .padding(.horizontal, 5)
-            .padding(.vertical, -2)
+            .padding(.top, selectedList.expanded ? -6 : 0) // To Correct when expanded row moves down 6pt.
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 Button(action: {
                     showingDeleteConfirmation.toggle()
                 }) {
                     Label(deleteLabel, systemImage: deleteIcon)
+                        .labelStyle(.iconOnly)
                 }
                 .tint(.red)
             }
@@ -137,10 +135,10 @@ struct ListRowCellView: View {
                 }) {
                     if selectedList.pinned {
                         Label(addPinLabel, systemImage: addPinIcon)
-                            .labelStyle(.titleAndIcon)
+                            .labelStyle(.iconOnly)
                     } else {
                         Label(removePinLabel, systemImage: removePinIcon)
-                            .labelStyle(.titleAndIcon)
+                            .labelStyle(.iconOnly)
                     }
                 }
                 .tint(selectedList.pinned ? .green : .gray)
@@ -149,30 +147,32 @@ struct ListRowCellView: View {
                     actionEditList()
                 }) {
                     Label(editLabel, systemImage: editIcon)
+                        .labelStyle(.iconOnly)
                 }
                 .tint(.mediumBlue)
             }
 
-            VStack(alignment: .center, spacing: 0) {
+            VStack(alignment: .leading, spacing: 0) {
                 if(selectedList.expanded) {
                     //MARK: - List items
-                    ForEach(listItems, id: \.self) { item in
+                    ForEach(Array(listItems.enumerated()), id: \.1) { index, item in
                         ItemRowCellView(
                             vm: vm,
                             item: item,
                             actionEditItem: actionEditList,
                             isEditAvailable: false
                         )
-                        .padding(.top, 2)
+                        .padding(.top, 5)
+
+                        if(index != listItems.count-1) {
+                            Divider()
+                                .padding(.top, 5)
+                        }
                     } //: LOOP
-                    .listStyle(.plain)
-                } else {
-                    Divider()
-                        .padding(.horizontal, 5)
-                        .padding(.vertical, 2)
                 }
             } //: VSTACK
-            .padding(.top, 0)
+            .padding(.top, -5)
+            .padding(.bottom, 8)
             .alert(deleteWarningTitle, isPresented: $showingDeleteConfirmation, presenting: selectedList) { _ in
                 Button(deleteLabel, role: .destructive) {
                     deleteList()

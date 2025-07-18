@@ -46,13 +46,16 @@ struct ListsView: View {
                 if vm.isListEmpty {
                     EmptyView()
                 } else {
-                    ForEach(vm.lists, id: \.self) { list in
+                    ForEach(Array(vm.lists.enumerated()), id: \.1) { index, list in
                         ListRowCellView(
                             vm: vm,
                             selectedList: list,
                             listItems: vm.fetchItemsForList(list),
                             actionEditList: {editList(list)}
                         )
+                        .padding(.bottom, -10)
+                        .listRowSeparator(index == 0 ? .hidden : .visible, edges: .top)
+                        .listRowBackground(Color.clear)
                         .onTapGesture {
                             vm.updateSelectedList(list)
                             print(vm.selectedList!)
@@ -62,12 +65,9 @@ struct ListsView: View {
                             }
                         }
                     } //: LOOP
-                    .listRowSeparator(.hidden)
-                    .listRowBackground(Color.clear)
                 }
             } //: LIST
             .listStyle(.plain)
-            .listRowSpacing(-3)
             .navigationTitle(Text(viewTitle))
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
@@ -106,6 +106,9 @@ struct ListsView: View {
                 .padding(.top, 20)
                 .presentationDetents([.height(260)])
                 .presentationBackground(Color.background)
+        }
+        .onAppear {
+            vm.loadSettings()
         }
     } //: VIEW BODY
 } //: VIEW MAIN

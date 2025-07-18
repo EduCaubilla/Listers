@@ -106,7 +106,11 @@ struct PersistenceManager : PersistenceManagerProtocol {
             print("Error fetching items for selected list in PersistenceManager.")
             return
         }
-        
+
+        if items.count == 0 {
+            return
+        }
+
         let isListComplete = items.allSatisfy { $0.completed }
 
         if let listToUpdate = fetchList(listId) {
@@ -265,20 +269,15 @@ struct PersistenceManager : PersistenceManagerProtocol {
     }
 
     func updateSettings(itemDescription: Bool, itemQuantity: Bool, itemEndDate: Bool, listDescription: Bool, listEndDate: Bool) -> Bool {
-        let updatedSettings = DMSettings(context: viewContext)
-        updatedSettings.itemDescription = itemDescription
-        updatedSettings.itemQuantity = itemQuantity
-        updatedSettings.itemEndDate = itemEndDate
-        updatedSettings.listDescription = listDescription
-        updatedSettings.listEndDate = listEndDate
-
         if let settingsToUpdate = fetchSettings() {
-            settingsToUpdate.itemDescription = updatedSettings.itemDescription
-            settingsToUpdate.itemQuantity = updatedSettings.itemQuantity
-            settingsToUpdate.itemEndDate = updatedSettings.itemEndDate
-            settingsToUpdate.listDescription = updatedSettings.listDescription
-            settingsToUpdate.listEndDate = updatedSettings.listEndDate
+            settingsToUpdate.itemDescription = itemDescription
+            settingsToUpdate.itemQuantity = itemQuantity
+            settingsToUpdate.itemEndDate = itemEndDate
+            settingsToUpdate.listDescription = listDescription
+            settingsToUpdate.listEndDate = listEndDate
         }
+
+        print("Updated settings -> Item Description:\(itemDescription), Item Quantity:\(itemQuantity), Item End Date:\(itemEndDate), List Description:\(listDescription), List End Date:\(listEndDate)")
 
         return savePersistence()
     }

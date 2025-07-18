@@ -16,6 +16,7 @@ struct AddUpdateListView: View {
     @State private var name: String = ""
     @State private var description: String = ""
     @State private var creationDate: Date = Date.now
+    @State private var endDate: Date = Date.now
     @State private var pinned: Bool = false
     @State private var expanded: Bool = false
 
@@ -59,8 +60,8 @@ struct AddUpdateListView: View {
             vm.addList(
                 name: name,
                 description: description,
-                creationDate: creationDate,
-                endDate: Date.now,
+                creationDate: Date.now,
+                endDate: endDate,
                 pinned: pinned,
                 selected: false,
                 expanded: expanded
@@ -98,12 +99,22 @@ struct AddUpdateListView: View {
                     Divider()
 
                     //MARK: - DESCRIPTION
-                    TextField("Description", text: $description)
-                        .multilineTextAlignment(.leading)
-                        .lineLimit(3)
-                        .autocorrectionDisabled(true)
+                    if vm.isListDescriptionVisible {
+                        TextField("Description", text: $description)
+                            .multilineTextAlignment(.leading)
+                            .lineLimit(3)
+                            .autocorrectionDisabled(true)
 
-                    Divider()
+                        Divider()
+                    }
+
+
+                    //MARK: - END DATE
+                    if vm.isListEndDateVisible {
+                        DatePicker("End date", selection: $endDate, displayedComponents: .date)
+                            .padding(.top, 5)
+                            .datePickerStyle(.compact)
+                    }
 
                     //MARK: - PINNED
                     Toggle("Pinned to top", isOn: $pinned)

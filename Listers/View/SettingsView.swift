@@ -33,6 +33,15 @@ struct SettingsView: View {
     }
 
     //MARK: - FUNCTIONS
+    private func customSettingsBinding(get: @escaping () -> Bool, set: @escaping (Bool) -> Void) -> Binding<Bool> {
+        Binding(
+            get: get,
+            set: { newValue in
+                set(newValue)
+                vm.updateSettingsData()
+            }
+        )
+    }
 
     //MARK: - BODY
     var body: some View {
@@ -50,20 +59,35 @@ struct SettingsView: View {
                 .listRowBackground(colorScheme == .dark ? Color.accentColor.opacity(0.3) : Color.background)
 
                 Section("Item Settings".capitalized) {
-                    Toggle("Show Description", isOn: $vm.isItemDescriptionEnable)
+                    Toggle("Show Description", isOn: customSettingsBinding(
+                        get: { vm.isItemDescriptionEnable },
+                        set: { vm.isItemDescriptionEnable = $0}
+                    ))
                         .padding(.vertical, -5)
-                    Toggle("Show Quantity", isOn: $vm.isItemQuantityEnable)
+                    Toggle("Show Quantity", isOn: customSettingsBinding(
+                        get: { vm.isItemQuantityEnable },
+                        set: { vm.isItemQuantityEnable = $0 }
+                    ))
                         .padding(.vertical, -5)
-                    Toggle("Show Deadline", isOn: $vm.isItemDeadlineEnable)
+                    Toggle("Show End Date", isOn: customSettingsBinding(
+                        get: { vm.isItemDeadlineEnable },
+                        set: { vm.isItemDeadlineEnable = $0 }
+                    ))
                         .padding(.vertical, -5)
                 }
                 .padding(.vertical,3)
                 .listRowBackground(colorScheme == .dark ? Color.accentColor.opacity(0.3) : Color.background)
 
                 Section("List Settings".capitalized) {
-                    Toggle("Show Description", isOn: $vm.isListDescriptionEnable)
+                    Toggle("Show Description", isOn: customSettingsBinding(
+                        get: { vm.isListDescriptionEnable },
+                        set: { vm.isListDescriptionEnable = $0 }
+                    ))
                         .padding(.vertical, -5)
-                    Toggle("Show Deadline", isOn: $vm.islistEndDateEnable)
+                    Toggle("Show End Date", isOn: customSettingsBinding(
+                        get: { vm.islistEndDateEnable },
+                        set: { vm.islistEndDateEnable = $0 }
+                    ))
                         .padding(.vertical, -5)
                 }
                 .padding(.vertical,3)
@@ -72,12 +96,12 @@ struct SettingsView: View {
             .formStyle(.grouped)
             .navigationTitle(Text(settingsTitle))
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                toolbarContentView(router: router, route: .settings)
+            } //: TOOLBAR
             .toolbarBackground(Color.background, for: .navigationBar)
             .scrollContentBackground(currentVisibility)
             .background(Color.clear)
-            .onAppear{
-                vm.loadSettingsData()
-            }
             .onDisappear {
                 vm.updateSettingsData()
             }

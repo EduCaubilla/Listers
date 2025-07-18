@@ -43,41 +43,43 @@ class MainItemsListsViewModel: ObservableObject {
     }
 
     var isItemDescriptionVisible: Bool {
-        settingsManager.currentSettings?.itemDescription ?? false
+        userSettings?.itemDescription ?? false
     }
 
     var isItemQuantityVisible: Bool {
-        settingsManager.currentSettings?.itemQuantity ?? false
+        userSettings?.itemQuantity ?? false
     }
 
     var isItemEndDateVisible: Bool {
-        settingsManager.currentSettings?.itemEndDate ?? false
+        userSettings?.itemEndDate ?? false
     }
 
     var isListDescriptionVisible: Bool {
-        settingsManager.currentSettings?.listDescription ?? false
+        userSettings?.listDescription ?? false
     }
 
     var isListEndDateVisible: Bool {
-        settingsManager.currentSettings?.listEndDate ?? false
+        userSettings?.listEndDate ?? false
     }
 
     //MARK: - INITIALIZER
     init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
         self.persistenceManager = persistenceManager
 
-        loadSettings()
+//        loadSettings()
         setupSelectedListDataBinding()
         loadListsItemsData()
     }
 
     //MARK: - FUNCTIONS
-    private func loadSettings() {
+    func loadSettings() {
         if let userSettings = settingsManager.currentSettings {
             self.userSettings = userSettings
         } else {
             settingsManager.loadSettings()
         }
+        print("Settings loaded from MainItemsListsViewModel")
+        print(userSettings ?? "")
     }
 
     private func setupSelectedListDataBinding() {
@@ -99,9 +101,9 @@ class MainItemsListsViewModel: ObservableObject {
             return
         }
 
+        loadProductNames()
         checkSelectedList()
         loadItemsForSelectedList()
-        loadProductNames()
     }
 
     func loadLists() {

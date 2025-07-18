@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import Combine
 
 class SettingsViewModel: ObservableObject {
     //MARK: - PROPERTIES
-    private let persistenceManager : any PersistenceManagerProtocol
+    private let settingsManager : SettingsManager = SettingsManager.shared
+//    private var cancellables = Set<AnyCancellable>()
     static let shared = SettingsViewModel()
 
     @Published var isItemDescriptionEnable: Bool = true
@@ -20,13 +22,13 @@ class SettingsViewModel: ObservableObject {
     @Published var islistEndDateEnable: Bool = false
 
     //MARK: - INITIALIZER
-    init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
-        self.persistenceManager = persistenceManager
+    init() {
+        loadSettingsData()
     }
 
     //MARK: - FUNCTIONS
     func loadSettingsData() {
-        if let fetchedSettings = persistenceManager.fetchSettings() {
+        if let fetchedSettings = settingsManager.currentSettings {
             isItemDescriptionEnable = fetchedSettings.itemDescription
             isItemQuantityEnable = fetchedSettings.itemQuantity
             isItemDeadlineEnable = fetchedSettings.itemEndDate
@@ -38,17 +40,24 @@ class SettingsViewModel: ObservableObject {
     }
 
     func updateSettingsData() {
-        let updatedSettings = persistenceManager.updateSettings(
+        settingsManager.updateSettings(
             itemDescription: isItemDescriptionEnable,
             itemQuantity: isItemQuantityEnable,
             itemEndDate: isItemDeadlineEnable,
             listDescription: isListDescriptionEnable,
             listEndDate: islistEndDateEnable
         )
-        if updatedSettings {
-            print("Settings updated successfully")
-        } else {
-            print("There was an error updating the settings")
-        }
     }
+
+//    private func observeSettingsChange() {
+//        Publishers.CombineLatest3(
+//            Publishers.CombineLatest($isItemDescriptionEnable, $isItemQuantityEnable),
+//            Publishers.CombineLatest($isItemDeadlineEnable, $isListDescriptionEnable),
+//            $islistEndDateEnable
+//        )
+//        .sink { [weak self] _ in
+//            self?.updateSettingsData()
+//        }
+//        .store(in: &cancellables)
+//    }
 }

@@ -30,9 +30,11 @@ struct RootView: View {
                         case .settings:
                             SettingsView()
                                 .environmentObject(router)
+                                .navigationTransition(.automatic)
                         case .categories:
                             CategoriesProductsView()
                                 .environmentObject(router)
+                                .navigationTransition(.automatic)
                     }
                 } //: NAV DESTINATION
         } //: NAV STACK

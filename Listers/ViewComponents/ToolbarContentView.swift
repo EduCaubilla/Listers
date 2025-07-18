@@ -7,25 +7,28 @@
 
 import SwiftUI
 
+/// Builds a common toolbar for some pages. Main and Lists views has all items, and settings and categories has none as they're like a navigation link.
+/// - Parameters:
+///   - router: Class that appends route to path
+///   - route: Enum containing all views
+/// - Returns: A content to populate a toolbar
 @ToolbarContentBuilder
 func toolbarContentView(router: NavigationRouter, route: NavRoute) -> some ToolbarContent {
     ToolbarItemGroup(placement: .topBarLeading) {
         // TODO - Add search in categories
-        if route != .categories {
+        if route == .main || route == .lists {
             Button(action: {
-                router.navigateTo(.categories)
+                router.navigateTo(.categories, withBack: true)
             }) {
                 Image("custom.list.bullet.clipboard.badge.magnifyingglass")
                     .resizable()
                     .scaledToFit()
                     .foregroundStyle(.darkBlue)
             }
-        }
 
-        if route != .settings {
             Button(action: {
                 withTransaction(Transaction(animation: .default)) {
-                    router.navigateTo(.settings)
+                    router.navigateTo(.settings, withBack: true)
                 }
             }) {
                 Image(systemName: "gearshape")
@@ -37,7 +40,7 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute) -> some Toolb
     }
 
     ToolbarItemGroup(placement: .topBarTrailing) {
-        if route != .lists {
+        if route == .main {
             Button(action: {
                 withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.lists)
@@ -50,7 +53,7 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute) -> some Toolb
             }
         }
 
-        if route != .main {
+        if route == .lists {
             Button(action: {
                 withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.main)

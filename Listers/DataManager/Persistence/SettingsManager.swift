@@ -52,4 +52,20 @@ class SettingsManager {
             }
         }
     }
+
+    func updateSettings( itemDescription: Bool, itemQuantity: Bool, itemEndDate: Bool, listDescription: Bool, listEndDate: Bool) {
+        let updatedSettings = persistenceManager.updateSettings(
+            itemDescription: itemDescription,
+            itemQuantity: itemQuantity,
+            itemEndDate: itemEndDate,
+            listDescription: listDescription,
+            listEndDate: listEndDate
+        )
+
+        if let newSettings = persistenceManager.fetchSettings(), updatedSettings  {
+            self.currentSettings = newSettings
+        } else {
+            print("There was an error updating the settings")
+        }
+    }
 }

@@ -18,9 +18,9 @@ struct ItemRowCellView: View {
 
     private var deleteLabel : String = "Delete"
     private var deleteIcon : String = "trash"
-    private var addFavLabel : String = "Add Favorite"
+    private var addFavLabel : String = "Add Fav"
     private var addFavIcon : String = "star.fill"
-    private var removeFavLabel : String = "Remove Favorite"
+    private var removeFavLabel : String = "Remove\nFav"
     private var removeFavIcon : String = "star"
     private var editLabel : String = "Edit"
     private var editIcon : String = "square.and.pencil"
@@ -69,71 +69,76 @@ struct ItemRowCellView: View {
         }
     }
 
+    private func updateItemOnCheckboxToggle() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
+            saveItem()
+            checkListCompleted()
+        }
+    }
 
     //MARK: - BODY
     var body: some View {
         VStack {
-            HStack(alignment: .center, spacing: 10) {
-                // COLOR MARK FOR PRIORITY
-                Rectangle()
-                    .frame(width: 4, height: 30)
-                    .foregroundStyle(color)
-                
-                //COMPLETION TOGGLE
-                Toggle("", isOn: Binding(
-                    get: { item.completed },
-                    set: { item.completed = $0 }
-                ))
-                .onChange(of: item.completed, { oldValue, newValue in
-                    saveItem()
-                    checkListCompleted()
-                })
-                .toggleStyle(CustomCheckboxStyle())
-                .foregroundStyle(.darkBlue)
+            VStack(alignment: .leading, spacing: 0){
+                HStack(alignment: .center, spacing: 5) {
+                    // COLOR MARK FOR PRIORITY
+                    Rectangle()
+                        .frame(width: 4, height: 30)
+                        .foregroundStyle(color)
 
-                //TEXT & COMMENT
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(item.name ?? "Unknown")
-                        .font(.system(size: 18, weight: .bold))
-                        .foregroundStyle(.darkBlue)
-                        .lineLimit(1)
-                        .strikethrough(item.completed ? true : false)
+                    //COMPLETION TOGGLE
+                    Toggle("", isOn: Binding(
+                        get: { item.completed },
+                        set: { item.completed = $0 }
+                    ))
+                    .onChange(of: item.completed, { oldValue, newValue in
+                        updateItemOnCheckboxToggle()
+                    })
+                    .toggleStyle(CustomCheckboxStyle())
+                    .foregroundStyle(.darkBlue)
 
-                    if vm.isItemDescriptionVisible &&
-                       !(item.notes == nil) &&
-                       !item.notes!.isEmpty {
-                        Text(item.notes ?? "")
-                            .font(.system(size: 14, weight: .light))
-                            .foregroundStyle(.lightBlue)
-                            .lineLimit(1)
-                    }
-                    
-                } //: VSTACK
+                    //TEXT, DATE & COMMENT
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(item.name ?? "Unknown")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(.darkBlue)
+                            .lineLimit(2)
+                            .strikethrough(item.completed ? true : false)
 
-                if vm.isItemEndDateVisible {
-                    HStack(alignment: .center, spacing: 0) {
-                        Text(item.endDate ?? Date.now, style: .date)
-                    }
-                }
+                        if vm.isItemEndDateVisible {
+                            Text(item.endDate ?? Date.now, style: .date)
+                                .font(.system(size: 14, weight: .light))
+                                .foregroundStyle(.lightBlue)
+                        }
 
-                Spacer(minLength: 2)
-                
-                //QUANTITY
-                if vm.isItemQuantityVisible {
-                    HStack(alignment: .center, spacing: 5) {
+                        if vm.isItemDescriptionVisible &&
+                           !(item.notes == nil) &&
+                           !item.notes!.isEmpty {
+                            Text(item.notes ?? "")
+                                .font(.system(size: 15, weight: .light))
+                                .foregroundStyle(.gray.opacity(0.7))
+                                .lineLimit(3)
+                        }
+                    } //: VSTACK
+                    .padding(.leading, 5)
+
+                    Spacer(minLength: 0)
+
+                    //QUANTITY
+                    if vm.isItemQuantityVisible {
                         Text("^[\(item.quantity.trimmedString) Unit](inflect: true)")
                             .foregroundStyle(.lightBlue)
-                    } //: HSTACK
-                    .padding()
-                }
-
-            } //: HSTACK
+                            .padding(3)
+                    }
+                } //: HSTACK
+            }
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 if isEditAvailable {
                     Button(action: {
                         deleteItem()
                     }) {
                         Label(deleteLabel, systemImage: deleteIcon)
+                            .labelStyle(.iconOnly)
                     }
                     .tint(.red)
                 }
@@ -144,10 +149,10 @@ struct ItemRowCellView: View {
                         favItem()
                     }) {
                         if item.favorite {
-                            Label(addFavLabel, systemImage: addFavIcon)
+                            Label(removeFavLabel, systemImage: addFavIcon)
                                 .labelStyle(.iconOnly)
                         } else {
-                            Label(removeFavLabel, systemImage: removeFavIcon)
+                            Label(addFavLabel, systemImage: removeFavIcon)
                                 .labelStyle(.iconOnly)
                         }
                     }
@@ -157,17 +162,12 @@ struct ItemRowCellView: View {
                         actionEditItem()
                     }) {
                         Label(editLabel, systemImage: editIcon)
+                            .labelStyle(.iconOnly)
                     }
                     .tint(.mediumBlue)
                 }
             }
-
-            Divider()
-                .padding(.horizontal)
-                .padding(.top, -8)
         } //: VSTACK MAIN
-        .frame(minHeight: 40, idealHeight: 40, maxHeight: 50)
-        .background(Color.background)
     }
 }
 

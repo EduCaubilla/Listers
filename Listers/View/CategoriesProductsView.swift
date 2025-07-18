@@ -144,36 +144,38 @@ struct CategoriesProductsView: View {
                             )
                         })
                     .toolbarBackground(Color.background, for: .navigationBar)
-                        .toolbar {
-                            ToolbarItem(id: "Favorites", showsByDefault: false) {
-                                Button(action: {
-                                    isShowingFavorites.toggle()
-                                }) {
-                                    if isShowingFavorites {
-                                        Image(systemName: "star.fill")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .foregroundStyle(.yellow)
-                                    } else {
-                                        Image(systemName: "star")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .foregroundStyle(.darkBlue)
-                                    }
-                                } //: FAV BUTTON
-                                .padding(.trailing, -10)
-                            } //: TOOLBAR ITEM
+                    .toolbar {
+                        toolbarContentView(router: router, route: .categories)
 
-                            ToolbarItem(id: "Search", showsByDefault: true) {
-                                Button(action: {
-                                    showSearchBar = true
-                                }) {
-                                    Image(systemName: "magnifyingglass")
+                        ToolbarItem(id: "Favorites", showsByDefault: false) {
+                            Button(action: {
+                                isShowingFavorites.toggle()
+                            }) {
+                                if isShowingFavorites {
+                                    Image(systemName: "star.fill")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .foregroundStyle(.yellow)
+                                } else {
+                                    Image(systemName: "star")
+                                        .resizable()
+                                        .scaledToFit()
                                         .foregroundStyle(.darkBlue)
-                                } //: SEARCH BUTTON
-                            } //: TOOLBAR ITEM
+                                }
+                            } //: FAV BUTTON
+                            .padding(.trailing, -10)
+                        } //: TOOLBAR ITEM
 
-                        } //: TOOLBAR
+                        ToolbarItem(id: "Search", showsByDefault: true) {
+                            Button(action: {
+                                showSearchBar = true
+                            }) {
+                                Image(systemName: "magnifyingglass")
+                                    .foregroundStyle(.darkBlue)
+                            } //: SEARCH BUTTON
+                        } //: TOOLBAR ITEM
+
+                    } //: TOOLBAR
                     .scrollContentBackground(currentVisibility)
                 } else {
                     ZStack {

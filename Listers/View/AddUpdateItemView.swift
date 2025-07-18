@@ -33,11 +33,12 @@ struct AddUpdateItemView: View {
     @FocusState private var isDescriptionFieldFocused: Bool
 
     @State private var searchText: String = ""
-    @State private var showNameSuggestions: Bool = true
+    @State private var showNameSuggestions: Bool = false
     @State private var nameSetFromList: String = ""
 
     var searchResults: [String] {
-        vm.productNames.filter { $0.lowercased().contains(name.lowercased()) }
+        print("Search results ongoing...")
+        return vm.productNames.filter { $0.lowercased().contains(name.lowercased()) }
     }
 
     var itemTitle : String {
@@ -160,7 +161,7 @@ struct AddUpdateItemView: View {
                             showNameSuggestions = true
                         }
 
-                        if searchResults.isEmpty || newValue == name {
+                        if searchResults.isEmpty || newValue == nameSetFromList {
                             showNameSuggestions = false
                         } else if !searchResults.isEmpty &&
                                 !showNameSuggestions &&
@@ -173,7 +174,7 @@ struct AddUpdateItemView: View {
                     ZStack {
                         VStack(spacing: 10) {
                             //MARK: - DESCRIPTION
-                            if vm.userSettings?.itemDescription ?? false {
+                            if vm.isItemDescriptionVisible {
                                 TextField(description.isEmpty ? "Add description" : description, text: $description)
                                     .multilineTextAlignment(.leading)
                                     .lineLimit(3)
@@ -185,7 +186,7 @@ struct AddUpdateItemView: View {
                             }
 
                             //MARK: - QUANTITY
-                            if vm.userSettings?.itemQuantity ?? false {
+                            if vm.isItemQuantityVisible {
                                 TextField(quantity.count == 0 ? "Add quantity" : quantity, text: $quantity)
                                     .multilineTextAlignment(.leading)
                                     .lineLimit(4)
@@ -200,8 +201,8 @@ struct AddUpdateItemView: View {
                                 .padding(.top, 5)
                             
                             //MARK: - DATE PICKER
-                            if vm.userSettings?.itemEndDate ?? false {
-                                DatePicker("Deadline", selection: $endDate)
+                            if vm.isItemEndDateVisible {
+                                DatePicker("End Date", selection: $endDate, displayedComponents: .date)
                                     .datePickerStyle(.compact)
                                     .padding(.top, 10)
                             }
@@ -251,7 +252,7 @@ struct AddUpdateItemView: View {
                                 Spacer()
                             } //: VSTACK - SUGGESTIONS
                         }
-                    }
+                    } //: ZSTACK
                 } //: VSTACK
                 .padding(.horizontal, 20)
                 .padding(.top, 10)

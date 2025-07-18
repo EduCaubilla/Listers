@@ -54,13 +54,13 @@ struct MainItemsView: View {
     }
 
     private func onDismissModal() {
-        if vm.selectedList == nil {
+        if !vm.hasSelectedList {
             vm.loadListsItemsData()
         } else {
             vm.loadItemsForSelectedList()
         }
 
-        if vm.itemsOfSelectedList.isEmpty {
+        if vm.hasSelectedList && vm.itemsOfSelectedList.isEmpty {
             vm.showingAddItemView = true
         }
     }
@@ -71,18 +71,20 @@ struct MainItemsView: View {
                 VStack {
                     if vm.selectedList != nil {
                         List{
-                            ForEach(vm.itemsOfSelectedList, id: \.self) { item in
+                            ForEach(Array(vm.itemsOfSelectedList.enumerated()), id: \.1) { index, item in
                                 ItemRowCellView(
                                     vm: vm,
                                     item: item,
                                     actionEditItem: {editItem(item)}
                                 )
-                                .listRowSeparator(.hidden)
+                                .padding(.top, 5)
+                                .listRowSeparator(index == 0 ? .hidden : .visible, edges: .top)
                                 .listRowBackground(Color.clear)
                             } //: LOOP
                         } //: LIST
-                        .padding(.top)
+//                        .padding(.top)
                         .listStyle(.inset)
+                        .listRowSpacing(-5)
                         .navigationTitle(Text(selectedListName))
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarBackButtonHidden(true)
@@ -124,6 +126,7 @@ struct MainItemsView: View {
                 .onAppear {
                     vm.loadListsItemsData()
                     vm.loadProductNames()
+                    vm.loadSettings()
                 }
                 .toolbar {
                     toolbarContentView(router: router, route: .main)
@@ -155,7 +158,7 @@ struct MainItemsView: View {
             .sheet(isPresented: $vm.showingAddListView, onDismiss: onDismissModal) {
                 AddUpdateListView(vm: vm)
                     .padding(.top, 20)
-                    .presentationDetents([.height(260)])
+                    .presentationDetents([.height(320)])
                     .presentationBackground(Color.background)
             }
             .alert(
