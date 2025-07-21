@@ -294,7 +294,7 @@ struct FormItemView: View {
                     )
                     print("Added product \(name) to library list")
                     vm.showSaveNewProductMessage = false
-                    vm.loadProductNames()
+                    vm.loadProductNames(forceLoad: true)
 
                     closeCurrentFormItemView()
                 }

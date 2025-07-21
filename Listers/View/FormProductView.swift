@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AddUpdateCategoryProductView: View {
+struct FormProductView: View {
     //MARK: - PROPERTIES
     @Environment(\.dismiss) var dismiss
 
@@ -193,5 +193,5 @@ struct AddUpdateCategoryProductView: View {
 
 //MARK: - PREVIEW
 #Preview {
-    AddUpdateCategoryProductView(vm: CategoriesProductsViewModel())
+    FormProductView(vm: CategoriesProductsViewModel())
 }

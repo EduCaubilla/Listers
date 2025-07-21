@@ -192,13 +192,13 @@ struct CategoriesProductsView: View {
         } //: VSTACK MAIN
         .background(colorScheme == .light ? Color(UIColor.secondarySystemBackground) : .background, ignoresSafeAreaEdges: .all)
         .sheet(isPresented: $vm.showingAddProductView) {
-            AddUpdateCategoryProductView(vm: vm)
+            FormProductView(vm: vm)
                 .padding(.top, 20)
                 .presentationDetents([.height(320)])
                 .presentationBackground(Color.background)
         }
         .sheet(isPresented: $vm.showingEditProductView) {
-            AddUpdateCategoryProductView(product: vm.selectedProduct, vm: vm)
+            FormProductView(product: vm.selectedProduct, vm: vm)
                 .padding(.top, 20)
                 .presentationDetents([.height(320)])
                 .presentationBackground(Color.background)

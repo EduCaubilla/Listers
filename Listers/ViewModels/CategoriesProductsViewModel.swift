@@ -151,6 +151,7 @@ class CategoriesProductsViewModel: ObservableObject {
         if productCreated {
             print("Product created successfully.")
             saveCategoriesProductsUpdates()
+            fetchProducts()
         } else {
             print("There was an error creating the product.")
         }
