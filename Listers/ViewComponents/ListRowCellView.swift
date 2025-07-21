@@ -50,7 +50,11 @@ struct ListRowCellView: View {
     }
 
     private func deleteList() {
-        vm.delete(selectedList)
+        vm.deleteList(selectedList)
+        if vm.lists.count == 0 {
+            vm.selectedList = nil
+        }
+
         saveUpdatedList()
     }
 
@@ -180,7 +184,7 @@ struct ListRowCellView: View {
                 }
                 Button(cancelLabel, role: .cancel) { }
             } message: { list in
-                Text("Are you sure you want to delete \"\(list.name ?? "this list")\"?")
+                Text("Are you sure you want to delete \"\(list.name ?? "this list")\"? The list and all its items will be removed.")
             }
         } //: VSTACK MAIN
         .padding(.top, selectedList.expanded ? 6 : 0)

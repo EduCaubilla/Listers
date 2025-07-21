@@ -293,6 +293,18 @@ class MainItemsListsViewModel: ObservableObject {
         }
     }
 
+    func deleteList(_ listForDelete: DMList) {
+        let itemsToDelete = itemsOfSelectedList.filter { $0.listId == listForDelete.id }
+        for item in itemsToDelete {
+            delete(item)
+        }
+
+        let itemsRemainingInList = fetchItemsForList(listForDelete)
+        if itemsRemainingInList.isEmpty {
+            delete(listForDelete)
+        }
+    }
+
     func delete<T: NSManagedObject>(_ object: T) {
         let objectDeleted = persistenceManager.remove(object)
 
