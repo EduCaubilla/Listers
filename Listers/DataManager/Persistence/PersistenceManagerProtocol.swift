@@ -42,7 +42,7 @@ protocol PersistenceManagerProtocol {
     func fetchList(_ listId : UUID) -> DMList?
     func fetchSelectedList() -> DMList?
     func fetchAllLists() -> [DMList]?
-    func setListCompleteness(for listId: UUID)
+    func setListCompleteness(for listId: UUID) -> Bool
 
     //MARK: - PRODUCTS
     func fetchLastProductId() -> Int

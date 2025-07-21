@@ -160,7 +160,8 @@ struct ListRowCellView: View {
                             vm: vm,
                             item: item,
                             actionEditItem: actionEditList,
-                            isEditAvailable: false
+                            isEditAvailable: false,
+                            screen: .lists
                         )
                         .padding(.top, 5)
 
@@ -181,7 +182,6 @@ struct ListRowCellView: View {
             } message: { list in
                 Text("Are you sure you want to delete \"\(list.name ?? "this list")\"?")
             }
-
         } //: VSTACK MAIN
         .padding(.top, selectedList.expanded ? 6 : 0)
         .background(Color.background)

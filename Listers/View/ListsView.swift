@@ -13,8 +13,6 @@ struct ListsView: View {
     @EnvironmentObject var router: NavigationRouter
     @ObservedObject var vm: MainItemsListsViewModel
 
-    @State private var showingAddListView: Bool = false
-    @State private var showingUpdateListView: Bool = false
     @State private var showingDeleteWarning: Bool = false
 
     private var deleteWarningTitle: String = "Delete List"
@@ -32,7 +30,7 @@ struct ListsView: View {
     //MARK: - FUNCTIONS
     private func editList(_ list: DMList) {
         setListSelected(list)
-        showingUpdateListView.toggle()
+        vm.changeFormViewState(to: .openUpdateList)
     }
 
     private func setListSelected(_ list: DMList) {
@@ -75,7 +73,7 @@ struct ListsView: View {
                 MainAddButtonView(
                     addButtonLabel: addListLabel,
                     addButtonIcon: addIcon,
-                    addButtonAction: {showingAddListView.toggle()}
+                    addButtonAction: {vm.changeFormViewState(to: .openAddList)}
                 )
             })
             .toolbar {
@@ -95,20 +93,21 @@ struct ListsView: View {
                 router.navigateTo(.main)
             })
         } //: VSTACK MAIN
-        .sheet(isPresented: $showingAddListView) {
-            AddUpdateListView(vm: vm)
+        .sheet(isPresented: $vm.showingAddListView) {
+            FormListView(vm: vm)
                 .padding(.top, 20)
-                .presentationDetents([.height(260)])
+                .presentationDetents([.height(320)])
                 .presentationBackground(Color.background)
         }
-        .sheet(isPresented: $showingUpdateListView) {
-            AddUpdateListView(vm: vm, list: vm.selectedList)
+        .sheet(isPresented: $vm.showingUpdateListView) {
+            FormListView(vm: vm, list: vm.selectedList)
                 .padding(.top, 20)
-                .presentationDetents([.height(260)])
+                .presentationDetents([.height(320)])
                 .presentationBackground(Color.background)
         }
         .onAppear {
             vm.loadSettings()
+            vm.currentScreen = .lists
         }
     } //: VIEW BODY
 } //: VIEW MAIN

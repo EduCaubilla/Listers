@@ -1,5 +1,5 @@
 //
-//  AddUpdateItemView.swift
+//  FormItemView.swift
 //  Listers
 //
 //  Created by Edu Caubilla on 13/6/25.
@@ -7,10 +7,8 @@
 
 import SwiftUI
 
-struct AddUpdateItemView: View {
+struct FormItemView: View {
     //MARK: - PROPERTIES
-    @Environment(\.dismiss) var dismiss
-
     @ObservedObject var vm: MainItemsListsViewModel
 
     var priorities: [String] = Priority.allCases
@@ -72,7 +70,7 @@ struct AddUpdateItemView: View {
         if (!searchResults.contains(name) && !isItemToUpdate) {
             vm.showSaveNewProductMessage = true
         } else {
-            dismiss()
+            vm.changeFormViewState(to: .closeAddItem)
         }
     }
     
@@ -116,6 +114,10 @@ struct AddUpdateItemView: View {
         } else {
             print("Item could not be updated.")
         }
+    }
+
+    private func closeCurrentFormItemView() {
+        isItemToUpdate ? vm.changeFormViewState(to: .closeUpdateItem) : vm.changeFormViewState(to: .closeAddItem)
     }
 
     //MARK: - BODY
@@ -220,7 +222,7 @@ struct AddUpdateItemView: View {
                             SaveButtonView(text: "Save", action: {
                                 if(isItemToUpdate) {
                                     updateItem()
-                                    dismiss()
+                                    closeCurrentFormItemView()
                                 } else {
                                     saveNewItem()
                                 }
@@ -264,7 +266,7 @@ struct AddUpdateItemView: View {
             .toolbar {
                 ToolbarItem {
                     Button(action: {
-                        dismiss()
+                        closeCurrentFormItemView()
                     }) {
                         Image(systemName: "xmark")
                             .foregroundStyle(.darkBlue)
@@ -280,7 +282,7 @@ struct AddUpdateItemView: View {
             .alert("The item \(name) is not on your product's library yet.\nWould you like to add it?", isPresented: $vm.showSaveNewProductMessage, presenting: name) { name in
                 Button("Cancel", role: .cancel){
                     vm.showSaveNewProductMessage = false
-                    dismiss()
+                    closeCurrentFormItemView()
                 }
                 Button("Add"){
                     vm.saveNewProduct(
@@ -294,7 +296,7 @@ struct AddUpdateItemView: View {
                     vm.showSaveNewProductMessage = false
                     vm.loadProductNames()
 
-                    dismiss()
+                    closeCurrentFormItemView()
                 }
             }
         } //: NAVIGATION STACK
@@ -304,5 +306,5 @@ struct AddUpdateItemView: View {
 
 //MARK: - PREVIEW
 #Preview {
-    AddUpdateItemView(vm: MainItemsListsViewModel())
+    FormItemView(vm: MainItemsListsViewModel())
 }

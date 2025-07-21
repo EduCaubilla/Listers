@@ -7,10 +7,8 @@
 
 import SwiftUI
 
-struct AddUpdateListView: View {
+struct FormListView: View {
     //MARK: - PROPERTIES
-    @Environment(\.dismiss) var dismiss
-
     @ObservedObject var vm: MainItemsListsViewModel
 
     @State private var name: String = ""
@@ -85,6 +83,10 @@ struct AddUpdateListView: View {
         }
     }
 
+    private func closeCurrentListView() {
+
+    }
+
     //MARK: - BODY
     var body: some View {
         NavigationStack {
@@ -126,7 +128,7 @@ struct AddUpdateListView: View {
                         } else {
                             saveNewList()
                         }
-                        dismiss()
+                        isListToUpdate ? vm.changeFormViewState(to: .closeUpdateList) : vm.changeFormViewState(to: .closeAddList)
                     })
                     .padding(.top, 10)
 
@@ -140,7 +142,7 @@ struct AddUpdateListView: View {
             .toolbar {
                 ToolbarItem {
                     Button(action: {
-                        dismiss()
+                        isListToUpdate ? vm.changeFormViewState(to: .closeUpdateList) : vm.changeFormViewState(to: .closeAddList)
                     }) {
                         Image(systemName: "xmark")
                             .foregroundStyle(.darkBlue)
@@ -159,5 +161,5 @@ struct AddUpdateListView: View {
 
 //MARK: - PREVIEW
 #Preview {
-    AddUpdateListView(vm: MainItemsListsViewModel())
+    FormListView(vm: MainItemsListsViewModel())
 }

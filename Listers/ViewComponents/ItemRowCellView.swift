@@ -16,6 +16,8 @@ struct ItemRowCellView: View {
     var actionEditItem: () -> Void
     var isEditAvailable : Bool = true
 
+    var currentScreen : NavRoute = .main
+
     private var deleteLabel : String = "Delete"
     private var deleteIcon : String = "trash"
     private var addFavLabel : String = "Add Fav"
@@ -39,11 +41,12 @@ struct ItemRowCellView: View {
     }
 
     //MARK: - INITIALIZER
-    init(vm: MainItemsListsViewModel, item: DMItem, actionEditItem: @escaping () -> Void, isEditAvailable: Bool = true) {
+    init(vm: MainItemsListsViewModel, item: DMItem, actionEditItem: @escaping () -> Void, isEditAvailable: Bool = true, screen: NavRoute = .main) {
         self.vm = vm
         self.item = item
         self.actionEditItem = actionEditItem
         self.isEditAvailable = isEditAvailable
+        self.currentScreen = screen
     }
 
     //MARK: - FUNCTIONS
@@ -63,17 +66,11 @@ struct ItemRowCellView: View {
 
     private func checkListCompleted() {
         vm.checkListCompletedStatus()
-
-        if vm.selectedList!.completed {
-            vm.showCompletedListMessage = true
-        }
     }
 
     private func updateItemOnCheckboxToggle() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1){
-            saveItem()
-            checkListCompleted()
-        }
+        saveItem()
+        checkListCompleted()
     }
 
     //MARK: - BODY

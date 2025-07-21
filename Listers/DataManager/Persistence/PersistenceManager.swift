@@ -100,24 +100,26 @@ struct PersistenceManager : PersistenceManagerProtocol {
     }
 
 
-    func setListCompleteness(for listId: UUID) {
+    func setListCompleteness(for listId: UUID) -> Bool {
+        var isListComplete: Bool = false
+
         let itemsForList = fetchItemsForList(withId: listId)
         guard let items = itemsForList else {
             print("Error fetching items for selected list in PersistenceManager.")
-            return
+            return isListComplete
         }
 
         if items.count == 0 {
-            return
+            return isListComplete
         }
 
-        let isListComplete = items.allSatisfy { $0.completed }
+        isListComplete = items.allSatisfy { $0.completed }
 
         if let listToUpdate = fetchList(listId) {
             listToUpdate.completed = isListComplete
             print("Set list completed : \(listToUpdate.name!) -> \(isListComplete)")
         }
-
+        return isListComplete
     }
 
     //MARK: - CATEGORIES/PRODUCTS

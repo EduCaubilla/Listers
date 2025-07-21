@@ -17,6 +17,8 @@ class MainItemsListsViewModel: ObservableObject {
     let settingsManager = SettingsManager.shared
     var userSettings : DMSettings? = nil
 
+    var currentScreen : NavRoute = .main
+
     @Published var selectedList: DMList?
     @Published var itemsOfSelectedList: [DMItem] = []
     @Published var lists: [DMList] = []
@@ -26,6 +28,7 @@ class MainItemsListsViewModel: ObservableObject {
     @Published var showingAddItemView : Bool = false
     @Published var showingUpdateItemView : Bool = false
     @Published var showingAddListView : Bool = false
+    @Published var showingUpdateListView : Bool = false
 
     @Published var showSaveNewProductMessage: Bool = false
     @Published var showCompletedListMessage: Bool = false
@@ -66,22 +69,11 @@ class MainItemsListsViewModel: ObservableObject {
     init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
         self.persistenceManager = persistenceManager
 
-//        loadSettings()
         setupSelectedListDataBinding()
         loadListsItemsData()
     }
 
     //MARK: - FUNCTIONS
-    func loadSettings() {
-        if let userSettings = settingsManager.currentSettings {
-            self.userSettings = userSettings
-        } else {
-            settingsManager.loadSettings()
-        }
-        print("Settings loaded from MainItemsListsViewModel")
-        print(userSettings ?? "")
-    }
-
     private func setupSelectedListDataBinding() {
         $selectedList
             .receive(on: DispatchQueue.main)
@@ -111,7 +103,7 @@ class MainItemsListsViewModel: ObservableObject {
         print("Lists fetched: \(listsResult?.count ?? 0)")
 
         if let listsResult = listsResult {
-            listsResult.forEach { persistenceManager.setListCompleteness(for: $0.id!) }
+            listsResult.forEach { _ = persistenceManager.setListCompleteness(for: $0.id!) }
             // Sort - Pinned first ordered by date, if it has, and then by name, then the unpinned with same date/name order
             let sortedItems = listsResult.sorted {
                 ($0.pinned ? 0 : 1, $0.creationDate ?? .distantFuture, $0.name?.lowercased() ?? "")
@@ -144,6 +136,21 @@ class MainItemsListsViewModel: ObservableObject {
         print("Set selected List \(String(describing: selectedList?.name))")
     }
 
+    func loadItemsForSelectedList() {
+        guard let selectedListId = selectedList?.id else {
+            print("There's no list selected")
+            return
+        }
+
+        let itemsResult = persistenceManager.fetchItemsForList(withId: selectedListId)
+        if let itemsResult = itemsResult {
+            let sortedItems = itemsResult.sorted { !$0.completed && $1.completed }
+            itemsOfSelectedList = sortedItems
+        } else {
+            print("There are no items in the selected list.")
+        }
+    }
+
     func updateSelectedList(_ newList: DMList) {
         selectedList = newList
         lists.forEach { $0.selected = $0.id == newList.id }
@@ -165,26 +172,28 @@ class MainItemsListsViewModel: ObservableObject {
         return []
     }
 
-    func loadItemsForSelectedList() {
-        guard let selectedListId = selectedList?.id else {
-            print("There's no list selected")
-            return
+    func checkListCompletedStatus() {
+        var isListCompleted = false
+        if let selectedListId = selectedList?.id {
+            isListCompleted = persistenceManager.setListCompleteness(for: selectedListId)
         }
+        refreshItemsListData()
 
-        let itemsResult = persistenceManager.fetchItemsForList(withId: selectedListId)
-        if let itemsResult = itemsResult {
-            let sortedItems = itemsResult.sorted { !$0.completed && $1.completed }
-            itemsOfSelectedList = sortedItems
-        } else {
-            print("There are no items in the selected list.")
+        if isListCompleted && currentScreen == .main {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
+                showCompletedListMessage = true
+            }
         }
     }
 
-    func checkListCompletedStatus() {
-        if let selectedListId = selectedList?.id {
-            persistenceManager.setListCompleteness(for: selectedListId)
+    func loadSettings() {
+        if let userSettings = settingsManager.currentSettings {
+            self.userSettings = userSettings
+        } else {
+            settingsManager.loadSettings()
         }
-        refreshItemsListData()
+        print("Settings loaded from MainItemsListsViewModel")
+        print(userSettings ?? "")
     }
 
     func loadProductNames(){
@@ -222,8 +231,6 @@ class MainItemsListsViewModel: ObservableObject {
         } else {
             print("There was an error creating the product: \(name) with id: \(newProductId).")
         }
-
-
     }
 
     func addList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool) {
@@ -276,12 +283,45 @@ class MainItemsListsViewModel: ObservableObject {
     }
 
     func saveItemListsChanges() {
-        _ = persistenceManager.savePersistence()
-        refreshItemsListData()
+        let persistenceSaved = persistenceManager.savePersistence()
+
+        if persistenceSaved {
+            print("Context saved successfully.")
+            refreshItemsListData()
+        } else {
+            print("There was an error saving context.")
+        }
     }
 
     func delete<T: NSManagedObject>(_ object: T) {
-        _ = persistenceManager.remove(object)
-        refreshItemsListData()
+        let objectDeleted = persistenceManager.remove(object)
+
+        if objectDeleted {
+            print("Object \(object) deleted successfully.")
+            refreshItemsListData()
+        } else {
+            print("There was an error deleting object \(object).")
+        }
+    }
+
+    func changeFormViewState(to state: FormViewAction) {
+        switch state {
+            case .openAddItem:
+                showingAddItemView = true
+            case .closeAddItem:
+                showingAddItemView = false
+            case .openUpdateItem:
+                showingUpdateItemView = true
+            case .closeUpdateItem:
+                showingUpdateItemView = false
+            case .openAddList:
+                showingAddListView = true
+            case .closeAddList:
+                showingAddListView = false
+            case .openUpdateList:
+                showingUpdateListView = true
+            case .closeUpdateList:
+                showingUpdateListView = false
+        }
     }
 }

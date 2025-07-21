@@ -12,7 +12,6 @@ import CoreData
 struct MainItemsView: View {
     //MARK: - PROPERTIES
     @EnvironmentObject var router : NavigationRouter
-
     @StateObject var vm : MainItemsListsViewModel
 
     @State private var selectedItem: DMItem?
@@ -37,7 +36,7 @@ struct MainItemsView: View {
     //MARK: - FUNCTIONS
     private func editItem(_ item: DMItem) {
         setSelectedItem(item)
-        vm.showingUpdateItemView = true
+        vm.changeFormViewState(to: .openUpdateItem)
         print("Edit item: \(String(describing: selectedItem))")
     }
 
@@ -45,10 +44,12 @@ struct MainItemsView: View {
         selectedItem = item
     }
 
-    private func navigateToLists() {
+    private func goToListsAfterCompletion() {
         DispatchQueue.main.async {
             withTransaction(Transaction(animation: nil)) {
                 router.navigateTo(.lists)
+
+                vm.changeFormViewState(to: .openAddList)
             }
         }
     }
@@ -61,7 +62,7 @@ struct MainItemsView: View {
         }
 
         if vm.hasSelectedList && vm.itemsOfSelectedList.isEmpty {
-            vm.showingAddItemView = true
+            vm.changeFormViewState(to: .openAddItem)
         }
     }
 
@@ -82,7 +83,7 @@ struct MainItemsView: View {
                                 .listRowBackground(Color.clear)
                             } //: LOOP
                         } //: LIST
-//                        .padding(.top)
+                        .padding(.top)
                         .listStyle(.inset)
                         .listRowSpacing(-5)
                         .navigationTitle(Text(selectedListName))
@@ -94,7 +95,7 @@ struct MainItemsView: View {
                                 MainAddButtonView(
                                     addButtonLabel: addItemLabel,
                                     addButtonIcon: addItemIcon,
-                                    addButtonAction: {vm.showingAddItemView.toggle()}
+                                    addButtonAction: {vm.changeFormViewState(to: .openAddItem)}
                                 )
                             })
                         .scrollContentBackground(.hidden)
@@ -117,7 +118,7 @@ struct MainItemsView: View {
                                 isAnimationRunning.toggle()
                             }
                             .onTapGesture {
-                                vm.showingAddListView.toggle()
+                                vm.changeFormViewState(to: .openAddList)
                             }
                         }
                         .navigationBarBackButtonHidden(true)
@@ -127,6 +128,7 @@ struct MainItemsView: View {
                     vm.loadListsItemsData()
                     vm.loadProductNames()
                     vm.loadSettings()
+                    vm.currentScreen = .main
                 }
                 .toolbar {
                     toolbarContentView(router: router, route: .main)
@@ -144,19 +146,19 @@ struct MainItemsView: View {
                     })
             } //: VSTACK MAIN
             .sheet(isPresented: $vm.showingAddItemView, onDismiss: onDismissModal) {
-                AddUpdateItemView(vm: vm)
+                FormItemView(vm: vm)
                     .padding(.top, 20)
                     .presentationDetents([.medium])
                     .presentationBackground(Color.background)
             }
             .sheet(isPresented: $vm.showingUpdateItemView, onDismiss: onDismissModal) {
-                AddUpdateItemView(item: selectedItem, vm: vm)
+                FormItemView(item: selectedItem, vm: vm)
                     .padding(.top, 20)
                     .presentationDetents([.medium])
                     .presentationBackground(Color.background)
             }
             .sheet(isPresented: $vm.showingAddListView, onDismiss: onDismissModal) {
-                AddUpdateListView(vm: vm)
+                FormListView(vm: vm)
                     .padding(.top, 20)
                     .presentationDetents([.height(320)])
                     .presentationBackground(Color.background)
@@ -169,15 +171,16 @@ struct MainItemsView: View {
                         vm.showCompletedListMessage = false
                     }
                     Button("Ok") {
-                        navigateToLists()
+                        goToListsAfterCompletion()
+
                     }
                 },
                 message: {
                     Text("Do you want to go to lists screen to create a new one?")
-            })
+                }
+            )
     } //: VIEW
 }
-
 
 //MARK: - PREVIEW
 #Preview {
