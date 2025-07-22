@@ -8,7 +8,6 @@
 import SwiftUI
 import CoreData
 
-@MainActor
 struct MainItemsView: View {
     //MARK: - PROPERTIES
     @EnvironmentObject var router : NavigationRouter
@@ -56,7 +55,7 @@ struct MainItemsView: View {
 
     private func onDismissModal() {
         if !vm.hasSelectedList {
-            vm.loadListsItemsData()
+            vm.loadInitData()
         } else {
             vm.loadItemsForSelectedList()
         }
@@ -125,7 +124,7 @@ struct MainItemsView: View {
                     }
                 } //: VSTACK
                 .onAppear {
-                    vm.loadListsItemsData()
+                    vm.loadInitData()
                     vm.loadProductNames()
                     vm.loadSettings()
                     vm.currentScreen = .main
@@ -165,10 +164,10 @@ struct MainItemsView: View {
             }
             .alert(
                 completedListTitle,
-                isPresented: $vm.showCompletedListMessage,
+                isPresented: $vm.showCompletedListAlert,
                 actions: {
                     Button("Cancel") {
-                        vm.showCompletedListMessage = false
+                        vm.showCompletedListAlert = false
                     }
                     Button("Ok") {
                         goToListsAfterCompletion()
@@ -192,7 +191,8 @@ struct MainItemsView: View {
 }
 
 #Preview("Mocked") {
-    let previewVM = MainItemsListsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewListItems.container.viewContext))
+//    let previewVM = MainItemsListsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewListItems.container.viewContext))
+    let previewVM = MainItemsListsViewModel()
 
     NavigationStack{
         MainItemsView(vm: previewVM)

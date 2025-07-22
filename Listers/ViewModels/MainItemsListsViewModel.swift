@@ -9,9 +9,9 @@ import SwiftUI
 import CoreData
 import Combine
 
-class MainItemsListsViewModel: ObservableObject {
+
+class MainItemsListsViewModel: BaseViewModel {
     //MARK: - PROPERTIES
-    private let persistenceManager : any PersistenceManagerProtocol
     private var cancellables = Set<AnyCancellable>()
 
     let settingsManager = SettingsManager.shared
@@ -19,21 +19,13 @@ class MainItemsListsViewModel: ObservableObject {
 
     var currentScreen : NavRoute = .main
 
-    @Published var selectedList: DMList?
     @Published var itemsOfSelectedList: [DMItem] = []
     @Published var lists: [DMList] = []
 
-    @Published var productNames: [String] = []
+    @Published var showSaveNewProductAlert: Bool = false
+    @Published var showCompletedListAlert: Bool = false
 
-    @Published var showingAddItemView : Bool = false
-    @Published var showingUpdateItemView : Bool = false
-    @Published var showingAddListView : Bool = false
-    @Published var showingUpdateListView : Bool = false
-
-    @Published var showSaveNewProductMessage: Bool = false
-    @Published var showCompletedListMessage: Bool = false
-
-    var isListEmpty: Bool {
+    var isListsEmpty: Bool {
         lists.isEmpty
     }
 
@@ -66,11 +58,11 @@ class MainItemsListsViewModel: ObservableObject {
     }
 
     //MARK: - INITIALIZER
-    init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
-        self.persistenceManager = persistenceManager
+    init() {
+        super.init()
 
         setupSelectedListDataBinding()
-        loadListsItemsData()
+        loadInitData()
     }
 
     //MARK: - FUNCTIONS
@@ -78,45 +70,53 @@ class MainItemsListsViewModel: ObservableObject {
         $selectedList
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
-                self?.loadItemsForSelectedList()
+                Task { await self?.loadItemsForSelectedList() }
             }
             .store(in: &cancellables)
     }
 
-    func loadListsItemsData() {
+    func loadInitData() {
         print("\n------\n\nLoad Init Data VM ----->")
 
-        loadLists()
+        Task{
+            await loadLists()
 
-        guard !isListEmpty else {
-            print ("Lists is empty")
-            return
+            guard !isListsEmpty else {
+                print ("Lists is empty")
+                return
+            }
+
+            await checkSelectedList()
+
+            await loadItemsForSelectedList()
         }
-
-        checkSelectedList()
-        loadItemsForSelectedList()
     }
 
+    @MainActor
     func loadLists() {
-        let listsResult = persistenceManager.fetchAllLists()
+        let listsResult : [DMList]? = persistenceManager.fetchAllLists()
         print("Lists fetched: \(listsResult?.count ?? 0)")
 
-        if let listsResult = listsResult {
-            listsResult.forEach { _ = persistenceManager.setListCompleteness(for: $0.id!) }
-            // Sort - Pinned first ordered by date, if it has, and then by name, then the unpinned with same date/name order
-            let sortedItems = listsResult.sorted {
-                ($0.pinned ? 0 : 1, $0.creationDate ?? .distantFuture, $0.name?.lowercased() ?? "")
-                <
-                ($1.pinned ? 0 : 1, $1.creationDate ?? .distantFuture, $1.name?.lowercased() ?? "")
-            }
-            self.lists = sortedItems
-            return
-        } else {
+        guard let listsResult = listsResult else {
             lists = []
             print("There are no lists.")
+            return
         }
+
+        listsResult.forEach {
+            guard let id = $0.id else { return }
+            _ = persistenceManager.setListCompleteness(for: id)
+        }
+        // Sort - Pinned first ordered by date, if it has, and then by name, then the unpinned with same date/name order
+        let sortedItems = listsResult.sorted {
+            ($0.pinned ? 0 : 1, $0.creationDate ?? .distantFuture, $0.name?.lowercased() ?? "")
+            <
+            ($1.pinned ? 0 : 1, $1.creationDate ?? .distantFuture, $1.name?.lowercased() ?? "")
+        }
+        self.lists = sortedItems
     }
 
+    @MainActor
     private func checkSelectedList() {
         if(selectedList == nil) {
             setSelectedList()
@@ -135,6 +135,7 @@ class MainItemsListsViewModel: ObservableObject {
         print("Set selected List \(String(describing: selectedList?.name))")
     }
 
+    @MainActor
     func loadItemsForSelectedList() {
         guard let selectedListId = selectedList?.id else {
             print("There's no list selected")
@@ -142,14 +143,16 @@ class MainItemsListsViewModel: ObservableObject {
         }
 
         let itemsResult = persistenceManager.fetchItemsForList(withId: selectedListId)
-        if let itemsResult = itemsResult {
-            let sortedItems = itemsResult.sorted { !$0.completed && $1.completed }
-            itemsOfSelectedList = sortedItems
-        } else {
+        guard let itemsResult = itemsResult else {
             print("There are no items in the selected list.")
+            return
         }
+
+        let sortedItems = itemsResult.sorted { !$0.completed && $1.completed }
+        itemsOfSelectedList = sortedItems
     }
 
+    @MainActor
     func updateSelectedList(_ newList: DMList) {
         selectedList = newList
         lists.forEach { $0.selected = $0.id == newList.id }
@@ -171,6 +174,7 @@ class MainItemsListsViewModel: ObservableObject {
         return []
     }
 
+    @MainActor
     func checkListCompletedStatus() {
         var isListCompleted = false
         if let selectedListId = selectedList?.id {
@@ -180,7 +184,7 @@ class MainItemsListsViewModel: ObservableObject {
 
         if isListCompleted && currentScreen == .main {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
-                showCompletedListMessage = true
+                showCompletedListAlert = true
             }
         }
     }
@@ -195,41 +199,8 @@ class MainItemsListsViewModel: ObservableObject {
         print(userSettings ?? "")
     }
 
-    func loadProductNames(forceLoad : Bool = false) {
-        if productNames.isEmpty || forceLoad {
-            let productsResult = persistenceManager.fetchAllProducts()
-            if let products = productsResult {
-                productNames = products.map { $0.name! }
-                print("Product names loaded: \(productNames.count)")
-            }
-        }
-    }
-
-    func createIdForNewProduct() -> Int {
-        let newId = persistenceManager.fetchLastProductId()
-        return newId != 0 ? newId + 1 : 0
-    }
-
-    func saveNewProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
-        let newProductId = createIdForNewProduct()
-
-        let createdProduct = persistenceManager.createProduct(
-            id: newProductId,
-            name: name,
-            notes: description ?? "",
-            categoryId: Int16(categoryId),
-            active: active,
-            favorite: favorite,
-            custom: true,
-            selected: true
-        )
-
-        if createdProduct {
-            print("New product created: \(name) with id: \(newProductId)")
-            saveItemListsChanges()
-        } else {
-            print("There was an error creating the product: \(name) with id: \(newProductId).")
-        }
+    func saveProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
+        super.saveNewProduct(name: name, description: description, categoryId: categoryId, active: active, favorite: favorite, then: saveItemListsChanges)
     }
 
     func addList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool) {
@@ -276,63 +247,30 @@ class MainItemsListsViewModel: ObservableObject {
         }
     }
 
-    private func refreshItemsListData() {
-        loadLists()
-        loadItemsForSelectedList()
-    }
-
     func saveItemListsChanges() {
-        let persistenceSaved = persistenceManager.savePersistence()
-
-        if persistenceSaved {
-            print("Context saved successfully.")
-            refreshItemsListData()
-        } else {
-            print("There was an error saving context.")
-        }
+        super.saveChanges(and: refreshItemsListData)
     }
 
     func deleteList(_ listForDelete: DMList) {
         let itemsToDelete = itemsOfSelectedList.filter { $0.listId == listForDelete.id }
         for item in itemsToDelete {
-            delete(item)
+            super.delete(item)
         }
 
         let itemsRemainingInList = fetchItemsForList(listForDelete)
         if itemsRemainingInList.isEmpty {
-            delete(listForDelete)
+            super.delete(listForDelete)
         }
     }
 
     func delete<T: NSManagedObject>(_ object: T) {
-        let objectDeleted = persistenceManager.remove(object)
-
-        if objectDeleted {
-            print("Object \(object) deleted successfully.")
-            refreshItemsListData()
-        } else {
-            print("There was an error deleting object \(object).")
-        }
+        super.delete(object, then: refreshItemsListData)
     }
 
-    func changeFormViewState(to state: FormViewAction) {
-        switch state {
-            case .openAddItem:
-                showingAddItemView = true
-            case .closeAddItem:
-                showingAddItemView = false
-            case .openUpdateItem:
-                showingUpdateItemView = true
-            case .closeUpdateItem:
-                showingUpdateItemView = false
-            case .openAddList:
-                showingAddListView = true
-            case .closeAddList:
-                showingAddListView = false
-            case .openUpdateList:
-                showingUpdateListView = true
-            case .closeUpdateList:
-                showingUpdateListView = false
+    private func refreshItemsListData() {
+        Task {
+            await loadLists()
+            await loadItemsForSelectedList()
         }
     }
 }

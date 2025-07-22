@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProductAlert:Identifiable, Equatable {
+struct ProductAlertManager:Identifiable, Equatable {
     var id: UUID = UUID()
     var type: ProductAlertType
 

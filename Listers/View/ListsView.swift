@@ -41,7 +41,7 @@ struct ListsView: View {
     var body: some View {
         VStack {
             List {
-                if vm.isListEmpty {
+                if vm.isListsEmpty {
                     EmptyView()
                 } else {
                     ForEach(Array(vm.lists.enumerated()), id: \.1) { index, list in
@@ -123,7 +123,8 @@ struct ListsView: View {
 }
 
 #Preview("Mocked Data List") {
-    let previewVM = MainItemsListsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewListItems.container.viewContext))
+/*    let previewVM = MainItemsListsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewListItems.container.viewContext)) */
+    let previewVM = MainItemsListsViewModel()
 
     NavigationStack{
         ListsView(vm: previewVM)

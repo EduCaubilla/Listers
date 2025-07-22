@@ -16,8 +16,6 @@ struct ProductRowViewCell: View {
     var actionEditProduct: () -> Void
     var isEditAvailable : Bool = false
 
-    @State private var showingListSelectionToAddProductView: Bool = false
-
     //MARK: - INITIALIZATION
     init(vm: CategoriesProductsViewModel, product: DMProduct, actionEditProduct: @escaping () -> Void, isEditAvailable: Bool = false) {
         self.vm = vm
@@ -43,13 +41,13 @@ struct ProductRowViewCell: View {
     func addProductToList(){
         vm.setSelectedProduct(product)
         vm.addProductToList(product)
-        vm.activeAlert = ProductAlert(type: .addedToList)
+        vm.activeAlert = ProductAlertManager(type: .addedToList)
         print("Add product \(self.product.name ?? "Unknown product") to list \(String(describing: vm.selectedList))")
     }
 
     func addProductToListWithSelection() {
         vm.setSelectedProduct(product)
-        vm.showingListSelectionToAddProductView = true
+        vm.changeFormViewState(to: .openListSelectionToAddProduct)
         print("Add product \(self.product.name ?? "Unknown product") to list with selection")
     }
 
@@ -64,7 +62,7 @@ struct ProductRowViewCell: View {
         let newProduct = vm.getProductById(newProductId)
         if let newProduct = newProduct {
             vm.setSelectedProduct(newProduct)
-            vm.showingEditProductView.toggle()
+            vm.changeFormViewState(to: .openUpdateProduct)
             print("Duplicate product \(self.product.name ?? "Unknown product") and edit")
         } else {
             print("Error duplicating product \(self.product.name ?? "Unknown product")")
@@ -74,7 +72,7 @@ struct ProductRowViewCell: View {
     func confirmationToRemoveProductFromLibrary() {
         vm.setSelectedProduct(product)
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            vm.activeAlert = ProductAlert(type: .confirmRemove)
+            vm.activeAlert = ProductAlertManager(type: .confirmRemove)
         }
         print("Confirmation to remove product \(self.product.name ?? "Unknown product") from library")
     }
@@ -114,6 +112,10 @@ struct ProductRowViewCell: View {
         } //: VSTACK MAIN
         .frame(minHeight: 25, idealHeight: 25, maxHeight: 35)
         .background(Color.background)
+        .onTapGesture {
+            vm.setSelectedProduct(product)
+            vm.saveCategoriesProductsUpdates()
+        }
         .onTapGesture(count: 2) {
             favProduct()
         }
@@ -175,5 +177,6 @@ private func getProductPreview() -> DMProduct {
 
 //MARK: - PREVIEW
 #Preview (traits: .sizeThatFitsLayout) {
-    ProductRowViewCell(vm: CategoriesProductsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.shared.container.viewContext)), product: getProductPreview(), actionEditProduct: {}, isEditAvailable: false)
+    let previewVM = CategoriesProductsViewModel()
+    ProductRowViewCell(vm: previewVM, product: getProductPreview(), actionEditProduct: {}, isEditAvailable: false)
 }

@@ -11,7 +11,6 @@ import Combine
 class SettingsViewModel: ObservableObject {
     //MARK: - PROPERTIES
     private let settingsManager : SettingsManager = SettingsManager.shared
-//    private var cancellables = Set<AnyCancellable>()
     static let shared = SettingsViewModel()
 
     @Published var isItemDescriptionEnable: Bool = true
@@ -48,16 +47,4 @@ class SettingsViewModel: ObservableObject {
             listEndDate: islistEndDateEnable
         )
     }
-
-//    private func observeSettingsChange() {
-//        Publishers.CombineLatest3(
-//            Publishers.CombineLatest($isItemDescriptionEnable, $isItemQuantityEnable),
-//            Publishers.CombineLatest($isItemDeadlineEnable, $isListDescriptionEnable),
-//            $islistEndDateEnable
-//        )
-//        .sink { [weak self] _ in
-//            self?.updateSettingsData()
-//        }
-//        .store(in: &cancellables)
-//    }
 }

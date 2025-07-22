@@ -26,6 +26,10 @@ struct FormProductView: View {
     @State private var errorShowing : Bool = false
     @State private var errorTitle : String = ""
     @State private var errorMessage : String = ""
+    @State private var firstErrorButtonLabel : String = ""
+    @State private var firstErrorButtonAction : () -> Void = { }
+    @State private var secondErrorButtonLabel : String = ""
+    @State private var secondErrorButtonAction : () -> Void = { }
 
     @FocusState private var isNameTextFieldFocused: Bool
 
@@ -57,21 +61,36 @@ struct FormProductView: View {
 
     //MARK: - FUNCTIONS
     private func saveNewProduct() {
-        if !name.isEmpty {
-            vm.saveNewProduct(
-                name: name,
-                description: description,
-                categoryId: selectedCategory.categoryId,
-                active: true,
-                favorite: favorite
-            )
-        }
-        else {
+        if name.isEmpty {
             errorShowing = true
             errorTitle = "Invalid name"
             errorMessage = "Please enter a name for your todo item."
+            firstErrorButtonLabel = "Ok"
             return
         }
+
+        if checkNewProductInLibrary() {
+            errorShowing = true
+            errorTitle = "Product already exists"
+            errorMessage = "If you continue there will be duplicate products. choosing a different name is recommended."
+            firstErrorButtonLabel = "Ok"
+            firstErrorButtonAction = { name = "" }
+            secondErrorButtonLabel = "Continue"
+            secondErrorButtonAction = { }
+            return
+        }
+
+        vm.saveProduct(
+            name: name,
+            description: description,
+            categoryId: selectedCategory.categoryId,
+            active: true,
+            favorite: favorite
+        )
+    }
+
+    private func checkNewProductInLibrary() -> Bool {
+        vm.products.contains(where: { $0.name == name })
     }
 
     private func updateProduct() {
@@ -89,7 +108,7 @@ struct FormProductView: View {
             vm.setSelectedProduct(productToUpdate)
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                vm.activeAlert = ProductAlert(type: .edited)
+                vm.activeAlert = ProductAlertManager(type: .edited)
             }
         } else {
             print("Item could not be updated.")
@@ -102,6 +121,10 @@ struct FormProductView: View {
         }
         print(selectedCategory)
         return selectedCategory
+    }
+
+    private func closeCurrentFormProductView() {
+        isProductToUpdate ? vm.changeFormViewState(to: .closeUpdateProduct) : vm.changeFormViewState(to: .closeAddProduct)
     }
 
     //MARK: - BODY
@@ -158,7 +181,7 @@ struct FormProductView: View {
                             } else {
                                 saveNewProduct()
                             }
-                            dismiss()
+                            closeCurrentFormProductView()
                         })
                         .padding(.top, 10)
                     } //: VSTACK MAIN
@@ -172,16 +195,25 @@ struct FormProductView: View {
             .toolbar {
                 ToolbarItem {
                     Button(action: {
-                        dismiss()
+                        closeCurrentFormProductView()
                     }) {
                         Image(systemName: "xmark")
                             .foregroundStyle(.darkBlue)
                     } //: DISSMISS BUTTON
                 }
             } //: TOOLBAR
-            .alert(isPresented: $errorShowing) {
-                Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
-            }
+            .alert(errorTitle, isPresented: $errorShowing, actions: {
+                Button(firstErrorButtonLabel) {
+                    firstErrorButtonAction()
+                }
+                if(!secondErrorButtonLabel.isEmpty) {
+                    Button(secondErrorButtonLabel) {
+                        secondErrorButtonAction()
+                    }
+                }
+            }, message: {
+                Text(errorMessage)
+            })
             .onAppear{
                 isNameTextFieldFocused = true
             }

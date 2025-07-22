@@ -11,7 +11,7 @@ struct AppAppearanceManager {
     static let shared = AppAppearanceManager()
 
     public func resolveAppearance(for appearance: String) -> ColorScheme? {
-        switch appearance {
+        switch appearance.capitalized {
             case "Light":
                 print("Resolve Appearance light")
                 return .light

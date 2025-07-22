@@ -16,4 +16,10 @@ enum FormViewAction {
     case closeAddList
     case openUpdateList
     case closeUpdateList
+    case openAddProduct
+    case closeAddProduct
+    case openUpdateProduct
+    case closeUpdateProduct
+    case openListSelectionToAddProduct
+    case closeListSelectionToAddProduct
 }

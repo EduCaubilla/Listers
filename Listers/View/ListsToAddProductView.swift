@@ -9,10 +9,7 @@ import SwiftUI
 
 struct ListsToAddProductView: View {
     //MARK: - PROPERTIES
-    @Environment(\.dismiss) var dismiss
-
     @ObservedObject var vm: MainItemsListsViewModel
-    @ObservedObject var vmCategoriesProducts: CategoriesProductsViewModel = CategoriesProductsViewModel.shared
 
     var itemToAdd: DMProduct?
 
@@ -52,9 +49,14 @@ struct ListsToAddProductView: View {
             listId: vm.selectedList?.id
         )
 
-        print("Added item: \(itemToAdd?.name ?? "product")  to selected list: \(vm.selectedListName)")
+        print("Added item: \(itemToAdd?.name ?? "product") to selected list: \(vm.selectedListName)")
 
-        dismiss()
+        closeCurrentForm()
+    }
+
+    private func closeCurrentForm() {
+        vm.showingListSelectionToAddProductView = false
+        vm.changeFormViewState(to: .closeListSelectionToAddProduct)
     }
 
     //MARK: - BODY
@@ -127,7 +129,7 @@ struct ListsToAddProductView: View {
             .toolbar {
                 ToolbarItem {
                     Button(action: {
-                        dismiss()
+                        closeCurrentForm()
                     }) {
                         Image(systemName: "xmark")
                             .foregroundStyle(.darkBlue)
@@ -162,7 +164,8 @@ var itemToAddPreview: DMProduct {
 }
 
 #Preview("Mocked Data List") {
-        let previewVM = MainItemsListsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewListItems.container.viewContext))
+//        let previewVM = MainItemsListsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewListItems.container.viewContext))
+        let previewVM = MainItemsListsViewModel()
 
         ListsToAddProductView(vm: previewVM, itemToAdd: itemToAddPreview)
             .environment(\.managedObjectContext, PersistenceController.previewListItems.container.viewContext)

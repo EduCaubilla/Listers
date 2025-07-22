@@ -9,47 +9,38 @@ import SwiftUI
 import CoreData
 import Combine
 
-class CategoriesProductsViewModel: ObservableObject {
+class CategoriesProductsViewModel: BaseViewModel {
     //MARK: - PROPERTIES
-    private let persistenceManager : any PersistenceManagerProtocol
     static let shared = CategoriesProductsViewModel()
 
-    @Published var selectedList: DMList?
-
     @Published var categories: [DMCategory] = []
-    @Published var products: [DMProduct] = []
-    @Published var productsByCategory: [DMProduct] = []
-    @Published var productNames: [String] = []
 
     @Published var selectedCategory: DMCategory?
     @Published var selectedProduct: DMProduct?
-
-    @Published var showingAddProductView: Bool = false
-    @Published var showingEditProductView: Bool = false
-    @Published var showingDuplicateProductView: Bool = false
-    @Published var showingListSelectionToAddProductView: Bool = false
 
     @Published var showAddedToListAlert: Bool = false
     @Published var showAddedToSelectedListAlert: Bool = false
     @Published var showEditedAlert: Bool = false
     @Published var showConfirmationToRemoveAlert: Bool = false
 
-    @Published var activeAlert: ProductAlert?
-
     //MARK: - INITIALIZER
-    init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
-        self.persistenceManager = persistenceManager
-        loadCategoriesProductsData()
+    init() {
+        super.init()
+        Task { await loadCategoriesProductsData() }
     }
 
     //MARK: - FUNCTIONS
+    @MainActor
     func loadCategoriesProductsData() {
         print("\nLoad Init Data CategoriesProductsViewModel -->")
-        fetchCategories()
-        fetchProducts()
+        Task {
+            fetchCategories()
+            super.fetchProducts()
+        }
         print("All products loaded")
     }
 
+    @MainActor
     func fetchCategories() {
         let categoriesResult = persistenceManager.fetchAllCategories()
         if let categoriesFetched = categoriesResult {
@@ -58,16 +49,7 @@ class CategoriesProductsViewModel: ObservableObject {
         }
     }
 
-    func fetchProducts() {
-        let productsResult = persistenceManager.fetchAllProducts()
-        if let productsFetched = productsResult {
-            products = productsFetched
-            print("Loaded active products in view model \(products.count)")
-
-            productNames = getProductNames()
-        }
-    }
-
+    @MainActor
     func getFavoriteProducts(for category: DMCategory,inCase showFavoritesOnly: Bool) -> [DMProduct] {
         let productsFetched = getProductsByCategory(category)
 
@@ -80,14 +62,6 @@ class CategoriesProductsViewModel: ObservableObject {
         return []
     }
 
-    func getProductNames() -> [String] {
-        var productNames: [String] = []
-        for product in products {
-            productNames.append(product.name!)
-        }
-        return productNames
-    }
-
     func getProductsByCategory(_ category: DMCategory) -> [DMProduct] {
         if let productsFetched = persistenceManager.fetchProductsByCategory(category) {
             let activeProducts = productsFetched.filter({ $0.active })
@@ -95,15 +69,6 @@ class CategoriesProductsViewModel: ObservableObject {
             return resultProducts
         }
         return []
-    }
-
-    func setProductsByCategory(_ category: DMCategory) {
-        self.productsByCategory = getProductsByCategory(category)
-    }
-
-    func createIdForNewProduct() -> Int {
-        let newId = persistenceManager.fetchLastProductId()
-        return newId != 0 ? newId + 1 : 0
     }
 
     func addProductToList(_ product: DMProduct) {
@@ -136,31 +101,18 @@ class CategoriesProductsViewModel: ObservableObject {
         }
     }
 
-    func saveNewProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
-        let productCreated = persistenceManager.createProduct(
-            id: createIdForNewProduct(),
-            name: name,
-            notes: description ?? "",
-            categoryId: Int16(categoryId),
-            active: active,
-            favorite: favorite,
-            custom: true,
-            selected: true
-        )
-
-        if productCreated {
-            print("Product created successfully.")
-            saveCategoriesProductsUpdates()
-            fetchProducts()
-        } else {
-            print("There was an error creating the product.")
+    func saveProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
+        let updateState: () -> Void = {
+            self.saveCategoriesProductsUpdates()
+            Task { await self.fetchProducts() }
         }
+        super.saveNewProduct(name: name, description: description, categoryId: categoryId, active: active, favorite: favorite, then: updateState)
     }
 
     func duplicate(product: DMProduct) -> Int {
         product.selected = false
 
-        let newId = createIdForNewProduct()
+        let newId = super.createIdForNewProduct()
 
         let productDuplicated = persistenceManager.createProduct(
             id: newId,
@@ -253,17 +205,17 @@ class CategoriesProductsViewModel: ObservableObject {
     }
 
     func saveCategoriesProductsUpdates() {
-        _ = persistenceManager.savePersistence()
-        refreshCategoriesProductsData()
+        super.saveChanges(and: refreshCategoriesProductsData)
     }
 
     func delete<T: NSManagedObject>(_ object: T) {
-        _ = persistenceManager.remove(object)
-        refreshCategoriesProductsData()
+        super.delete(object, then: refreshCategoriesProductsData)
     }
 
     private func refreshCategoriesProductsData() {
-        fetchProducts()
-        fetchCategories()
+        Task {
+            await super.fetchProducts()
+            await fetchCategories()
+        }
     }
 }

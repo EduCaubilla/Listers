@@ -68,7 +68,7 @@ struct FormItemView: View {
     //MARK: - FUNCTIONS
     private func triggerAlertSaveNewItemForLibrary() {
         if (!searchResults.contains(name) && !isItemToUpdate) {
-            vm.showSaveNewProductMessage = true
+            vm.showSaveNewProductAlert = true
         } else {
             vm.changeFormViewState(to: .closeAddItem)
         }
@@ -279,25 +279,28 @@ struct FormItemView: View {
             .alert(isPresented: $errorShowing) {
                 Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
             }
-            .alert("The item \(name) is not on your product's library yet.\nWould you like to add it?", isPresented: $vm.showSaveNewProductMessage, presenting: name) { name in
-                Button("Cancel", role: .cancel){
-                    vm.showSaveNewProductMessage = false
-                    closeCurrentFormItemView()
-                }
-                Button("Add"){
-                    vm.saveNewProduct(
-                        name: name,
-                        description: description,
-                        categoryId: 10,
-                        active: true,
-                        favorite: favorite
-                    )
-                    print("Added product \(name) to library list")
-                    vm.showSaveNewProductMessage = false
-                    vm.loadProductNames(forceLoad: true)
+            .alert("The item \(name) is not on your product's library.",
+                isPresented: $vm.showSaveNewProductAlert) {
+                    Button("Cancel", role: .cancel){
+                        vm.showSaveNewProductAlert = false
+                        closeCurrentFormItemView()
+                    }
+                    Button("Add"){
+                        vm.saveProduct(
+                            name: name,
+                            description: description,
+                            categoryId: 10,
+                            active: true,
+                            favorite: favorite
+                        )
+                        print("Added product \(name) to library list")
+                        vm.showSaveNewProductAlert = false
+                        vm.loadProductNames(forceLoad: true)
 
-                    closeCurrentFormItemView()
-                }
+                        closeCurrentFormItemView()
+                    }
+            } message: {
+                Text("Would you like to add it? This will add '\(name)' to your library list.")
             }
         } //: NAVIGATION STACK
     } //: VIEW

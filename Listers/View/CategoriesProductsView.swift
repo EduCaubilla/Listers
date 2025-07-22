@@ -41,7 +41,7 @@ struct CategoriesProductsView: View {
     //MARK: - FUNCTIONS
     private func editProduct(_ product: DMProduct) {
         vm.selectedProduct = product
-        vm.showingEditProductView = true
+        vm.changeFormViewState(to: .openUpdateProduct)
     }
 
     private func setProductSelection(for product: DMProduct) -> Bool {
@@ -140,7 +140,7 @@ struct CategoriesProductsView: View {
                             MainAddButtonView(
                                 addButtonLabel: addProductLabel,
                                 addButtonIcon: addIcon,
-                                addButtonAction: {vm.showingAddProductView = true}
+                                addButtonAction: {vm.changeFormViewState(to: .openAddProduct)}
                             )
                         })
                     .toolbarBackground(Color.background, for: .navigationBar)
@@ -197,14 +197,14 @@ struct CategoriesProductsView: View {
                 .presentationDetents([.height(320)])
                 .presentationBackground(Color.background)
         }
-        .sheet(isPresented: $vm.showingEditProductView) {
+        .sheet(isPresented: $vm.showingUpdateProductView) {
             FormProductView(product: vm.selectedProduct, vm: vm)
                 .padding(.top, 20)
                 .presentationDetents([.height(320)])
                 .presentationBackground(Color.background)
         }
         .sheet(isPresented: $vm.showingListSelectionToAddProductView,
-               onDismiss: {vm.activeAlert = ProductAlert(type: .addedToSelectedList)}
+               onDismiss: {vm.activeAlert = ProductAlertManager(type: .addedToSelectedList)}
         ) {
             ListsToAddProductView(vm: MainItemsListsViewModel(), itemToAdd: vm.selectedProduct)
                 .padding(.top, 20)
@@ -225,7 +225,8 @@ struct CategoriesProductsView: View {
 
 #Preview("Mocked Data") {
     NavigationStack{
-        let previewVM = CategoriesProductsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewCategoriesProducts.container.viewContext))
+//        let previewVM = CategoriesProductsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewCategoriesProducts.container.viewContext))
+        let previewVM = CategoriesProductsViewModel()
 
         CategoriesProductsView(vm: previewVM)
             .environmentObject(NavigationRouter())
