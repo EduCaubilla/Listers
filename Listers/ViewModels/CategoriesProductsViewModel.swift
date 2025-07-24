@@ -97,7 +97,7 @@ class CategoriesProductsViewModel: BaseViewModel {
     func saveProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) -> Int {
         let updateState: () -> Void = {
             self.saveCategoriesProductsUpdates()
-            Task { await self.fetchProducts() }
+            self.fetchProducts()
         }
         return super.saveNewProduct(name: name, description: description, categoryId: categoryId, active: active, favorite: favorite, then: updateState)
     }
@@ -219,9 +219,7 @@ class CategoriesProductsViewModel: BaseViewModel {
     }
 
     private func refreshCategoriesProductsData() {
-        Task {
-            await super.fetchProducts()
-            await fetchCategories()
-        }
+        super.fetchProducts()
+        fetchCategories()
     }
 }
