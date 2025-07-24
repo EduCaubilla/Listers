@@ -12,18 +12,19 @@ import Combine
 
 class MainItemsListsViewModel: BaseViewModel {
     //MARK: - PROPERTIES
-    private var cancellables = Set<AnyCancellable>()
-
-    let settingsManager = SettingsManager.shared
-    var userSettings : DMSettings? = nil
-
-    var currentScreen : NavRoute = .main
 
     @Published var itemsOfSelectedList: [DMItem] = []
     @Published var lists: [DMList] = []
 
     @Published var showSaveNewProductAlert: Bool = false
     @Published var showCompletedListAlert: Bool = false
+
+    private var cancellables = Set<AnyCancellable>()
+
+    let settingsManager = SettingsManager.shared
+    var userSettings : DMSettings? = nil
+
+    var currentScreen : NavRoute = .main
 
     var isListsEmpty: Bool {
         lists.isEmpty
@@ -200,7 +201,7 @@ class MainItemsListsViewModel: BaseViewModel {
     }
 
     func saveProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
-        super.saveNewProduct(name: name, description: description, categoryId: categoryId, active: active, favorite: favorite, then: saveItemListsChanges)
+        _ = super.saveNewProduct(name: name, description: description, categoryId: categoryId, active: active, favorite: favorite, then: saveItemListsChanges)
     }
 
     func addList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool) {
@@ -248,7 +249,7 @@ class MainItemsListsViewModel: BaseViewModel {
     }
 
     func saveItemListsChanges() {
-        super.saveChanges(and: refreshItemsListData)
+        super.saveChanges(then: refreshItemsListData)
     }
 
     func deleteList(_ listForDelete: DMList) {

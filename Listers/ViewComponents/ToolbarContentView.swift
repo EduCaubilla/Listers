@@ -18,7 +18,9 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute) -> some Toolb
         // TODO - Add search in categories
         if route == .main || route == .lists {
             Button(action: {
-                router.navigateTo(.categories, withBack: true)
+                withTransaction(Transaction(animation: .default)) {
+                    router.navigateTo(.categories, withBack: true)
+                }
             }) {
                 Image("custom.list.bullet.clipboard.badge.magnifyingglass")
                     .resizable()

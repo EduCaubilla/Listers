@@ -11,36 +11,29 @@ import Combine
 
 class CategoriesProductsViewModel: BaseViewModel {
     //MARK: - PROPERTIES
-    static let shared = CategoriesProductsViewModel()
-
     @Published var categories: [DMCategory] = []
 
     @Published var selectedCategory: DMCategory?
     @Published var selectedProduct: DMProduct?
 
     @Published var showAddedToListAlert: Bool = false
-    @Published var showAddedToSelectedListAlert: Bool = false
     @Published var showEditedAlert: Bool = false
     @Published var showConfirmationToRemoveAlert: Bool = false
 
     //MARK: - INITIALIZER
     init() {
         super.init()
-        Task { await loadCategoriesProductsData() }
+        loadCategoriesProductsData()
     }
 
     //MARK: - FUNCTIONS
-    @MainActor
     func loadCategoriesProductsData() {
         print("\nLoad Init Data CategoriesProductsViewModel -->")
-        Task {
-            fetchCategories()
-            super.fetchProducts()
-        }
+        fetchCategories()
+        super.fetchProducts()
         print("All products loaded")
     }
 
-    @MainActor
     func fetchCategories() {
         let categoriesResult = persistenceManager.fetchAllCategories()
         if let categoriesFetched = categoriesResult {
@@ -101,38 +94,18 @@ class CategoriesProductsViewModel: BaseViewModel {
         }
     }
 
-    func saveProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
+    func saveProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) -> Int {
         let updateState: () -> Void = {
             self.saveCategoriesProductsUpdates()
             Task { await self.fetchProducts() }
         }
-        super.saveNewProduct(name: name, description: description, categoryId: categoryId, active: active, favorite: favorite, then: updateState)
+        return super.saveNewProduct(name: name, description: description, categoryId: categoryId, active: active, favorite: favorite, then: updateState)
     }
 
     func duplicate(product: DMProduct) -> Int {
         product.selected = false
 
-        let newId = super.createIdForNewProduct()
-
-        let productDuplicated = persistenceManager.createProduct(
-            id: newId,
-            name: product.name!,
-            notes: product.notes,
-            categoryId: Int16(product.categoryId),
-            active: product.active,
-            favorite: product.favorite,
-            custom: true,
-            selected: true
-        )
-
-        if productDuplicated {
-            print("Product duplicated successfully.")
-            saveCategoriesProductsUpdates()
-        } else {
-            print("There was an error duplicating the product.")
-        }
-
-        return newId
+        return saveProduct(name: product.name!, description: product.notes, categoryId: Int(product.categoryId), active: product.active, favorite: product.favorite)
     }
 
     func getProductById(_ id: Int) -> DMProduct? {
@@ -161,6 +134,39 @@ class CategoriesProductsViewModel: BaseViewModel {
             }
         }
         return nil
+    }
+
+    func scrollToFoundProduct(proxy: ScrollViewProxy, name : String) {
+        let productsToScroll = products.filter { $0.name == name }
+
+        guard let productToScroll = productsToScroll.first else {
+            print("Product to scroll to not found: \(name)")
+            return
+        }
+
+        guard let categoryToScroll = getCategoryByProductId(productToScroll.id) else {
+            print("Category to scroll to not found with id: \(productToScroll.id)")
+            return
+        }
+
+        for category in categories {
+            if category.id == categoryToScroll.id {
+                print("Category to expand: \(String(describing: category.name))")
+                category.expanded = true
+            } else {
+                print("Category to NOT expand: \(String(describing: category.name))")
+                category.expanded = false
+            }
+        }
+        saveCategoriesProductsUpdates()
+        setSelectedProduct(productToScroll)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            withAnimation(.default){
+                proxy.scrollTo(productToScroll.id, anchor: .center)
+                print("Scroll to found product: \(name) with id: \(productToScroll.id)")
+            }
+        }
     }
 
     func getCategoryByProductId(_ productId: Int16) -> DMCategory? {
@@ -205,7 +211,7 @@ class CategoriesProductsViewModel: BaseViewModel {
     }
 
     func saveCategoriesProductsUpdates() {
-        super.saveChanges(and: refreshCategoriesProductsData)
+        super.saveChanges(then: refreshCategoriesProductsData)
     }
 
     func delete<T: NSManagedObject>(_ object: T) {

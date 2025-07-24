@@ -45,7 +45,7 @@ protocol PersistenceManagerProtocol {
     func setListCompleteness(for listId: UUID) -> Bool
 
     //MARK: - PRODUCTS
-    func fetchLastProductId() -> Int
+    func fetchNextProductId() -> Int
     func createProduct(
         id: Int,
         name: String,
@@ -57,6 +57,7 @@ protocol PersistenceManagerProtocol {
         selected: Bool
     ) -> Bool
     func fetchAllProducts() -> [DMProduct]?
+    func fetchAllActiveProducts() -> [DMProduct]?
     func fetchProductsByCategory(_ category: DMCategory) -> [DMProduct]?
     func fetchProductByCategoryId(_ categoryId: Int16) -> DMProduct?
 

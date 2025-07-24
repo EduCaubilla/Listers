@@ -13,7 +13,6 @@ struct ProductAlertManager:Identifiable, Equatable {
 
     enum ProductAlertType: String {
         case addedToList
-        case addedToSelectedList
         case edited
         case confirmRemove
 
@@ -21,8 +20,6 @@ struct ProductAlertManager:Identifiable, Equatable {
             switch self {
                 case .addedToList:
                     return "Added to List"
-                case .addedToSelectedList:
-                    return "Added to Selected List"
                 case .edited:
                     return "Edited"
                 case .confirmRemove:

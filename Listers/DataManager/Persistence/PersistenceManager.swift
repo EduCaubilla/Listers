@@ -123,26 +123,30 @@ struct PersistenceManager : PersistenceManagerProtocol {
     }
 
     //MARK: - CATEGORIES/PRODUCTS
-    func fetchLastProductId() -> Int {
+    func fetchNextProductId() -> Int {
+        var resultNextProductId: Int = 0
         let allProducts = fetchAllProducts()
+
         if let allProducts = allProducts {
             let sortedProducts = allProducts.sorted { $0.id < $1.id }
             let lastProduct = sortedProducts.last
             if let lastProduct = lastProduct {
                 print("Last product id: \(lastProduct.id)")
+                let newId = lastProduct.id + 1
 
-                let productDuplicated = fetchProductById(lastProduct.id)
-                if productDuplicated != nil {
-                    return 1000
+                if !isDuplicateProduct(productId: newId) {
+                    resultNextProductId = Int(newId)
                 }
-
-                return Int(lastProduct.id)
             }
         } else {
             print("No products found.")
         }
 
-        return 1000
+        return resultNextProductId
+    }
+
+    func isDuplicateProduct(productId : Int16) -> Bool {
+        return fetchProductById(productId) != nil ? true : false
     }
 
     func createProduct(id: Int, name: String, notes: String?, categoryId: Int16, active: Bool, favorite: Bool, custom: Bool = true, selected: Bool = false) -> Bool {
@@ -163,7 +167,6 @@ struct PersistenceManager : PersistenceManagerProtocol {
     func fetchAllProducts() -> [DMProduct]? {
         let productsFetch : NSFetchRequest<DMProduct> = DMProduct.fetchRequest()
         productsFetch.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        productsFetch.predicate = NSPredicate(format: "active == true")
         do {
             return try viewContext.fetch(productsFetch)
         }
@@ -172,6 +175,13 @@ struct PersistenceManager : PersistenceManagerProtocol {
         }
 
         return nil
+    }
+
+
+    func fetchAllActiveProducts() -> [DMProduct]? {
+        let productsFetch = fetchAllProducts()
+        guard let products = productsFetch else { return nil }
+        return products.filter { $0.active }
     }
 
     func fetchProductById(_ id: Int16) -> DMProduct? {

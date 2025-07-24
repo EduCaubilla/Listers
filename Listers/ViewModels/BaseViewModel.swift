@@ -26,19 +26,19 @@ class BaseViewModel: ObservableObject {
 
     @Published var showingAddProductView: Bool = false
     @Published var showingUpdateProductView: Bool = false
-    @Published var showingListSelectionToAddProductView: Bool = false
+    @Published var showingListToAddProductView: Bool = false
 
     //MARK: - INITIALIZER
     init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
         self.persistenceManager = persistenceManager
+        print("Init BaseViewmodel -------->")
     }
 
     //MARK: - FUNCTIONS
 
     //MARK: - PRODUCTS
-    @MainActor
     func fetchProducts() {
-        let productsResult = persistenceManager.fetchAllProducts()
+        let productsResult = persistenceManager.fetchAllActiveProducts()
         if let productsFetched = productsResult {
             products = productsFetched
             print("Loaded active products in view model \(products.count)")
@@ -47,11 +47,10 @@ class BaseViewModel: ObservableObject {
         }
     }
 
-    @MainActor
     func loadProductNames(forceLoad : Bool = false) {
         if productNames.isEmpty || forceLoad {
             if products.isEmpty {
-                guard let productsResult = persistenceManager.fetchAllProducts() else { return }
+                guard let productsResult = persistenceManager.fetchAllActiveProducts() else { return }
                 products = productsResult
             } else {
                 productNames = products.map { $0.name! }
@@ -60,11 +59,12 @@ class BaseViewModel: ObservableObject {
         }
     }
 
-    func saveNewProduct(id: Int = 0, name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool, then refresh: () -> Void) {
+    func saveNewProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool, then refresh: () -> Void) -> Int {
+        var responseProductId : Int = 0
         let newProductId = createIdForNewProduct()
 
         let createdProduct = persistenceManager.createProduct(
-            id: id == 0 ? newProductId : id,
+            id: newProductId,
             name: name,
             notes: description ?? "",
             categoryId: Int16(categoryId),
@@ -77,18 +77,19 @@ class BaseViewModel: ObservableObject {
         if createdProduct {
             print("New product created: \(name) with id: \(newProductId)")
             refresh()
+            responseProductId = newProductId
         } else {
             print("There was an error creating the product: \(name) with id: \(newProductId).")
         }
+        return responseProductId
     }
 
     func createIdForNewProduct() -> Int {
-        let newId = persistenceManager.fetchLastProductId()
-        return newId != 0 ? newId + 1 : 0
+        return persistenceManager.fetchNextProductId()
     }
 
     //MARK: - PERSISTENCE
-    func saveChanges(and refresh: () -> Void) {
+    func saveChanges(then refresh: () -> Void) {
         let persistenceSaved = persistenceManager.savePersistence()
 
         if persistenceSaved {
@@ -138,9 +139,9 @@ class BaseViewModel: ObservableObject {
             case .closeUpdateProduct:
                 showingUpdateProductView = false
             case .openListSelectionToAddProduct:
-                showingListSelectionToAddProductView = true
+                showingListToAddProductView = true
             case .closeListSelectionToAddProduct:
-                showingListSelectionToAddProductView = false
+                showingListToAddProductView = false
         }
         print("On change form view state -> \(state) ---- ")
     }

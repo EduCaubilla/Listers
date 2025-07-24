@@ -22,19 +22,15 @@ struct RootView: View {
                         case .main:
                             MainItemsView(vm: vm)
                                 .environmentObject(router)
-                                .navigationTransition(.automatic)
                         case .lists:
                             ListsView(vm: vm)
                                 .environmentObject(router)
-                                .navigationTransition(.automatic)
                         case .settings:
                             SettingsView()
                                 .environmentObject(router)
-                                .navigationTransition(.automatic)
                         case .categories:
                             CategoriesProductsView()
                                 .environmentObject(router)
-                                .navigationTransition(.automatic)
                     }
                 } //: NAV DESTINATION
         } //: NAV STACK
