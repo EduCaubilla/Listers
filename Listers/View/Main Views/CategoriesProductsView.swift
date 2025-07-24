@@ -181,6 +181,7 @@ struct CategoriesProductsView: View {
     } //: VIEW
 }
 
+#if DEBUG
 //MARK: - PREVIEW
 #Preview {
     NavigationStack{
@@ -200,3 +201,5 @@ struct CategoriesProductsView: View {
             .environment(\.managedObjectContext, PersistenceController.previewCategoriesProducts.container.viewContext)
     }
 }
+
+#endif

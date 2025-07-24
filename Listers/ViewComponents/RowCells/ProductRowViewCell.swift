@@ -174,10 +174,10 @@ private func getProductPreview() -> DMProduct {
 
     return newProduct
 }
-#endif
 
 //MARK: - PREVIEW
 #Preview (traits: .sizeThatFitsLayout) {
     let previewVM = CategoriesProductsViewModel()
     ProductRowViewCell(vm: previewVM, product: getProductPreview(), actionEditProduct: {}, isEditAvailable: false)
 }
+#endif

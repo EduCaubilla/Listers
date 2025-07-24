@@ -112,7 +112,7 @@ struct ListsView: View {
     } //: VIEW BODY
 } //: VIEW MAIN
 
-
+#if DEBUG
 //MARK: - PREVIEW
 #Preview {
     NavigationStack{
@@ -132,3 +132,5 @@ struct ListsView: View {
             .environment(\.managedObjectContext, PersistenceController.previewListItems.container.viewContext)
     }
 }
+
+#endif

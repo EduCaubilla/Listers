@@ -166,7 +166,6 @@ var itemToAddPreview: DMProduct {
     newItem.selected = false
     return newItem
 }
-#endif
 
 //MARK: - PREVIEW
 #Preview {
@@ -181,3 +180,4 @@ var itemToAddPreview: DMProduct {
         ListsToAddProductView(vm: previewVM, itemToAdd: itemToAddPreview)
             .environment(\.managedObjectContext, PersistenceController.previewListItems.container.viewContext)
 }
+#endif

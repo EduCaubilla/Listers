@@ -185,10 +185,9 @@ private func getItemPreview() -> DMItem {
 
     return newItem
 }
-#endif
 
 //MARK: - PREVIEW
 #Preview (traits: .sizeThatFitsLayout) {
     ItemRowCellView(vm: MainItemsListsViewModel(), item: getItemPreview(), actionEditItem: {})
 }
-
+#endif

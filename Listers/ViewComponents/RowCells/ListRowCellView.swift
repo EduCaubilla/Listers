@@ -235,9 +235,9 @@ struct ListRowCellView: View {
 
         return result
     }
-#endif
 
     //MARK: - PREVIEW
     #Preview (traits: .sizeThatFitsLayout) {
         ListRowCellView(vm: MainItemsListsViewModel(), selectedList: getListPreview(), listItems: getListItemsPreview(), actionEditList: {})
     }
+#endif
