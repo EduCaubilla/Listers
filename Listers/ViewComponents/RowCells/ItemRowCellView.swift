@@ -18,13 +18,13 @@ struct ItemRowCellView: View {
 
     var currentScreen : NavRoute = .main
 
-    private var deleteLabel : String = "Delete"
+    private var deleteLabel : String = L10n.shared.localize("item_row_cellview_delete")
     private var deleteIcon : String = "trash"
-    private var addFavLabel : String = "Add Fav"
+    private var addFavLabel : String = L10n.shared.localize("item_row_cellview_add_fav")
     private var addFavIcon : String = "star.fill"
-    private var removeFavLabel : String = "Remove\nFav"
+    private var removeFavLabel : String = L10n.shared.localize("item_row_cellview_remove_fav")
     private var removeFavIcon : String = "star"
-    private var editLabel : String = "Edit"
+    private var editLabel : String = L10n.shared.localize("item_row_cellview_edit")
     private var editIcon : String = "square.and.pencil"
 
     private var color: Color {
@@ -96,7 +96,7 @@ struct ItemRowCellView: View {
 
                     //TEXT, DATE & COMMENT
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(item.name ?? "Unknown")
+                        Text(item.name ?? L10n.shared.localize("item_row_cellview_unknown"))
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundStyle(.darkBlue)
                             .lineLimit(2)
@@ -123,7 +123,7 @@ struct ItemRowCellView: View {
 
                     //QUANTITY
                     if vm.isItemQuantityVisible {
-                        Text("^[\(item.quantity.trimmedString) Unit](inflect: true)")
+                        Text("\(item.quantity.trimmedString) \(L10n.shared.localize("unit_count"))")
                             .foregroundStyle(.lightBlue)
                             .padding(3)
                     }

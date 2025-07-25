@@ -21,11 +21,11 @@ struct MainItemsView: View {
         vm.selectedList?.name ?? ""
     }
 
-    var addItemLabel: String = "Add Item"
+    var addItemLabel: String = L10n.shared.localize("main_items_view_add")
     var addItemIcon: String = "plus"
-    var noItemsLabel: String = "No lists yet.\nCreate one now."
+    var noItemsLabel: String = L10n.shared.localize("main_items_view_no_items")
     var addItemIconCircle: String = "plus.circle"
-    var completedListTitle: String = "Congratulations!\nThe list is complete."
+    var completedListTitle: String = L10n.shared.localize("main_items_view_list_completed")
 
     //MARK: - INITIALIZER
     init(vm: MainItemsListsViewModel = MainItemsListsViewModel()) {
@@ -166,16 +166,16 @@ struct MainItemsView: View {
                 completedListTitle,
                 isPresented: $vm.showCompletedListAlert,
                 actions: {
-                    Button("Cancel") {
+                    Button(L10n.shared.localize("main_items_view_cancel")) {
                         vm.showCompletedListAlert = false
                     }
-                    Button("Ok") {
+                    Button(L10n.shared.localize("main_items_view_ok")) {
                         goToListsAfterCompletion()
 
                     }
                 },
                 message: {
-                    Text("Do you want to go to lists screen to create a new one?")
+                    Text(L10n.shared.localize("main_items_view_go_to_lists_new"))
                 }
             )
     } //: VIEW
@@ -192,7 +192,6 @@ struct MainItemsView: View {
 }
 
 #Preview("Mocked") {
-//    let previewVM = MainItemsListsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewListItems.container.viewContext))
     let previewVM = MainItemsListsViewModel()
 
     NavigationStack{

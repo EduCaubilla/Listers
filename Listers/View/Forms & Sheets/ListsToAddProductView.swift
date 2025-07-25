@@ -18,11 +18,11 @@ struct ListsToAddProductView: View {
 
     @State private var itemAddedToSelectedList: Bool = false
 
-    private var addItemToListLabel: String = "Add Product"
+    private var addItemToListLabel: String = L10n.shared.localize("form_add_product_add")
     private var addItemToListIcon: String = "custom.checklist.square.plus"
 
     private var addToListViewTitle: String {
-        vm.lists.isEmpty ? "" : "Add \(itemToAdd?.name ?? "product") to list"
+        vm.lists.isEmpty ? "" : L10n.shared.localize("form_add_product_title_add", args: (itemToAdd?.name ?? "product"))
     }
 
     //MARK: - INITIALIZATION
@@ -38,7 +38,7 @@ struct ListsToAddProductView: View {
 
     private func addItemToSelectedList() {
         vm.addItemToList(
-            name: itemToAdd?.name ?? "Product",
+            name: itemToAdd?.name ?? L10n.shared.localize("form_add_product_unknown"),
             description: itemToAdd?.notes,
             quantity: 0,
             favorite: false,
@@ -66,7 +66,7 @@ struct ListsToAddProductView: View {
         NavigationStack {
             if vm.lists.isEmpty {
                 VStack(alignment: .center, spacing: 10) {
-                    Text("There are no lists yet. \nYou must create one before adding a product.")
+                    Text(L10n.shared.localize("form_add_product_no_lists"))
                         .multilineTextAlignment(.center)
                         .font(.system(size: 24, weight: .light))
                         .foregroundStyle(.darkBlue)
@@ -82,7 +82,7 @@ struct ListsToAddProductView: View {
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundStyle(.darkBlue)
 
-                            Text("^[\(list.items?.count ?? 0) Article](inflect: true)")
+                            Text("\(list.items?.count ?? 0) \(L10n.shared.localize("article_count")) ")
                                 .font(.subheadline)
                                 .foregroundStyle(.lightBlue)
                         } //: VSTACK
@@ -140,13 +140,13 @@ struct ListsToAddProductView: View {
             } //: TOOLBAR
             .scrollContentBackground(.hidden)
             .background(Color.background)
-            .alert("Item added successfully", isPresented: $itemAddedToSelectedList) {
+            .alert(L10n.shared.localize("form_add_product_success"), isPresented: $itemAddedToSelectedList) {
                 Button("Ok", role: .cancel) {
                     itemAddedToSelectedList = false
                     closeCurrentForm()
                 }
             } message: {
-                Text("Product \(itemToAdd?.name ?? "") added to selected list \(vm.selectedList?.name ?? "").")
+                Text(L10n.shared.localize("form_add_product_success_message", args: [(itemToAdd?.name ?? ""), (vm.selectedList?.name ?? "")]))
             }
 
         } //: NAVIGATIONSTACK
@@ -174,7 +174,6 @@ var itemToAddPreview: DMProduct {
 }
 
 #Preview("Mocked Data List") {
-//        let previewVM = MainItemsListsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewListItems.container.viewContext))
         let previewVM = MainItemsListsViewModel()
 
         ListsToAddProductView(vm: previewVM, itemToAdd: itemToAddPreview)

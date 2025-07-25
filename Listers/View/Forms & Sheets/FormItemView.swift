@@ -11,7 +11,7 @@ struct FormItemView: View {
     //MARK: - PROPERTIES
     @ObservedObject var vm: MainItemsListsViewModel
 
-    var priorities: [String] = Priority.allCases
+    var priorities: [String] = Priority.allLocalizedCases
 
     @State private var name : String = ""
     @State private var description : String = ""
@@ -40,7 +40,7 @@ struct FormItemView: View {
     }
 
     var itemTitle : String {
-        isItemToUpdate ? "Edit Item" : "New Item"
+        isItemToUpdate ? L10n.shared.localize("form_item_title_edit") : L10n.shared.localize("form_item_title_new")
     }
 
     //MARK: - INITIALIZER
@@ -53,7 +53,7 @@ struct FormItemView: View {
         self.vm = vm
 
         if let item = item {
-            _name = State(initialValue: item.name ?? "Unknown Item")
+            _name = State(initialValue: item.name ?? L10n.shared.localize("form_item_unknown"))
             _description = State(initialValue: item.notes ?? "")
             _quantity = State(initialValue: item.quantity.trimmedString)
             _favorite = State(initialValue: item.favorite)
@@ -95,8 +95,8 @@ struct FormItemView: View {
 
         } else {
             errorShowing = true
-            errorTitle = "Invalid name"
-            errorMessage = "Please enter a name for your todo item."
+            errorTitle = L10n.shared.localize("form_item_invalid_name")
+            errorMessage = L10n.shared.localize("form_item_invalid_name_message")
             return
         }
     }
@@ -128,7 +128,7 @@ struct FormItemView: View {
                     //MARK: - NAME
                     VStack(spacing: 10) {
                         HStack(alignment: .center, spacing: 10){
-                            TextField(name.isEmpty ? "Add Name" : name, text: $name)
+                            TextField(name.isEmpty ? L10n.shared.localize("form_item_add_name") : name, text: $name)
                                 .autocorrectionDisabled(true)
                                 .focused($isNameTextFieldFocused)
                                 .foregroundStyle(.primaryText)
@@ -177,7 +177,7 @@ struct FormItemView: View {
                         VStack(spacing: 10) {
                             //MARK: - DESCRIPTION
                             if vm.isItemDescriptionVisible {
-                                TextField(description.isEmpty ? "Add description" : description, text: $description)
+                                TextField(description.isEmpty ? L10n.shared.localize("form_item_add_description") : description, text: $description)
                                     .multilineTextAlignment(.leading)
                                     .lineLimit(3)
                                     .autocorrectionDisabled(true)
@@ -189,7 +189,7 @@ struct FormItemView: View {
 
                             //MARK: - QUANTITY
                             if vm.isItemQuantityVisible {
-                                TextField(quantity.count == 0 ? "Add quantity" : quantity, text: $quantity)
+                                TextField(quantity.count == 0 ? L10n.shared.localize("form_item_add_quantity") : quantity, text: $quantity)
                                     .multilineTextAlignment(.leading)
                                     .lineLimit(4)
                                     .autocorrectionDisabled(true)
@@ -199,27 +199,34 @@ struct FormItemView: View {
                             }
 
                             //MARK: - FAVORITE
-                            Toggle("Favorite", isOn: $favorite)
-                                .padding(.top, 5)
-                            
+                            Toggle(L10n.shared.localize("form_item_favorite"), isOn: $favorite)
+                                .padding(.top, 10)
+
                             //MARK: - DATE PICKER
                             if vm.isItemEndDateVisible {
-                                DatePicker("End Date", selection: $endDate, displayedComponents: .date)
+                                DatePicker(L10n.shared.localize("form_item_end_date"), selection: $endDate, displayedComponents: .date)
                                     .datePickerStyle(.compact)
                                     .padding(.top, 10)
                             }
 
                             //MARK: - PRIORITY
-                            Picker("Priority", selection: $priority) {
-                                Text("Normal").tag(Priority.normal)
-                                Text("High").tag(Priority.high)
-                                Text("Very High").tag(Priority.veryHigh)
-                            } //: PICKER
-                            .pickerStyle(.segmented)
+                            HStack{
+                                Text(L10n.shared.localize("form_item_priority"))
+
+                                Spacer()
+
+                                Picker(L10n.shared.localize("form_item_priority"), selection: $priority) {
+                                    ForEach(Priority.allCases, id: \.self) { priority in
+                                        Text(priority.localizedDisplayName).tag(priority)
+                                    }
+                                } //: PICKER
+                                .padding(.trailing, -10)
+                                .pickerStyle(.menu)
+                            }
                             .padding(.top, 5)
-                            
+
                             //MARK: - SAVE BUTTON
-                            SaveButtonView(text: "Save", action: {
+                            SaveButtonView(text: L10n.shared.localize("form_item_save"), action: {
                                 if(isItemToUpdate) {
                                     updateItem()
                                     closeCurrentFormItemView()
@@ -277,15 +284,15 @@ struct FormItemView: View {
                 isNameTextFieldFocused = true
             }
             .alert(isPresented: $errorShowing) {
-                Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+                Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text(L10n.shared.localize("form_item_ok"))))
             }
-            .alert("The item \(name) is not on your product's library.",
+            .alert(L10n.shared.localize("form_item_alert_not_library_title", args: name),
                 isPresented: $vm.showSaveNewProductAlert) {
-                    Button("Cancel", role: .cancel){
+                    Button(L10n.shared.localize("form_item_cancel"), role: .cancel){
                         vm.showSaveNewProductAlert = false
                         closeCurrentFormItemView()
                     }
-                    Button("Add"){
+                    Button(L10n.shared.localize("form_item_add")){
                         vm.saveProduct(
                             name: name,
                             description: description,
@@ -300,7 +307,7 @@ struct FormItemView: View {
                         closeCurrentFormItemView()
                     }
             } message: {
-                Text("Would you like to add it? This will add '\(name)' to your library list.")
+                Text(L10n.shared.localize("form_item_alert_not_library_message", args: name))
             }
         } //: NAVIGATION STACK
     } //: VIEW

@@ -1,0 +1,158 @@
+
+
+
+
+/* Categories Enum */
+"category_groceries" = "Groceries";
+"category_beverages" = "Beverages";
+"category_fruits_and_vegetables" = "Fruits and Vegetables";
+"category_home_and_kitchen" = "Home and Kitchen";
+"category_hardware_and_tools" = "Hardware and Tools";
+"category_office_and_stationery" = "Office and Stationery";
+"category_clothes_and_footwear" = "Clothes and Footwear";
+"category_sports_and_oudoors" = "Sports and Oudoors";
+"category_health_and_beauty" = "Health and Beauty";
+"category_other" = "Other";
+
+/* Priority Levels Enum */
+"priority_normal" = "Normal";
+"priority_high" = "High";
+"priority_very_high" = "Urgent";
+
+/* Product Alert Type Enum */
+"product_alert_added" = "Added to list";
+"product_alert_edited" = "Edited";
+"product_alert_confirm" = "Confirm removal";
+
+/* Form Item View */
+"form_item_title_edit" = "Edit item";
+"form_item_title_new" = "New item";
+"form_item_unknown" = "Unknown item";
+"form_item_invalid_name" = "Invalid name";
+"form_item_invalid_name_message" = "Enter a name for your new item.";
+"form_item_add_name" = "Add name";
+"form_item_add_description" = "Add description";
+"form_item_add_quantity" = "Add quantity";
+"form_item_favorite" = "Favorite";
+"form_item_end_date" = "End date";
+"form_item_priority" = "Priority";
+"form_item_save" = "Save";
+"form_item_ok" = "Ok";
+"form_item_cancel" = "Cancel";
+"form_item_add" = "Add";
+"form_item_alert_not_library_title" = "The item '%@' is not on your product's library.";
+"form_item_alert_not_library_message" = "Would you like to add it? This will add '%@' to your product's library.";
+"form_item_added_product_library" = "Added product '%@' to product's library.";
+
+/* Forms List View */
+"form_list_title_edit" = "Edit list";
+"form_list_title_new" = "New list";
+"form_list_unknown" = "Unknown list";
+"form_list_invalid_name" = "Invalid name";
+"form_list_invalid_name_message" = "Enter a name for your new list.";
+"form_list_add_name" = "Add name";
+"form_list_add_description" = "Add description";
+"form_list_end_date" = "End date";
+"form_list_pin" = "Pin to top";
+"form_list_save" = "Save";
+"form_list_ok" = "Ok";
+
+/* Forms Product View */
+"form_product_title_edit" = "Edit product";
+"form_product_title_new" = "New product";
+"form_product_unknown" = "Unknown product";
+"form_product_invalid_name" = "Invalid name";
+"form_product_invalid_name_message" = "Enter a name for your new product.";
+"form_product_ok" = "Ok";
+"form_product_continue" = "Continue";
+"form_product_duplicate" = "Product already exists";
+"form_product_duplicate_message" = "If you continue there will be duplicate products. Choosing a different name is recommended.";
+"form_product_add_name" = "Add name";
+"form_product_add_description" = "Add description";
+"form_product_add_category" = "Category";
+"form_product_add_favorite" = "Favorite";
+"form_product_save" = "Save";
+
+/* Lists to Add Product View */
+"form_add_product_add" = "Add product";
+"form_add_product_title_add" = "Add %@ to list";
+"form_add_product_unknown" = "Unknown product";
+"form_add_product_no_lists" = "There are no lists yet. \nYou must create one before adding a product.";
+"form_add_product_article" = "Article";
+"form_add_product_success" = "Product added successfully";
+"form_add_product_success_message" = "Product '%@' added to selected list '%@'.";
+"form_add_product_ok" = "Ok";
+
+/* Categories Products View */
+"categories_view_title" = "Categories";
+"categories_view_add_product" = "Add Product";
+"categories_view_favorites" = "Favorites";
+"categories_view_search" = "Search";
+"categories_view_not_found" = "No categories or products found.";
+
+/* Lists View */
+"lists_view_title" = "My lists";
+"lists_view_add" = "Add list";
+
+/* Main Items View */
+"main_items_view_add" = "Add item";
+"main_items_view_no_items" = "No lists yet.\nCreate one now.";
+"main_items_view_list_completed" = "Great!\nYou fulfilled the list.";
+"main_items_view_ok" = "Ok";
+"main_items_view_cancel" = "Cancel";
+"main_items_view_go_to_lists_new" = "Do you want to go to lists screen to create a new one?";
+
+/* Settings View */
+"settings_view_title" = "Settings";
+"settings_view_general" = "General Settings";
+"settings_view_appearance" = "Appearance";
+"settings_view_language" = "Language";
+"settings_view_items" = "Items Settings";
+"settings_view_description" = "Show description";
+"settings_view_quantity" = "Show quantity";
+"settings_view_end_date" = "Show end date";
+"settings_view_lists" = "Lists Settings";
+"settings_language_english" = "English";
+"settings_language_spanish" = "Spanish";
+
+/* Buttons */
+"button_add" = "Add";
+"button_save" = "Save";
+
+/* Item Row Cell View */
+"item_row_cellview_delete" = "Delete";
+"item_row_cellview_add_fav" = "Add Fav";
+"item_row_cellview_remove_fav" = "Remove Fav";
+"item_row_cellview_edit" = "Edit";
+"item_row_cellview_unknown" = "Unknown";
+"item_row_cellview_unit" = "Unit";
+
+/* List Row Cell View */
+"list_row_cellview_delete_list" = "Delete list";
+"list_row_cellview_delete" = "Delete";
+"list_row_cellview_add_pin" = "Pin";
+"list_row_cellview_remove_pin" = "Unpin";
+"list_row_cellview_edit" = "Edit";
+"list_row_cellview_cancel" = "Cancel";
+"list_row_cellview_list_title" = "List name";
+"list_row_cellview_list_article" = "Article";
+"list_row_cellview_remove_confirmation" = "Are you sure you want to delete '%@'? The list and all its items will be removed.";
+
+/* Product Row Cell View */
+"product_row_cellview_unknown" = "Product unknown";
+"product_row_cellview_add_current" = "Add to current list";
+"product_row_cellview_add_selection" = "Add to list with selection";
+"product_row_cellview_add_fav" = "Add to favorites";
+"product_row_cellview_remove_fav" = "Remove favorite";
+"product_row_cellview_edit" = "Edit product";
+"product_row_cellview_duplicate_edit" = "Duplicate and edit";
+"product_row_cellview_remove" = "Remove";
+"product_row_cellview_ok" = "Ok";
+"product_row_cellview_cancel" = "Cancel";
+"product_row_cellview_added_current" = "Product %@ added to current list %@.";
+"product_row_cellview_edited" = "Product %@ edited succesfully.";
+"product_row_cellview_confirm_remove" = "Are you sure you want to remove product $@ from the library?";
+
+/* Search Bar View */
+"search_bar_view_search" = "Search...";
+

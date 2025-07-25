@@ -22,13 +22,13 @@ struct FormListView: View {
     private var listToUpdate: DMList?
 
     @State private var errorShowing : Bool = false
-    private var errorTitle : String = "Invalid name"
-    private var errorMessage : String = "Please enter a name for your new item."
+    private var errorTitle : String = L10n.shared.localize("form_list_invalid_name")
+    private var errorMessage : String = L10n.shared.localize("form_list_invalid_name_message")
 
     @FocusState private var isFocused: Bool
 
     var listTitle : String {
-        isListToUpdate ? "Update list" : "New list"
+        isListToUpdate ? L10n.shared.localize("form_list_title_edit") : L10n.shared.localize("form_list_title_new")
     }
 
     //MARK: - INITIALIZER
@@ -40,7 +40,7 @@ struct FormListView: View {
         self.vm = vm
 
         if let list = list {
-            _name = State(initialValue: list.name ?? "")
+            _name = State(initialValue: list.name ?? L10n.shared.localize("form_list_unknown"))
             _description = State(initialValue: list.notes ?? "")
             _pinned = State(initialValue: list.pinned)
         }
@@ -48,7 +48,7 @@ struct FormListView: View {
         listToUpdate = list
         isListToUpdate = true
 
-        print("List to update")
+        print("List to edit")
         print("list name: \(list?.name ?? "Unknown"), list description: \(list?.description ?? "Unknown")")
     }
 
@@ -93,7 +93,7 @@ struct FormListView: View {
             VStack {
                 VStack(alignment: .leading, spacing: 10) {
                     //MARK: - NAME
-                    TextField("Name", text: $name)
+                    TextField(L10n.shared.localize("form_list_add_name"), text: $name)
                         .focused($isFocused)
                         .lineLimit(1)
                         .autocorrectionDisabled(true)
@@ -102,7 +102,7 @@ struct FormListView: View {
 
                     //MARK: - DESCRIPTION
                     if vm.isListDescriptionVisible {
-                        TextField("Description", text: $description)
+                        TextField(L10n.shared.localize("form_list_add_description"), text: $description)
                             .multilineTextAlignment(.leading)
                             .lineLimit(3)
                             .autocorrectionDisabled(true)
@@ -113,16 +113,16 @@ struct FormListView: View {
 
                     //MARK: - END DATE
                     if vm.isListEndDateVisible {
-                        DatePicker("End date", selection: $endDate, displayedComponents: .date)
+                        DatePicker(L10n.shared.localize("form_list_end_date"), selection: $endDate, displayedComponents: .date)
                             .padding(.top, 5)
                             .datePickerStyle(.compact)
                     }
 
                     //MARK: - PINNED
-                    Toggle("Pinned to top", isOn: $pinned)
+                    Toggle(L10n.shared.localize("form_list_pin"), isOn: $pinned)
                         .padding(.top, 5)
 
-                    SaveButtonView(text: "Save", action: {
+                    SaveButtonView(text: L10n.shared.localize("form_list_save"), action: {
                         if(isListToUpdate) {
                             updateList()
                         } else {
@@ -150,7 +150,7 @@ struct FormListView: View {
                 }
             }
             .alert(isPresented: $errorShowing) {
-                Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text("OK")))
+                Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text(L10n.shared.localize("form_list_ok"))))
             }
             .onAppear{
                 isFocused = true

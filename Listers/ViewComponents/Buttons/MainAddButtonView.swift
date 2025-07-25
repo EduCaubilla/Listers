@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MainAddButtonView: View {
 
-    var addButtonLabel: String = "Add"
+    var addButtonLabel: String = L10n.shared.localize("button_add")
     var addButtonIcon: String = "plus"
     var addButtonAction: () -> Void = {}
     var isSystemImage: Bool = true

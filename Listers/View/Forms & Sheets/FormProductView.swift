@@ -17,7 +17,6 @@ struct FormProductView: View {
     @State private var description : String = ""
     @State private var favorite : Bool = false
     @State private var active : Bool = true
-    @State private var category : String = "General"
     @State private var selectedCategory : Categories = .Grocery
 
     private var productToUpdate : DMProduct?
@@ -35,8 +34,8 @@ struct FormProductView: View {
 
     @FocusState private var isNameTextFieldFocused : Bool
 
-    var itemTitle : String {
-        isProductToUpdate ? "Edit Product" : "New Product"
+    var productTitle : String {
+        isProductToUpdate ? L10n.shared.localize("form_product_title_edit") : L10n.shared.localize("form_product_title_new")
     }
 
     //MARK: - INITIALIZER
@@ -49,14 +48,14 @@ struct FormProductView: View {
         self.vm = vm
 
         if let product = product {
-            _name = State(initialValue: product.name ?? "Unknown")
+            _name = State(initialValue: product.name ?? L10n.shared.localize("form_product_unknown"))
             _description = State(initialValue:product.notes ?? "")
             _favorite = State(initialValue:product.favorite)
             _active = State(initialValue:product.active)
             _selectedCategory = State(initialValue:Categories.idMapper(for: product.categoryId))
         }
 
-        print("Init AddUpdateCategoryProductView to EDIT: \(String(describing: product?.name))")
+        print("Init FormProductView to EDIT: \(String(describing: product?.name))")
 
         productToUpdate = product
         isProductToUpdate = true
@@ -68,19 +67,19 @@ struct FormProductView: View {
     private func saveNewProduct() {
         if name.isEmpty {
             errorShowing = true
-            errorTitle = "Invalid name"
-            errorMessage = "Please enter a name for your todo item."
-            firstErrorButtonLabel = "Ok"
+            errorTitle = L10n.shared.localize("form_product_invalid_name")
+            errorMessage = L10n.shared.localize("form_product_invalid_name_message")
+            firstErrorButtonLabel = L10n.shared.localize("form_product_ok")
             return
         }
 
         if checkNewProductInLibrary() {
             errorShowing = true
-            errorTitle = "Product already exists"
-            errorMessage = "If you continue there will be duplicate products. choosing a different name is recommended."
-            firstErrorButtonLabel = "Ok"
+            errorTitle = L10n.shared.localize("form_product_invalid_duplicate")
+            errorMessage = L10n.shared.localize("form_product_invalid_duplicate_message")
+            firstErrorButtonLabel = L10n.shared.localize("form_product_ok")
             firstErrorButtonAction = { name = "" }
-            secondErrorButtonLabel = "Continue"
+            secondErrorButtonLabel = L10n.shared.localize("form_product_continue")
             secondErrorButtonAction = { }
             return
         }
@@ -151,7 +150,7 @@ struct FormProductView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     //MARK: - MAIN FORM
                     VStack {
-                        TextField(name.isEmpty ? "Add Name" : name, text: $name)
+                        TextField(name.isEmpty ? L10n.shared.localize("form_product_add_name") : name, text: $name)
                             .autocorrectionDisabled(true)
                             .focused($isNameTextFieldFocused)
                             .foregroundStyle(.primaryText)
@@ -159,7 +158,7 @@ struct FormProductView: View {
                         Divider()
 
                         //MARK: - DESCRIPTION
-                        TextField(description.isEmpty ? "Add description" : description, text: $description)
+                        TextField(description.isEmpty ? L10n.shared.localize("form_product_add_description") : description, text: $description)
                             .autocorrectionDisabled(true)
                             .multilineTextAlignment(.leading)
                             .lineLimit(3)
@@ -170,13 +169,13 @@ struct FormProductView: View {
 
                         //MARK: - CATEGORY
                         HStack {
-                            Text("Category")
+                            Text(L10n.shared.localize("form_product_add_category"))
 
                             Spacer()
 
-                            Picker("Category", selection: $selectedCategory) {
+                            Picker(L10n.shared.localize("form_product_add_category"), selection: $selectedCategory) {
                                 ForEach(Categories.allCases, id: \.self) { category in
-                                    Text(category.displayName).tag(category)
+                                    Text(category.localizedDisplayName).tag(category)
                                 }
                             } //: PICKER
                             .pickerStyle(MenuPickerStyle())
@@ -184,7 +183,7 @@ struct FormProductView: View {
                         }
 
                         //MARK: - FAVORITE
-                        Toggle("Favorite", isOn: $favorite)
+                        Toggle(L10n.shared.localize("form_product_add_favorite"), isOn: $favorite)
                             .padding(.top, 5)
 
 //                        //MARK: - ACTIVE //TODO - only in edit
@@ -192,7 +191,7 @@ struct FormProductView: View {
 //                            .padding(.top, 5)
 
                         //MARK: - SAVE BUTTON
-                        SaveButtonView(text: "Save", action: {
+                        SaveButtonView(text: L10n.shared.localize("form_product_save"), action: {
                             if isProductToUpdate {
                                 updateProduct()
                             } else {
@@ -207,7 +206,7 @@ struct FormProductView: View {
 
                 Spacer()
             } //: VSTACK
-            .navigationTitle(Text(itemTitle))
+            .navigationTitle(Text(productTitle))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem {

@@ -197,7 +197,7 @@ class MainItemsListsViewModel: BaseViewModel {
             settingsManager.loadSettings()
         }
         print("Settings loaded from MainItemsListsViewModel")
-        print(userSettings ?? "")
+        print(userSettings.debugDescription)
     }
 
     func saveProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
