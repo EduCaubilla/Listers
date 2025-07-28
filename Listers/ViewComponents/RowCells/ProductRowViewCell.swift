@@ -35,15 +35,26 @@ struct ProductRowViewCell: View {
 
     func addProductToList(){
         vm.setSelectedProduct(product)
-        vm.addProductToList(product)
-        vm.activeAlert = ProductAlertManager(type: .addedToList)
-        print("Add product \(self.product.name ?? "Unknown product") to list \(String(describing: vm.selectedList))")
+        let productAdded = vm.addProductToList(product)
+        if productAdded {
+            vm.activeAlert = ProductAlertManager(type: .addedToList)
+            print("Add product \(self.product.name ?? "Unknown product") to list \(String(describing: vm.selectedList))")
+        } else {
+            vm.activeAlert = ProductAlertManager(type: .errorAddedToList)
+            print("Error adding product \(self.product.name ?? "Unknown product") to list.")
+        }
     }
 
     func addProductToListWithSelection() {
         vm.setSelectedProduct(product)
-        vm.changeFormViewState(to: .openListSelectionToAddProduct)
-        print("Add product \(self.product.name ?? "Unknown product") to list with selection")
+        let confirmedLists = vm.confirmListSelected()
+        if confirmedLists {
+            vm.changeFormViewState(to: .openListSelectionToAddProduct)
+            print("Add product \(self.product.name ?? "Unknown product") to list with selection")
+        } else {
+            vm.activeAlert = ProductAlertManager(type: .errorAddedToList)
+            print("Error adding product \(self.product.name ?? "Unknown product") to list.")
+        }
     }
 
     func editProduct() {
@@ -131,7 +142,7 @@ struct ProductRowViewCell: View {
             presenting: vm.activeAlert,
             actions: { alert in
                 switch alert.type {
-                    case .addedToList, .edited:
+                    case .addedToList, .edited, .errorAddedToList:
                         Button(L10n.shared.localize("product_row_cellview_ok"), role: .cancel) {
                             vm.activeAlert = nil
                         }
@@ -152,6 +163,8 @@ struct ProductRowViewCell: View {
                         Text(L10n.shared.localize("product_row_cellview_edited", args: vm.selectedProduct?.name ?? ""))
                     case .confirmRemove:
                         Text(L10n.shared.localize("product_row_cellview_confirm_remove", args: vm.selectedProduct?.name ?? ""))
+                    case .errorAddedToList:
+                        Text(L10n.shared.localize("product_row_cellview_error_added_current"))
                 }
             }
         )

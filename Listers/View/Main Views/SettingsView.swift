@@ -16,6 +16,8 @@ struct SettingsView: View {
 
     @StateObject var vm : SettingsViewModel
 
+    @State var refresh: Bool = false
+
     private var viewMode: AppAppearance {
         get { selectedAppearance }
         set { selectedAppearance = newValue }
@@ -53,13 +55,6 @@ struct SettingsView: View {
                     Picker(L10n.shared.localize("settings_view_appearance"), selection: $selectedAppearance) {
                         ForEach(AppAppearance.allCases) { mode in
                             Text(mode.displayName).tag(mode)
-                        }
-                    }
-                    .padding(.vertical, -5)
-
-                    Picker(L10n.shared.localize("settings_view_language"), selection: $selectedLanguage) {
-                        ForEach(AppLanguage.allCases) { language in
-                            Text(language.displayName).tag(language)
                         }
                     }
                     .padding(.vertical, -5)

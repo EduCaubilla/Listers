@@ -1176,46 +1176,6 @@
         "notes": ""
     },
     {
-        "id": 148,
-        "name": "Harina integral",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "notes": ""
-    },
-    {
-        "id": 149,
-        "name": "Harina de maíz",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "notes": ""
-    },
-    {
-        "id": 150,
-        "name": "Azúcar moreno",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "notes": ""
-    },
-    {
-        "id": 151,
-        "name": "Edulcorante",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "notes": ""
-    },
-    {
-        "id": 152,
-        "name": "Caldo de pollo",
-        "categoryId": 1,
-        "active": true,
-        "favorite": false,
-        "notes": ""
-    },
-    {
         "id": 153,
         "name": "Agua",
         "categoryId": 2,
@@ -1288,14 +1248,6 @@
         "notes": ""
     },
     {
-        "id": 162,
-        "name": "Manzana",
-        "categoryId": 3,
-        "active": true,
-        "favorite": false,
-        "notes": ""
-    },
-    {
         "id": 163,
         "name": "Banana",
         "categoryId": 3,
@@ -1305,7 +1257,7 @@
     },
     {
         "id": 164,
-        "name": "Naranja",
+        "name": "Naranjas",
         "categoryId": 3,
         "active": true,
         "favorite": false,
@@ -1313,7 +1265,7 @@
     },
     {
         "id": 165,
-        "name": "Pera",
+        "name": "Peras",
         "categoryId": 3,
         "active": true,
         "favorite": false,
@@ -1321,7 +1273,7 @@
     },
     {
         "id": 166,
-        "name": "Zanahoria",
+        "name": "Zanahorias",
         "categoryId": 3,
         "active": true,
         "favorite": false,
@@ -1786,22 +1738,6 @@
     {
         "id": 224,
         "name": "Plátanos",
-        "categoryId": 3,
-        "active": true,
-        "favorite": false,
-        "notes": ""
-    },
-    {
-        "id": 225,
-        "name": "Naranjas",
-        "categoryId": 3,
-        "active": true,
-        "favorite": false,
-        "notes": ""
-    },
-    {
-        "id": 226,
-        "name": "Peras",
         "categoryId": 3,
         "active": true,
         "favorite": false,

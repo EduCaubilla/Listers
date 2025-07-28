@@ -25,7 +25,7 @@ struct ListersApp: App {
                     .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification), perform: handleEnterForeround)
                     .onAppear{
                         settingsManager.loadSettings()
-                        localizationManager.loadLanguage()
+                        localizationManager.persistLanguage()
                     }
         }
     }

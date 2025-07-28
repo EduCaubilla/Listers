@@ -61,7 +61,7 @@ struct ItemRowCellView: View {
 
     private func saveItem() {
         vm.saveItemListsChanges()
-        print("Item saved: \(item.name!)")
+        print("Item saved: \(item.name ?? "")")
     }
 
     private func checkListCompleted() {

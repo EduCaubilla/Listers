@@ -23,6 +23,7 @@
 "product_alert_added" = "Añadido a la lista";
 "product_alert_edited" = "Editado";
 "product_alert_confirm" = "Confirmar borrado";
+"product_alert_error_added" = "Error añadiendo a lista";
 
 /* Form Item View */
 "form_item_title_edit" = "Editar artículo";
@@ -152,6 +153,7 @@
 "product_row_cellview_added_current" = "Product %@ added to current list %@.";
 "product_row_cellview_edited" = "Product %@ edited succesfully.";
 "product_row_cellview_confirm_remove" = "Are you sure you want to remove product $@ from the library?";
+"product_row_cellview_error_added_current" = "No hay listas disponible, por favor revisa tus listas.";
 
 /* Search Bar View */
 "search_bar_view_search" = "Buscar...";

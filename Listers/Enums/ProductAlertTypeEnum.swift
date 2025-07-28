@@ -15,6 +15,7 @@ struct ProductAlertManager:Identifiable, Equatable {
         case addedToList
         case edited
         case confirmRemove
+        case errorAddedToList
 
         var title: String {
             switch self {
@@ -24,6 +25,8 @@ struct ProductAlertManager:Identifiable, Equatable {
                     return NSLocalizedString("product_alert_edited", comment: "Product edited.")
                 case .confirmRemove:
                     return NSLocalizedString("product_alert_confirm", comment: "Confirm removal of product.")
+                case .errorAddedToList:
+                    return NSLocalizedString("product_alert_error_added", comment: "Error adding product to list.")
             }
         }
     }

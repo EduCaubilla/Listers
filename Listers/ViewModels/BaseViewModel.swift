@@ -53,7 +53,9 @@ class BaseViewModel: ObservableObject {
                 guard let productsResult = persistenceManager.fetchAllActiveProducts() else { return }
                 products = productsResult
             } else {
-                productNames = products.map { $0.name! }
+                DispatchQueue.main.async {
+                    self.productNames = self.products.map { $0.name! }
+                }
                 print("Product names loaded: \(productNames.count)")
             }
         }

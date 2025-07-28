@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "name": "Grocery",
+        "expanded": false
+    },
+    {
+        "id": 2,
+        "name": "Beverages",
+        "expanded": false
+    },
+    {
+        "id": 3,
+        "name": "Fruits & vegetables",
+        "expanded": false
+    },
+    {
+        "id": 4,
+        "name": "Home & kitchen",
+        "expanded": false
+    },
+    {
+        "id": 5,
+        "name": "Hardware & tools",
+        "expanded": false
+    },
+    {
+        "id": 6,
+        "name": "Office & stationery",
+        "expanded": false
+    },
+    {
+        "id": 7,
+        "name": "Clothes & footwear",
+        "expanded": false
+    },
+    {
+        "id": 8,
+        "name": "Sports & outdoors",
+        "expanded": false
+    },
+    {
+        "id": 9,
+        "name": "Health & beauty",
+        "expanded": false
+    },
+    {
+        "id": 10,
+        "name": "Other",
+        "expanded": false
+    }
+]

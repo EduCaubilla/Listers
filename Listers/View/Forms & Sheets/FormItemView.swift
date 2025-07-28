@@ -46,9 +46,10 @@ struct FormItemView: View {
     //MARK: - INITIALIZER
     init(vm: MainItemsListsViewModel) {
         self.vm = vm
+
+        vm.loadProductNames()
     }
 
-//    init (item: DMItem?, vm: MainItemsListsViewModel) {
     init (item: DMItem? = nil, vm: MainItemsListsViewModel) {
         self.vm = vm
 
