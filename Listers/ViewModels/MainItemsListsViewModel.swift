@@ -66,6 +66,13 @@ class MainItemsListsViewModel: BaseViewModel {
         loadInitData()
     }
 
+    override init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
+        super.init(persistenceManager: persistenceManager)
+
+        setupSelectedListDataBinding()
+        loadInitData()
+    }
+
     //MARK: - FUNCTIONS
     private func setupSelectedListDataBinding() {
         $selectedList

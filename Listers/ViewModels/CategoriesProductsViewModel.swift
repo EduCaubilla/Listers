@@ -63,7 +63,7 @@ class CategoriesProductsViewModel: BaseViewModel {
     func addProductToList(_ product: DMProduct) -> Bool {
         var addedProductResponse = false
 
-        var confirmListSelected = confirmListSelected()
+        let confirmListSelected = confirmListSelected()
         if !confirmListSelected {
             return addedProductResponse
         }
