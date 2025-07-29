@@ -47,9 +47,8 @@ struct PersistenceController {
             guard let container = container else { return }
             let context = container.viewContext
 
-            DataManager.shared.loadInitialDataIfEmpty(for: DMProduct.self, context: context)
-            DataManager.shared.loadInitialDataIfEmpty(for: DMCategory.self, context: context)
-
+            DataManager.shared.loadInitialDataIfNeeded(for: DMProduct.self, context: context)
+            DataManager.shared.loadInitialDataIfNeeded(for: DMCategory.self, context: context)
         }
         container.viewContext.automaticallyMergesChangesFromParent = true
     }

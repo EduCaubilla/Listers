@@ -9,11 +9,15 @@ import SwiftUI
 import CoreData
 
 extension DMProduct : JSONLoadable {
-
+    
     typealias JSONModel = ProductModel
 
     static var entityName: String { "DMProduct" }
-    static var jsonFileName: String { "productsES" }
+
+    static var jsonFileName: String {
+        let languageCode = L10n.shared.getSystemLanguage()
+        return "products_\(languageCode)"
+    }
 
     static func mapper(from jsonModel: ProductModel, context: NSManagedObjectContext) -> Self {
         let product = DMProduct(context: context)

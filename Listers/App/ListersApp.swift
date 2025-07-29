@@ -15,6 +15,7 @@ struct ListersApp: App {
     let persistenceController = PersistenceController.shared
     let appAppearanceManager = AppAppearanceManager.shared
     let settingsManager = SettingsManager.shared
+    let localizationManager = L10n.shared
 
     //MARK: - BODY
     var body: some Scene {
@@ -24,6 +25,7 @@ struct ListersApp: App {
                     .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification), perform: handleEnterForeround)
                     .onAppear{
                         settingsManager.loadSettings()
+                        localizationManager.persistLanguage()
                     }
         }
     }

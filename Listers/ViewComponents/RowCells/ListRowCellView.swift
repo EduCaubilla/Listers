@@ -22,18 +22,17 @@ struct ListRowCellView: View {
     @State private var showingChangeName: Bool = false
     @State private var nameToChange: String = ""
 
-    private var deleteWarningTitle: String = "Delete List"
-    private var deleteWarningMessage: String = "Are you sure you want to delete this list? You won't be able to restore it."
+    private var deleteWarningTitle: String = L10n.shared.localize("list_row_cellview_delete_list")
 
-    private var deleteLabel : String = "Delete"
+    private var deleteLabel : String = L10n.shared.localize("list_row_cellview_delete")
     private var deleteIcon : String = "trash"
-    private var addPinLabel : String = "Add Pin"
+    private var addPinLabel : String = L10n.shared.localize("list_row_cellview_delete_add_pin")
     private var addPinIcon : String = "pin.fill"
-    private var removePinLabel : String = "Remove\nPin"
+    private var removePinLabel : String = L10n.shared.localize("list_row_cellview_delete_remove_pin")
     private var removePinIcon : String = "pin"
-    private var editLabel : String = "Edit"
+    private var editLabel : String = L10n.shared.localize("list_row_cellview_edit")
     private var editIcon : String = "square.and.pencil"
-    private var cancelLabel : String = "Cancel"
+    private var cancelLabel : String = L10n.shared.localize("list_row_cellview_cancel")
 
     //MARK: - INITIALIZER
     init(vm: MainItemsListsViewModel, selectedList: DMList, listItems: [DMItem], actionEditList: @escaping () -> Void) {
@@ -70,7 +69,7 @@ struct ListRowCellView: View {
                 HStack(alignment: .center, spacing: 2) {
                     VStack(alignment: .leading, spacing: 3) {
                         if showingChangeName {
-                            TextField("List Title", text: $nameToChange)
+                            TextField(L10n.shared.localize("list_row_cellview_list_title"), text: $nameToChange)
                                 .font(.system(size: 22, weight: .semibold))
                                 .foregroundStyle(.darkBlue)
                                 .onSubmit {
@@ -87,7 +86,7 @@ struct ListRowCellView: View {
                                 .strikethrough(selectedList.completed)
                         }
 
-                        Text("^[\(listItems.count) Article](inflect: true)")
+                        Text("\(listItems.count) \(L10n.shared.localize("unit_count")) ")
                             .font(.subheadline)
                             .foregroundStyle(.lightBlue)
 
@@ -178,13 +177,13 @@ struct ListRowCellView: View {
             } //: VSTACK
             .padding(.top, -5)
             .padding(.bottom, 8)
-            .alert(deleteWarningTitle, isPresented: $showingDeleteConfirmation, presenting: selectedList) { _ in
+            .alert(deleteWarningTitle, isPresented: $showingDeleteConfirmation) {
                 Button(deleteLabel, role: .destructive) {
                     deleteList()
                 }
                 Button(cancelLabel, role: .cancel) { }
-            } message: { list in
-                Text("Are you sure you want to delete \"\(list.name ?? "this list")\"? The list and all its items will be removed.")
+            } message: {
+                Text(L10n.shared.localize("list_row_cellview_remove_confirmation", args: selectedList.name ?? "selected list"))
             }
         } //: VSTACK MAIN
         .padding(.top, selectedList.expanded ? 6 : 0)
@@ -235,9 +234,9 @@ struct ListRowCellView: View {
 
         return result
     }
-#endif
 
     //MARK: - PREVIEW
     #Preview (traits: .sizeThatFitsLayout) {
         ListRowCellView(vm: MainItemsListsViewModel(), selectedList: getListPreview(), listItems: getListItemsPreview(), actionEditList: {})
     }
+#endif

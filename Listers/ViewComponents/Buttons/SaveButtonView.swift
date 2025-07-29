@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SaveButtonView: View {
-    var text: String = "Save"
+    var text: String = L10n.shared.localize("button_save")
     var action: () -> Void = {}
 
     var body: some View {

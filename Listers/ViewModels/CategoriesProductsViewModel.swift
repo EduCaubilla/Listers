@@ -16,10 +16,6 @@ class CategoriesProductsViewModel: BaseViewModel {
     @Published var selectedCategory: DMCategory?
     @Published var selectedProduct: DMProduct?
 
-    @Published var showAddedToListAlert: Bool = false
-    @Published var showEditedAlert: Bool = false
-    @Published var showConfirmationToRemoveAlert: Bool = false
-
     //MARK: - INITIALIZER
     init() {
         super.init()
@@ -64,34 +60,53 @@ class CategoriesProductsViewModel: BaseViewModel {
         return []
     }
 
-    func addProductToList(_ product: DMProduct) {
-        if selectedList == nil {
-            setSelectedList()
+    func addProductToList(_ product: DMProduct) -> Bool {
+        var addedProductResponse = false
+
+        var confirmListSelected = confirmListSelected()
+        if !confirmListSelected {
+            return addedProductResponse
         }
 
         print("Add product: \(product.name!) to list: \(selectedList?.name ?? "Unknown list")")
 
-        let productToAddCreated = persistenceManager.createItem(
-            name: product.name!,
-            description: product.notes,
-            quantity: 0,
-            favorite: product.favorite,
-            priority: .normal,
-            completed: false,
-            selected: false,
-            creationDate: Date.now,
-            endDate: Date.now,
-            image: "",
-            link: "",
-            listId: selectedList?.id
-        )
+        if let selectedListId = selectedList?.id {
+            let productToAddCreated = persistenceManager.createItem(
+                name: product.name!,
+                description: product.notes,
+                quantity: 0,
+                favorite: product.favorite,
+                priority: .normal,
+                completed: false,
+                selected: false,
+                creationDate: Date.now,
+                endDate: Date.now,
+                image: "",
+                link: "",
+                listId: selectedListId
+            )
 
-        if productToAddCreated {
-            print("Product created added successfully.")
-            saveCategoriesProductsUpdates()
-        } else {
-            print("There was an error creating the product to add.")
+            if productToAddCreated {
+                print("Product created added successfully.")
+                saveCategoriesProductsUpdates()
+                addedProductResponse = true
+            } else {
+                print("There was an error creating the product to add.")
+            }
         }
+
+        return addedProductResponse
+    }
+
+    func confirmListSelected() -> Bool {
+        var listSelectedResponse = false
+        if selectedList == nil {
+            let setListSelected = setSelectedList()
+            if setListSelected {
+                listSelectedResponse = true
+            }
+        }
+        return listSelectedResponse
     }
 
     func saveProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) -> Int {
@@ -192,22 +207,28 @@ class CategoriesProductsViewModel: BaseViewModel {
         refreshCategoriesProductsData()
     }
 
-    private func setSelectedList() {
+    private func setSelectedList() -> Bool {
+        var response = false
         if let selectedListFetched = getSelectedList() {
             selectedList = selectedListFetched
+            response = true
         } else {
-            setDefaultSelectedList()
+            response = setDefaultSelectedList()
         }
+        return response
     }
 
     private func getSelectedList() -> DMList? {
         return persistenceManager.fetchSelectedList()
     }
 
-    private func setDefaultSelectedList() {
+    private func setDefaultSelectedList() -> Bool {
+        var response = false
         if let fetchedSelectedList = persistenceManager.fetchSelectedList() {
             selectedList = fetchedSelectedList
+            response = true
         }
+        return response
     }
 
     func saveCategoriesProductsUpdates() {

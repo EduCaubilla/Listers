@@ -1,0 +1,1970 @@
+[ 
+    {
+        "id": 1,
+        "name": "Rice",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 2,
+        "name": "Noodles",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 3,
+        "name": "Legume pasta",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 4,
+        "name": "Macaroni",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 5,
+        "name": "Spaghetti",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 6,
+        "name": "Fettuccine",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 7,
+        "name": "Gnocchi",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 8,
+        "name": "Lasagna",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 9,
+        "name": "Lentils",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 10,
+        "name": "Chickpeas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 11,
+        "name": "Beans",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 12,
+        "name": "Quinoa",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 13,
+        "name": "Oats",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 14,
+        "name": "Flour",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 15,
+        "name": "Whole wheat flour",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 16,
+        "name": "Corn flour",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 17,
+        "name": "Salt",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 18,
+        "name": "Sugar",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 19,
+        "name": "Brown sugar",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 20,
+        "name": "Sweetener",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 21,
+        "name": "Olive oil",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 22,
+        "name": "Sunflower oil",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 23,
+        "name": "Coconut oil",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 24,
+        "name": "Vinegar",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 25,
+        "name": "Wine vinegar",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 26,
+        "name": "Balsamic vinegar",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 27,
+        "name": "Tuna",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 28,
+        "name": "Canned fish",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 29,
+        "name": "Sardines",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 30,
+        "name": "Anchovies",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 31,
+        "name": "Mussels",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 32,
+        "name": "Clams",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 33,
+        "name": "Canned corn",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 34,
+        "name": "Crushed tomatoes",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 35,
+        "name": "Tomato paste",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 36,
+        "name": "Whole tomatoes",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 37,
+        "name": "Fried tomatoes",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 38,
+        "name": "Red pepper",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 39,
+        "name": "Olives",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 40,
+        "name": "Black olives",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 41,
+        "name": "Capers",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 42,
+        "name": "Pickles",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 43,
+        "name": "Pearl onions",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 44,
+        "name": "Instant soup",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 45,
+        "name": "Chicken broth",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 46,
+        "name": "Cookies",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 48,
+        "name": "Chocolate cookies",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 49,
+        "name": "Digestive cookies",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 50,
+        "name": "Saltine crackers",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 51,
+        "name": "Crackers",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 52,
+        "name": "Cereal",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 53,
+        "name": "Sliced bread",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 54,
+        "name": "Baguette",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 55,
+        "name": "Whole wheat bread",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 56,
+        "name": "Rye bread",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 57,
+        "name": "Toast",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 58,
+        "name": "Croissant",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 59,
+        "name": "Pastries",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 60,
+        "name": "Muffins",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 61,
+        "name": "Donuts",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 62,
+        "name": "Churros",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 63,
+        "name": "Sponge cake",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 64,
+        "name": "Cake",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 65,
+        "name": "Powdered milk",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 66,
+        "name": "Milk",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 67,
+        "name": "Cream",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 68,
+        "name": "Sour cream",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 69,
+        "name": "Butter",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 70,
+        "name": "Yogurt",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 71,
+        "name": "Greek yogurt",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 72,
+        "name": "Plain yogurt",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 73,
+        "name": "Fruit yogurt",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 74,
+        "name": "Kefir",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 75,
+        "name": "Cheese",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 76,
+        "name": "Cheddar cheese",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 77,
+        "name": "Mozzarella cheese",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 78,
+        "name": "Parmesan cheese",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 79,
+        "name": "Fresh cheese",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 80,
+        "name": "Eggs",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 81,
+        "name": "Beef steaks",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 82,
+        "name": "Chicken",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 83,
+        "name": "Fish",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 84,
+        "name": "Salmon",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 85,
+        "name": "Hake",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 86,
+        "name": "Ham",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 87,
+        "name": "Chorizo",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 88,
+        "name": "Salami",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 89,
+        "name": "Mortadella",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 90,
+        "name": "Bacon",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 91,
+        "name": "Sausages",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 92,
+        "name": "Tomato sauce",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 93,
+        "name": "Mayonnaise",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 94,
+        "name": "Mustard",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 95,
+        "name": "Ketchup",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 96,
+        "name": "Worcestershire sauce",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 97,
+        "name": "Soy sauce",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 98,
+        "name": "Hot sauce",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 99,
+        "name": "Tabasco",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 100,
+        "name": "Spices",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 101,
+        "name": "Pepper",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 102,
+        "name": "Paprika",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 103,
+        "name": "Oregano",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 104,
+        "name": "Basil",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 105,
+        "name": "Parsley",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 106,
+        "name": "Cilantro",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 107,
+        "name": "Curry",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 108,
+        "name": "Cumin",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 109,
+        "name": "Cinnamon",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 110,
+        "name": "Saffron",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 111,
+        "name": "Garlic powder",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 112,
+        "name": "Onion powder",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 113,
+        "name": "Potato chips",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 114,
+        "name": "Nachos",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 115,
+        "name": "Popcorn",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 116,
+        "name": "Nuts",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 117,
+        "name": "Walnuts",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 118,
+        "name": "Almonds",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 119,
+        "name": "Peanuts",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 120,
+        "name": "Pistachios",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 121,
+        "name": "Hazelnuts",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 122,
+        "name": "Chocolate",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 123,
+        "name": "White chocolate",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 124,
+        "name": "Dark chocolate",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 125,
+        "name": "Candy",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 126,
+        "name": "Chewing gum",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 127,
+        "name": "Gelatin",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 128,
+        "name": "Honey",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 129,
+        "name": "Jam",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 130,
+        "name": "Nutella",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 131,
+        "name": "Peanut butter",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 132,
+        "name": "Frozen pizza",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 133,
+        "name": "Frozen vegetables",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 134,
+        "name": "Frozen croquettes",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 135,
+        "name": "Frozen chicken nuggets",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 136,
+        "name": "Frozen burgers",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 137,
+        "name": "Empanadas",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 138,
+        "name": "Frozen french fries",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 139,
+        "name": "Ice cream",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 140,
+        "name": "Sorbet",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 141,
+        "name": "Dairy dessert",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 142,
+        "name": "Custard",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 143,
+        "name": "Flan",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 144,
+        "name": "Mousse",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 145,
+        "name": "Rice pudding",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 146,
+        "name": "Curd",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 147,
+        "name": "Yeast",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 153,
+        "name": "Water",
+        "categoryId": 2,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 154,
+        "name": "Juice",
+        "categoryId": 2,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 155,
+        "name": "Soft drink",
+        "categoryId": 2,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 156,
+        "name": "Beer",
+        "categoryId": 2,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 157,
+        "name": "Wine",
+        "categoryId": 2,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 158,
+        "name": "Energy drink",
+        "categoryId": 2,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 159,
+        "name": "Plant-based milk",
+        "categoryId": 2,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 160,
+        "name": "Tea",
+        "categoryId": 2,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 161,
+        "name": "Coffee",
+        "categoryId": 2,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 163,
+        "name": "Bananas",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 164,
+        "name": "Oranges",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 165,
+        "name": "Pears",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 166,
+        "name": "Carrots",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 167,
+        "name": "Lettuce",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 168,
+        "name": "Tomato",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 169,
+        "name": "Potatoes",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 170,
+        "name": "Onion",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 171,
+        "name": "Peppers",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 172,
+        "name": "Detergent",
+        "categoryId": 4,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 173,
+        "name": "Dish soap",
+        "categoryId": 4,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 174,
+        "name": "All-purpose cleaner",
+        "categoryId": 4,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 175,
+        "name": "Sponges",
+        "categoryId": 4,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 176,
+        "name": "Trash bags",
+        "categoryId": 4,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 177,
+        "name": "Toilet paper",
+        "categoryId": 4,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 178,
+        "name": "Paper towels",
+        "categoryId": 4,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 179,
+        "name": "Floor cleaner",
+        "categoryId": 4,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 180,
+        "name": "Air freshener",
+        "categoryId": 4,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 181,
+        "name": "Drill",
+        "categoryId": 5,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 182,
+        "name": "Hammer",
+        "categoryId": 5,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 183,
+        "name": "Screwdriver",
+        "categoryId": 5,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 184,
+        "name": "Wrench",
+        "categoryId": 5,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 185,
+        "name": "Nails",
+        "categoryId": 5,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 186,
+        "name": "Screws",
+        "categoryId": 5,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 187,
+        "name": "Measuring tape",
+        "categoryId": 5,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 188,
+        "name": "Spirit level",
+        "categoryId": 5,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 189,
+        "name": "Notebook",
+        "categoryId": 6,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 190,
+        "name": "Pencil",
+        "categoryId": 6,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 191,
+        "name": "Pen",
+        "categoryId": 6,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 192,
+        "name": "Paper sheets",
+        "categoryId": 6,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 193,
+        "name": "Folder",
+        "categoryId": 6,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 194,
+        "name": "Scissors",
+        "categoryId": 6,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 195,
+        "name": "Glue",
+        "categoryId": 6,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 196,
+        "name": "Stapler",
+        "categoryId": 6,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 197,
+        "name": "Sticky notes",
+        "categoryId": 6,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 198,
+        "name": "T-shirt",
+        "categoryId": 7,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 199,
+        "name": "Pants",
+        "categoryId": 7,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 200,
+        "name": "Shoes",
+        "categoryId": 7,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 201,
+        "name": "Socks",
+        "categoryId": 7,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 202,
+        "name": "Jacket",
+        "categoryId": 7,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 203,
+        "name": "Underwear",
+        "categoryId": 7,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 204,
+        "name": "Sneakers",
+        "categoryId": 7,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 205,
+        "name": "Sweater",
+        "categoryId": 7,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 206,
+        "name": "Ball",
+        "categoryId": 8,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 207,
+        "name": "Bicycle",
+        "categoryId": 8,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 208,
+        "name": "Backpack",
+        "categoryId": 8,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 209,
+        "name": "Weights",
+        "categoryId": 8,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 210,
+        "name": "Jump rope",
+        "categoryId": 8,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 211,
+        "name": "Yoga mat",
+        "categoryId": 8,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 212,
+        "name": "Tent",
+        "categoryId": 8,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 213,
+        "name": "Sleeping bag",
+        "categoryId": 8,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 214,
+        "name": "Shampoo",
+        "categoryId": 9,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 215,
+        "name": "Soap",
+        "categoryId": 9,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 216,
+        "name": "Toothbrush",
+        "categoryId": 9,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 217,
+        "name": "Toothpaste",
+        "categoryId": 9,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 218,
+        "name": "Deodorant",
+        "categoryId": 9,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 219,
+        "name": "Wet wipes",
+        "categoryId": 9,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 220,
+        "name": "Moisturizer",
+        "categoryId": 9,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 221,
+        "name": "Razor",
+        "categoryId": 9,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 222,
+        "name": "Sunscreen",
+        "categoryId": 9,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 223,
+        "name": "Apples",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 227,
+        "name": "Strawberries",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 228,
+        "name": "Melon",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 229,
+        "name": "Watermelon",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 230,
+        "name": "Grapes",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 231,
+        "name": "Kiwis",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 232,
+        "name": "Pineapple",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 233,
+        "name": "Green pepper",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 234,
+        "name": "Cucumbers",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 235,
+        "name": "Spinach",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 236,
+        "name": "Zucchini",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 237,
+        "name": "Broccoli",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 238,
+        "name": "Eggplant",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 239,
+        "name": "Mango",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 240,
+        "name": "Peaches",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 241,
+        "name": "Nectarines",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 242,
+        "name": "Apricots",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 243,
+        "name": "Papaya",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 244,
+        "name": "Tangerines",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 245,
+        "name": "Flat peaches",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 246,
+        "name": "Plums",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 247,
+        "name": "Dates",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 248,
+        "name": "Blueberries",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 249,
+        "name": "Blackberries",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 250,
+        "name": "Raspberries",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 251,
+        "name": "Persimmons",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 252,
+        "name": "Sharon fruit",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 253,
+        "name": "Avocados",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 254,
+        "name": "Cherries",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 255,
+        "name": "Limes",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 256,
+        "name": "Pork loin",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    }
+]

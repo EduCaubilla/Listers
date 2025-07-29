@@ -13,7 +13,11 @@ extension DMCategory: JSONLoadable {
     typealias JSONModel = CategoryModel
 
     static var entityName: String { "DMCategory" }
-    static var jsonFileName: String { "categoriesES" }
+    
+    static var jsonFileName: String {
+        let languageCode = L10n.shared.getSystemLanguage()
+        return "categories_\(languageCode)"
+    }
 
     static func mapper(from jsonModel: CategoryModel, context: NSManagedObjectContext) -> Self {
         let category = DMCategory(context: context)

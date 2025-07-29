@@ -26,24 +26,35 @@ struct ProductRowViewCell: View {
 
     //MARK: - FUNCTIONS
     func favProduct() {
-        print("Fav product \(product.name ?? "Unknown product")")
         product.favorite.toggle()
         vm.setSelectedProduct(product)
         vm.saveCategoriesProductsUpdates()
         vm.setFavoriteCategory()
+        print("Fav product \(product.name ?? "Unknown product")")
     }
 
     func addProductToList(){
         vm.setSelectedProduct(product)
-        vm.addProductToList(product)
-        vm.activeAlert = ProductAlertManager(type: .addedToList)
-        print("Add product \(self.product.name ?? "Unknown product") to list \(String(describing: vm.selectedList))")
+        let productAdded = vm.addProductToList(product)
+        if productAdded {
+            vm.activeAlert = ProductAlertManager(type: .addedToList)
+            print("Add product \(self.product.name ?? "Unknown product") to list \(String(describing: vm.selectedList))")
+        } else {
+            vm.activeAlert = ProductAlertManager(type: .errorAddedToList)
+            print("Error adding product \(self.product.name ?? "Unknown product") to list.")
+        }
     }
 
     func addProductToListWithSelection() {
         vm.setSelectedProduct(product)
-        vm.changeFormViewState(to: .openListSelectionToAddProduct)
-        print("Add product \(self.product.name ?? "Unknown product") to list with selection")
+        let confirmedLists = vm.confirmListSelected()
+        if confirmedLists {
+            vm.changeFormViewState(to: .openListSelectionToAddProduct)
+            print("Add product \(self.product.name ?? "Unknown product") to list with selection")
+        } else {
+            vm.activeAlert = ProductAlertManager(type: .errorAddedToList)
+            print("Error adding product \(self.product.name ?? "Unknown product") to list.")
+        }
     }
 
     func editProduct() {
@@ -87,7 +98,7 @@ struct ProductRowViewCell: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(alignment: .center, spacing: 10) {
-                Text(product.name ?? "Product Unknown")
+                Text(product.name ?? L10n.shared.localize("product_row_cellview_unknown"))
                     .fontWeight(product.selected ? .black : .regular)
 
                 Spacer()
@@ -97,12 +108,12 @@ struct ProductRowViewCell: View {
                     .opacity(product.favorite ? 1 : 0)
 
                 Menu {
-                    Button("Add to current list", action: addProductToList)
-                    Button("Add to list with selection", action: addProductToListWithSelection)
-                    Button(product.favorite ? "Remove favorite " : "Add to favorites", action: favProduct)
-                    if(isEditAvailable) { Button("Edit product", action: editProduct) }
-                    Button("Duplicate and edit", action: duplicateAndEditProduct)
-                    Button("Remove", action: confirmationToRemoveProductFromLibrary)
+                    Button(L10n.shared.localize("product_row_cellview_add_current"), action: addProductToList)
+                    Button(L10n.shared.localize("product_row_cellview_add_selection"), action: addProductToListWithSelection)
+                    Button(product.favorite ? L10n.shared.localize("product_row_cellview_remove_fav") : L10n.shared.localize("product_row_cellview_add_fav"), action: favProduct)
+                    if(isEditAvailable) { Button(L10n.shared.localize("product_row_cellview_edit"), action: editProduct) }
+                    Button(L10n.shared.localize("product_row_cellview_duplicate_edit"), action: duplicateAndEditProduct)
+                    Button(L10n.shared.localize("product_row_cellview_remove"), action: confirmationToRemoveProductFromLibrary)
                 } label: {
                     Image(systemName: "ellipsis.circle")
                 }
@@ -131,15 +142,15 @@ struct ProductRowViewCell: View {
             presenting: vm.activeAlert,
             actions: { alert in
                 switch alert.type {
-                    case .addedToList, .edited:
-                        Button("Ok", role: .cancel) {
+                    case .addedToList, .edited, .errorAddedToList:
+                        Button(L10n.shared.localize("product_row_cellview_ok"), role: .cancel) {
                             vm.activeAlert = nil
                         }
                     case .confirmRemove:
-                        Button("Remove", role: .destructive) {
+                        Button(L10n.shared.localize("product_row_cellview_remove"), role: .destructive) {
                             removeProductFromLibrary()
                         }
-                        Button("Cancel", role: .cancel) {
+                        Button(L10n.shared.localize("product_row_cellview_cancel"), role: .cancel) {
                             vm.activeAlert = nil
                         }
                 }
@@ -147,11 +158,13 @@ struct ProductRowViewCell: View {
             message: { alert in
                 switch alert.type {
                     case .addedToList:
-                        Text("Product \(vm.selectedProduct?.name ?? "") added to current list \(vm.selectedList?.name ?? "").")
+                        Text(L10n.shared.localize("product_row_cellview_added_current", args: [(vm.selectedProduct?.name ?? ""), (vm.selectedList?.name ?? "")]))
                     case .edited:
-                        Text("Product \(vm.selectedProduct?.name ?? "") edited successfully.")
+                        Text(L10n.shared.localize("product_row_cellview_edited", args: vm.selectedProduct?.name ?? ""))
                     case .confirmRemove:
-                        Text("Are you sure you want to remove product \(vm.selectedProduct?.name ?? "") from the library?")
+                        Text(L10n.shared.localize("product_row_cellview_confirm_remove", args: vm.selectedProduct?.name ?? ""))
+                    case .errorAddedToList:
+                        Text(L10n.shared.localize("product_row_cellview_error_added_current"))
                 }
             }
         )
@@ -174,10 +187,10 @@ private func getProductPreview() -> DMProduct {
 
     return newProduct
 }
-#endif
 
 //MARK: - PREVIEW
 #Preview (traits: .sizeThatFitsLayout) {
     let previewVM = CategoriesProductsViewModel()
     ProductRowViewCell(vm: previewVM, product: getProductPreview(), actionEditProduct: {}, isEditAvailable: false)
 }
+#endif

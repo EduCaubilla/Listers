@@ -21,8 +21,8 @@ struct CategoriesProductsView: View {
     @State private var showSearchBar: Bool = false
     @State private var searchBarFixedHeight: Bool = true
 
-    private var categoriesTitle : String = "Categories"
-    private var addProductLabel: String = "Add Product"
+    private var categoriesTitle : String = L10n.shared.localize("categories_view_title")
+    private var addProductLabel: String = L10n.shared.localize("categories_view_add_product")
     private var addIcon: String = "plus"
 
     private var filteredCategories: [DMCategory] {
@@ -115,7 +115,7 @@ struct CategoriesProductsView: View {
                         .toolbar {
                             toolbarContentView(router: router, route: .categories)
 
-                            ToolbarItem(id: "Favorites", showsByDefault: false) {
+                            ToolbarItem(id: L10n.shared.localize("categories_view_favorites"), showsByDefault: false) {
                                 Button(action: {
                                     isShowingFavorites.toggle()
                                 }) {
@@ -134,7 +134,7 @@ struct CategoriesProductsView: View {
                                 .padding(.trailing, -10)
                             } //: TOOLBAR ITEM
 
-                            ToolbarItem(id: "Search", showsByDefault: true) {
+                            ToolbarItem(id: L10n.shared.localize("categories_view_search"), showsByDefault: true) {
                                 Button(action: {
                                     showSearchBar = true
                                 }) {
@@ -150,7 +150,7 @@ struct CategoriesProductsView: View {
                             Color.background
                                 .ignoresSafeArea(edges: .all)
                             VStack {
-                                Text("No categories or products found.")
+                                Text(L10n.shared.localize("categories_view_not_found"))
                                     .foregroundColor(Color.mediumBlue)
                             }
                             .padding(.vertical, 3)
@@ -181,6 +181,7 @@ struct CategoriesProductsView: View {
     } //: VIEW
 }
 
+#if DEBUG
 //MARK: - PREVIEW
 #Preview {
     NavigationStack{
@@ -192,7 +193,6 @@ struct CategoriesProductsView: View {
 
 #Preview("Mocked Data") {
     NavigationStack{
-//        let previewVM = CategoriesProductsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewCategoriesProducts.container.viewContext))
         let previewVM = CategoriesProductsViewModel()
 
         CategoriesProductsView(vm: previewVM)
@@ -200,3 +200,5 @@ struct CategoriesProductsView: View {
             .environment(\.managedObjectContext, PersistenceController.previewCategoriesProducts.container.viewContext)
     }
 }
+
+#endif

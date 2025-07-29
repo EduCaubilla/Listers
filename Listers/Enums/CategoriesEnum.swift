@@ -19,9 +19,29 @@ enum Categories: String, CaseIterable, Identifiable {
     case HealthAndBeauty
     case Other
 
-    var displayName: String {
-        rawValue
-            .replacingOccurrences(of: "And", with: " And ")
+    var localizedDisplayName: String {
+        switch self {
+            case .Grocery:
+                return NSLocalizedString("category_groceries", comment: "Category Groceries")
+            case .Beverages:
+                return NSLocalizedString("category_beverages", comment: "Category Beverages")
+            case .FruitsAndVegetables:
+                return NSLocalizedString("category_fruits_and_vegetables", comment: "Category Fruits and Vegetables")
+            case .HomeAndKitchen:
+                return NSLocalizedString("category_home_and_kitchen", comment: "Home and Kitchen")
+            case .HardwareAndTools:
+                return NSLocalizedString("category_hardware_and_tools", comment: "Hardware and Tools")
+            case .OfficeAndStationery:
+                return NSLocalizedString("category_office_and_stationery", comment: "Office and Stationery")
+            case .ClothesAndFootwear:
+                return NSLocalizedString("category_clothes_and_footwear", comment: "Clothes and Footwear")
+            case .SportsAndOutdoors:
+                return NSLocalizedString("category_sports_and_oudoors", comment: "Sports and Oudoors")
+            case .HealthAndBeauty:
+                return NSLocalizedString("category_health_and_beauty", comment: "Health and Beauty")
+            case .Other:
+                return NSLocalizedString("category_other", comment: "Category Other")
+        }
     }
 
     var id: String { self.rawValue }

@@ -29,7 +29,7 @@ struct SearchBarCustomView: View {
     var body: some View {
         VStack {
             HStack {
-                TextField("Search...", text: $searchText)
+                TextField(L10n.shared.localize("search_bar_view_search"), text: $searchText)
                     .autocorrectionDisabled(true)
                     .textFieldStyle(.plain)
                     .focused($isSearchBarFocused)

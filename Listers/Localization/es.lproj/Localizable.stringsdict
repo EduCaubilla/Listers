@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>article_count</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>%#@articles@</string>
+        <key>articles</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>d</string>
+            <key>zero</key>
+            <string>Artículos</string>
+            <key>one</key>
+            <string>1 Artículo</string>
+            <key>other</key>
+            <string>%d Artículos</string>
+        </dict>
+    </dict>
+    <key>unit_count</key>
+    <dict>
+        <key>NSStringLocalizedFormatKey</key>
+        <string>%#@unidades@</string>
+        <key>unidades</key>
+        <dict>
+            <key>NSStringFormatSpecTypeKey</key>
+            <string>NSStringPluralRuleType</string>
+            <key>NSStringFormatValueTypeKey</key>
+            <string>d</string>
+            <key>zero</key>
+            <string>Unidades</string>
+            <key>one</key>
+            <string>1 Unidad</string>
+            <key>other</key>
+            <string>%d Unidades</string>
+        </dict>
+    </dict>
+</dict>
+</plist>

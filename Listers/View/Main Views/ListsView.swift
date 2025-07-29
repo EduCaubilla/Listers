@@ -15,12 +15,10 @@ struct ListsView: View {
 
     @State private var showingDeleteWarning: Bool = false
 
-    private var deleteWarningTitle: String = "Delete List"
-    private var deleteWarningMessage: String = "Delete List"
-    private var addListLabel : String = "Add List"
+    private var addListLabel : String = L10n.shared.localize("lists_view_add")
     private var addIcon : String = "plus"
 
-    private var viewTitle : String = "My Lists"
+    private var viewTitle : String = L10n.shared.localize("lists_view_title")
 
     //MARK: - INITIALIZER
     init(vm: MainItemsListsViewModel) {
@@ -112,7 +110,7 @@ struct ListsView: View {
     } //: VIEW BODY
 } //: VIEW MAIN
 
-
+#if DEBUG
 //MARK: - PREVIEW
 #Preview {
     NavigationStack{
@@ -123,7 +121,6 @@ struct ListsView: View {
 }
 
 #Preview("Mocked Data List") {
-/*    let previewVM = MainItemsListsViewModel(persistenceManager: PersistenceManager(context: PersistenceController.previewListItems.container.viewContext)) */
     let previewVM = MainItemsListsViewModel()
 
     NavigationStack{
@@ -132,3 +129,5 @@ struct ListsView: View {
             .environment(\.managedObjectContext, PersistenceController.previewListItems.container.viewContext)
     }
 }
+
+#endif

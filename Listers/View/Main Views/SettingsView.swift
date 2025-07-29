@@ -16,12 +16,16 @@ struct SettingsView: View {
 
     @StateObject var vm : SettingsViewModel
 
+    @State var refresh: Bool = false
+
     private var viewMode: AppAppearance {
         get { selectedAppearance }
         set { selectedAppearance = newValue }
     }
 
-    var settingsTitle: String = "Settings"
+    @State var selectedLanguage: AppLanguage = .english
+
+    var settingsTitle: String = L10n.shared.localize("settings_view_title")
 
     var currentVisibility : Visibility {
         colorScheme == .dark ? .hidden : .visible
@@ -47,8 +51,8 @@ struct SettingsView: View {
     var body: some View {
         VStack {
             Form {
-                Section("General Settings".capitalized) {
-                    Picker("View Mode", selection: $selectedAppearance) {
+                Section(L10n.shared.localize("settings_view_general").capitalized) {
+                    Picker(L10n.shared.localize("settings_view_appearance"), selection: $selectedAppearance) {
                         ForEach(AppAppearance.allCases) { mode in
                             Text(mode.displayName).tag(mode)
                         }
@@ -58,18 +62,18 @@ struct SettingsView: View {
                 .padding(.vertical,3)
                 .listRowBackground(colorScheme == .dark ? Color.accentColor.opacity(0.3) : Color.background)
 
-                Section("Item Settings".capitalized) {
-                    Toggle("Show Description", isOn: customSettingsBinding(
+                Section(L10n.shared.localize("settings_view_items").capitalized) {
+                    Toggle(L10n.shared.localize("settings_view_description"), isOn: customSettingsBinding(
                         get: { vm.isItemDescriptionEnable },
                         set: { vm.isItemDescriptionEnable = $0}
                     ))
                         .padding(.vertical, -5)
-                    Toggle("Show Quantity", isOn: customSettingsBinding(
+                    Toggle(L10n.shared.localize("settings_view_quantity"), isOn: customSettingsBinding(
                         get: { vm.isItemQuantityEnable },
                         set: { vm.isItemQuantityEnable = $0 }
                     ))
                         .padding(.vertical, -5)
-                    Toggle("Show End Date", isOn: customSettingsBinding(
+                    Toggle(L10n.shared.localize("settings_view_end_date"), isOn: customSettingsBinding(
                         get: { vm.isItemDeadlineEnable },
                         set: { vm.isItemDeadlineEnable = $0 }
                     ))
@@ -78,13 +82,13 @@ struct SettingsView: View {
                 .padding(.vertical,3)
                 .listRowBackground(colorScheme == .dark ? Color.accentColor.opacity(0.3) : Color.background)
 
-                Section("List Settings".capitalized) {
-                    Toggle("Show Description", isOn: customSettingsBinding(
+                Section(L10n.shared.localize("settings_view_lists").capitalized) {
+                    Toggle(L10n.shared.localize("settings_view_description"), isOn: customSettingsBinding(
                         get: { vm.isListDescriptionEnable },
                         set: { vm.isListDescriptionEnable = $0 }
                     ))
                         .padding(.vertical, -5)
-                    Toggle("Show End Date", isOn: customSettingsBinding(
+                    Toggle(L10n.shared.localize("settings_view_end_date"), isOn: customSettingsBinding(
                         get: { vm.islistEndDateEnable },
                         set: { vm.islistEndDateEnable = $0 }
                     ))
