@@ -99,7 +99,6 @@ struct PersistenceManager : PersistenceManagerProtocol {
         return nil
     }
 
-
     func setListCompleteness(for listId: UUID) -> Bool {
         var isListComplete: Bool = false
 
