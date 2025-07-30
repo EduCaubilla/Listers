@@ -74,15 +74,6 @@ class MainItemsListsViewModel: BaseViewModel {
     }
 
     //MARK: - FUNCTIONS
-    private func setupSelectedListDataBinding() {
-        $selectedList
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                Task { await self?.loadItemsForSelectedList() }
-            }
-            .store(in: &cancellables)
-    }
-
     func loadInitData() {
         print("\n------\n\nLoad Init Data VM ----->")
 
@@ -98,6 +89,16 @@ class MainItemsListsViewModel: BaseViewModel {
 
             await loadItemsForSelectedList()
         }
+    }
+
+    //MARK: - LISTS
+    private func setupSelectedListDataBinding() {
+        $selectedList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                Task { await self?.loadItemsForSelectedList() }
+            }
+            .store(in: &cancellables)
     }
 
     @MainActor
@@ -143,30 +144,6 @@ class MainItemsListsViewModel: BaseViewModel {
         print("Set selected List \(String(describing: selectedList?.name))")
     }
 
-    @MainActor
-    func loadItemsForSelectedList() {
-        guard let selectedListId = selectedList?.id else {
-            print("There's no list selected")
-            return
-        }
-
-        let itemsResult = persistenceManager.fetchItemsForList(withId: selectedListId)
-        guard let itemsResult = itemsResult else {
-            print("There are no items in the selected list.")
-            return
-        }
-
-        let sortedItems = itemsResult.sorted { !$0.completed && $1.completed }
-        itemsOfSelectedList = sortedItems
-    }
-
-    @MainActor
-    func updateSelectedList(_ newList: DMList) {
-        selectedList = newList
-        lists.forEach { $0.selected = $0.id == newList.id }
-        saveItemListsChanges()
-    }
-
     private func setDefaultSelectedList() {
         guard !lists.isEmpty else { return }
 
@@ -175,11 +152,11 @@ class MainItemsListsViewModel: BaseViewModel {
         saveItemListsChanges()
     }
 
-    func fetchItemsForList(_ list: DMList) -> [DMItem] {
-        if list.id != nil {
-            return persistenceManager.fetchItemsForList(withId: list.id!) ?? []
-        }
-        return []
+    @MainActor
+    func updateSelectedList(_ newList: DMList) {
+        selectedList = newList
+        lists.forEach { $0.selected = $0.id == newList.id }
+        saveItemListsChanges()
     }
 
     @MainActor
@@ -197,6 +174,88 @@ class MainItemsListsViewModel: BaseViewModel {
         }
     }
 
+    func addList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool) {
+        let createdList = persistenceManager.createList(
+            name: name,
+            description: description,
+            creationDate: creationDate,
+            endDate: endDate,
+            pinned: pinned,
+            selected: selected,
+            expanded: expanded,
+            completed: false
+        )
+
+        if createdList {
+            print("List \(name) created successfully.")
+            saveItemListsChanges()
+        } else {
+            print("There was an error creating the List \(name).")
+        }
+    }
+
+    func addItemToList(name: String, description: String?, quantity: Double, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) {
+        let createdItem = persistenceManager.createItem(
+            name: name,
+            description: description,
+            quantity: quantity,
+            favorite: favorite,
+            priority: priority,
+            completed: completed,
+            selected: selected,
+            creationDate: creationDate,
+            endDate: endDate,
+            image: image,
+            link: link,
+            listId: listId
+        )
+
+        if createdItem {
+            print("Item \(name) created successfully.")
+            saveItemListsChanges()
+        } else {
+            print("There was an error creating the Item \(name).")
+        }
+    }
+
+    func deleteList(_ listForDelete: DMList) {
+        let itemsToDelete = itemsOfSelectedList.filter { $0.listId == listForDelete.id }
+        for item in itemsToDelete {
+            super.delete(item)
+        }
+
+        let itemsRemainingInList = fetchItemsForList(listForDelete)
+        if itemsRemainingInList.isEmpty {
+            super.delete(listForDelete)
+        }
+    }
+
+    //MARK: - ITEMS
+    @MainActor
+    func loadItemsForSelectedList() {
+        guard let selectedListId = selectedList?.id else {
+            print("There's no list selected")
+            return
+        }
+
+        let itemsResult = persistenceManager.fetchItemsForList(withId: selectedListId)
+        guard let itemsResult = itemsResult else {
+            print("There are no items in the selected list.")
+            return
+        }
+
+        let sortedItems = itemsResult.sorted { !$0.completed && $1.completed }
+        itemsOfSelectedList = sortedItems
+    }
+
+    func fetchItemsForList(_ list: DMList) -> [DMItem] {
+        if list.id != nil {
+            return persistenceManager.fetchItemsForList(withId: list.id!) ?? []
+        }
+        return []
+    }
+
+    //MARK: - OTHER
     func loadSettings() {
         if let userSettings = settingsManager.currentSettings {
             self.userSettings = userSettings
@@ -210,64 +269,9 @@ class MainItemsListsViewModel: BaseViewModel {
         _ = super.saveNewProduct(name: name, description: description, categoryId: categoryId, active: active, favorite: favorite, then: saveItemListsChanges)
     }
 
-    func addList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool) {
-        let createdList = persistenceManager.createList(
-                name: name,
-                description: description,
-                creationDate: creationDate,
-                endDate: endDate,
-                pinned: pinned,
-                selected: selected,
-                expanded: expanded,
-                completed: false
-        )
-
-        if createdList {
-            print("List \(name) created successfully.")
-            saveItemListsChanges()
-        } else {
-            print("There was an error creating the List \(name).")
-        }
-    }
-
-    func addItemToList(name: String, description: String?, quantity: Double, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) {
-        let createdItem = persistenceManager.createItem(
-                name: name,
-                description: description,
-                quantity: quantity,
-                favorite: favorite,
-                priority: priority,
-                completed: completed,
-                selected: selected,
-                creationDate: creationDate,
-                endDate: endDate,
-                image: image,
-                link: link,
-                listId: listId
-            )
-
-        if createdItem {
-            print("Item \(name) created successfully.")
-            saveItemListsChanges()
-        } else {
-            print("There was an error creating the Item \(name).")
-        }
-    }
-
+    //MARK: - COMMON
     func saveItemListsChanges() {
         super.saveChanges(then: refreshItemsListData)
-    }
-
-    func deleteList(_ listForDelete: DMList) {
-        let itemsToDelete = itemsOfSelectedList.filter { $0.listId == listForDelete.id }
-        for item in itemsToDelete {
-            super.delete(item)
-        }
-
-        let itemsRemainingInList = fetchItemsForList(listForDelete)
-        if itemsRemainingInList.isEmpty {
-            super.delete(listForDelete)
-        }
     }
 
     func delete<T: NSManagedObject>(_ object: T) {
