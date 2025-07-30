@@ -159,58 +159,6 @@ final class MainItemsListViewModelTests: XCTestCase {
         XCTAssertTrue(mockPersistenceManager.fetchAllListsCalled)
     }
 
-    // MARK: - loadItemsForSelectedList Tests
-
-    func testLoadItemsForSelectedList_WhenSelectedListExists_ShouldLoadAndSortItems() async {
-        // Arrange
-        let mockList = createMockList(name: "Test List", context: context)
-        let mockItems = createMockItems(count: 3, context: context)
-        mockItems[0].completed = true
-        mockItems[1].completed = false
-        mockItems[2].completed = false
-
-        sut.selectedList = mockList
-        mockPersistenceManager.mockItems = mockItems
-
-        // Act
-        await sut.loadItemsForSelectedList()
-
-        // Assert
-        XCTAssertEqual(sut.itemsOfSelectedList.count, 3)
-        XCTAssertTrue(mockPersistenceManager.fetchItemsForListCalled)
-
-        // Verify sorting: incomplete items first
-        XCTAssertFalse(sut.itemsOfSelectedList[0].completed)
-        XCTAssertFalse(sut.itemsOfSelectedList[1].completed)
-        XCTAssertTrue(sut.itemsOfSelectedList[2].completed)
-    }
-
-    func testLoadItemsForSelectedList_WhenNoSelectedList_ShouldNotLoadItems() async {
-        // Arrange
-        sut.selectedList = nil
-
-        // Act
-        await sut.loadItemsForSelectedList()
-
-        // Assert
-        XCTAssertTrue(sut.itemsOfSelectedList.isEmpty)
-        XCTAssertFalse(mockPersistenceManager.fetchItemsForListCalled)
-    }
-
-    func testLoadItemsForSelectedList_WhenNoItems_ShouldLogAndReturn() async {
-        // Arrange
-        let mockList = createMockList(name: "Test List", context: context)
-        sut.selectedList = mockList
-        mockPersistenceManager.mockItems = nil
-
-        // Act
-        await sut.loadItemsForSelectedList()
-
-        // Assert
-        XCTAssertTrue(sut.itemsOfSelectedList.isEmpty)
-        XCTAssertTrue(mockPersistenceManager.fetchItemsForListCalled)
-    }
-
     // MARK: - updateSelectedList Tests
 
     func testUpdateSelectedList_ShouldUpdateSelectedListAndMarkOthersUnselected() async {
@@ -224,42 +172,12 @@ final class MainItemsListViewModelTests: XCTestCase {
         await sut.updateSelectedList(newSelectedList)
 
         // Assert
+        XCTAssertFalse(sut.lists[0].selected, "First list should not be selected")
+        XCTAssertTrue(sut.lists[1].selected, "Second list should be selected")
+        XCTAssertFalse(sut.lists[2].selected, "Third list should not be selected")
+
         XCTAssertEqual(sut.selectedList?.id, newSelectedList.id)
         XCTAssertTrue(mockPersistenceManager.savePersistenceCalled)
-
-        // Verify only the new list is selected
-        XCTAssertFalse(sut.lists[0].selected)
-        XCTAssertTrue(sut.lists[1].selected)
-        XCTAssertFalse(sut.lists[2].selected)
-    }
-
-    // MARK: - fetchItemsForList Tests
-
-    func testFetchItemsForList_WhenListHasId_ShouldReturnItems() {
-        // Arrange
-        let mockList = createMockList(name: "Test List", context: context)
-        let mockItems = createMockItems(count: 2, context: context)
-        mockPersistenceManager.mockItems = mockItems
-
-        // Act
-        let result = sut.fetchItemsForList(mockList)
-
-        // Assert
-        XCTAssertEqual(result.count, 2)
-        XCTAssertTrue(mockPersistenceManager.fetchItemsForListCalled)
-    }
-
-    func testFetchItemsForList_WhenListHasNoId_ShouldReturnEmptyArray() {
-        // Arrange
-        let mockList = createMockList(name: "Test List", context: context)
-        mockList.id = nil
-
-        // Act
-        let result = sut.fetchItemsForList(mockList)
-
-        // Assert
-        XCTAssertTrue(result.isEmpty)
-        XCTAssertFalse(mockPersistenceManager.fetchItemsForListCalled)
     }
 
     // MARK: - checkListCompletedStatus Tests
@@ -301,29 +219,6 @@ final class MainItemsListViewModelTests: XCTestCase {
         // Assert
         XCTAssertTrue(mockPersistenceManager.setListCompletenessCalled)
         XCTAssertFalse(sut.showCompletedListAlert)
-    }
-
-    // MARK: - saveProduct Tests
-
-    func testSaveProduct_ShouldCallSuperSaveNewProduct() {
-        // Arrange
-        mockPersistenceManager.mockNextProductId = 123
-        mockPersistenceManager.shouldCreateProduct = true
-        mockPersistenceManager.shouldSavePersistence = true
-
-        // Act
-        sut.saveProduct(
-            name: "Test Product",
-            description: "Test Description",
-            categoryId: 1,
-            active: true,
-            favorite: false
-        )
-
-        // Assert
-        XCTAssertTrue(mockPersistenceManager.createProductCalled)
-        XCTAssertTrue(mockPersistenceManager.savePersistenceCalled)
-        XCTAssertEqual(mockPersistenceManager.lastCreatedProductName, "Test Product")
     }
 
     // MARK: - addList Tests
@@ -423,6 +318,111 @@ final class MainItemsListViewModelTests: XCTestCase {
         // Assert
         XCTAssertTrue(mockPersistenceManager.removeCalled)
         XCTAssertTrue(mockPersistenceManager.fetchItemsForListCalled)
+    }
+
+    // MARK: - loadItemsForSelectedList Tests
+
+    func testLoadItemsForSelectedList_WhenSelectedListExists_ShouldLoadAndSortItems() async {
+        // Arrange
+        let mockList = createMockList(name: "Test List", context: context)
+        let mockItems = createMockItems(count: 3, context: context)
+        mockItems[0].completed = true
+        mockItems[1].completed = false
+        mockItems[2].completed = false
+
+        sut.selectedList = mockList
+        mockPersistenceManager.mockItems = mockItems
+
+        // Act
+        await sut.loadItemsForSelectedList()
+
+        // Assert
+        XCTAssertEqual(sut.itemsOfSelectedList.count, 3)
+        XCTAssertTrue(mockPersistenceManager.fetchItemsForListCalled)
+
+        // Verify sorting: incomplete items first
+        XCTAssertFalse(sut.itemsOfSelectedList[0].completed)
+        XCTAssertFalse(sut.itemsOfSelectedList[1].completed)
+        XCTAssertTrue(sut.itemsOfSelectedList[2].completed)
+    }
+
+    func testLoadItemsForSelectedList_WhenNoSelectedList_ShouldNotLoadItems() async {
+        // Arrange
+        sut.selectedList = nil
+
+        // Act
+        await sut.loadItemsForSelectedList()
+
+        // Assert
+        XCTAssertTrue(sut.itemsOfSelectedList.isEmpty)
+        XCTAssertFalse(mockPersistenceManager.fetchItemsForListCalled)
+    }
+
+    func testLoadItemsForSelectedList_WhenNoItems_ShouldLogAndReturn() async {
+        // Arrange
+        let mockList = createMockList(name: "Test List", context: context)
+        sut.selectedList = mockList
+        mockPersistenceManager.mockItems = nil
+
+        // Act
+        await sut.loadItemsForSelectedList()
+
+        // Assert
+        XCTAssertTrue(sut.itemsOfSelectedList.isEmpty)
+        XCTAssertTrue(mockPersistenceManager.fetchItemsForListCalled)
+    }
+
+
+    // MARK: - fetchItemsForList Tests
+
+    func testFetchItemsForList_WhenListHasId_ShouldReturnItems() {
+        // Arrange
+        let mockList = createMockList(name: "Test List", context: context)
+        let mockItems = createMockItems(count: 2, context: context)
+        mockPersistenceManager.mockItems = mockItems
+
+        // Act
+        let result = sut.fetchItemsForList(mockList)
+
+        // Assert
+        XCTAssertEqual(result.count, 2)
+        XCTAssertTrue(mockPersistenceManager.fetchItemsForListCalled)
+    }
+
+    func testFetchItemsForList_WhenListHasNoId_ShouldReturnEmptyArray() {
+        // Arrange
+        let mockList = createMockList(name: "Test List", context: context)
+        mockList.id = nil
+
+        // Act
+        let result = sut.fetchItemsForList(mockList)
+
+        // Assert
+        XCTAssertTrue(result.isEmpty)
+        XCTAssertFalse(mockPersistenceManager.fetchItemsForListCalled)
+    }
+
+    // MARK: - saveProduct Tests
+
+    func testSaveProduct_ShouldCallSuperSaveNewProduct() {
+        // Arrange
+        mockPersistenceManager.mockNextProductId = 123
+        mockPersistenceManager.shouldCreateProduct = true
+        mockPersistenceManager.shouldSavePersistence = true
+
+        // Act
+        sut.saveProduct(
+            name: "Test Product",
+            description: "Test Description",
+            categoryId: 1,
+            active: true,
+            favorite: false
+        )
+
+        // Assert
+        XCTAssertTrue(mockPersistenceManager.createProductCalled)
+        XCTAssertTrue(mockPersistenceManager.savePersistenceCalled)
+        XCTAssertEqual(mockPersistenceManager.lastCreatedProductName, "Test Product")
     }
 
     // MARK: - Helper Methods

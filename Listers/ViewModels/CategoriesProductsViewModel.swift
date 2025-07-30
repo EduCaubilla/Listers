@@ -22,7 +22,14 @@ class CategoriesProductsViewModel: BaseViewModel {
         loadCategoriesProductsData()
     }
 
+    override init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
+        super.init(persistenceManager: persistenceManager)
+        loadCategoriesProductsData()
+    }
+
     //MARK: - FUNCTIONS
+
+    //MARK: - CATEGORIES
     func loadCategoriesProductsData() {
         print("\nLoad Init Data CategoriesProductsViewModel -->")
         fetchCategories()
@@ -38,6 +45,50 @@ class CategoriesProductsViewModel: BaseViewModel {
         }
     }
 
+    func getCategoryIdByProductName(_ name: String) -> Int16? {
+        if !products.isEmpty,
+           !name.isEmpty {
+            if let product = products.first(where: { $0.name == name }) {
+                return product.categoryId
+            }
+        }
+        return nil
+    }
+
+    func getCategoryByProductId(_ productId: Int16) -> DMCategory? {
+        if let categoryFetched = persistenceManager.fetchCategoryByProductId(productId) {
+            return categoryFetched
+        }
+
+        return nil
+    }
+
+    func setFavoriteCategory() {
+        for category in categories {
+            let categoryProducts = getProductsByCategory(category)
+
+            if categoryProducts.contains(where: { $0.favorite }) {
+                print("Category \(String(describing: category.name)) is favorite")
+                category.favorite = true
+            } else {
+                print("Category \(String(describing: category.name)) is NOT favorite")
+                category.favorite = false
+            }
+        }
+        saveCategoriesProductsUpdates()
+        refreshCategoriesProductsData()
+    }
+
+    //MARK: - PRODUCTS
+    func getProductsByCategory(_ category: DMCategory) -> [DMProduct] {
+        if let productsFetched = persistenceManager.fetchProductsByCategory(category) {
+            let activeProducts = productsFetched.filter({ $0.active })
+            let resultProducts = activeProducts.sorted { $0.name! < $1.name! }
+            return resultProducts
+        }
+        return []
+    }
+
     @MainActor
     func getFavoriteProducts(for category: DMCategory,inCase showFavoritesOnly: Bool) -> [DMProduct] {
         let productsFetched = getProductsByCategory(category)
@@ -49,64 +100,6 @@ class CategoriesProductsViewModel: BaseViewModel {
         }
 
         return []
-    }
-
-    func getProductsByCategory(_ category: DMCategory) -> [DMProduct] {
-        if let productsFetched = persistenceManager.fetchProductsByCategory(category) {
-            let activeProducts = productsFetched.filter({ $0.active })
-            let resultProducts = activeProducts.sorted { $0.name! < $1.name! }
-            return resultProducts
-        }
-        return []
-    }
-
-    func addProductToList(_ product: DMProduct) -> Bool {
-        var addedProductResponse = false
-
-        let confirmListSelected = confirmListSelected()
-        if !confirmListSelected {
-            return addedProductResponse
-        }
-
-        print("Add product: \(product.name!) to list: \(selectedList?.name ?? "Unknown list")")
-
-        if let selectedListId = selectedList?.id {
-            let productToAddCreated = persistenceManager.createItem(
-                name: product.name!,
-                description: product.notes,
-                quantity: 0,
-                favorite: product.favorite,
-                priority: .normal,
-                completed: false,
-                selected: false,
-                creationDate: Date.now,
-                endDate: Date.now,
-                image: "",
-                link: "",
-                listId: selectedListId
-            )
-
-            if productToAddCreated {
-                print("Product created added successfully.")
-                saveCategoriesProductsUpdates()
-                addedProductResponse = true
-            } else {
-                print("There was an error creating the product to add.")
-            }
-        }
-
-        return addedProductResponse
-    }
-
-    func confirmListSelected() -> Bool {
-        var listSelectedResponse = false
-        if selectedList == nil {
-            let setListSelected = setSelectedList()
-            if setListSelected {
-                listSelectedResponse = true
-            }
-        }
-        return listSelectedResponse
     }
 
     func saveProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) -> Int {
@@ -141,17 +134,45 @@ class CategoriesProductsViewModel: BaseViewModel {
         print("Set Selected Product: \(String(describing: product.name))")
     }
 
-    func getCategoryIdByProductName(_ name: String) -> Int16? {
-        if !products.isEmpty,
-            !name.isEmpty {
-            if let product = products.first(where: { $0.name == name }) {
-                return product.categoryId
+    func addProductToList(_ product: DMProduct) -> Bool {
+        var addedProductResponse = false
+
+        let confirmListSelected = confirmListSelected()
+        if !confirmListSelected {
+            print("There's no list selected to add a product.")
+        }
+
+        print("Add product: \(product.name!) to list: \(selectedList?.name ?? "Unknown list")")
+
+        if let selectedListId = selectedList?.id {
+            let productToAddCreated = persistenceManager.createItem(
+                name: product.name!,
+                description: product.notes,
+                quantity: 0,
+                favorite: product.favorite,
+                priority: .normal,
+                completed: false,
+                selected: false,
+                creationDate: Date.now,
+                endDate: Date.now,
+                image: "",
+                link: "",
+                listId: selectedListId
+            )
+
+            if productToAddCreated {
+                print("Product created added successfully.")
+                saveCategoriesProductsUpdates()
+                addedProductResponse = true
+            } else {
+                print("There was an error creating the product to add.")
             }
         }
-        return nil
+
+        return addedProductResponse
     }
 
-    func scrollToFoundProduct(proxy: ScrollViewProxy, name : String) {
+    func scrollToFoundProduct(proxy: ScrollViewProxyProtocol, name : String) {
         let productsToScroll = products.filter { $0.name == name }
 
         guard let productToScroll = productsToScroll.first else {
@@ -184,53 +205,44 @@ class CategoriesProductsViewModel: BaseViewModel {
         }
     }
 
-    func getCategoryByProductId(_ productId: Int16) -> DMCategory? {
-        if let categoryFetched = persistenceManager.fetchCategoryByProductId(productId) {
-            return categoryFetched
-        }
-
-        return nil
-    }
-
-    func setFavoriteCategory() {
-        for category in categories {
-            let categoryProducts = getProductsByCategory(category)
-
-            if categoryProducts.contains(where: { $0.favorite }) {
-                print("Category \(String(describing: category.name)) is favorite")
-                category.favorite = true
-            } else {
-                print("Category \(String(describing: category.name)) is NOT favorite")
-                category.favorite = false
+    //MARK: - LISTS
+    func confirmListSelected() -> Bool {
+        var listSelectedResponse = false
+        if selectedList == nil {
+            let setListSelected = getSelectedList()
+            if setListSelected {
+                listSelectedResponse = true
             }
+        } else {
+            listSelectedResponse = true
         }
-        refreshCategoriesProductsData()
+        return listSelectedResponse
     }
 
-    private func setSelectedList() -> Bool {
+    private func getSelectedList() -> Bool {
         var response = false
-        if let selectedListFetched = getSelectedList() {
+        if let selectedListFetched = persistenceManager.fetchSelectedList() {
+            selectedListFetched.selected = true
             selectedList = selectedListFetched
             response = true
         } else {
+            print("There was no selected list found. Setting the first one as selected.")
             response = setDefaultSelectedList()
         }
         return response
     }
 
-    private func getSelectedList() -> DMList? {
-        return persistenceManager.fetchSelectedList()
-    }
-
     private func setDefaultSelectedList() -> Bool {
         var response = false
-        if let fetchedSelectedList = persistenceManager.fetchSelectedList() {
-            selectedList = fetchedSelectedList
-            response = true
+        if let firstListFetched = persistenceManager.fetchAllLists()?.first {
+            firstListFetched.selected = true
+            selectedList = firstListFetched
+            response = persistenceManager.savePersistence()
         }
         return response
     }
 
+    //MARK: - COMMON
     func saveCategoriesProductsUpdates() {
         super.saveChanges(then: refreshCategoriesProductsData)
     }

@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
+		7744D49A2E3A32F7002F6191 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 774962322DFAF3200039E8B8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 774962392DFAF3200039E8B8;
+			remoteInfo = Listers;
+		};
 		77A0CDC32E38A787003CC2B8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 774962322DFAF3200039E8B8 /* Project object */;
@@ -17,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7744D4942E3A32F7002F6191 /* ListersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7749623A2DFAF3200039E8B8 /* Listers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Listers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77A0CDBF2E38A787003CC2B8 /* ListersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -35,6 +43,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7744D4912E3A32F7002F6191 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		774962372DFAF3200039E8B8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -66,6 +81,7 @@
 			children = (
 				7749623A2DFAF3200039E8B8 /* Listers.app */,
 				77A0CDBF2E38A787003CC2B8 /* ListersTests.xctest */,
+				7744D4942E3A32F7002F6191 /* ListersUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,6 +89,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7744D4932E3A32F7002F6191 /* ListersUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7744D49C2E3A32F7002F6191 /* Build configuration list for PBXNativeTarget "ListersUITests" */;
+			buildPhases = (
+				7744D4902E3A32F7002F6191 /* Sources */,
+				7744D4912E3A32F7002F6191 /* Frameworks */,
+				7744D4922E3A32F7002F6191 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7744D49B2E3A32F7002F6191 /* PBXTargetDependency */,
+			);
+			name = ListersUITests;
+			packageProductDependencies = (
+			);
+			productName = ListersUITests;
+			productReference = 7744D4942E3A32F7002F6191 /* ListersUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		774962392DFAF3200039E8B8 /* Listers */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7749624A2DFAF3210039E8B8 /* Build configuration list for PBXNativeTarget "Listers" */;
@@ -128,6 +164,10 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 1640;
 				TargetAttributes = {
+					7744D4932E3A32F7002F6191 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 774962392DFAF3200039E8B8;
+					};
 					774962392DFAF3200039E8B8 = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -154,11 +194,19 @@
 			targets = (
 				774962392DFAF3200039E8B8 /* Listers */,
 				77A0CDBE2E38A787003CC2B8 /* ListersTests */,
+				7744D4932E3A32F7002F6191 /* ListersUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7744D4922E3A32F7002F6191 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		774962382DFAF3200039E8B8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -176,6 +224,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7744D4902E3A32F7002F6191 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		774962362DFAF3200039E8B8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -193,6 +248,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7744D49B2E3A32F7002F6191 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 774962392DFAF3200039E8B8 /* Listers */;
+			targetProxy = 7744D49A2E3A32F7002F6191 /* PBXContainerItemProxy */;
+		};
 		77A0CDC42E38A787003CC2B8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 774962392DFAF3200039E8B8 /* Listers */;
@@ -201,6 +261,40 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		7744D49D2E3A32F7002F6191 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K6569LYJ88;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.educaubilla.ListersUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Listers;
+			};
+			name = Debug;
+		};
+		7744D49E2E3A32F7002F6191 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K6569LYJ88;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.educaubilla.ListersUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Listers;
+			};
+			name = Release;
+		};
 		774962482DFAF3210039E8B8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -397,6 +491,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.educaubilla.ListersTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -415,6 +513,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.educaubilla.ListersTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -425,6 +527,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7744D49C2E3A32F7002F6191 /* Build configuration list for PBXNativeTarget "ListersUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7744D49D2E3A32F7002F6191 /* Debug */,
+				7744D49E2E3A32F7002F6191 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		774962352DFAF3200039E8B8 /* Build configuration list for PBXProject "Listers" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
