@@ -1,0 +1,34 @@
+{
+  "configurations" : [
+    {
+      "id" : "FF686C45-6CCA-489E-80A5-6868F2404947",
+      "name" : "Test Scheme Action",
+      "options" : {
+        "codeCoverage" : {
+          "targets" : [
+
+          ]
+        }
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "preferredScreenCaptureFormat" : "screenshot",
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Listers.xcodeproj",
+      "identifier" : "774962392DFAF3200039E8B8",
+      "name" : "Listers"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : false,
+      "target" : {
+        "containerPath" : "container:Listers.xcodeproj",
+        "identifier" : "77A0CDBE2E38A787003CC2B8",
+        "name" : "ListersTests"
+      }
+    }
+  ],
+  "version" : 1
+}

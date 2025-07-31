@@ -9,6 +9,36 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>ListersTests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>isShown</key>
+			<true/>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>ListersUITests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>774962392DFAF3200039E8B8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>777C03052E3A39EB00435C4C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>77A0CDBE2E38A787003CC2B8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 	</dict>
 </dict>
 </plist>

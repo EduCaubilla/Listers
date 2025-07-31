@@ -6,20 +6,76 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		777C030C2E3A39EB00435C4C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 774962322DFAF3200039E8B8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 774962392DFAF3200039E8B8;
+			remoteInfo = Listers;
+		};
+		77A0CDC32E38A787003CC2B8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 774962322DFAF3200039E8B8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 774962392DFAF3200039E8B8;
+			remoteInfo = Listers;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		7749623A2DFAF3200039E8B8 /* Listers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Listers.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		777C03062E3A39EB00435C4C /* ListersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		77A0CDBF2E38A787003CC2B8 /* ListersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		779AB9632E3B55F4005C66A6 /* Exceptions for "Listers" folder in "Listers" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 774962392DFAF3200039E8B8 /* Listers */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7749623C2DFAF3200039E8B8 /* Listers */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				779AB9632E3B55F4005C66A6 /* Exceptions for "Listers" folder in "Listers" target */,
+			);
 			path = Listers;
+			sourceTree = "<group>";
+		};
+		777C03072E3A39EB00435C4C /* ListersUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ListersUITests;
+			sourceTree = "<group>";
+		};
+		77A0CDC02E38A787003CC2B8 /* ListersTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ListersTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		774962372DFAF3200039E8B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		777C03032E3A39EB00435C4C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77A0CDBC2E38A787003CC2B8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +89,8 @@
 			isa = PBXGroup;
 			children = (
 				7749623C2DFAF3200039E8B8 /* Listers */,
+				77A0CDC02E38A787003CC2B8 /* ListersTests */,
+				777C03072E3A39EB00435C4C /* ListersUITests */,
 				7749623B2DFAF3200039E8B8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +99,8 @@
 			isa = PBXGroup;
 			children = (
 				7749623A2DFAF3200039E8B8 /* Listers.app */,
+				77A0CDBF2E38A787003CC2B8 /* ListersTests.xctest */,
+				777C03062E3A39EB00435C4C /* ListersUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,6 +130,52 @@
 			productReference = 7749623A2DFAF3200039E8B8 /* Listers.app */;
 			productType = "com.apple.product-type.application";
 		};
+		777C03052E3A39EB00435C4C /* ListersUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 777C030E2E3A39EB00435C4C /* Build configuration list for PBXNativeTarget "ListersUITests" */;
+			buildPhases = (
+				777C03022E3A39EB00435C4C /* Sources */,
+				777C03032E3A39EB00435C4C /* Frameworks */,
+				777C03042E3A39EB00435C4C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				777C030D2E3A39EB00435C4C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				777C03072E3A39EB00435C4C /* ListersUITests */,
+			);
+			name = ListersUITests;
+			packageProductDependencies = (
+			);
+			productName = ListersUITests;
+			productReference = 777C03062E3A39EB00435C4C /* ListersUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		77A0CDBE2E38A787003CC2B8 /* ListersTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77A0CDC52E38A787003CC2B8 /* Build configuration list for PBXNativeTarget "ListersTests" */;
+			buildPhases = (
+				77A0CDBB2E38A787003CC2B8 /* Sources */,
+				77A0CDBC2E38A787003CC2B8 /* Frameworks */,
+				77A0CDBD2E38A787003CC2B8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				77A0CDC42E38A787003CC2B8 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				77A0CDC02E38A787003CC2B8 /* ListersTests */,
+			);
+			name = ListersTests;
+			packageProductDependencies = (
+			);
+			productName = ListersTests;
+			productReference = 77A0CDBF2E38A787003CC2B8 /* ListersTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -82,6 +188,14 @@
 				TargetAttributes = {
 					774962392DFAF3200039E8B8 = {
 						CreatedOnToolsVersion = 16.4;
+					};
+					777C03052E3A39EB00435C4C = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 774962392DFAF3200039E8B8;
+					};
+					77A0CDBE2E38A787003CC2B8 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 774962392DFAF3200039E8B8;
 					};
 				};
 			};
@@ -101,12 +215,28 @@
 			projectRoot = "";
 			targets = (
 				774962392DFAF3200039E8B8 /* Listers */,
+				77A0CDBE2E38A787003CC2B8 /* ListersTests */,
+				777C03052E3A39EB00435C4C /* ListersUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		774962382DFAF3200039E8B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		777C03042E3A39EB00435C4C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77A0CDBD2E38A787003CC2B8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -123,7 +253,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		777C03022E3A39EB00435C4C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77A0CDBB2E38A787003CC2B8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		777C030D2E3A39EB00435C4C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 774962392DFAF3200039E8B8 /* Listers */;
+			targetProxy = 777C030C2E3A39EB00435C4C /* PBXContainerItemProxy */;
+		};
+		77A0CDC42E38A787003CC2B8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 774962392DFAF3200039E8B8 /* Listers */;
+			targetProxy = 77A0CDC32E38A787003CC2B8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		774962482DFAF3210039E8B8 /* Debug */ = {
@@ -257,17 +414,21 @@
 				DEVELOPMENT_TEAM = K6569LYJ88;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Listers/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Listers;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.educaubilla.Listers;
+				PRODUCT_BUNDLE_IDENTIFIER = com.educaubilla.listers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -289,17 +450,21 @@
 				DEVELOPMENT_TEAM = K6569LYJ88;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Listers/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Listers;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.educaubilla.Listers;
+				PRODUCT_BUNDLE_IDENTIFIER = com.educaubilla.listers;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -308,6 +473,96 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		777C030F2E3A39EB00435C4C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K6569LYJ88;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.educaubilla.ListersUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Listers;
+			};
+			name = Debug;
+		};
+		777C03102E3A39EB00435C4C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K6569LYJ88;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.educaubilla.ListersUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Listers;
+			};
+			name = Release;
+		};
+		77A0CDC62E38A787003CC2B8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K6569LYJ88;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.educaubilla.ListersTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Listers.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Listers";
+			};
+			name = Debug;
+		};
+		77A0CDC72E38A787003CC2B8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = K6569LYJ88;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.educaubilla.ListersTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Listers.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Listers";
 			};
 			name = Release;
 		};
@@ -328,6 +583,24 @@
 			buildConfigurations = (
 				7749624B2DFAF3210039E8B8 /* Debug */,
 				7749624C2DFAF3210039E8B8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		777C030E2E3A39EB00435C4C /* Build configuration list for PBXNativeTarget "ListersUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				777C030F2E3A39EB00435C4C /* Debug */,
+				777C03102E3A39EB00435C4C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		77A0CDC52E38A787003CC2B8 /* Build configuration list for PBXNativeTarget "ListersTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77A0CDC62E38A787003CC2B8 /* Debug */,
+				77A0CDC72E38A787003CC2B8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

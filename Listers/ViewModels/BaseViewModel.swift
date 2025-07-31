@@ -54,7 +54,7 @@ class BaseViewModel: ObservableObject {
                 products = productsResult
             } else {
                 DispatchQueue.main.async {
-                    self.productNames = self.products.map { $0.name! }
+                    self.productNames = self.products.map { $0.name ?? "Unknown Product Name" }
                 }
                 print("Product names loaded: \(productNames.count)")
             }

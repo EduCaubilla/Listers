@@ -93,6 +93,7 @@ struct ItemRowCellView: View {
                     })
                     .toggleStyle(CustomCheckboxStyle())
                     .foregroundStyle(.darkBlue)
+                    .accessibilityIdentifier("complete_item_button")
 
                     //TEXT, DATE & COMMENT
                     VStack(alignment: .leading, spacing: 2) {
@@ -154,6 +155,7 @@ struct ItemRowCellView: View {
                         }
                     }
                     .tint(item.favorite ? .yellow : .gray)
+                    .accessibilityIdentifier(item.favorite ? "remove_fav_button" : "add_fav_button")
 
                     Button(action: {
                         actionEditItem()
@@ -162,6 +164,7 @@ struct ItemRowCellView: View {
                             .labelStyle(.iconOnly)
                     }
                     .tint(.mediumBlue)
+                    .accessibilityIdentifier("edit_item_button")
                 }
             }
         } //: VSTACK MAIN
@@ -185,6 +188,7 @@ private func getItemPreview() -> DMItem {
 
     return newItem
 }
+
 
 //MARK: - PREVIEW
 #Preview (traits: .sizeThatFitsLayout) {

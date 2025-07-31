@@ -137,7 +137,9 @@ struct FormItemView: View {
                                     print("Name submitted")
                                     isNameTextFieldFocused = false
                                     isDescriptionFieldFocused = true
+                                    showNameSuggestions = false
                                 }
+                                .accessibilityIdentifier("item_name_field")
 
                             Spacer()
 
@@ -174,7 +176,7 @@ struct FormItemView: View {
                         print("Text changed: \(oldValue) -> \(newValue)")
                     }
 
-                    ZStack {
+
                         VStack(spacing: 10) {
                             //MARK: - DESCRIPTION
                             if vm.isItemDescriptionVisible {
@@ -236,33 +238,37 @@ struct FormItemView: View {
                                 }
                             })
                             .padding(.top, 10)
+                            .accessibilityIdentifier("save_item_button")
 
                             Spacer()
                     } //: VSTACK FORM
-
+                    .overlay(alignment: .top) {
                         //MARK: - SUGGESTION LIST
                         if showNameSuggestions, !searchResults.isEmpty {
-                            VStack(alignment: .leading, spacing: 10) {
-                                List(searchResults, id: \.self) { name in
-                                    Text(name)
-                                        .onTapGesture {
-                                            self.name = name
-                                            self.nameSetFromList = name
-                                            showNameSuggestions = false
-                                            print("Name set from list \(name)")
-                                        }
-                                        .listRowBackground(Color.backgroundGray)
-                                } //: LIST - SEARCH OPTIONS
-                                .scrollIndicators(.visible)
-                                .scrollContentBackground(.hidden)
-                                .listStyle(.inset)
-                                .listRowSpacing(-5)
-                                .padding(EdgeInsets(top: -10, leading: -5, bottom: 0, trailing: -2))
-
-                                Spacer()
-                            } //: VSTACK - SUGGESTIONS
+                            ScrollView {
+                                VStack(alignment: .leading, spacing: 5) {
+                                    ForEach(searchResults, id: \.self) { name in
+                                        Text(name)
+                                            .padding(.vertical, 5)
+                                            .padding(.leading, 10)
+                                            .onTapGesture {
+                                                self.name = name
+                                                self.nameSetFromList = name
+                                                showNameSuggestions = false
+                                                print("Name set from list \(name)")
+                                            }
+                                        Divider()
+                                    }
+                                } //: VSTACK
+                                .background(Color.white.opacity(0.95))
+                                .padding(EdgeInsets(top: 0, leading: -5, bottom: 0, trailing: -2))
+                            } //: SCROLLVIEW - SUGGESTIONS
+                            .padding(.top, -10)
+                            .frame(maxHeight: 240)
+                            .allowsHitTesting(true)
+                            .shadow(radius: 1)
                         }
-                    } //: ZSTACK
+                    } //: OVERLAY
                 } //: VSTACK
                 .padding(.horizontal, 20)
                 .padding(.top, 10)
@@ -271,16 +277,16 @@ struct FormItemView: View {
             } //: VSTACK
             .navigationTitle(Text(itemTitle))
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem {
-                    Button(action: {
-                        closeCurrentFormItemView()
-                    }) {
-                        Image(systemName: "xmark")
-                            .foregroundStyle(.darkBlue)
-                    } //: DISSMISS BUTTON
-                }
-            } //: TOOLBAR
+//            .toolbar {
+//                ToolbarItem {
+//                    Button(action: {
+//                        closeCurrentFormItemView()
+//                    }) {
+//                        Image(systemName: "xmark")
+//                            .foregroundStyle(.darkBlue)
+//                    } //: DISSMISS BUTTON
+//                }
+//            } //: TOOLBAR
             .onAppear{
                 isNameTextFieldFocused = true
             }
