@@ -97,6 +97,7 @@ struct FormListView: View {
                         .focused($isFocused)
                         .lineLimit(1)
                         .autocorrectionDisabled(true)
+                        .accessibilityIdentifier("list_name_field")
 
                     Divider()
 
@@ -131,6 +132,7 @@ struct FormListView: View {
                         isListToUpdate ? vm.changeFormViewState(to: .closeUpdateList) : vm.changeFormViewState(to: .closeAddList)
                     })
                     .padding(.top, 10)
+                    .accessibilityIdentifier("save_list_button")
 
                 } //: VSTACK
                 .padding(20)

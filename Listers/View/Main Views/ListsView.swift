@@ -90,6 +90,7 @@ struct ListsView: View {
 
                 router.navigateTo(.main)
             })
+            .accessibilityIdentifier("lists_view")
         } //: VSTACK MAIN
         .sheet(isPresented: $vm.showingAddListView) {
             FormListView(vm: vm)

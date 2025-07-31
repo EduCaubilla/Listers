@@ -63,14 +63,12 @@ class MainItemsListsViewModel: BaseViewModel {
         super.init()
 
         setupSelectedListDataBinding()
-        loadInitData()
     }
 
     override init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
         super.init(persistenceManager: persistenceManager)
 
         setupSelectedListDataBinding()
-        loadInitData()
     }
 
     //MARK: - FUNCTIONS
