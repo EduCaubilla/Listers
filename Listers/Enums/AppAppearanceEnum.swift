@@ -13,7 +13,14 @@ enum AppAppearance : String, CaseIterable, Identifiable {
     case automatic
 
     var displayName: String {
-        rawValue.capitalized
+        switch self {
+            case .light:
+                return L10n.shared.localize("appearance_light")
+            case .dark:
+                return L10n.shared.localize("appearance_dark")
+            case .automatic:
+                return L10n.shared.localize("appearance_automatic")
+        }
     }
 
     var id: String { self.rawValue }

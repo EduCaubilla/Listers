@@ -2,6 +2,11 @@
 
 
 
+/* AppAppearance Enum */
+"appearance_light" = "Light";
+"appearance_dark" = "Dark";
+"appearance_automatic" = "Automatic";
+
 /* Categories Enum */
 "category_groceries" = "Groceries";
 "category_beverages" = "Beverages";
