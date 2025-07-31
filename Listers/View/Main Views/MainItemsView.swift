@@ -99,6 +99,7 @@ struct MainItemsView: View {
                             })
                         .scrollContentBackground(.hidden)
                         .background(Color.background)
+                        .accessibilityIdentifier("main_items_view")
                     } else {
                         ZStack {
                             Color.background
@@ -108,10 +109,12 @@ struct MainItemsView: View {
                                     .font(.system(size: 40, weight: .thin))
                                     .foregroundStyle(.primaryText)
                                     .multilineTextAlignment(.center)
+                                    .accessibilityIdentifier("main_items_view_no_items")
                                 Image(systemName: addItemIconCircle)
                                     .font(.system(size: 60, weight: .thin))
                                     .symbolEffect(.bounce, options: .speed(0.2).repeat(.periodic(25, delay: 1)))
                                     .foregroundStyle(.primaryText)
+                                    .accessibilityIdentifier("main_items_add_icon_circle")
                             }
                             .onAppear {
                                 isAnimationRunning.toggle()
@@ -121,13 +124,16 @@ struct MainItemsView: View {
                             }
                         }
                         .navigationBarBackButtonHidden(true)
+                        .accessibilityIdentifier("empty_state_view")
                     }
                 } //: VSTACK
                 .onAppear {
-                    vm.loadInitData()
-                    vm.loadProductNames()
-                    vm.loadSettings()
-                    vm.currentScreen = .main
+                    DispatchQueue.main.async {
+                        vm.loadInitData()
+                        vm.loadProductNames()
+                        vm.loadSettings()
+                        vm.currentScreen = .main
+                    }
                 }
                 .toolbar {
                     toolbarContentView(router: router, route: .main)
@@ -169,10 +175,13 @@ struct MainItemsView: View {
                     Button(L10n.shared.localize("main_items_view_cancel")) {
                         vm.showCompletedListAlert = false
                     }
+                    .accessibilityIdentifier("alert_main_items_view_cancel")
+
                     Button(L10n.shared.localize("main_items_view_ok")) {
                         goToListsAfterCompletion()
 
                     }
+                    .accessibilityIdentifier("alert_main_items_view_ok")
                 },
                 message: {
                     Text(L10n.shared.localize("main_items_view_go_to_lists_new"))
