@@ -120,7 +120,7 @@ struct ListRowCellView: View {
                     }
                     .foregroundStyle(.darkBlue)
             } //: HSTACK
-            .padding(.top, selectedList.expanded ? -6 : 0) // To Correct when expanded row moves down 6pt.
+            .padding(.top, selectedList.expanded ? -6 : 0) // To correct position when expanded row moves down 6pt.
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 Button(action: {
                     showingDeleteConfirmation.toggle()

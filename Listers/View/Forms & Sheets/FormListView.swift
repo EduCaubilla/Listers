@@ -21,7 +21,7 @@ struct FormListView: View {
     private var isListToUpdate: Bool = false
     private var listToUpdate: DMList?
 
-    @State private var errorShowing : Bool = false
+    @State private var errorFormListShowing : Bool = false
     private var errorTitle : String = L10n.shared.localize("form_list_invalid_name")
     private var errorMessage : String = L10n.shared.localize("form_list_invalid_name_message")
 
@@ -66,7 +66,7 @@ struct FormListView: View {
             )
         }
         else {
-            errorShowing = true
+            errorFormListShowing = true
             return
         }
     }
@@ -151,7 +151,7 @@ struct FormListView: View {
                     } //: DISSMISS BUTTON
                 }
             }
-            .alert(isPresented: $errorShowing) {
+            .alert(isPresented: $errorFormListShowing) {
                 Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text(L10n.shared.localize("form_list_ok"))))
             }
             .onAppear{

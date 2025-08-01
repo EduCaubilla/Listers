@@ -23,7 +23,7 @@ struct FormItemView: View {
     private var itemToUpdate : DMItem?
     private var isItemToUpdate : Bool = false
 
-    @State private var errorShowing : Bool = false
+    @State private var errorFormItemShowing : Bool = false
     @State private var errorTitle : String = ""
     @State private var errorMessage : String = ""
 
@@ -95,7 +95,7 @@ struct FormItemView: View {
             triggerAlertSaveNewItemForLibrary()
 
         } else {
-            errorShowing = true
+            errorFormItemShowing = true
             errorTitle = L10n.shared.localize("form_item_invalid_name")
             errorMessage = L10n.shared.localize("form_item_invalid_name_message")
             return
@@ -277,20 +277,20 @@ struct FormItemView: View {
             } //: VSTACK
             .navigationTitle(Text(itemTitle))
             .navigationBarTitleDisplayMode(.inline)
-//            .toolbar {
-//                ToolbarItem {
-//                    Button(action: {
-//                        closeCurrentFormItemView()
-//                    }) {
-//                        Image(systemName: "xmark")
-//                            .foregroundStyle(.darkBlue)
-//                    } //: DISSMISS BUTTON
-//                }
-//            } //: TOOLBAR
+            .toolbar {
+                ToolbarItem {
+                    Button(action: {
+                        closeCurrentFormItemView()
+                    }) {
+                        Image(systemName: "xmark")
+                            .foregroundStyle(.darkBlue)
+                    } //: DISSMISS BUTTON
+                }
+            } //: TOOLBAR
             .onAppear{
                 isNameTextFieldFocused = true
             }
-            .alert(isPresented: $errorShowing) {
+            .alert(isPresented: $errorFormItemShowing) {
                 Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text(L10n.shared.localize("form_item_ok"))))
             }
             .alert(L10n.shared.localize("form_item_alert_not_library_title", args: name),

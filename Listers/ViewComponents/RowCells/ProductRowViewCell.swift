@@ -158,7 +158,7 @@ struct ProductRowViewCell: View {
             message: { alert in
                 switch alert.type {
                     case .addedToList:
-                        Text(L10n.shared.localize("product_row_cellview_added_current", args: [(vm.selectedProduct?.name ?? ""), (vm.selectedList?.name ?? "")]))
+                        Text(L10n.shared.localize("product_row_cellview_added_current", args: (vm.selectedProduct?.name ?? ""), (vm.selectedList?.name ?? "")))
                     case .edited:
                         Text(L10n.shared.localize("product_row_cellview_edited", args: vm.selectedProduct?.name ?? ""))
                     case .confirmRemove:

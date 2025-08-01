@@ -1792,38 +1792,6 @@
         "notes": ""
     },
     {
-        "id": 233,
-        "name": "Zanahorias",
-        "categoryId": 3,
-        "active": true,
-        "favorite": false,
-        "notes": ""
-    },
-    {
-        "id": 234,
-        "name": "Lechuga",
-        "categoryId": 3,
-        "active": true,
-        "favorite": false,
-        "notes": ""
-    },
-    {
-        "id": 235,
-        "name": "Tomate",
-        "categoryId": 3,
-        "active": true,
-        "favorite": false,
-        "notes": ""
-    },
-    {
-        "id": 236,
-        "name": "Cebolla",
-        "categoryId": 3,
-        "active": true,
-        "favorite": false,
-        "notes": ""
-    },
-    {
         "id": 237,
         "name": "Pimiento rojo",
         "categoryId": 3,
@@ -2010,6 +1978,30 @@
     {
         "id": 260,
         "name": "Limas",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 261,
+        "name": "Lomo de cerdo",
+        "categoryId": 1,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    }
+    {
+        "id": 262,
+        "name": "Ajo",
+        "categoryId": 3,
+        "active": true,
+        "favorite": false,
+        "notes": ""
+    },
+    {
+        "id": 263,
+        "name": "Calabaza",
         "categoryId": 3,
         "active": true,
         "favorite": false,

@@ -146,7 +146,7 @@ struct ListsToAddProductView: View {
                     closeCurrentForm()
                 }
             } message: {
-                Text(L10n.shared.localize("form_add_product_success_message", args: [(itemToAdd?.name ?? ""), (vm.selectedList?.name ?? "")]))
+                Text(L10n.shared.localize("form_add_product_success_message", args: (itemToAdd?.name ?? ""), (vm.selectedList?.name ?? "")))
             }
 
         } //: NAVIGATIONSTACK

@@ -84,7 +84,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
 
     func fetchSelectedList() -> DMList? {
         let lists = fetchAllLists()
-        return lists?.first(where: { $0.selected })
+        return lists?.first(where: { $0.selected })!
     }
 
     func fetchAllLists() -> [DMList]? {
@@ -148,7 +148,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         return fetchProductById(productId) != nil ? true : false
     }
 
-    func createProduct(id: Int, name: String, notes: String?, categoryId: Int16, active: Bool, favorite: Bool, custom: Bool = true, selected: Bool = false) -> Bool {
+    func createProduct(id: Int, name: String, notes: String?, categoryId: Int16, active: Bool, favorite: Bool, custom: Bool, selected: Bool) -> Bool {
         let newProduct = DMProduct(context: viewContext)
         newProduct.uuid = UUID()
         newProduct.id = Int16(id)

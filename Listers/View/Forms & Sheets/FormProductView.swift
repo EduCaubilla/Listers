@@ -9,8 +9,6 @@ import SwiftUI
 
 struct FormProductView: View {
     //MARK: - PROPERTIES
-    @Environment(\.dismiss) var dismiss
-
     @ObservedObject var vm: CategoriesProductsViewModel
 
     @State private var name : String = ""
@@ -24,7 +22,7 @@ struct FormProductView: View {
 
     private var scrollViewProxy : ScrollViewProxy?
 
-    @State private var errorShowing : Bool = false
+    @State private var errorFormProductShowing : Bool = false
     @State private var errorTitle : String = ""
     @State private var errorMessage : String = ""
     @State private var firstErrorButtonLabel : String = ""
@@ -43,7 +41,7 @@ struct FormProductView: View {
         self.vm = vm
         self.scrollViewProxy = scrollViewProxy
     }
-    
+
     init(product: DMProduct? = nil, vm: CategoriesProductsViewModel, scrollViewProxy: ScrollViewProxy? = nil) {
         self.vm = vm
 
@@ -64,27 +62,14 @@ struct FormProductView: View {
     }
 
     //MARK: - FUNCTIONS
-    private func saveNewProduct() {
-        if name.isEmpty {
-            errorShowing = true
-            errorTitle = L10n.shared.localize("form_product_invalid_name")
-            errorMessage = L10n.shared.localize("form_product_invalid_name_message")
-            firstErrorButtonLabel = L10n.shared.localize("form_product_ok")
-            return
+    private func saveNewProduct(duplicate duplicateConfirmed: Bool = false) {
+        if duplicateConfirmed {
+            guard validateNewProductEmpty() else { return }
+        } else {
+            guard validateNewProductEmpty(), validateNewProductDuplicate() else { return }
         }
 
-        if checkNewProductInLibrary() {
-            errorShowing = true
-            errorTitle = L10n.shared.localize("form_product_invalid_duplicate")
-            errorMessage = L10n.shared.localize("form_product_invalid_duplicate_message")
-            firstErrorButtonLabel = L10n.shared.localize("form_product_ok")
-            firstErrorButtonAction = { name = "" }
-            secondErrorButtonLabel = L10n.shared.localize("form_product_continue")
-            secondErrorButtonAction = { }
-            return
-        }
-
-        _ = vm.saveProduct(
+        let newProductId = vm.saveProduct(
             name: name,
             description: description,
             categoryId: selectedCategory.categoryId,
@@ -92,7 +77,38 @@ struct FormProductView: View {
             favorite: favorite
         )
 
+        guard let newProductSaved = vm.getProductById(newProductId) else {
+            print("New product not saved correctly")
+            return
+        }
+        vm.setSelectedProduct(newProductSaved)
+
         scrollToProduct()
+
+        closeCurrentFormProductView()
+    }
+
+    private func validateNewProductEmpty() -> Bool {
+        if name.isEmpty {
+            errorFormProductShowing = true
+            errorTitle = L10n.shared.localize("form_product_invalid_name")
+            errorMessage = L10n.shared.localize("form_product_invalid_name_message")
+            firstErrorButtonLabel = L10n.shared.localize("form_product_ok")
+        }
+        return !name.isEmpty
+    }
+
+    private func validateNewProductDuplicate() -> Bool {
+        if checkNewProductInLibrary() {
+            errorFormProductShowing = true
+            errorTitle = L10n.shared.localize("form_product_invalid_duplicate")
+            errorMessage = L10n.shared.localize("form_product_invalid_duplicate_message")
+            firstErrorButtonLabel = L10n.shared.localize("form_product_ok")
+            secondErrorButtonLabel = L10n.shared.localize("form_product_continue")
+            secondErrorButtonAction = { saveNewProduct(duplicate: true) }
+        }
+
+        return !checkNewProductInLibrary()
     }
 
     private func checkNewProductInLibrary() -> Bool {
@@ -116,27 +132,23 @@ struct FormProductView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 vm.activeAlert = ProductAlertManager(type: .edited)
             }
+
+            closeCurrentFormProductView()
+
+            scrollToProduct()
         } else {
             print("Item could not be updated.")
         }
     }
 
-    private func scrollToProduct() {
+    private func scrollToProduct(id: Int = 0) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             guard let scrollProxy = scrollViewProxy else {
                 print("FormProductView after save product, error trying to scroll as ScrollViewProxy is nil")
                 return
             }
-            vm.scrollToFoundProduct(proxy: scrollProxy, name: name)
+            vm.scrollToFoundProduct(proxy: scrollProxy, id: id)
         }
-    }
-
-    private func getCategoryFromProductName(_ name: String) -> Categories {
-        if let categoryId = vm.getCategoryIdByProductName(name) {
-            return Categories.idMapper(for: Int16(categoryId))
-        }
-        print(selectedCategory)
-        return selectedCategory
     }
 
     private func closeCurrentFormProductView() {
@@ -186,9 +198,9 @@ struct FormProductView: View {
                         Toggle(L10n.shared.localize("form_product_add_favorite"), isOn: $favorite)
                             .padding(.top, 5)
 
-//                        //MARK: - ACTIVE //TODO - only in edit
-//                        Toggle("Active", isOn: $active)
-//                            .padding(.top, 5)
+                        //                        //MARK: - ACTIVE
+                        //                        Toggle("Active", isOn: $active)
+                        //                            .padding(.top, 5)
 
                         //MARK: - SAVE BUTTON
                         SaveButtonView(text: L10n.shared.localize("form_product_save"), action: {
@@ -197,7 +209,6 @@ struct FormProductView: View {
                             } else {
                                 saveNewProduct()
                             }
-                            closeCurrentFormProductView()
                         })
                         .padding(.top, 10)
                     } //: VSTACK MAIN
@@ -218,7 +229,7 @@ struct FormProductView: View {
                     } //: DISSMISS BUTTON
                 }
             } //: TOOLBAR
-            .alert(errorTitle, isPresented: $errorShowing, actions: {
+            .alert(errorTitle, isPresented: $errorFormProductShowing, actions: {
                 Button(firstErrorButtonLabel) {
                     firstErrorButtonAction()
                 }

@@ -62,7 +62,7 @@ class BaseViewModel: ObservableObject {
     }
 
     func saveNewProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool, then refresh: () -> Void) -> Int {
-        var responseProductId : Int = 0
+        var responseProductId : Int = -1
         let newProductId = createIdForNewProduct()
 
         let createdProduct = persistenceManager.createProduct(

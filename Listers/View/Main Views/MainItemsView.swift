@@ -109,12 +109,10 @@ struct MainItemsView: View {
                                     .font(.system(size: 40, weight: .thin))
                                     .foregroundStyle(.primaryText)
                                     .multilineTextAlignment(.center)
-                                    .accessibilityIdentifier("main_items_view_no_items")
                                 Image(systemName: addItemIconCircle)
                                     .font(.system(size: 60, weight: .thin))
                                     .symbolEffect(.bounce, options: .speed(0.2).repeat(.periodic(25, delay: 1)))
                                     .foregroundStyle(.primaryText)
-                                    .accessibilityIdentifier("main_items_add_icon_circle")
                             }
                             .onAppear {
                                 isAnimationRunning.toggle()

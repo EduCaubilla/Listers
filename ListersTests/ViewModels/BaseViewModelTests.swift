@@ -193,7 +193,7 @@ final class BaseViewModelTests: XCTestCase {
         XCTAssertFalse(mockPersistenceManager.lastCreatedProductFavorite!)
     }
 
-    func testSaveNewProduct_WhenFailed_ShouldReturnZero() {
+    func testSaveNewProduct_WhenFailed_ShouldReturnMinusOne() {
         // Arrange
         let expectedId = 123
         mockPersistenceManager.mockNextProductId = expectedId
@@ -212,7 +212,7 @@ final class BaseViewModelTests: XCTestCase {
         }
 
         // Assert
-        XCTAssertEqual(result, 0)
+        XCTAssertEqual(result, -1)
         XCTAssertTrue(mockPersistenceManager.createProductCalled)
         XCTAssertFalse(refreshCalled)
     }

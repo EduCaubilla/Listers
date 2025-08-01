@@ -69,39 +69,6 @@ final class MainItemsUITests: XCTestCase {
         }
     }
 
-//    func testingFlow() {
-//        let app = XCUIApplication()
-//        app.activate()
-//        app/*@START_MENU_TOKEN@*/.images["main_items_add_icon_circle"]/*[[".otherElements",".images[\"Add\"]",".images[\"main_items_add_icon_circle\"]",".images.firstMatch"],[[[-1,2],[-1,1],[-1,3],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
-//        app/*@START_MENU_TOKEN@*/.buttons["save_list_button"]/*[[".otherElements",".buttons[\"Save\"]",".buttons[\"save_list_button\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
-//        app/*@START_MENU_TOKEN@*/.buttons["main_items_view_add"]/*[[".buttons",".containing(.staticText, identifier: \"Add item\").firstMatch",".containing(.image, identifier: \"plus\").firstMatch",".otherElements",".buttons[\"Add item\"]",".buttons[\"main_items_view_add\"]"],[[[-1,5],[-1,4],[-1,3,2],[-1,0,1]],[[-1,2],[-1,1]],[[-1,5],[-1,4]]],[0]]@END_MENU_TOKEN@*/.tap()
-//        app/*@START_MENU_TOKEN@*/.textFields["item_name_field"]/*[[".otherElements",".textFields[\"Add name\"]",".textFields[\"item_name_field\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
-//        app/*@START_MENU_TOKEN@*/.buttons["save_item_button"]/*[[".otherElements",".buttons[\"Save\"]",".buttons[\"save_item_button\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
-//        
-//        let elementsQuery = app.otherElements
-//        elementsQuery.matching(identifier: "Horizontal scroll bar, 1 page").element(boundBy: 1).tap()
-//        app/*@START_MENU_TOKEN@*/.staticTexts["31 July 2025"]/*[[".otherElements.staticTexts[\"31 July 2025\"]",".staticTexts[\"31 July 2025\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-//        app/*@START_MENU_TOKEN@*/.switches["complete_item_button"]/*[[".otherElements",".switches[\"circle\"]",".switches[\"complete_item_button\"]",".switches.firstMatch"],[[[-1,2],[-1,1],[-1,3],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
-//        app/*@START_MENU_TOKEN@*/.buttons["alert_main_items_view_ok"]/*[[".otherElements",".buttons[\"Ok\"]",".buttons[\"alert_main_items_view_ok\"]"],[[[-1,2],[-1,1],[-1,0,1]],[[-1,2],[-1,1]]],[0]]@END_MENU_TOKEN@*/.tap()
-//        elementsQuery/*@START_MENU_TOKEN@*/.containing(.other, identifier: "SystemInputAssistantView").firstMatch/*[[".element(boundBy: 3)",".containing(.other, identifier: \"CenterPageView\").firstMatch",".containing(.keyboard, identifier: nil).firstMatch",".containing(.other, identifier: \"SystemInputAssistantView\").firstMatch"],[[[-1,3],[-1,2],[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-//
-//        app.activate()
-//        app.collectionViews/*@START_MENU_TOKEN@*/.firstMatch/*[[".containing(.cell, identifier: nil).firstMatch",".containing(.other, identifier: nil).firstMatch",".firstMatch"],[[[-1,2],[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.swipeLeft()
-//        app/*@START_MENU_TOKEN@*/.otherElements["Vertical scroll bar, 1 page"]/*[[".collectionViews.otherElements[\"Vertical scroll bar, 1 page\"]",".otherElements[\"Vertical scroll bar, 1 page\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.swipeLeft()
-//        app/*@START_MENU_TOKEN@*/.collectionViews["lists_view"]/*[[".otherElements.collectionViews[\"lists_view\"]",".collectionViews",".containing(.cell, identifier: nil).firstMatch",".containing(.other, identifier: nil).firstMatch",".firstMatch",".collectionViews[\"lists_view\"]"],[[[-1,5],[-1,1,1],[-1,0]],[[-1,4],[-1,3],[-1,2]]],[0]]@END_MENU_TOKEN@*/.swipeRight()
-//
-
-//        let app = XCUIApplication()
-//        app.activate()
-//        let mainItemsViewCollectionView = app/*@START_MENU_TOKEN@*/.collectionViews["main_items_view"]/*[[".otherElements.collectionViews[\"main_items_view\"]",".collectionViews",".containing(.cell, identifier: nil).firstMatch",".containing(.other, identifier: nil).firstMatch",".firstMatch",".collectionViews[\"main_items_view\"]"],[[[-1,5],[-1,1,1],[-1,0]],[[-1,4],[-1,3],[-1,2]]],[0]]@END_MENU_TOKEN@*/
-//        mainItemsViewCollectionView.swipeLeft()
-//        mainItemsViewCollectionView.swipeLeft()
-//        mainItemsViewCollectionView.swipeLeft()
-//        app/*@START_MENU_TOKEN@*/.collectionViews["lists_view"]/*[[".otherElements.collectionViews[\"lists_view\"]",".collectionViews",".containing(.cell, identifier: nil).firstMatch",".containing(.other, identifier: nil).firstMatch",".firstMatch",".collectionViews[\"lists_view\"]"],[[[-1,5],[-1,1,1],[-1,0]],[[-1,4],[-1,3],[-1,2]]],[0]]@END_MENU_TOKEN@*/.swipeRight()
-//        mainItemsViewCollectionView.swipeLeft()
-        
-//    }
-
     // MARK: - Test Critical User Flows
     func testCreateFirstListAndAddItem() throws {
         // Test the complete flow from empty state to having items

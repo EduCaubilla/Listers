@@ -216,15 +216,23 @@ class MainItemsListsViewModel: BaseViewModel {
         }
     }
 
-    func deleteList(_ listForDelete: DMList) {
-        let itemsToDelete = itemsOfSelectedList.filter { $0.listId == listForDelete.id }
+    func deleteItemsOfList(_ listToDelete: DMList) {
+        guard let itemsToDelete = persistenceManager.fetchItemsForList(withId: listToDelete.id!) else {
+            print("No items found for given list ID.")
+            return
+        }
+
         for item in itemsToDelete {
             super.delete(item)
         }
+    }
 
-        let itemsRemainingInList = fetchItemsForList(listForDelete)
+    func deleteList(_ listToDelete: DMList) {
+        deleteItemsOfList(listToDelete)
+
+        let itemsRemainingInList = fetchItemsForList(listToDelete)
         if itemsRemainingInList.isEmpty {
-            super.delete(listForDelete)
+            super.delete(listToDelete)
         }
     }
 
