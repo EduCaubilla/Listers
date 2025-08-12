@@ -44,14 +44,19 @@ class BaseViewModel: ObservableObject {
             print("Loaded active products in view model \(products.count)")
 
             loadProductNames()
+        } else {
+            products = []
+            productNames = []
         }
     }
 
     func loadProductNames(forceLoad : Bool = false) {
         if productNames.isEmpty || forceLoad {
             if products.isEmpty {
-                guard let productsResult = persistenceManager.fetchAllActiveProducts() else { return }
-                products = productsResult
+                DispatchQueue.main.async {
+                    guard let productsResult = self.persistenceManager.fetchAllActiveProducts() else { return }
+                    self.products = productsResult
+                }
             } else {
                 DispatchQueue.main.async {
                     self.productNames = self.products.map { $0.name ?? "Unknown Product Name" }

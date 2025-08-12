@@ -46,8 +46,6 @@ struct FormItemView: View {
     //MARK: - INITIALIZER
     init(vm: MainItemsListsViewModel) {
         self.vm = vm
-
-        vm.loadProductNames()
     }
 
     init (item: DMItem? = nil, vm: MainItemsListsViewModel) {
@@ -317,6 +315,9 @@ struct FormItemView: View {
                 Text(L10n.shared.localize("form_item_alert_not_library_message", args: name))
             }
         } //: NAVIGATION STACK
+        .onAppear{
+            vm.loadProductNames()
+        }
     } //: VIEW
 }
 
