@@ -98,7 +98,9 @@ struct CategoriesProductsView: View {
                         .listStyle(SidebarListStyle())
                         .listRowSpacing(-3)
                         .onAppear {
-                            vm.loadCategoriesProductsData()
+                            DispatchQueue.main.async {
+                                vm.loadCategoriesProductsData()
+                            }
                         }
                         .navigationTitle(Text(categoriesTitle))
                         .navigationBarTitleDisplayMode(.inline)

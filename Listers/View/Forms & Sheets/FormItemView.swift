@@ -154,11 +154,11 @@ struct FormItemView: View {
                         }
                         Divider()
                     } //: VSTACK - NAME FIELD
-                    .onAppear(perform: {
+                    .onAppear{
                         if isItemToUpdate {
                             showNameSuggestions = false
                         }
-                    })
+                    }
                     .onChange(of: name) { oldValue, newValue in
                         if oldValue == nameSetFromList, !searchResults.isEmpty {
                             showNameSuggestions = true
@@ -316,7 +316,9 @@ struct FormItemView: View {
             }
         } //: NAVIGATION STACK
         .onAppear{
-            vm.loadProductNames()
+            DispatchQueue.main.async {
+                vm.loadProductNames()
+            }
         }
     } //: VIEW
 }

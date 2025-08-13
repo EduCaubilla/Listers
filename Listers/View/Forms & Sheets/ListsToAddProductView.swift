@@ -112,7 +112,9 @@ struct ListsToAddProductView: View {
             .listStyle(.plain)
             .listRowSpacing(-10)
             .onAppear {
-                vm.loadLists()
+                DispatchQueue.main.async {
+                    vm.loadLists()
+                }
             }
             .navigationTitle(Text(addToListViewTitle))
             .navigationBarTitleDisplayMode(.inline)
