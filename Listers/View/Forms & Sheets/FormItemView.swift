@@ -174,71 +174,71 @@ struct FormItemView: View {
                         print("Text changed: \(oldValue) -> \(newValue)")
                     }
 
+                    VStack(spacing: 10) {
+                        //MARK: - DESCRIPTION
+                        if vm.isItemDescriptionVisible {
+                            TextField(description.isEmpty ? L10n.shared.localize("form_item_add_description") : description, text: $description)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(3)
+                                .autocorrectionDisabled(true)
+                                .foregroundStyle(.primaryText)
+                                .focused($isDescriptionFieldFocused)
 
-                        VStack(spacing: 10) {
-                            //MARK: - DESCRIPTION
-                            if vm.isItemDescriptionVisible {
-                                TextField(description.isEmpty ? L10n.shared.localize("form_item_add_description") : description, text: $description)
-                                    .multilineTextAlignment(.leading)
-                                    .lineLimit(3)
-                                    .autocorrectionDisabled(true)
-                                    .foregroundStyle(.primaryText)
-                                    .focused($isDescriptionFieldFocused)
+                            Divider()
+                        }
 
-                                Divider()
-                            }
+                        //MARK: - QUANTITY
+                        if vm.isItemQuantityVisible {
+                            TextField(quantity.count == 0 ? L10n.shared.localize("form_item_add_quantity") : quantity, text: $quantity)
+                                .multilineTextAlignment(.leading)
+                                .lineLimit(4)
+                                .autocorrectionDisabled(true)
+                                .foregroundStyle(.primaryText)
 
-                            //MARK: - QUANTITY
-                            if vm.isItemQuantityVisible {
-                                TextField(quantity.count == 0 ? L10n.shared.localize("form_item_add_quantity") : quantity, text: $quantity)
-                                    .multilineTextAlignment(.leading)
-                                    .lineLimit(4)
-                                    .autocorrectionDisabled(true)
-                                    .foregroundStyle(.primaryText)
+                            Divider()
+                        }
 
-                                Divider()
-                            }
-
-                            //MARK: - FAVORITE
-                            Toggle(L10n.shared.localize("form_item_favorite"), isOn: $favorite)
-                                .padding(.top, 10)
-
-                            //MARK: - DATE PICKER
-                            if vm.isItemEndDateVisible {
-                                DatePicker(L10n.shared.localize("form_item_end_date"), selection: $endDate, displayedComponents: .date)
-                                    .datePickerStyle(.compact)
-                                    .padding(.top, 10)
-                            }
-
-                            //MARK: - PRIORITY
-                            HStack{
-                                Text(L10n.shared.localize("form_item_priority"))
-
-                                Spacer()
-
-                                Picker(L10n.shared.localize("form_item_priority"), selection: $priority) {
-                                    ForEach(Priority.allCases, id: \.self) { priority in
-                                        Text(priority.localizedDisplayName).tag(priority)
-                                    }
-                                } //: PICKER
-                                .padding(.trailing, -10)
-                                .pickerStyle(.menu)
-                            }
-                            .padding(.top, 5)
-
-                            //MARK: - SAVE BUTTON
-                            SaveButtonView(text: L10n.shared.localize("form_item_save"), action: {
-                                if(isItemToUpdate) {
-                                    updateItem()
-                                    closeCurrentFormItemView()
-                                } else {
-                                    saveNewItem()
-                                }
-                            })
+                        //MARK: - FAVORITE
+                        Toggle(L10n.shared.localize("form_item_favorite"), isOn: $favorite)
                             .padding(.top, 10)
-                            .accessibilityIdentifier("save_item_button")
+                            .accessibilityIdentifier(L10n.shared.localize("form_item_favorite"))
+
+                        //MARK: - DATE PICKER
+                        if vm.isItemEndDateVisible {
+                            DatePicker(L10n.shared.localize("form_item_end_date"), selection: $endDate, displayedComponents: .date)
+                                .datePickerStyle(.compact)
+                                .padding(.top, 10)
+                        }
+
+                        //MARK: - PRIORITY
+                        HStack{
+                            Text(L10n.shared.localize("form_item_priority"))
 
                             Spacer()
+
+                            Picker(L10n.shared.localize("form_item_priority"), selection: $priority) {
+                                ForEach(Priority.allCases, id: \.self) { priority in
+                                    Text(priority.localizedDisplayName).tag(priority)
+                                }
+                            } //: PICKER
+                            .padding(.trailing, -10)
+                            .pickerStyle(.menu)
+                        }
+                        .padding(.top, 5)
+
+                        //MARK: - SAVE BUTTON
+                        SaveButtonView(text: L10n.shared.localize("form_item_save"), action: {
+                            if(isItemToUpdate) {
+                                updateItem()
+                                closeCurrentFormItemView()
+                            } else {
+                                saveNewItem()
+                            }
+                        })
+                        .padding(.top, 10)
+                        .accessibilityIdentifier("save_item_button")
+
+                        Spacer()
                     } //: VSTACK FORM
                     .overlay(alignment: .top) {
                         //MARK: - SUGGESTION LIST
@@ -265,6 +265,8 @@ struct FormItemView: View {
                             .frame(maxHeight: 240)
                             .allowsHitTesting(true)
                             .shadow(radius: 1)
+                            .background(Color.yellow.opacity(0.3))
+                            .allowsHitTesting(false) // Let taps go through
                         }
                     } //: OVERLAY
                 } //: VSTACK
