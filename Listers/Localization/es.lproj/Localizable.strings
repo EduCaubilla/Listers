@@ -44,10 +44,11 @@
 "form_item_priority" = "Prioridad";
 "form_item_save" = "Guardar";
 "form_item_ok" = "Aceptar";
+"form_item_cancel" = "Cancelar";
+"form_item_skip" = "Saltar";
+"form_item_add" = "Añadir";
 "form_item_alert_not_library_title" = "El artículo '%@' no está en su archivo de de productos.";
 "form_item_alert_not_library_message" = "Quiere añadirlo? Esto introducirá '%@' al listado de su archivo.";
-"form_item_cancel" = "Cancelar";
-"form_item_add" = "Añadir";
 "form_item_added_product_library" = "Producto %@ añadido al archivo de productos.";
 
 /* Forms List View */

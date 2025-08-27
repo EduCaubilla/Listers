@@ -279,7 +279,7 @@ final class MainItemsListViewModelTests: XCTestCase {
         sut.addItemToList(
             name: "New Item",
             description: "Item Description",
-            quantity: 1.0,
+            quantity: 1,
             favorite: false,
             priority: .normal,
             completed: false,
@@ -296,7 +296,7 @@ final class MainItemsListViewModelTests: XCTestCase {
         XCTAssertTrue(mockPersistenceManager.savePersistenceCalled)
         XCTAssertEqual(mockPersistenceManager.lastCreatedItemName, "New Item")
         XCTAssertEqual(mockPersistenceManager.lastCreatedItemDescription, "Item Description")
-        XCTAssertEqual(mockPersistenceManager.lastCreatedItemQuantity, 1.0)
+        XCTAssertEqual(mockPersistenceManager.lastCreatedItemQuantity, 1)
         XCTAssertEqual(mockPersistenceManager.lastCreatedItemListId, testListId)
     }
 
@@ -453,7 +453,7 @@ final class MainItemsListViewModelTests: XCTestCase {
             item.id = UUID()
             item.name = "Item \(index)"
             item.notes = "Description \(index)"
-            item.quantity = Double(index + 1)
+            item.quantity = Int16(index + 1)
             item.favorite = false
             item.priority = Priority.normal.rawValue
             item.completed = false

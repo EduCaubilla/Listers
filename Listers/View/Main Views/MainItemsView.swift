@@ -45,11 +45,8 @@ struct MainItemsView: View {
 
     private func goToListsAfterCompletion() {
         DispatchQueue.main.async {
-            withTransaction(Transaction(animation: nil)) {
-                router.navigateTo(.lists)
-
-                vm.changeFormViewState(to: .openAddList)
-            }
+            router.navigateTo(.lists)
+            vm.changeFormViewState(to: .openAddList)
         }
     }
 
@@ -84,7 +81,6 @@ struct MainItemsView: View {
                         } //: LIST
                         .padding(.top)
                         .listStyle(.inset)
-                        .listRowSpacing(-5)
                         .navigationTitle(Text(selectedListName))
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarBackButtonHidden(true)

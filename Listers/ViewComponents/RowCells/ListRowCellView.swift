@@ -86,7 +86,7 @@ struct ListRowCellView: View {
                                 .strikethrough(selectedList.completed)
                         }
 
-                        Text("\(listItems.count) \(L10n.shared.localize("unit_count")) ")
+                        Text("\(L10n.shared.localizeDict("unit_count", count: Int(listItems.count)))")
                             .font(.subheadline)
                             .foregroundStyle(.lightBlue)
 
@@ -222,7 +222,7 @@ struct ListRowCellView: View {
             newItem.id = UUID()
             newItem.name = "Item \(itemNumber)"
             newItem.notes = "This is item \(itemNumber)."
-            newItem.quantity = Double.random(in: 0...10)
+            newItem.quantity = Int16.random(in: 0...10)
             newItem.creationDate = Date.now
             newItem.endDate = Date.now
             newItem.favorite = Bool.random()

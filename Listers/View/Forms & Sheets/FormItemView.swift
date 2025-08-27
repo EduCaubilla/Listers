@@ -54,7 +54,7 @@ struct FormItemView: View {
         if let item = item {
             _name = State(initialValue: item.name ?? L10n.shared.localize("form_item_unknown"))
             _description = State(initialValue: item.notes ?? "")
-            _quantity = State(initialValue: item.quantity.trimmedString)
+            _quantity = State(initialValue: String(item.quantity))
             _favorite = State(initialValue: item.favorite)
             _priority = State(initialValue: Priority(rawValue: item.priority!)!)
             _endDate = State(initialValue: endDate)
@@ -78,7 +78,7 @@ struct FormItemView: View {
             vm.addItemToList(
                 name: name,
                 description: description,
-                quantity: Double(quantity) ?? 0,
+                quantity: Int16(quantity) ?? 0,
                 favorite: favorite,
                 priority: priority,
                 completed: false,
@@ -104,7 +104,7 @@ struct FormItemView: View {
         if let itemToUpdate = itemToUpdate {
             itemToUpdate.name = name
             itemToUpdate.notes = description
-            itemToUpdate.quantity = Double(quantity) ?? 0
+            itemToUpdate.quantity = Int16(quantity) ?? 0
             itemToUpdate.favorite = favorite
             itemToUpdate.endDate = endDate
             itemToUpdate.priority = priority.rawValue
@@ -291,11 +291,10 @@ struct FormItemView: View {
             .alert(isPresented: $errorFormItemShowing) {
                 Alert(title: Text(errorTitle), message: Text(errorMessage), dismissButton: .default(Text(L10n.shared.localize("form_item_ok"))))
             }
+            //MARK: - ITEM INTO LIBRARY ALERT
             .alert(L10n.shared.localize("form_item_alert_not_library_title", args: name),
                 isPresented: $vm.showSaveNewProductAlert) {
                     Button(L10n.shared.localize("form_item_cancel"), role: .cancel){
-                        vm.showSaveNewProductAlert = false
-                        closeCurrentFormItemView()
                     }
                     Button(L10n.shared.localize("form_item_add")){
                         vm.saveProduct(
@@ -309,6 +308,10 @@ struct FormItemView: View {
                         vm.showSaveNewProductAlert = false
                         vm.loadProductNames(forceLoad: true)
 
+                        closeCurrentFormItemView()
+                    }
+                    Button(L10n.shared.localize("form_item_skip")){
+                        vm.showSaveNewProductAlert = false
                         closeCurrentFormItemView()
                     }
             } message: {

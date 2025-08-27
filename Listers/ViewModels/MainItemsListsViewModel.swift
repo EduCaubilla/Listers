@@ -192,7 +192,7 @@ class MainItemsListsViewModel: BaseViewModel {
         }
     }
 
-    func addItemToList(name: String, description: String?, quantity: Double, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) {
+    func addItemToList(name: String, description: String?, quantity: Int16, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) {
         let createdItem = persistenceManager.createItem(
             name: name,
             description: description,
@@ -249,9 +249,7 @@ class MainItemsListsViewModel: BaseViewModel {
             print("There are no items in the selected list.")
             return
         }
-
-        let sortedItems = itemsResult.sorted { !$0.completed && $1.completed }
-        itemsOfSelectedList = sortedItems
+        itemsOfSelectedList = itemsResult
     }
 
     func fetchItemsForList(_ list: DMList) -> [DMItem] {

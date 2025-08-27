@@ -15,7 +15,7 @@ protocol PersistenceManagerProtocol {
     func createItem(
         name: String,
         description: String?,
-        quantity: Double,
+        quantity: Int16,
         favorite: Bool,
         priority: Priority,
         completed: Bool,

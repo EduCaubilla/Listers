@@ -19,9 +19,11 @@ class NavigationRouter: ObservableObject {
     @Published var path = NavigationPath()
 
     func navigateTo(_ route: NavRoute, withBack: Bool = false) {
-        if !withBack {
-            path = NavigationPath()
+        withTransaction(Transaction(animation: .default)) {
+            if !withBack {
+                path = NavigationPath()
+            }
+            path.append(route)
         }
-        path.append(route)
     }
 }

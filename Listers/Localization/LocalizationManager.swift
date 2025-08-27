@@ -20,6 +20,10 @@ class L10n : ObservableObject {
         let format = NSLocalizedString(key, comment: comment)
         return String(format: format, arguments: args)
     }
+
+    func localizeDict(_ key: String, comment: String = "", count: Int) -> String {
+        return String.localizedStringWithFormat(NSLocalizedString(key, comment: comment), count)
+    }
 }
 
 extension L10n {

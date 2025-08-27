@@ -72,7 +72,7 @@ class MockPersistenceManager: PersistenceManagerProtocol {
     // Tracking parameters for items
     var lastCreatedItemName: String?
     var lastCreatedItemDescription: String?
-    var lastCreatedItemQuantity: Double?
+    var lastCreatedItemQuantity: Int16?
     var lastCreatedItemFavorite: Bool?
     var lastCreatedItemPriority: Priority?
     var lastCreatedItemCompleted: Bool?
@@ -94,7 +94,7 @@ class MockPersistenceManager: PersistenceManagerProtocol {
     var lastCreatedListCompleted: Bool?
 
     // MARK: - Items/Lists
-    func createItem(name: String, description: String?, quantity: Double, favorite: Bool, priority: Listers.Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) -> Bool {
+    func createItem(name: String, description: String?, quantity: Int16, favorite: Bool, priority: Listers.Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) -> Bool {
         createItemCalled = true
         lastCreatedItemName = name
         lastCreatedItemDescription = description

@@ -45,6 +45,7 @@
 "form_item_save" = "Save";
 "form_item_ok" = "Ok";
 "form_item_cancel" = "Cancel";
+"form_item_skip" = "Skip";
 "form_item_add" = "Add";
 "form_item_alert_not_library_title" = "The item '%@' is not on your product's library.";
 "form_item_alert_not_library_message" = "Would you like to add it? This will add '%@' to your product's library.";

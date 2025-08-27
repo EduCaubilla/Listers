@@ -69,8 +69,10 @@ struct ItemRowCellView: View {
     }
 
     private func updateItemOnCheckboxToggle() {
-        saveItem()
-        checkListCompleted()
+        DispatchQueue.main.async{
+            saveItem()
+            checkListCompleted()
+        }
     }
 
     //MARK: - BODY
@@ -124,7 +126,7 @@ struct ItemRowCellView: View {
 
                     //QUANTITY
                     if vm.isItemQuantityVisible {
-                        Text("\(item.quantity.trimmedString) \(L10n.shared.localize("unit_count"))")
+                        Text("\(L10n.shared.localizeDict("unit_count", count: Int(item.quantity)))")
                             .foregroundStyle(.lightBlue)
                             .padding(3)
                     }
@@ -180,7 +182,7 @@ private func getItemPreview() -> DMItem {
     newItem.id = UUID()
     newItem.name = "Item \(itemNumber)"
     newItem.notes = "This is item \(itemNumber)."
-    newItem.quantity = Double.random(in: 0...10)
+    newItem.quantity = Int16.random(in: 0...10)
     newItem.creationDate = Date.now
     newItem.endDate = Date.now
     newItem.favorite = false

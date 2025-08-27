@@ -56,9 +56,7 @@ struct ListsView: View {
                             vm.updateSelectedList(list)
                             print(vm.selectedList!)
 
-                            withTransaction(Transaction(animation: nil)) {
-                                router.navigateTo(.main)
-                            }
+                            router.navigateTo(.main)
                         }
                     } //: LOOP
                 }

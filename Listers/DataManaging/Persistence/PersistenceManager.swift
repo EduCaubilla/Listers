@@ -23,7 +23,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
     }
 
     //MARK: - ITEMS/LISTS
-    func createItem(name: String, description: String?, quantity: Double, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) -> Bool {
+    func createItem(name: String, description: String?, quantity: Int16, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) -> Bool {
         print("PersistenceManager: Create item \(name)")
 
         let newItem = DMItem(context: viewContext)
@@ -47,6 +47,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
     func fetchItemsForList(withId listId: UUID) -> [DMItem]? {
         let fetchRequest: NSFetchRequest<DMItem> = DMItem.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "%K == %@", "listId", listId as CVarArg)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "completed", ascending: true)]
 
         do {
             return try viewContext.fetch(fetchRequest)
@@ -56,7 +57,6 @@ struct PersistenceManager : PersistenceManagerProtocol {
 
         return nil
     }
-
 
     func createList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool, completed: Bool) -> Bool {
         print("PersistenceManager: Create list \(name)")
@@ -175,7 +175,6 @@ struct PersistenceManager : PersistenceManagerProtocol {
 
         return nil
     }
-
 
     func fetchAllActiveProducts() -> [DMProduct]? {
         let productsFetch = fetchAllProducts()
