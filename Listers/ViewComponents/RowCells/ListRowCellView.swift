@@ -86,9 +86,15 @@ struct ListRowCellView: View {
                                 .strikethrough(selectedList.completed)
                         }
 
-                        Text("\(L10n.shared.localizeDict("unit_count", count: Int(listItems.count)))")
+                        if (listItems.count == 0){
+                            Text("\(listItems.count) \(L10n.shared.localizeDict("unit_count", count: Int(listItems.count)))")
+                                .font(.subheadline)
+                                .foregroundStyle(.lightBlue)
+                        } else {
+                            Text("\(L10n.shared.localizeDict("unit_count", count: Int(listItems.count)))")
                             .font(.subheadline)
                             .foregroundStyle(.lightBlue)
+                        }
 
                         if vm.isListDescriptionVisible &&
                             !(selectedList.notes == nil) &&
