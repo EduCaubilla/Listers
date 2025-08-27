@@ -480,12 +480,12 @@ final class CategoriesProductsViewModelTests: XCTestCase {
         sut.scrollToFoundProduct(proxy: mockProxy, name: "Target Product")
 
         // Wait for async dispatch
-        wait(for: [expectation], timeout: 2.0)
+        wait(for: [expectation], timeout: 1.0)
 
         // Assert
         XCTAssertTrue(mockCategory.expanded)
         XCTAssertFalse(otherCategory.expanded)
-        XCTAssertEqual(sut.selectedProduct?.id, 42)
+        XCTAssertEqual(sut.selectedProduct?.id, Int16(42))
         XCTAssertTrue(mockProxy.scrollToCalled)
         XCTAssertEqual(mockProxy.lastScrolledId as? Int16, 42)
     }

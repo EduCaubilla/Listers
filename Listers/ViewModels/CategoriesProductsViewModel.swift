@@ -125,10 +125,16 @@ class CategoriesProductsViewModel: BaseViewModel {
             return newProduct
         }
 
-        let productSelected = products.filter { $0.selected }.first!
-        print(productSelected)
+        if (!products.isEmpty) {
+            guard let productSelected = products.filter({ $0.selected }).first else {
+                selectedProduct = nil
+                return
+            }
+            selectedProduct = productSelected
+        } else {
+            selectedProduct = product
+        }
 
-        selectedProduct = product
         print("Set Selected Product: \(String(describing: product.name))")
     }
 

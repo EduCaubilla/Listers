@@ -141,7 +141,7 @@ final class BaseViewModelTests: XCTestCase {
             expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: 1.0)
+        wait(for: [expectation], timeout: 0.5)
 
         // Assert
         XCTAssertEqual(sut.productNames.count, 2)
@@ -154,8 +154,18 @@ final class BaseViewModelTests: XCTestCase {
         mockPersistenceManager.mockProducts = mockProducts
         XCTAssertTrue(sut.products.isEmpty)
 
+        // Expectation for async update
+        let expectation = XCTestExpectation(description: "Products' empty but persistence has products, product names should be loaded")
+
         // Act
         sut.loadProductNames()
+
+        // Wait for async dispatch to complete
+        DispatchQueue.main.async {
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 0.5)
 
         // Assert
         XCTAssertTrue(mockPersistenceManager.fetchAllActiveProductsCalled)
