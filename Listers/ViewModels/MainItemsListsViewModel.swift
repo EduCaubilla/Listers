@@ -19,10 +19,15 @@ class MainItemsListsViewModel: BaseViewModel {
     @Published var showSaveNewProductAlert: Bool = false
     @Published var showCompletedListAlert: Bool = false
 
+    @Published var sharedURL: URL?
+    @Published var showShareSheet: Bool = false
+
     private var cancellables = Set<AnyCancellable>()
 
     let settingsManager = SettingsManager.shared
     var userSettings : DMSettings? = nil
+
+    let dataManager = DataManager.shared
 
     var currentScreen : NavRoute = .main
 
@@ -271,6 +276,24 @@ class MainItemsListsViewModel: BaseViewModel {
 
     func saveProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
         _ = super.saveNewProduct(name: name, description: description, categoryId: categoryId, active: active, favorite: favorite, then: saveItemListsChanges)
+    }
+
+    //MARK: - SHARING
+    func shareList() {
+        guard let currentList = selectedList else {
+            print("No list selected to share.")
+            return
+        }
+
+        if let url = dataManager.exportList(currentList) {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.sharedURL = url
+                self.showShareSheet = true
+            }
+        } else {
+            print("List could not be shared.")
+        }
     }
 
     //MARK: - COMMON

@@ -53,7 +53,7 @@ class SettingsManager {
         }
     }
 
-    func updateSettings( itemDescription: Bool, itemQuantity: Bool, itemEndDate: Bool, listDescription: Bool, listEndDate: Bool) {
+    func updateSettings(itemDescription: Bool, itemQuantity: Bool, itemEndDate: Bool, listDescription: Bool, listEndDate: Bool) {
         let updatedSettings = persistenceManager.updateSettings(
             itemDescription: itemDescription,
             itemQuantity: itemQuantity,

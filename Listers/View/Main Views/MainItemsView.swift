@@ -130,7 +130,7 @@ struct MainItemsView: View {
                     }
                 }
                 .toolbar {
-                    toolbarContentView(router: router, route: .main)
+                    toolbarContentView(router: router, route: .main, action: vm.shareList())
                 } //: TOOLBAR
                 .gesture(DragGesture(minimumDistance: 30, coordinateSpace: .global)
                     .onChanged { value in

@@ -16,6 +16,7 @@ class DataManager {
 
     private init() {}
 
+    //MARK: - LOAD CATEGORIES + PRODUCTS DATA
     func loadInitialDataIfNeeded<T: NSManagedObject & JSONLoadable>(for entityType: T.Type, context: NSManagedObjectContext) {
         let languageChanged = localizationManager.checkChangedLanguage()
 
@@ -91,6 +92,40 @@ class DataManager {
             try context.save()
         } catch {
             print("Error saving after deleting entity tables: \(error)")
+        }
+    }
+
+    //MARK: - LIST SHARING
+    func exportList(_ list: DMList) -> URL? {
+        let listData = list.toModel()
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted]
+
+        do {
+            let data = try encoder.encode(listData)
+            let url = FileManager.default.temporaryDirectory
+                .appendingPathComponent("\(UUID()).json")
+            try data.write(to: url)
+            return url
+        } catch {
+            print("Export List Data Error: \(error)")
+            return nil
+        }
+    }
+
+    func importList(from url: URL, context: NSManagedObjectContext) {
+        do {
+            guard let data = try? Data(contentsOf: url) else {
+                print("JSON file import list in \(url) could not be read.")
+                return
+            }
+
+            let listData = try JSONDecoder().decode(ListModel.self, from: data)
+            _ = DMList.mapper(from: listData, context: context)
+
+            try context.save()
+        } catch {
+            print("Import List Data Error: \(error)")
         }
     }
 }
