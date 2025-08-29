@@ -9,9 +9,6 @@ import SwiftUI
 import CoreData
 
 extension DMProduct : JSONLoadable {
-    
-    typealias JSONModel = ProductModel
-
     static var entityName: String { "DMProduct" }
 
     static var jsonFileName: String {

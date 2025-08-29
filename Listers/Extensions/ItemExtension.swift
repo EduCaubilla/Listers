@@ -9,8 +9,6 @@ import Foundation
 import CoreData
 
 extension DMItem : JSONLoadable {
-    typealias JSONModel = ItemModel
-
     static var entityName: String {
         String(describing: self)
     }

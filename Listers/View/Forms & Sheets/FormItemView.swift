@@ -265,8 +265,7 @@ struct FormItemView: View {
                             .frame(maxHeight: 240)
                             .allowsHitTesting(true)
                             .shadow(radius: 1)
-                            .background(Color.yellow.opacity(0.3))
-                            .allowsHitTesting(false) // Let taps go through
+                            .fixedSize(horizontal: false, vertical: true)
                         }
                     } //: OVERLAY
                 } //: VSTACK

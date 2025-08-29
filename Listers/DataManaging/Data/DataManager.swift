@@ -104,7 +104,7 @@ class DataManager {
         do {
             let data = try encoder.encode(listData)
             let url = FileManager.default.temporaryDirectory
-                .appendingPathComponent("\(UUID()).json")
+                .appendingPathComponent("\(list.name!).listersjson")
             try data.write(to: url)
             return url
         } catch {
@@ -114,18 +114,25 @@ class DataManager {
     }
 
     func importList(from url: URL, context: NSManagedObjectContext) {
-        do {
-            guard let data = try? Data(contentsOf: url) else {
-                print("JSON file import list in \(url) could not be read.")
-                return
+        DispatchQueue.main.async {
+            do {
+                guard let data = try? Data(contentsOf: url) else {
+                    print("JSON file import list in \(url) could not be read.")
+                    return
+                }
+
+                let listData = try JSONDecoder().decode(ListModel.self, from: data)
+                _ = DMList.mapper(from: listData, context: context)
+
+                try context.save()
+
+                // Refresh items for the new list to be seen
+                let mainItemsListVM = MainItemsListsViewModel()
+                mainItemsListVM.refreshItemsListData()
+
+            } catch {
+                print("Import List Data Error: \(error)")
             }
-
-            let listData = try JSONDecoder().decode(ListModel.self, from: data)
-            _ = DMList.mapper(from: listData, context: context)
-
-            try context.save()
-        } catch {
-            print("Import List Data Error: \(error)")
         }
     }
 }

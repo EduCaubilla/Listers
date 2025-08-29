@@ -83,10 +83,6 @@ struct FormListView: View {
         }
     }
 
-    private func closeCurrentListView() {
-
-    }
-
     //MARK: - BODY
     var body: some View {
         NavigationStack {

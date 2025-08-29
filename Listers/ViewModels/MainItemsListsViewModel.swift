@@ -305,7 +305,7 @@ class MainItemsListsViewModel: BaseViewModel {
         super.delete(object, then: refreshItemsListData)
     }
 
-    private func refreshItemsListData() {
+    func refreshItemsListData() {
         Task {
             await loadLists()
             await loadItemsForSelectedList()

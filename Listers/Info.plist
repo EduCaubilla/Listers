@@ -1,5 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict/>
+    <dict>
+        <key>CFBundleDocumentTypes</key>
+        <array>
+            <dict>
+                <key>CFBundleTypeName</key>
+                <string>Listers JSON</string>
+                <key>LSItemContentTypes</key>
+                <array>
+                    <string>com.educaubilla.Listers.listersjson</string>
+                </array>
+                <key>LSHandlerRank</key>
+                <string>Owner</string>
+            </dict>
+        </array>
+        <key>UTExportedTypeDeclarations</key>
+        <array>
+            <dict>
+                <key>UTTypeIdentifier</key>
+                <string>com.educaubilla.Listers.listersjson</string>
+                <key>UTTypeDescription</key>
+                <string>Listers List Sharing JSON</string>
+                <key>UTTypeConformsTo</key>
+                <array>
+                    <string>public.json</string>
+                </array>
+                <key>UTTypeTagSpecification</key>
+                <dict>
+                    <key>public.filename-extension</key>
+                    <array>
+                        <string>listersjson</string>
+                    </array>
+                    <key>public.mime-type</key>
+                    <array>
+                        <string>application/x-listersjson</string>
+                    </array>
+                </dict>
+            </dict>
+        </array>
+    </dict>
 </plist>

@@ -13,7 +13,7 @@ import SwiftUI
 ///   - route: Enum containing all views
 /// - Returns: A content to populate a toolbar
 @ToolbarContentBuilder
-func toolbarContentView(router: NavigationRouter, route: NavRoute, action: () = ()) -> some ToolbarContent {
+func toolbarContentView(router: NavigationRouter, route: NavRoute, action: @escaping () -> Void = {}) -> some ToolbarContent {
     ToolbarItemGroup(placement: .topBarLeading) {
         // TODO - Add search in categories
         if route == .main || route == .lists {
@@ -44,8 +44,7 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute, action: () = 
     ToolbarItemGroup(placement: .topBarTrailing) {
         if route == .main {
             Button(action: {
-                print("Share list")
-                action
+                action()
             }) {
                 Image(systemName: "square.and.arrow.up")
                     .resizable()

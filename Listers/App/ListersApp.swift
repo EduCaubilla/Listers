@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreData
 
 @main
 struct ListersApp: App {
@@ -16,6 +17,7 @@ struct ListersApp: App {
     let appAppearanceManager = AppAppearanceManager.shared
     let settingsManager = SettingsManager.shared
     let localizationManager = L10n.shared
+    let dataManager = DataManager.shared
 
     //MARK: - BODY
     var body: some Scene {
@@ -27,11 +29,19 @@ struct ListersApp: App {
                         settingsManager.loadSettings()
                         localizationManager.persistLanguage()
                     }
+                    .onOpenURL { url in
+                        handleIncomingFile(url: url, context: persistenceController.container.viewContext)
+                    }
         }
     }
 
     //MARK: - FUNCTIONS
-    func handleEnterForeround(_ note: Notification) {
+    private func handleEnterForeround(_ note: Notification) {
         persistenceController.saveContext()
+    }
+
+    private func handleIncomingFile(url: URL, context: NSManagedObjectContext) {
+        guard url.pathExtension == "listersjson" else { return }
+        dataManager.importList(from: url, context: context)
     }
 }

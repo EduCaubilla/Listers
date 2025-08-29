@@ -9,8 +9,6 @@ import SwiftUI
 import CoreData
 
 extension DMList: JSONLoadable {
-    typealias JSONModel = ListModel
-
     static var entityName: String {
         String(describing: self)
     }
@@ -24,6 +22,10 @@ extension DMList: JSONLoadable {
         list.notes = jsonModel.notes
         list.creationDate = jsonModel.creationDate
         list.endDate = jsonModel.endDate
+        list.selected = true
+        list.completed = false
+        list.pinned = false
+        list.expanded = false
 
         let items = jsonModel.items.map { itemModel -> DMItem in
             let item = DMItem(context: context)
@@ -49,7 +51,8 @@ extension DMList: JSONLoadable {
             items: (self.items as? Set<DMItem> ?? []).map { $0.toModel() },
             notes: notes ?? "",
             creationDate: self.creationDate ?? Date(),
-            endDate: self.endDate ?? Date()
+            endDate: self.endDate ?? Date(),
+            selected: true
         )
     }
 }

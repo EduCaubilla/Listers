@@ -14,4 +14,5 @@ struct ListModel: Codable {
     let notes: String?
     let creationDate: Date
     let endDate: Date?
+    let selected: Bool
 }
