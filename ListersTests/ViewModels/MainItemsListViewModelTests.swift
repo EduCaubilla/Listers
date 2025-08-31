@@ -326,9 +326,9 @@ final class MainItemsListViewModelTests: XCTestCase {
         // Arrange
         let mockList = createMockList(name: "Test List", context: context)
         let mockItems = createMockItems(count: 3, context: context)
-        mockItems[0].completed = true
+        mockItems[0].completed = false
         mockItems[1].completed = false
-        mockItems[2].completed = false
+        mockItems[2].completed = true
 
         sut.selectedList = mockList
         mockPersistenceManager.mockItems = mockItems

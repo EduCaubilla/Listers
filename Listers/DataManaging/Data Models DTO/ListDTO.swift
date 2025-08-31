@@ -1,5 +1,5 @@
 //
-//  ItemModel.swift
+//  ListDTO.swift
 //  Listers
 //
 //  Created by Edu Caubilla on 28/8/25.
@@ -7,13 +7,12 @@
 
 import SwiftUI
 
-struct ItemModel: Codable {
+struct ListDTO: Codable {
     let id: UUID
-    let listId: UUID
     let name: String
+    let items: [ItemDTO]
     let notes: String?
-    let priority: String?
-    let quantity: Int?
-    let creationDate: Date?
+    let creationDate: Date
     let endDate: Date?
+    let selected: Bool
 }

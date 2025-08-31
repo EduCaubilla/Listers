@@ -1,5 +1,5 @@
 //
-//  CategoryExtension.swift
+//  DMCategoryExtension.swift
 //  Listers
 //
 //  Created by Edu Caubilla on 8/7/25.
@@ -17,7 +17,7 @@ extension DMCategory: JSONLoadable {
         return "categories_\(languageCode)"
     }
 
-    static func mapper(from jsonModel: CategoryModel, context: NSManagedObjectContext) -> Self {
+    static func mapper(from jsonModel: CategoryDTO, context: NSManagedObjectContext) -> Self {
         let category = DMCategory(context: context)
         category.uuid = UUID()
         category.name = jsonModel.name

@@ -74,6 +74,12 @@ class MainItemsListsViewModel: BaseViewModel {
         super.init(persistenceManager: persistenceManager)
 
         setupSelectedListDataBinding()
+        setupDataManagerSubscription()
+    }
+
+    //MARK: - DEINITIALIZER
+    deinit {
+        cancellables.removeAll()
     }
 
     //MARK: - FUNCTIONS
@@ -100,6 +106,15 @@ class MainItemsListsViewModel: BaseViewModel {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] _ in
                 Task { await self?.loadItemsForSelectedList() }
+            }
+            .store(in: &cancellables)
+    }
+
+    private func setupDataManagerSubscription() {
+        DataManager.shared.didImportList
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                self?.refreshItemsListData()
             }
             .store(in: &cancellables)
     }
@@ -171,8 +186,8 @@ class MainItemsListsViewModel: BaseViewModel {
         refreshItemsListData()
 
         if isListCompleted && currentScreen == .main {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
-                showCompletedListAlert = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                self?.showCompletedListAlert = true
             }
         }
     }

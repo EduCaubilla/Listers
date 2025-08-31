@@ -1,5 +1,5 @@
 //
-//  ItemExtension.swift
+//  DMItemExtension.swift
 //  Listers
 //
 //  Created by Edu Caubilla on 28/8/25.
@@ -8,14 +8,8 @@
 import Foundation
 import CoreData
 
-extension DMItem : JSONLoadable {
-    static var entityName: String {
-        String(describing: self)
-    }
-
-    static var jsonFileName: String { "" }
-
-    static func mapper(from jsonModel: ItemModel, context: NSManagedObjectContext) -> Self {
+extension DMItem {
+    static func mapper(from jsonModel: ItemDTO, context: NSManagedObjectContext) -> Self {
         let item = Self(context: context)
         item.id = jsonModel.id
         item.listId = jsonModel.listId
@@ -29,8 +23,8 @@ extension DMItem : JSONLoadable {
         return item
     }
 
-    func toModel() -> ItemModel {
-        ItemModel(
+    func toModel() -> ItemDTO {
+        ItemDTO(
             id: id ?? UUID(),
             listId: listId ?? UUID(),
             name: name ?? "",

@@ -123,7 +123,7 @@ final class MainItemsUITests: XCTestCase {
         let firstItemCell = app.cells.firstMatch
         XCTAssertTrue(firstItemCell.exists)
 
-        // Assuming you have an edit button/action in your ItemRowCellView
+        // Swipe and edit
         firstItemCell.swipeRight()
         let editButton = app.buttons["edit_item_button"]
         editButton.tap()
@@ -247,6 +247,10 @@ final class MainItemsUITests: XCTestCase {
             itemNameField.tap()
             itemNameField.typeText("TestItem")
 
+            //Discard saving it in Library
+            app.buttons["form_item_cancel"].tap()
+
+            //Save
             app.buttons["save_item_button"].tap()
         }
     }

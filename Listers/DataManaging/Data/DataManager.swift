@@ -7,13 +7,17 @@
 
 import SwiftUI
 import CoreData
+import Combine
 
 class DataManager {
     //MARK: - PROPERTIES
     static let shared = DataManager()
 
+    let didImportList = PassthroughSubject<Void, Never>()
+
     let localizationManager = L10n.shared
 
+    //MARK: - INITIALIZER
     private init() {}
 
     //MARK: - LOAD CATEGORIES + PRODUCTS DATA
@@ -104,7 +108,7 @@ class DataManager {
         do {
             let data = try encoder.encode(listData)
             let url = FileManager.default.temporaryDirectory
-                .appendingPathComponent("\(list.name!).listersjson")
+                .appendingPathComponent("\(list.name ?? "List").listersjson")
             try data.write(to: url)
             return url
         } catch {
@@ -121,14 +125,13 @@ class DataManager {
                     return
                 }
 
-                let listData = try JSONDecoder().decode(ListModel.self, from: data)
+                let listData = try JSONDecoder().decode(ListDTO.self, from: data)
                 _ = DMList.mapper(from: listData, context: context)
 
                 try context.save()
 
-                // Refresh items for the new list to be seen
-                let mainItemsListVM = MainItemsListsViewModel()
-                mainItemsListVM.refreshItemsListData()
+                // Refresh items in MainItemsView for the new list to be seen
+                self.didImportList.send()
 
             } catch {
                 print("Import List Data Error: \(error)")

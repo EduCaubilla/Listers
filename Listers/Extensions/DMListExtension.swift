@@ -1,5 +1,5 @@
 //
-//  ListExtension.swift
+//  DMListExtension.swift
 //  Listers
 //
 //  Created by Edu Caubilla on 28/8/25.
@@ -8,14 +8,8 @@
 import SwiftUI
 import CoreData
 
-extension DMList: JSONLoadable {
-    static var entityName: String {
-        String(describing: self)
-    }
-
-    static var jsonFileName: String { "" }
-
-    static func mapper(from jsonModel: ListModel, context: NSManagedObjectContext) -> Self {
+extension DMList {
+    static func mapper(from jsonModel: ListDTO, context: NSManagedObjectContext) -> Self {
         let list = Self(context: context)
         list.id = jsonModel.id
         list.name = jsonModel.name
@@ -44,8 +38,8 @@ extension DMList: JSONLoadable {
         return list
     }
 
-    func toModel() -> ListModel {
-        ListModel(
+    func toModel() -> ListDTO {
+        ListDTO(
             id: self.id ?? UUID(),
             name: self.name ?? "",
             items: (self.items as? Set<DMItem> ?? []).map { $0.toModel() },

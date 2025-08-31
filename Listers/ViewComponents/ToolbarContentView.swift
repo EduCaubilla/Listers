@@ -11,12 +11,13 @@ import SwiftUI
 /// - Parameters:
 ///   - router: Class that appends route to path
 ///   - route: Enum containing all views
+///   - action: Closure to trigger when tap sharing
 /// - Returns: A content to populate a toolbar
 @ToolbarContentBuilder
 func toolbarContentView(router: NavigationRouter, route: NavRoute, action: @escaping () -> Void = {}) -> some ToolbarContent {
     ToolbarItemGroup(placement: .topBarLeading) {
-        // TODO - Add search in categories
         if route == .main || route == .lists {
+            // To Library
             Button(action: {
                 withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.categories, withBack: true)
@@ -28,6 +29,7 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute, action: @esca
                     .foregroundStyle(.darkBlue)
             }
 
+            // To Settings
             Button(action: {
                 withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.settings, withBack: true)
@@ -43,6 +45,7 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute, action: @esca
 
     ToolbarItemGroup(placement: .topBarTrailing) {
         if route == .main {
+            // Share List
             Button(action: {
                 action()
             }) {
@@ -54,6 +57,7 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute, action: @esca
                     .padding(.bottom, 3)
             }
 
+            // To Lists
             Button(action: {
                 withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.lists)
@@ -67,6 +71,7 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute, action: @esca
         }
 
         if route == .lists {
+            // To Main List
             Button(action: {
                 withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.main)
