@@ -74,7 +74,7 @@ class MainItemsListsViewModel: BaseViewModel {
         super.init(persistenceManager: persistenceManager)
 
         setupSelectedListDataBinding()
-        setupDataManagerSubscription()
+        setupNotificationReceiver()
     }
 
     //MARK: - DEINITIALIZER
@@ -98,6 +98,8 @@ class MainItemsListsViewModel: BaseViewModel {
 
             await loadItemsForSelectedList()
         }
+
+        setupNotificationReceiver()
     }
 
     //MARK: - LISTS
@@ -110,13 +112,16 @@ class MainItemsListsViewModel: BaseViewModel {
             .store(in: &cancellables)
     }
 
-    private func setupDataManagerSubscription() {
-        DataManager.shared.didImportList
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] _ in
-                self?.refreshItemsListData()
+    private func setupNotificationReceiver() {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("ShareListLoaded"), object: nil, queue: .main) { [weak self] notification in
+            self?.refreshItemsListData()
+            if let sharedList = notification.object as? DMList {
+                Task {
+                    await self?.updateSelectedList(sharedList)
+                }
             }
-            .store(in: &cancellables)
+            print("Refresh data from sharing ---->")
+        }
     }
 
     @MainActor

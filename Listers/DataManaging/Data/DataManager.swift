@@ -13,9 +13,9 @@ class DataManager {
     //MARK: - PROPERTIES
     static let shared = DataManager()
 
-    let didImportList = PassthroughSubject<Void, Never>()
-
     let localizationManager = L10n.shared
+
+    let onDataLoaded: (() -> Void)? = nil
 
     //MARK: - INITIALIZER
     private init() {}
@@ -126,16 +126,16 @@ class DataManager {
                 }
 
                 let listData = try JSONDecoder().decode(ListDTO.self, from: data)
-                _ = DMList.mapper(from: listData, context: context)
-
-                try context.save()
+                let sharedList = DMList.mapper(from: listData, context: context)
 
                 // Refresh items in MainItemsView for the new list to be seen
-                self.didImportList.send()
+                NotificationCenter.default.post(name: NSNotification.Name("ShareListLoaded"), object: sharedList)
 
+                try context.save()
             } catch {
                 print("Import List Data Error: \(error)")
             }
+
         }
     }
 }
