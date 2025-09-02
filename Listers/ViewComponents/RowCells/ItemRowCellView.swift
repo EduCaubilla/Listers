@@ -126,9 +126,15 @@ struct ItemRowCellView: View {
 
                     //QUANTITY
                     if vm.isItemQuantityVisible {
-                        Text("\(L10n.shared.localizeDict("unit_count", count: Int(item.quantity)))")
-                            .foregroundStyle(.lightBlue)
-                            .padding(3)
+                        if (item.quantity == 0){
+                            Text("\(String(item.quantity)) \(L10n.shared.localizeDict("unit_count", count: Int(item.quantity)))")
+                                .font(.subheadline)
+                                .foregroundStyle(.lightBlue)
+                        } else {
+                            Text("\(L10n.shared.localizeDict("unit_count", count: Int(item.quantity)))")
+                                .font(.subheadline)
+                                .foregroundStyle(.lightBlue)
+                        }
                     }
                 } //: HSTACK
             }

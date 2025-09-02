@@ -100,6 +100,7 @@ struct MainItemsView: View {
                         ZStack {
                             Color.background
                                 .ignoresSafeArea(edges: .all)
+
                             VStack(alignment: .center, spacing: 20) {
                                 Text(noItemsLabel)
                                     .font(.system(size: 40, weight: .thin))
@@ -107,7 +108,6 @@ struct MainItemsView: View {
                                     .multilineTextAlignment(.center)
                                 Image(systemName: addItemIconCircle)
                                     .font(.system(size: 60, weight: .thin))
-                                    .symbolEffect(.bounce, options: .speed(0.2).repeat(.periodic(25, delay: 1)))
                                     .foregroundStyle(.primaryText)
                             }
                             .onAppear {
@@ -130,7 +130,7 @@ struct MainItemsView: View {
                     }
                 }
                 .toolbar {
-                    toolbarContentView(router: router, route: .main)
+                    toolbarContentView(router: router, route: .main, action: {vm.shareList()})
                 } //: TOOLBAR
                 .gesture(DragGesture(minimumDistance: 30, coordinateSpace: .global)
                     .onChanged { value in
@@ -162,6 +162,9 @@ struct MainItemsView: View {
                     .presentationDetents([.height(320)])
                     .presentationBackground(Color.background)
             }
+            .sheet(isPresented: $vm.showShareSheet, content: {
+                ShareSheet(items: [vm.sharedURL ?? ""])
+            })
             .alert(
                 completedListTitle,
                 isPresented: $vm.showCompletedListAlert,

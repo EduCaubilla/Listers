@@ -1,5 +1,5 @@
 //
-//  ProductExtension.swift
+//  DMProductExtension.swift
 //  Listers
 //
 //  Created by Edu Caubilla on 8/7/25.
@@ -9,9 +9,6 @@ import SwiftUI
 import CoreData
 
 extension DMProduct : JSONLoadable {
-    
-    typealias JSONModel = ProductModel
-
     static var entityName: String { "DMProduct" }
 
     static var jsonFileName: String {
@@ -19,7 +16,7 @@ extension DMProduct : JSONLoadable {
         return "products_\(languageCode)"
     }
 
-    static func mapper(from jsonModel: ProductModel, context: NSManagedObjectContext) -> Self {
+    static func mapper(from jsonModel: ProductDTO, context: NSManagedObjectContext) -> Self {
         let product = DMProduct(context: context)
         product.uuid = UUID()
         product.id = jsonModel.id

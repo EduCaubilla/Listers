@@ -258,7 +258,7 @@ struct FormItemView: View {
                                         Divider()
                                     }
                                 } //: VSTACK
-                                .background(Color.white.opacity(0.95))
+                                .background(.backgroundGray)
                                 .padding(EdgeInsets(top: 0, leading: -5, bottom: 0, trailing: -2))
                             } //: SCROLLVIEW - SUGGESTIONS
                             .padding(.top, -10)

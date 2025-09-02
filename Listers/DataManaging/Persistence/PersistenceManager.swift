@@ -15,8 +15,6 @@ struct PersistenceManager : PersistenceManagerProtocol {
 
     static let shared = PersistenceManager()
 
-    typealias T = NSManagedObject
-
     //MARK: - INITIALIZER
     init(context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
         self.viewContext = context

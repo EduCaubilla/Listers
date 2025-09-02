@@ -87,11 +87,11 @@ struct ListRowCellView: View {
                         }
 
                         if (listItems.count == 0){
-                            Text("\(listItems.count) \(L10n.shared.localizeDict("unit_count", count: Int(listItems.count)))")
+                            Text("\(listItems.count) \(L10n.shared.localizeDict("article_count", count: Int(listItems.count)))")
                                 .font(.subheadline)
                                 .foregroundStyle(.lightBlue)
                         } else {
-                            Text("\(L10n.shared.localizeDict("unit_count", count: Int(listItems.count)))")
+                            Text("\(L10n.shared.localizeDict("article_count", count: Int(listItems.count)))")
                             .font(.subheadline)
                             .foregroundStyle(.lightBlue)
                         }
@@ -161,8 +161,8 @@ struct ListRowCellView: View {
                 .tint(.mediumBlue)
             }
 
-            VStack(alignment: .leading, spacing: 0) {
-                if(selectedList.expanded) {
+            if(selectedList.expanded) {
+                VStack(alignment: .leading, spacing: 0) {
                     //MARK: - List items
                     ForEach(Array(listItems.enumerated()), id: \.1) { index, item in
                         ItemRowCellView(
@@ -179,17 +179,17 @@ struct ListRowCellView: View {
                                 .padding(.top, 5)
                         }
                     } //: LOOP
+                } //: VSTACK
+                .padding(.top, -5)
+                .padding(.bottom, 8)
+                .alert(deleteWarningTitle, isPresented: $showingDeleteConfirmation) {
+                    Button(deleteLabel, role: .destructive) {
+                        deleteList()
+                    }
+                    Button(cancelLabel, role: .cancel) { }
+                } message: {
+                    Text(L10n.shared.localize("list_row_cellview_remove_confirmation", args: selectedList.name ?? "selected list"))
                 }
-            } //: VSTACK
-            .padding(.top, -5)
-            .padding(.bottom, 8)
-            .alert(deleteWarningTitle, isPresented: $showingDeleteConfirmation) {
-                Button(deleteLabel, role: .destructive) {
-                    deleteList()
-                }
-                Button(cancelLabel, role: .cancel) { }
-            } message: {
-                Text(L10n.shared.localize("list_row_cellview_remove_confirmation", args: selectedList.name ?? "selected list"))
             }
         } //: VSTACK MAIN
         .padding(.top, selectedList.expanded ? 6 : 0)

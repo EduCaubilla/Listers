@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import Combine
 
 class DataManager {
     //MARK: - PROPERTIES
@@ -14,8 +15,12 @@ class DataManager {
 
     let localizationManager = L10n.shared
 
+    let onDataLoaded: (() -> Void)? = nil
+
+    //MARK: - INITIALIZER
     private init() {}
 
+    //MARK: - LOAD CATEGORIES + PRODUCTS DATA
     func loadInitialDataIfNeeded<T: NSManagedObject & JSONLoadable>(for entityType: T.Type, context: NSManagedObjectContext) {
         let languageChanged = localizationManager.checkChangedLanguage()
 
@@ -91,6 +96,46 @@ class DataManager {
             try context.save()
         } catch {
             print("Error saving after deleting entity tables: \(error)")
+        }
+    }
+
+    //MARK: - LIST SHARING
+    func exportList(_ list: DMList) -> URL? {
+        let listData = list.toModel()
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.prettyPrinted]
+
+        do {
+            let data = try encoder.encode(listData)
+            let url = FileManager.default.temporaryDirectory
+                .appendingPathComponent("\(list.name ?? "List").listersjson")
+            try data.write(to: url)
+            return url
+        } catch {
+            print("Export List Data Error: \(error)")
+            return nil
+        }
+    }
+
+    func importList(from url: URL, context: NSManagedObjectContext) {
+        DispatchQueue.main.async {
+            do {
+                guard let data = try? Data(contentsOf: url) else {
+                    print("JSON file import list in \(url) could not be read.")
+                    return
+                }
+
+                let listData = try JSONDecoder().decode(ListDTO.self, from: data)
+                let sharedList = DMList.mapper(from: listData, context: context)
+
+                // Refresh items in MainItemsView for the new list to be seen
+                NotificationCenter.default.post(name: NSNotification.Name("ShareListLoaded"), object: sharedList)
+
+                try context.save()
+            } catch {
+                print("Import List Data Error: \(error)")
+            }
+
         }
     }
 }

@@ -11,12 +11,13 @@ import SwiftUI
 /// - Parameters:
 ///   - router: Class that appends route to path
 ///   - route: Enum containing all views
+///   - action: Closure to trigger when tap sharing
 /// - Returns: A content to populate a toolbar
 @ToolbarContentBuilder
-func toolbarContentView(router: NavigationRouter, route: NavRoute) -> some ToolbarContent {
+func toolbarContentView(router: NavigationRouter, route: NavRoute, action: @escaping () -> Void = {}) -> some ToolbarContent {
     ToolbarItemGroup(placement: .topBarLeading) {
-        // TODO - Add search in categories
         if route == .main || route == .lists {
+            // To Library
             Button(action: {
                 withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.categories, withBack: true)
@@ -28,6 +29,7 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute) -> some Toolb
                     .foregroundStyle(.darkBlue)
             }
 
+            // To Settings
             Button(action: {
                 withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.settings, withBack: true)
@@ -43,6 +45,19 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute) -> some Toolb
 
     ToolbarItemGroup(placement: .topBarTrailing) {
         if route == .main {
+            // Share List
+            Button(action: {
+                action()
+            }) {
+                Image(systemName: "square.and.arrow.up")
+                    .resizable()
+                    .scaledToFit()
+                    .foregroundStyle(.darkBlue)
+                    .frame(height: 26)
+                    .padding(.bottom, 3)
+            }
+
+            // To Lists
             Button(action: {
                 withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.lists)
@@ -56,6 +71,7 @@ func toolbarContentView(router: NavigationRouter, route: NavRoute) -> some Toolb
         }
 
         if route == .lists {
+            // To Main List
             Button(action: {
                 withTransaction(Transaction(animation: .default)) {
                     router.navigateTo(.main)

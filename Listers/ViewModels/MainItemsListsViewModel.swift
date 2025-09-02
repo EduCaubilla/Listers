@@ -19,10 +19,15 @@ class MainItemsListsViewModel: BaseViewModel {
     @Published var showSaveNewProductAlert: Bool = false
     @Published var showCompletedListAlert: Bool = false
 
+    @Published var sharedURL: URL?
+    @Published var showShareSheet: Bool = false
+
     private var cancellables = Set<AnyCancellable>()
 
     let settingsManager = SettingsManager.shared
     var userSettings : DMSettings? = nil
+
+    let dataManager = DataManager.shared
 
     var currentScreen : NavRoute = .main
 
@@ -69,6 +74,12 @@ class MainItemsListsViewModel: BaseViewModel {
         super.init(persistenceManager: persistenceManager)
 
         setupSelectedListDataBinding()
+        setupNotificationReceiver()
+    }
+
+    //MARK: - DEINITIALIZER
+    deinit {
+        cancellables.removeAll()
     }
 
     //MARK: - FUNCTIONS
@@ -87,6 +98,8 @@ class MainItemsListsViewModel: BaseViewModel {
 
             await loadItemsForSelectedList()
         }
+
+        setupNotificationReceiver()
     }
 
     //MARK: - LISTS
@@ -97,6 +110,18 @@ class MainItemsListsViewModel: BaseViewModel {
                 Task { await self?.loadItemsForSelectedList() }
             }
             .store(in: &cancellables)
+    }
+
+    private func setupNotificationReceiver() {
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("ShareListLoaded"), object: nil, queue: .main) { [weak self] notification in
+            self?.refreshItemsListData()
+            if let sharedList = notification.object as? DMList {
+                Task {
+                    await self?.updateSelectedList(sharedList)
+                }
+            }
+            print("Refresh data from sharing ---->")
+        }
     }
 
     @MainActor
@@ -166,8 +191,8 @@ class MainItemsListsViewModel: BaseViewModel {
         refreshItemsListData()
 
         if isListCompleted && currentScreen == .main {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [self] in
-                showCompletedListAlert = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+                self?.showCompletedListAlert = true
             }
         }
     }
@@ -273,6 +298,24 @@ class MainItemsListsViewModel: BaseViewModel {
         _ = super.saveNewProduct(name: name, description: description, categoryId: categoryId, active: active, favorite: favorite, then: saveItemListsChanges)
     }
 
+    //MARK: - SHARING
+    func shareList() {
+        guard let currentList = selectedList else {
+            print("No list selected to share.")
+            return
+        }
+
+        if let url = dataManager.exportList(currentList) {
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.sharedURL = url
+                self.showShareSheet = true
+            }
+        } else {
+            print("List could not be shared.")
+        }
+    }
+
     //MARK: - COMMON
     func saveItemListsChanges() {
         super.saveChanges(then: refreshItemsListData)
@@ -282,7 +325,7 @@ class MainItemsListsViewModel: BaseViewModel {
         super.delete(object, then: refreshItemsListData)
     }
 
-    private func refreshItemsListData() {
+    func refreshItemsListData() {
         Task {
             await loadLists()
             await loadItemsForSelectedList()

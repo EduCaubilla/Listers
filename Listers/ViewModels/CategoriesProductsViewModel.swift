@@ -101,9 +101,9 @@ class CategoriesProductsViewModel: BaseViewModel {
     }
 
     func saveProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) -> Int {
-        let updateState: () -> Void = {
-            self.saveCategoriesProductsUpdates()
-            self.fetchProducts()
+        let updateState: () -> Void = { [weak self] in
+            self?.saveCategoriesProductsUpdates()
+            self?.fetchProducts()
         }
         return super.saveNewProduct(name: name, description: description, categoryId: categoryId, active: active, favorite: favorite, then: updateState)
     }
@@ -206,7 +206,8 @@ class CategoriesProductsViewModel: BaseViewModel {
         saveCategoriesProductsUpdates()
         setSelectedProduct(productToScroll)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+            guard self != nil else { return }
             withAnimation(.default){
                 proxy.scrollTo(productToScroll.id, anchor: .center)
                 print("Scroll to found product: \(productToScroll.name ?? "Unknown") with id: \(productToScroll.id)")
