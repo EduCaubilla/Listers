@@ -79,11 +79,11 @@ struct MainItemsView: View {
                                 .listRowBackground(Color.clear)
                             } //: LOOP
                         } //: LIST
-                        .padding(.top)
-                        .listStyle(.inset)
+                        .padding(.top, 5)
+                        .listStyle(.plain)
                         .navigationTitle(Text(selectedListName))
-                        .navigationBarTitleDisplayMode(.inline)
                         .navigationBarBackButtonHidden(true)
+                        .navigationBarTitleDisplayMode(.inline)
                         .safeAreaInset(
                             edge: .bottom,
                             content: {
@@ -93,8 +93,32 @@ struct MainItemsView: View {
                                     addButtonAction: {vm.changeFormViewState(to: .openAddItem)}
                                 )
                             })
+                        .toolbar {
+                            toolbarContentView(router: router, route: .main, action: {vm.shareList()})
+                        } //: TOOLBAR
                         .scrollContentBackground(.hidden)
                         .background(Color.background)
+                        .gesture(
+                            DragGesture(minimumDistance: 100, coordinateSpace: .global)
+                                .onChanged { value in
+                                    if vm.lists.isEmpty { return }
+
+                                    Task {
+                                        print("Swipe value start location x: \(value.startLocation.x)")
+                                        print("Swipe value location x: \(value.location.x)")
+                                        print("Swipe value translation width: \(value.translation.width)")
+                                    }
+
+                                    guard value.startLocation.x > 300,
+                                          value.translation.width < -80 else {
+                                        Task { print("swipeFAILED") }
+                                        return
+                                    }
+
+                                    Task { print("swipeOK") }
+                                    router.navigateTo(.lists)
+                                }
+                        )
                         .accessibilityIdentifier("main_items_view")
                     } else {
                         ZStack {
@@ -121,28 +145,6 @@ struct MainItemsView: View {
                         .accessibilityIdentifier("empty_state_view")
                     }
                 } //: VSTACK
-                .onAppear {
-                    DispatchQueue.main.async {
-                        vm.loadInitData()
-                        vm.loadProductNames()
-                        vm.loadSettings()
-                        vm.currentScreen = .main
-                    }
-                }
-                .toolbar {
-                    toolbarContentView(router: router, route: .main, action: {vm.shareList()})
-                } //: TOOLBAR
-                .gesture(DragGesture(minimumDistance: 30, coordinateSpace: .global)
-                    .onChanged { value in
-                        if vm.lists.isEmpty { return }
-
-                        guard value.startLocation.x > 100,
-                              value.translation.width > -50 else {
-                            return
-                        }
-
-                        router.navigateTo(.lists)
-                    })
             } //: VSTACK MAIN
             .sheet(isPresented: $vm.showingAddItemView, onDismiss: onDismissModal) {
                 FormItemView(vm: vm)
@@ -165,6 +167,14 @@ struct MainItemsView: View {
             .sheet(isPresented: $vm.showShareSheet, content: {
                 ShareSheet(items: [vm.sharedURL ?? ""])
             })
+            .onAppear {
+                DispatchQueue.main.async {
+                    vm.loadInitData()
+                    vm.loadProductNames()
+                    vm.loadSettings()
+                    vm.currentScreen = .main
+                }
+            }
             .alert(
                 completedListTitle,
                 isPresented: $vm.showCompletedListAlert,

@@ -54,12 +54,19 @@ struct ListRowCellView: View {
             vm.selectedList = nil
         }
 
+        print("Delete list ---->")
+
         saveUpdatedList()
     }
 
     private func saveUpdatedList() {
         vm.saveItemListsChanges()
         vm.loadLists()
+    }
+
+    private func printDelete() {
+        print("DELETE -------->")
+        print("\(showingDeleteConfirmation)")
     }
 
     //MARK: - BODY
@@ -130,6 +137,7 @@ struct ListRowCellView: View {
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 Button(action: {
                     showingDeleteConfirmation.toggle()
+                    printDelete()
                 }) {
                     Label(deleteLabel, systemImage: deleteIcon)
                         .labelStyle(.iconOnly)
@@ -160,6 +168,14 @@ struct ListRowCellView: View {
                 }
                 .tint(.mediumBlue)
             }
+            .alert(deleteWarningTitle, isPresented: $showingDeleteConfirmation) {
+                Button(deleteLabel, role: .destructive) {
+                    deleteList()
+                }
+                Button(cancelLabel, role: .cancel) { }
+            } message: {
+                Text(L10n.shared.localize("list_row_cellview_remove_confirmation", args: selectedList.name ?? "selected list"))
+            }
 
             if(selectedList.expanded) {
                 VStack(alignment: .leading, spacing: 0) {
@@ -182,20 +198,11 @@ struct ListRowCellView: View {
                 } //: VSTACK
                 .padding(.top, -5)
                 .padding(.bottom, 8)
-                .alert(deleteWarningTitle, isPresented: $showingDeleteConfirmation) {
-                    Button(deleteLabel, role: .destructive) {
-                        deleteList()
-                    }
-                    Button(cancelLabel, role: .cancel) { }
-                } message: {
-                    Text(L10n.shared.localize("list_row_cellview_remove_confirmation", args: selectedList.name ?? "selected list"))
-                }
             }
         } //: VSTACK MAIN
         .padding(.top, selectedList.expanded ? 6 : 0)
         .background(Color.background)
     } //: VIEW
-
 }
 #if DEBUG
     private func getListPreview() -> DMList {

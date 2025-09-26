@@ -78,12 +78,14 @@ struct ItemRowCellView: View {
     //MARK: - BODY
     var body: some View {
         VStack {
-            VStack(alignment: .leading, spacing: 0){
-                HStack(alignment: .center, spacing: 5) {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .top, spacing: 5) {
                     // COLOR MARK FOR PRIORITY
-                    Rectangle()
-                        .frame(width: 4, height: 30)
-                        .foregroundStyle(color)
+                    if color != .clear {
+                        Rectangle()
+                            .frame(width: 4, height: 30)
+                            .foregroundStyle(color)
+                    }
 
                     //COMPLETION TOGGLE
                     Toggle("", isOn: Binding(
@@ -120,7 +122,6 @@ struct ItemRowCellView: View {
                                 .lineLimit(3)
                         }
                     } //: VSTACK
-                    .padding(.leading, 5)
 
                     Spacer(minLength: 0)
 

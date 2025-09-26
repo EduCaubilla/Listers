@@ -61,6 +61,7 @@ struct ListsView: View {
                     } //: LOOP
                 }
             } //: LIST
+            .padding(.top, 5)
             .listStyle(.plain)
             .navigationTitle(Text(viewTitle))
             .navigationBarBackButtonHidden(true)
@@ -77,17 +78,19 @@ struct ListsView: View {
             } //: TOOLBAR
             .scrollContentBackground(.hidden)
             .background(Color.background)
-            .gesture(DragGesture(minimumDistance: 30, coordinateSpace: .global)
-            .onChanged { value in
-                if vm.lists.isEmpty { return }
+            .gesture(
+                DragGesture(minimumDistance: 100, coordinateSpace: .global)
+                    .onChanged { value in
+                        if vm.lists.isEmpty { return }
 
-                guard value.startLocation.x < 100,
-                      value.translation.width > 50 else {
-                    return
-                }
+                        guard value.startLocation.x < 100,
+                              value.translation.width > 80 else {
+                            return
+                        }
 
-                router.navigateTo(.main)
-            })
+                        router.navigateTo(.main)
+                    }
+            )
             .accessibilityIdentifier("lists_view")
         } //: VSTACK MAIN
         .sheet(isPresented: $vm.showingAddListView) {
@@ -108,6 +111,7 @@ struct ListsView: View {
                 vm.currentScreen = .lists
             }
         }
+        .background(Color.background)
     } //: VIEW BODY
 } //: VIEW MAIN
 

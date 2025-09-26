@@ -24,6 +24,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		771F1A572E86822100B1A2AA /* Listers.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Listers.xctestplan; sourceTree = "<group>"; };
 		7749623A2DFAF3200039E8B8 /* Listers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Listers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		777C03062E3A39EB00435C4C /* ListersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		77A0CDBF2E38A787003CC2B8 /* ListersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ListersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +89,7 @@
 		774962312DFAF3200039E8B8 = {
 			isa = PBXGroup;
 			children = (
+				771F1A572E86822100B1A2AA /* Listers.xctestplan */,
 				7749623C2DFAF3200039E8B8 /* Listers */,
 				77A0CDC02E38A787003CC2B8 /* ListersTests */,
 				777C03072E3A39EB00435C4C /* ListersUITests */,
