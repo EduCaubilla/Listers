@@ -59,7 +59,7 @@ class BaseViewModel: ObservableObject {
                     self.products = productsResult
                 }
             } else {
-                Task {
+                Task { @MainActor in
                     self.productNames = self.products.map { $0.name ?? "Unknown Product Name" }
                 }
                 print("Product names loaded: \(productNames.count)")

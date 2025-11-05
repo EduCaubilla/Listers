@@ -200,10 +200,6 @@ struct FormProductView: View {
                         Toggle(L10n.shared.localize("form_product_add_favorite"), isOn: $favorite)
                             .padding(.top, 5)
 
-                        //                        //MARK: - ACTIVE
-                        //                        Toggle("Active", isOn: $active)
-                        //                            .padding(.top, 5)
-
                         //MARK: - SAVE BUTTON
                         SaveButtonView(text: L10n.shared.localize("form_product_save"), action: {
                             if isProductToUpdate {

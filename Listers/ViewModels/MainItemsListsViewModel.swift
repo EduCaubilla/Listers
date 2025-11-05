@@ -22,6 +22,8 @@ class MainItemsListsViewModel: BaseViewModel {
     @Published var sharedURL: URL?
     @Published var showShareSheet: Bool = false
 
+    private var notificationObserver: NSObjectProtocol?
+
     private var cancellables = Set<AnyCancellable>()
 
     let settingsManager = SettingsManager.shared
@@ -79,6 +81,9 @@ class MainItemsListsViewModel: BaseViewModel {
 
     //MARK: - DEINITIALIZER
     deinit {
+        if let observer = notificationObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
         cancellables.removeAll()
     }
 
@@ -113,7 +118,11 @@ class MainItemsListsViewModel: BaseViewModel {
     }
 
     private func setupNotificationReceiver() {
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("ShareListLoaded"), object: nil, queue: .main) { [weak self] notification in
+        if let observer = notificationObserver {
+            NotificationCenter.default.removeObserver(observer)
+        }
+
+        notificationObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name("ShareListLoaded"), object: nil, queue: .main) { [weak self] notification in
             self?.refreshItemsListData()
             if let sharedList = notification.object as? DMList {
                 Task {
@@ -149,7 +158,7 @@ class MainItemsListsViewModel: BaseViewModel {
     }
 
     @MainActor
-    private func checkSelectedList() {
+    func checkSelectedList() {
         if(selectedList == nil) {
             setSelectedList()
         }

@@ -35,8 +35,9 @@ struct FormItemView: View {
     @State private var nameSetFromList: String = ""
 
     var searchResults: [String] {
+        guard !name.isEmpty else { return [] }
         print("Search results ongoing...")
-        return vm.productNames.filter { $0.lowercased().contains(name.lowercased()) }
+        return vm.productNames.filter { $0.localizedCaseInsensitiveContains(name.lowercased()) }
     }
 
     var itemTitle : String {
@@ -253,7 +254,7 @@ struct FormItemView: View {
                                             .padding(.leading, 10)
                                             .onTapGesture {
                                                 self.name = name
-                                                self.nameSetFromList = name
+                                                nameSetFromList = name
                                                 showNameSuggestions = false
                                                 print("Name set from list \(name)")
                                             }

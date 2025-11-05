@@ -50,12 +50,12 @@ struct ListRowCellView: View {
 
     private func deleteList() {
         vm.deleteList(selectedList)
-        if vm.lists.count == 0 {
+        print("List \(selectedList.name ?? "Unknown") deleted ---->")
+
+        if selectedList == vm.selectedList {
             vm.selectedList = nil
+            vm.checkSelectedList()
         }
-
-        print("Delete list ---->")
-
         saveUpdatedList()
     }
 
@@ -64,10 +64,6 @@ struct ListRowCellView: View {
         vm.loadLists()
     }
 
-    private func printDelete() {
-        print("DELETE -------->")
-        print("\(showingDeleteConfirmation)")
-    }
 
     //MARK: - BODY
     var body: some View {
@@ -137,7 +133,6 @@ struct ListRowCellView: View {
             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                 Button(action: {
                     showingDeleteConfirmation.toggle()
-                    printDelete()
                 }) {
                     Label(deleteLabel, systemImage: deleteIcon)
                         .labelStyle(.iconOnly)

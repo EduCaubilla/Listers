@@ -49,7 +49,6 @@ struct ListsView: View {
                             listItems: vm.fetchItemsForList(list),
                             actionEditList: {editList(list)}
                         )
-//                        .padding(.bottom, -20)
                         .listRowSeparator(index == 0 ? .hidden : .visible, edges: .top)
                         .listRowBackground(Color.clear)
                         .onTapGesture {

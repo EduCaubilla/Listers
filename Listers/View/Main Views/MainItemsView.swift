@@ -103,19 +103,11 @@ struct MainItemsView: View {
                                 .onChanged { value in
                                     if vm.lists.isEmpty { return }
 
-                                    Task {
-                                        print("Swipe value start location x: \(value.startLocation.x)")
-                                        print("Swipe value location x: \(value.location.x)")
-                                        print("Swipe value translation width: \(value.translation.width)")
-                                    }
-
                                     guard value.startLocation.x > 300,
                                           value.translation.width < -80 else {
-                                        Task { print("swipeFAILED") }
                                         return
                                     }
 
-                                    Task { print("swipeOK") }
                                     router.navigateTo(.lists)
                                 }
                         )
