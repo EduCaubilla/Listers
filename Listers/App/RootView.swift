@@ -10,7 +10,7 @@ import SwiftUI
 struct RootView: View {
     //MARK: - PROPERTIES
     @StateObject var router = NavigationRouter()
-    @StateObject var vm = MainItemsListsViewModel()
+    @ObservedObject var vm = MainItemsListsViewModel()
 
     //MARK: - BODY
     var body: some View {

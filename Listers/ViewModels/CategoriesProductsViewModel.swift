@@ -206,7 +206,9 @@ class CategoriesProductsViewModel: BaseViewModel {
         saveCategoriesProductsUpdates()
         setSelectedProduct(productToScroll)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [weak self] in
+        Task { [weak self] in
+            try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+
             guard self != nil else { return }
             withAnimation(.default){
                 proxy.scrollTo(productToScroll.id, anchor: .center)

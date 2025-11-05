@@ -48,23 +48,25 @@ struct FormItemView: View {
         self.vm = vm
     }
 
-    init (item: DMItem? = nil, vm: MainItemsListsViewModel) {
+    init(item: DMItem? = nil, vm: MainItemsListsViewModel) {
         self.vm = vm
 
-        if let item = item {
-            _name = State(initialValue: item.name ?? L10n.shared.localize("form_item_unknown"))
-            _description = State(initialValue: item.notes ?? "")
-            _quantity = State(initialValue: String(item.quantity))
-            _favorite = State(initialValue: item.favorite)
-            _priority = State(initialValue: Priority(rawValue: item.priority!)!)
-            _endDate = State(initialValue: endDate)
-
-            itemToUpdate = item
-            isItemToUpdate = true
-        }
+        self.itemToUpdate = item
+        self.isItemToUpdate = item != nil
     }
 
     //MARK: - FUNCTIONS
+    private func loadItemProperties() {
+        guard let item = itemToUpdate else { return }
+
+        name = item.name ?? L10n.shared.localize("form_item_unknown")
+        description = item.notes ?? ""
+        quantity = String(item.quantity)
+        favorite = item.favorite
+        priority = Priority(rawValue: item.priority ?? "") ?? .normal
+        endDate = item.endDate ?? Date.now
+    }
+
     private func triggerAlertSaveNewItemForLibrary() {
         if (!searchResults.contains(name) && !isItemToUpdate) {
             vm.showSaveNewProductAlert = true
@@ -320,7 +322,9 @@ struct FormItemView: View {
             }
         } //: NAVIGATION STACK
         .onAppear{
-            DispatchQueue.main.async {
+            loadItemProperties()
+
+            Task {
                 vm.loadProductNames()
             }
         }

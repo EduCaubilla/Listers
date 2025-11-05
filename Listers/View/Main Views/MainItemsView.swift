@@ -11,7 +11,7 @@ import CoreData
 struct MainItemsView: View {
     //MARK: - PROPERTIES
     @EnvironmentObject var router : NavigationRouter
-    @StateObject var vm : MainItemsListsViewModel
+    @ObservedObject var vm : MainItemsListsViewModel
 
     @State private var selectedItem: DMItem?
 
@@ -29,7 +29,7 @@ struct MainItemsView: View {
 
     //MARK: - INITIALIZER
     init(vm: MainItemsListsViewModel = MainItemsListsViewModel()) {
-        _vm = StateObject(wrappedValue: vm)
+        _vm = ObservedObject(wrappedValue: vm)
     }
 
     //MARK: - FUNCTIONS
@@ -44,7 +44,7 @@ struct MainItemsView: View {
     }
 
     private func goToListsAfterCompletion() {
-        DispatchQueue.main.async {
+        Task {
             router.navigateTo(.lists)
             vm.changeFormViewState(to: .openAddList)
         }
@@ -168,7 +168,7 @@ struct MainItemsView: View {
                 ShareSheet(items: [vm.sharedURL ?? ""])
             })
             .onAppear {
-                DispatchQueue.main.async {
+                Task {
                     vm.loadInitData()
                     vm.loadProductNames()
                     vm.loadSettings()

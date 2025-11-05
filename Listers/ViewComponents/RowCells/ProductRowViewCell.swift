@@ -66,7 +66,8 @@ struct ProductRowViewCell: View {
     func duplicateAndEditProduct() {
         let newProductId: Int = vm.duplicate(product: product)
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        Task {
+            try? await Task.sleep(nanoseconds: 300_000_000) // 0.3 seconds
             let newProduct = vm.getProductById(newProductId)
             if let newProduct = newProduct {
                 vm.setSelectedProduct(newProduct)
@@ -80,7 +81,8 @@ struct ProductRowViewCell: View {
 
     func confirmationToRemoveProductFromLibrary() {
         vm.setSelectedProduct(product)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        Task {
+            try? await Task.sleep(nanoseconds: 300_000_000) // 0.3 seconds
             vm.activeAlert = ProductAlertManager(type: .confirmRemove)
         }
         print("Confirmation to remove product \(self.product.name ?? "Unknown product") from library")

@@ -69,7 +69,7 @@ struct ItemRowCellView: View {
     }
 
     private func updateItemOnCheckboxToggle() {
-        DispatchQueue.main.async{
+        Task {
             saveItem()
             checkListCompleted()
         }

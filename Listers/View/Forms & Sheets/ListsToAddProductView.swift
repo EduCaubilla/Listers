@@ -112,7 +112,7 @@ struct ListsToAddProductView: View {
             .listStyle(.plain)
             .listRowSpacing(-10)
             .onAppear {
-                DispatchQueue.main.async {
+                Task {
                     vm.loadLists()
                 }
             }

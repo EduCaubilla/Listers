@@ -118,7 +118,7 @@ class DataManager {
     }
 
     func importList(from url: URL, context: NSManagedObjectContext) {
-        DispatchQueue.main.async {
+        Task {
             do {
                 guard let data = try? Data(contentsOf: url) else {
                     print("JSON file import list in \(url) could not be read.")

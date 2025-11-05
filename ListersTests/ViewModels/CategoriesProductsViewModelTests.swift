@@ -479,7 +479,7 @@ final class CategoriesProductsViewModelTests: XCTestCase {
         // Act
         sut.scrollToFoundProduct(proxy: mockProxy, name: "Target Product")
 
-        // Wait for async dispatch
+        // Wait for async expectation
         wait(for: [expectation], timeout: 1.0)
 
         // Assert

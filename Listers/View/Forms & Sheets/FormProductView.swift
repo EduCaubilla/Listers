@@ -129,7 +129,8 @@ struct FormProductView: View {
 
             vm.setSelectedProduct(productToUpdate)
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            Task {
+                try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
                 vm.activeAlert = ProductAlertManager(type: .edited)
             }
 
@@ -142,7 +143,8 @@ struct FormProductView: View {
     }
 
     private func scrollToProduct(id: Int = 0) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+        Task {
+            try? await Task.sleep(nanoseconds: 300_000_000) // 0.3 seconds
             guard let scrollProxy = scrollViewProxy else {
                 print("FormProductView after save product, error trying to scroll as ScrollViewProxy is nil")
                 return

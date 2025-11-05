@@ -50,15 +50,16 @@ class BaseViewModel: ObservableObject {
         }
     }
 
+
     func loadProductNames(forceLoad : Bool = false) {
         if productNames.isEmpty || forceLoad {
             if products.isEmpty {
-                DispatchQueue.main.async {
+                Task { @MainActor in
                     guard let productsResult = self.persistenceManager.fetchAllActiveProducts() else { return }
                     self.products = productsResult
                 }
             } else {
-                DispatchQueue.main.async {
+                Task {
                     self.productNames = self.products.map { $0.name ?? "Unknown Product Name" }
                 }
                 print("Product names loaded: \(productNames.count)")

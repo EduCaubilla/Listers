@@ -106,7 +106,7 @@ struct ListsView: View {
                 .presentationBackground(Color.background)
         }
         .onAppear {
-            DispatchQueue.main.async {
+            Task {
                 vm.loadSettings()
                 vm.currentScreen = .lists
             }

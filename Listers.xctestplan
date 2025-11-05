@@ -17,7 +17,7 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
+      "parallelizable" : false,
       "target" : {
         "containerPath" : "container:Listers.xcodeproj",
         "identifier" : "77A0CDBE2E38A787003CC2B8",

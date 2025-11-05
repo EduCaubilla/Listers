@@ -191,7 +191,8 @@ class MainItemsListsViewModel: BaseViewModel {
         refreshItemsListData()
 
         if isListCompleted && currentScreen == .main {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { [weak self] in
+            Task { [weak self] in
+                try await Task.sleep(nanoseconds: 300_000_000)
                 self?.showCompletedListAlert = true
             }
         }
@@ -306,7 +307,7 @@ class MainItemsListsViewModel: BaseViewModel {
         }
 
         if let url = dataManager.exportList(currentList) {
-            DispatchQueue.main.async { [weak self] in
+            Task { [weak self] in
                 guard let self = self else { return }
                 self.sharedURL = url
                 self.showShareSheet = true

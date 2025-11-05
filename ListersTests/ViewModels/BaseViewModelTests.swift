@@ -72,8 +72,8 @@ final class BaseViewModelTests: XCTestCase {
         // Act
         sut.fetchProducts()
 
-        // Wait for async dispatch to complete
-        DispatchQueue.main.async {
+        // Wait for async task to complete
+        Task {
             expectation.fulfill()
         }
 
@@ -99,8 +99,8 @@ final class BaseViewModelTests: XCTestCase {
         // Act
         sut.loadProductNames()
 
-        // Wait for async dispatch to complete
-        DispatchQueue.main.async {
+        // Wait for async task to complete
+        Task {
             expectation.fulfill()
         }
 
@@ -136,8 +136,8 @@ final class BaseViewModelTests: XCTestCase {
         // Act
         sut.loadProductNames(forceLoad: true)
 
-        // Wait for async dispatch to complete
-        DispatchQueue.main.async {
+        // Wait for async task to complete
+        Task {
             expectation.fulfill()
         }
 
@@ -160,12 +160,13 @@ final class BaseViewModelTests: XCTestCase {
         // Act
         sut.loadProductNames()
 
-        // Wait for async dispatch to complete
-        DispatchQueue.main.async {
+        // Wait for async task to complete
+        Task {
+            try await Task.sleep(nanoseconds: 500_000_000)
             expectation.fulfill()
         }
 
-        wait(for: [expectation], timeout: 0.5)
+        wait(for: [expectation], timeout: 1)
 
         // Assert
         XCTAssertTrue(mockPersistenceManager.fetchAllActiveProductsCalled)
