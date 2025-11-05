@@ -36,8 +36,7 @@ struct FormItemView: View {
 
     var searchResults: [String] {
         guard !name.isEmpty else { return [] }
-        print("Search results ongoing...")
-        return vm.productNames.filter { $0.localizedCaseInsensitiveContains(name.lowercased()) }
+        return vm.productNames.filter { $0.localizedCaseInsensitiveContains(name) }
     }
 
     var itemTitle : String {
@@ -310,6 +309,8 @@ struct FormItemView: View {
                         )
                         print("Added product \(name) to library list")
                         vm.showSaveNewProductAlert = false
+
+                        vm.fetchProducts()
                         vm.loadProductNames(forceLoad: true)
 
                         closeCurrentFormItemView()
