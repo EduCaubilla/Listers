@@ -85,16 +85,31 @@ class BaseViewModel: ObservableObject {
 
         if createdProduct {
             DDLogInfo("BaseViewmodel: New product created: '\(name)' with id: '\(newProductId)'")
+            fetchProducts()
             refresh()
             responseProductId = newProductId
+            updateProductSelectedInList(id: Int16(responseProductId))
         } else {
             DDLogError("BaseViewmodel: There was an error creating the product: '\(name)' with id: '\(newProductId)'.")
         }
+
         return responseProductId
     }
 
     func createIdForNewProduct() -> Int {
         return persistenceManager.fetchNextProductId()
+    }
+
+    func updateProductSelectedInList(_ product: DMProduct) {
+        updateProductSelectedInList(id: product.id)
+    }
+
+    func updateProductSelectedInList(id : Int16) {
+        products = products.map {
+            let newProduct = $0
+            $0.selected = $0.id == id
+            return newProduct
+        }
     }
 
     //MARK: - PERSISTENCE

@@ -118,13 +118,9 @@ class CategoriesProductsViewModel: BaseViewModel {
     func getProductById(_ id: Int) -> DMProduct? {
         return products.first(where: { $0.id == id })
     }
-
+    
     func setSelectedProduct(_ product: DMProduct) {
-        products = products.map {
-            let newProduct = $0
-            newProduct.selected = $0.id == product.id
-            return newProduct
-        }
+        updateProductSelectedInList(product)
 
         if (!products.isEmpty) {
             guard let productSelected = products.filter({ $0.selected }).first else {
