@@ -74,6 +74,7 @@ final class BaseViewModelTests: XCTestCase {
 
         // Wait for async task to complete
         Task {
+            try await Task.sleep(nanoseconds: 100_000_000)
             expectation.fulfill()
         }
 
@@ -101,6 +102,7 @@ final class BaseViewModelTests: XCTestCase {
 
         // Wait for async task to complete
         Task {
+            try await Task.sleep(nanoseconds: 100_000_000)
             expectation.fulfill()
         }
 
@@ -138,6 +140,7 @@ final class BaseViewModelTests: XCTestCase {
 
         // Wait for async task to complete
         Task {
+            try await Task.sleep(nanoseconds: 100_000_000)
             expectation.fulfill()
         }
 
@@ -203,6 +206,43 @@ final class BaseViewModelTests: XCTestCase {
         XCTAssertTrue(mockPersistenceManager.lastCreatedProductActive!)
         XCTAssertFalse(mockPersistenceManager.lastCreatedProductFavorite!)
     }
+
+    func testSaveNewProduct_WhenSuccessful_ShouldRefreshList() {
+
+    }
+
+    func testSaveNewProduct_WhenSuccessful_ShouldBeInSearchResults() {
+
+    }
+
+    func testSaveNewProduct_WhenSuccessful_shouldSelectNewProductAndDeselectOldOne() {
+        // Arrange
+        let mockProducts = createMockProducts(count: 3, context: context) // Creates Product 0, 1, 2
+        sut.products = mockProducts
+
+        let previouslySelectedProduct = sut.products[0]
+        previouslySelectedProduct.selected = true
+
+        let newlySelectedProduct = sut.products[1]
+        let otherProduct = sut.products[2]
+
+        XCTAssertTrue(previouslySelectedProduct.selected, "Precondition: Product 0 should be selected.")
+        XCTAssertFalse(newlySelectedProduct.selected, "Precondition: Product 1 should not be selected.")
+        XCTAssertFalse(otherProduct.selected, "Precondition: Product 2 should not be selected.")
+
+        // Act
+        sut.updateProductSelectedInList(id: newlySelectedProduct.id)
+
+        // Assert
+        XCTAssertFalse(previouslySelectedProduct.selected, "The previously selected product should nowdeselected.")
+        XCTAssertTrue(newlySelectedProduct.selected, "The new product should now be selected.")
+        XCTAssertFalse(otherProduct.selected, "The other product should remain deselected.")
+
+        let selectedProducts = sut.products.filter { $0.selected }
+        XCTAssertEqual(selectedProducts.count, 1, "There should be exactly one selected product.")
+        XCTAssertEqual(selectedProducts.first?.id, newlySelectedProduct.id, "The only selected product shouldthe one we just updated.")
+     }
+
 
     func testSaveNewProduct_WhenFailed_ShouldReturnMinusOne() {
         // Arrange

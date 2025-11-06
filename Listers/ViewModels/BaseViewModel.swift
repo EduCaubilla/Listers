@@ -84,11 +84,11 @@ class BaseViewModel: ObservableObject {
         )
 
         if createdProduct {
-            DDLogInfo("BaseViewmodel: New product created: '\(name)' with id: '\(newProductId)'")
-            fetchProducts()
             refresh()
             responseProductId = newProductId
             updateProductSelectedInList(id: Int16(responseProductId))
+            
+            DDLogInfo("BaseViewmodel: New product created: '\(name)' with id: '\(newProductId)'")
         } else {
             DDLogError("BaseViewmodel: There was an error creating the product: '\(name)' with id: '\(newProductId)'.")
         }
