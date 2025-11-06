@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CocoaLumberjackSwift
 
 struct ItemRowCellView: View {
     //MARK: - PROPERTIES
@@ -61,7 +62,7 @@ struct ItemRowCellView: View {
 
     private func saveItem() {
         vm.saveItemListsChanges()
-        print("Item saved: \(item.name ?? "")")
+        DDLogInfo("ItemRowCellView: Item saved - '\(item.name ?? "")'")
     }
 
     private func checkListCompleted() {

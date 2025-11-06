@@ -6,6 +6,7 @@
 //
 
 import CoreData
+import CocoaLumberjackSwift
 
 struct PersistenceController {
     static let shared = PersistenceController()
@@ -17,7 +18,7 @@ struct PersistenceController {
 
         //Enable lightweight migration
         let description = container.persistentStoreDescriptions.first
-        print("START PERSISTENCE\nCore Data SQLite file is located at: \(description?.url?.path ?? "Unknown")")
+        DDLogInfo("PersistenceController: Start Persistence \nCore Data SQLite file is located at: '\(description?.url?.path ?? "Unknown")'")
 
         if inMemory {
             description?.url = URL(fileURLWithPath: "/dev/null")
@@ -28,9 +29,9 @@ struct PersistenceController {
 //            if let storeURL = description?.url {
 //                do {
 //                    try FileManager.default.removeItem(at: storeURL)
-//                    print("Store data wiped: \(storeURL)")
+//                    DDLogInfo("Store data wiped: \(storeURL)")
 //                } catch {
-//                    print("Couldn't remove store data: \(error)")
+//                    DDLogError("Couldn't remove store data: '\(error)'")
 //                }
 //            }
 //        #endif
@@ -40,8 +41,8 @@ struct PersistenceController {
 
         container.loadPersistentStores { [weak container] _, error in
             if let error = error as NSError? {
-                NSLog("Unresolved error \(error), \(error.userInfo)")
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                DDLogError("PersistenceController: Unresolved error '\(error)', '\(error.userInfo)'")
+                fatalError("Unresolved error '\(error)', '\(error.userInfo)'")
             }
 
             guard let container = container else { return }
@@ -62,11 +63,10 @@ struct PersistenceController {
             do {
                 try context.save()
             } catch let error as NSError {
-                print("Error trying to save context: \(error), \(error.userInfo)")
-                NSLog("Error trying to save context: \(error), \(error.userInfo)")
+                DDLogError("PersistenceController: Error trying to save context: '\(error)', '\(error.userInfo)'")
             }
 
-            print("Context Saved successfully!")
+            DDLogInfo("PersistenceController: Context Saved successfully!")
         }
     }
 
@@ -139,10 +139,9 @@ struct PersistenceController {
 
         do {
             try catViewContext.save()
-            print("Saved Preview categories & products.")
+            DDLogInfo("Saved Preview categories & products.")
         } catch let error as NSError {
-            print("Error trying to save preview categories data: \(error), \(error.userInfo)")
-            NSLog("Error trying to save preview categories data: \(error), \(error.userInfo)")
+            DDLogError("Error trying to save preview categories data: '\(error)', \(error.userInfo)")
         }
         return catResults
     }()
@@ -183,10 +182,9 @@ struct PersistenceController {
 
         do {
             try viewContextList.save()
-            print("Saved Preview lists")
+            DDLogInfo("Saved Preview lists")
         } catch let error as NSError {
-            print("Error trying to save preview list data: \(error), \(error.userInfo)")
-            NSLog("Error trying to save preview list data: \(error), \(error.userInfo)")
+            DDLogError("Error trying to save preview list data: '\(error)', \(error.userInfo)")
         }
 
         return resultList

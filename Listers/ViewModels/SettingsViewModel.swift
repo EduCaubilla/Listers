@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import CocoaLumberjackSwift
 
 class SettingsViewModel: ObservableObject {
     //MARK: - PROPERTIES
@@ -35,7 +36,7 @@ class SettingsViewModel: ObservableObject {
             isListDescriptionEnable = fetchedSettings.listDescription
             islistEndDateEnable = fetchedSettings.listEndDate
         }
-        print("Settings loaded successfully")
+        DDLogInfo("SettingsViewModel: Settings loaded successfully")
     }
 
     func updateSettingsData() {

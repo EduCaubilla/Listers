@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import CocoaLumberjackSwift
 
 struct ListRowCellView: View {
     //MARK: - PROPERTIES
@@ -50,7 +51,7 @@ struct ListRowCellView: View {
 
     private func deleteList() {
         vm.deleteList(selectedList)
-        print("List \(selectedList.name ?? "Unknown") deleted ---->")
+        DDLogInfo("ListRowCellView: List '\(selectedList.name ?? "Unknown")' deleted")
 
         if selectedList == vm.selectedList {
             vm.selectedList = nil

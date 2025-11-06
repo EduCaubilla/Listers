@@ -267,7 +267,7 @@ class MockPersistence {
 
         container.loadPersistentStores { (_, error) in
             if let error = error {
-                fatalError("In-memory store setup failed \(error)")
+                fatalError("In-memory store setup failed '\(error)'")
             }
         }
 

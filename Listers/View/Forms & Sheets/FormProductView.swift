@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CocoaLumberjackSwift
 
 struct FormProductView: View {
     //MARK: - PROPERTIES
@@ -53,7 +54,7 @@ struct FormProductView: View {
             _selectedCategory = State(initialValue:Categories.idMapper(for: product.categoryId))
         }
 
-        print("Init FormProductView to EDIT: \(String(describing: product?.name))")
+        DDLogInfo("Init FormProductView to EDIT: '\(String(describing: product?.name))'")
 
         productToUpdate = product
         isProductToUpdate = true
@@ -78,7 +79,7 @@ struct FormProductView: View {
         )
 
         guard let newProductSaved = vm.getProductById(newProductId) else {
-            print("New product not saved correctly")
+            DDLogInfo("FormProductView: New product not saved correctly")
             return
         }
         vm.setSelectedProduct(newProductSaved)
@@ -123,7 +124,7 @@ struct FormProductView: View {
             productToUpdate.active = active
             productToUpdate.categoryId = Int16(selectedCategory.categoryId)
 
-            print("SAVE Updated product \(String(describing: productToUpdate.name))")
+            DDLogInfo("FormProductView: Save Updated product '\(String(describing: productToUpdate.name))'")
 
             vm.saveCategoriesProductsUpdates()
 
@@ -138,7 +139,7 @@ struct FormProductView: View {
 
             scrollToProduct()
         } else {
-            print("Item could not be updated.")
+            DDLogWarn("FormProductView: Item could not be updated.")
         }
     }
 
@@ -146,7 +147,7 @@ struct FormProductView: View {
         Task {
             try? await Task.sleep(nanoseconds: 300_000_000) // 0.3 seconds
             guard let scrollProxy = scrollViewProxy else {
-                print("FormProductView after save product, error trying to scroll as ScrollViewProxy is nil")
+                DDLogWarn("FormProductView after save product, error trying to scroll as ScrollViewProxy is nil")
                 return
             }
             vm.scrollToFoundProduct(proxy: scrollProxy, id: id)

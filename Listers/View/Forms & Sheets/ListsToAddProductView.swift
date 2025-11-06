@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CocoaLumberjackSwift
 
 struct ListsToAddProductView: View {
     //MARK: - PROPERTIES
@@ -52,7 +53,7 @@ struct ListsToAddProductView: View {
             listId: vm.selectedList?.id
         )
 
-        print("Added item: \(itemToAdd?.name ?? "product") to selected list: \(vm.selectedListName)")
+        DDLogInfo("ListsToAddProductView: Added item - '\(itemToAdd?.name ?? "product")' to selected list: '\(vm.selectedListName)'")
 
         itemAddedToSelectedList = true
     }
@@ -103,7 +104,7 @@ struct ListsToAddProductView: View {
                     .contentShape(Rectangle())
                     .onTapGesture {
                         updateSelectedList(list)
-                        print("\(list.name ?? "") tapped")
+                        DDLogInfo("ListsToAddProductView: '\(list.name ?? "")' tapped")
                     }
                 } //: LOOP
                 .listRowSeparator(.hidden)

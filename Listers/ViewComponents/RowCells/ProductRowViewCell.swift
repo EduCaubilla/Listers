@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CocoaLumberjackSwift
 
 struct ProductRowViewCell: View {
     //MARK: - PROPERTIES
@@ -30,7 +31,7 @@ struct ProductRowViewCell: View {
         vm.setSelectedProduct(product)
         vm.saveCategoriesProductsUpdates()
         vm.setFavoriteCategory()
-        print("Fav product \(product.name ?? "Unknown product")")
+        DDLogInfo("ProductRowViewCell: Fav product '\(product.name ?? "Unknown product")'")
     }
 
     func addProductToList(){
@@ -38,10 +39,10 @@ struct ProductRowViewCell: View {
         let productAdded = vm.addProductToList(product)
         if productAdded {
             vm.activeAlert = ProductAlertManager(type: .addedToList)
-            print("Add product \(self.product.name ?? "Unknown product") to list \(String(describing: vm.selectedList))")
+            DDLogInfo("ProductRowViewCell: Add product '\(self.product.name ?? "Unknown product")' to list '\(String(describing: vm.selectedList))'")
         } else {
             vm.activeAlert = ProductAlertManager(type: .errorAddedToList)
-            print("Error adding product \(self.product.name ?? "Unknown product") to list.")
+            DDLogError("ProductRowViewCell: Error adding product '\(self.product.name ?? "Unknown product")' to list.")
         }
     }
 
@@ -50,17 +51,17 @@ struct ProductRowViewCell: View {
         let confirmedLists = vm.confirmListSelected()
         if confirmedLists {
             vm.changeFormViewState(to: .openListSelectionToAddProduct)
-            print("Add product \(self.product.name ?? "Unknown product") to list with selection")
+            DDLogInfo("ProductRowViewCell: product '\(self.product.name ?? "Unknown product")' to list with selection")
         } else {
             vm.activeAlert = ProductAlertManager(type: .errorAddedToList)
-            print("Error adding product \(self.product.name ?? "Unknown product") to list.")
+            DDLogError("ProductRowViewCell: Error adding product '\(self.product.name ?? "Unknown product")' to list.")
         }
     }
 
     func editProduct() {
         actionEditProduct()
         vm.setSelectedProduct(product)
-        print("Edit product \(self.product.name ?? "Unknown product")")
+        DDLogInfo("ProductRowViewCell: Edit product '\(self.product.name ?? "Unknown product")'")
     }
 
     func duplicateAndEditProduct() {
@@ -72,9 +73,9 @@ struct ProductRowViewCell: View {
             if let newProduct = newProduct {
                 vm.setSelectedProduct(newProduct)
                 vm.changeFormViewState(to: .openUpdateProduct)
-                print("Duplicate product \(self.product.name ?? "Unknown product") and edit")
+                DDLogInfo("ProductRowViewCell: Duplicate product '\(self.product.name ?? "Unknown product")' and edit")
             } else {
-                print("Error duplicating product \(self.product.name ?? "Unknown product")")
+                DDLogError("ProductRowViewCell: Error duplicating product '\(self.product.name ?? "Unknown product")'")
             }
         }
     }
@@ -85,7 +86,7 @@ struct ProductRowViewCell: View {
             try? await Task.sleep(nanoseconds: 300_000_000) // 0.3 seconds
             vm.activeAlert = ProductAlertManager(type: .confirmRemove)
         }
-        print("Confirmation to remove product \(self.product.name ?? "Unknown product") from library")
+        DDLogInfo("ProductRowViewCell: Confirmation to remove product '\(self.product.name ?? "Unknown product")' from library")
     }
 
     func removeProductFromLibrary() {
@@ -93,7 +94,7 @@ struct ProductRowViewCell: View {
         vm.selectedProduct?.selected = false
         vm.saveCategoriesProductsUpdates()
         vm.selectedProduct = nil
-        print("Remove product \(self.product.name ?? "Unknown product") from library")
+        DDLogInfo("ProductRowViewCell: Remove product '\(self.product.name ?? "Unknown product")' from library")
     }
 
     //MARK: - BODY

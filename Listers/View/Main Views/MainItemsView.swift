@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import CocoaLumberjackSwift
 
 struct MainItemsView: View {
     //MARK: - PROPERTIES
@@ -36,7 +37,7 @@ struct MainItemsView: View {
     private func editItem(_ item: DMItem) {
         setSelectedItem(item)
         vm.changeFormViewState(to: .openUpdateItem)
-        print("Edit item: \(String(describing: selectedItem))")
+        DDLogInfo("MainItemsView: Edit item - '\(String(describing: selectedItem))'")
     }
 
     private func setSelectedItem(_ item: DMItem) {

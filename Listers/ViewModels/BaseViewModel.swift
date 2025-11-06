@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import CocoaLumberjackSwift
 
 class BaseViewModel: ObservableObject {
     //MARK: - PROPERTIES
@@ -31,7 +32,7 @@ class BaseViewModel: ObservableObject {
     //MARK: - INITIALIZER
     init(persistenceManager: any PersistenceManagerProtocol = PersistenceManager.shared) {
         self.persistenceManager = persistenceManager
-        print("Init BaseViewmodel -------->")
+        DDLogInfo("BaseViewmodel: Init BaseViewmodel")
     }
 
     //MARK: - FUNCTIONS
@@ -41,7 +42,7 @@ class BaseViewModel: ObservableObject {
         let productsResult = persistenceManager.fetchAllActiveProducts()
         if let productsFetched = productsResult {
             products = productsFetched
-            print("Loaded active products in view model \(products.count)")
+            DDLogInfo("BaseViewmodel: Loaded active products in view model - '\(products.count)'")
 
             loadProductNames()
         } else {
@@ -62,7 +63,7 @@ class BaseViewModel: ObservableObject {
                 Task { @MainActor in
                     self.productNames = self.products.map { $0.name ?? "Unknown Product Name" }
                 }
-                print("Product names loaded: \(productNames.count)")
+                DDLogInfo("BaseViewmodel: Product names loaded: '\(productNames.count)'")
             }
         }
     }
@@ -83,11 +84,11 @@ class BaseViewModel: ObservableObject {
         )
 
         if createdProduct {
-            print("New product created: \(name) with id: \(newProductId)")
+            DDLogInfo("BaseViewmodel: New product created: '\(name)' with id: '\(newProductId)'")
             refresh()
             responseProductId = newProductId
         } else {
-            print("There was an error creating the product: \(name) with id: \(newProductId).")
+            DDLogError("BaseViewmodel: There was an error creating the product: '\(name)' with id: '\(newProductId)'.")
         }
         return responseProductId
     }
@@ -101,10 +102,10 @@ class BaseViewModel: ObservableObject {
         let persistenceSaved = persistenceManager.savePersistence()
 
         if persistenceSaved {
-            print("Context saved successfully.")
+            DDLogInfo("BaseViewmodel: Context saved successfully.")
             refresh()
         } else {
-            print("There was an error saving context.")
+            DDLogInfo("BaseViewmodel: There was an error saving context.")
         }
     }
 
@@ -112,10 +113,10 @@ class BaseViewModel: ObservableObject {
         let objectDeleted = persistenceManager.remove(object)
 
         if objectDeleted {
-            print("Object \(object) deleted successfully.")
+            DDLogInfo("BaseViewmodel: Object '\(object)' deleted successfully.")
             refreshData()
         } else {
-            print("There was an error deleting object \(object).")
+            DDLogError("BaseViewmodel: There was an error deleting object '\(object)'.")
         }
     }
 
@@ -151,6 +152,6 @@ class BaseViewModel: ObservableObject {
             case .closeListSelectionToAddProduct:
                 showingListToAddProductView = false
         }
-        print("On change form view state -> \(state) ---- ")
+        DDLogInfo("BaseViewmodel: On change form view state -> '\(state)'")
     }
 }

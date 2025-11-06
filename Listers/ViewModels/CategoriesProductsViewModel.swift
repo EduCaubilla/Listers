@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import Combine
+import CocoaLumberjackSwift
 
 class CategoriesProductsViewModel: BaseViewModel {
     //MARK: - PROPERTIES
@@ -26,21 +27,21 @@ class CategoriesProductsViewModel: BaseViewModel {
 
     //MARK: - CATEGORIES
     func loadCategoriesProductsData() {
-        print("\nLoad Init Data CategoriesProductsViewModel -->")
+        DDLogInfo("CategoriesProductsViewModel: Load Init Data")
         fetchCategories()
         super.fetchProducts()
-        print("All products loaded")
+        DDLogInfo("CategoriesProductsViewModel:All products loaded")
     }
 
     func fetchCategories() {
         let categoriesResult = persistenceManager.fetchAllCategories()
         guard let categoriesFetched = categoriesResult else {
-            print("Fetch categories failed")
+            DDLogInfo("CategoriesProductsViewModel:Fetch categories failed")
             return
         }
 
         categories = categoriesFetched
-        print("Loaded categories in view model: \(categories.count)")
+        DDLogInfo("CategoriesProductsViewModel:Loaded categories in view model: '\(categories.count)'")
     }
 
     func getCategoryIdByProductName(_ name: String) -> Int16? {
@@ -64,10 +65,10 @@ class CategoriesProductsViewModel: BaseViewModel {
             let categoryProducts = getProductsByCategory(category)
 
             if categoryProducts.contains(where: { $0.favorite }) {
-                print("Category \(String(describing: category.name)) is favorite")
+                DDLogInfo("CategoriesProductsViewModel:Category '\(String(describing: category.name))' is favorite")
                 category.favorite = true
             } else {
-                print("Category \(String(describing: category.name)) is NOT favorite")
+                DDLogInfo("CategoriesProductsViewModel:Category '\(String(describing: category.name))' is NOT favorite")
                 category.favorite = false
             }
         }
@@ -135,7 +136,7 @@ class CategoriesProductsViewModel: BaseViewModel {
             selectedProduct = product
         }
 
-        print("Set Selected Product: \(String(describing: product.name))")
+        DDLogInfo("CategoriesProductsViewModel:Set Selected Product: '\(String(describing: product.name))'")
     }
 
     func addProductToList(_ product: DMProduct) -> Bool {
@@ -143,13 +144,13 @@ class CategoriesProductsViewModel: BaseViewModel {
 
         let confirmListSelected = confirmListSelected()
         if !confirmListSelected {
-            print("There's no list selected to add a product.")
+            DDLogInfo("CategoriesProductsViewModel:There's no list selected to add a product.")
         }
 
-        print("Add product: \(product.name!) to list: \(selectedList?.name ?? "Unknown list")")
+        DDLogInfo("CategoriesProductsViewModel:Add product: '\(product.name!)' to list: '\(selectedList?.name ?? "Unknown list")'")
 
         guard let selectedListId = selectedList?.id else {
-            print("There's no list selected or selected list has an issue to add a product.")
+            DDLogWarn("CategoriesProductsViewModel: There's no list selected or selected list has an issue to add a product.")
             return false
         }
 
@@ -169,11 +170,11 @@ class CategoriesProductsViewModel: BaseViewModel {
         )
 
         if productToAddCreated {
-            print("Product created added successfully.")
+            DDLogInfo("CategoriesProductsViewModel:Product created added successfully.")
             saveCategoriesProductsUpdates()
             addedProductResponse = true
         } else {
-            print("There was an error creating the product to add.")
+            DDLogError("CategoriesProductsViewModel: There was an error creating the product to add.")
         }
 
         return addedProductResponse
@@ -185,21 +186,21 @@ class CategoriesProductsViewModel: BaseViewModel {
         productsToScroll = !name.isEmpty ? products.filter { $0.name == name } : products.filter { $0.id == id }
 
         guard let productToScroll = productsToScroll.first else {
-            print("Product to scroll to with id \(id) not found.")
+            DDLogWarn("CategoriesProductsViewModel: Product to scroll to with id '\(id)' not found.")
             return
         }
 
         guard let categoryToScroll = getCategoryByProductId(productToScroll.id) else {
-            print("Category to scroll to not found with id: \(productToScroll.id)")
+            DDLogWarn("CategoriesProductsViewModel: Category to scroll to not found with id: '\(productToScroll.id)'")
             return
         }
 
         for category in categories {
             if category.id == categoryToScroll.id {
-                print("Category to expand: \(String(describing: category.name))")
+                DDLogInfo("CategoriesProductsViewModel:Category to expand: '\(String(describing: category.name))'")
                 category.expanded = true
             } else {
-                print("Category to NOT expand: \(String(describing: category.name))")
+                DDLogInfo("CategoriesProductsViewModel:Category to NOT expand: '\(String(describing: category.name))'")
                 category.expanded = false
             }
         }
@@ -212,7 +213,7 @@ class CategoriesProductsViewModel: BaseViewModel {
             guard self != nil else { return }
             withAnimation(.default){
                 proxy.scrollTo(productToScroll.id, anchor: .center)
-                print("Scroll to found product: \(productToScroll.name ?? "Unknown") with id: \(productToScroll.id)")
+                DDLogInfo("CategoriesProductsViewModel:Scroll to found product: '\(productToScroll.name ?? "Unknown")' with id: '\(productToScroll.id)'")
             }
         }
     }
@@ -224,7 +225,7 @@ class CategoriesProductsViewModel: BaseViewModel {
 
     private func getSelectedList() -> Bool {
         guard let selectedListFetched = persistenceManager.fetchSelectedList() else {
-            print("There was no selected list found. Setting the first one as selected.")
+            DDLogWarn("CategoriesProductsViewModel: There was no selected list found. Setting the first one as selected.")
             return setDefaultSelectedList()
         }
         selectedListFetched.selected = true

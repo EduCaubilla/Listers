@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import Combine
+import CocoaLumberjackSwift
 
 
 class MainItemsListsViewModel: BaseViewModel {
@@ -89,13 +90,13 @@ class MainItemsListsViewModel: BaseViewModel {
 
     //MARK: - FUNCTIONS
     func loadInitData() {
-        print("\n------\n\nLoad Init Data VM ----->")
+        DDLogInfo("MainItemsListsViewModel: Load Init Data")
 
         Task{
             await loadLists()
 
             guard !isListsEmpty else {
-                print ("Lists is empty")
+                DDLogWarn("MainItemsListsViewModel: Lists is empty")
                 return
             }
 
@@ -129,18 +130,18 @@ class MainItemsListsViewModel: BaseViewModel {
                     await self?.updateSelectedList(sharedList)
                 }
             }
-            print("Refresh data from sharing ---->")
+            DDLogInfo("MainItemsListsViewModel: Refresh data from sharing")
         }
     }
 
     @MainActor
     func loadLists() {
         let listsResult : [DMList]? = persistenceManager.fetchAllLists()
-        print("Lists fetched: \(listsResult?.count ?? 0)")
+        DDLogInfo("MainItemsListsViewModel: Lists fetched: '\(listsResult?.count ?? 0)'")
 
         guard let listsResult = listsResult else {
             lists = []
-            print("There are no lists.")
+            DDLogWarn("MainItemsListsViewModel: There are no lists.")
             return
         }
 
@@ -173,7 +174,7 @@ class MainItemsListsViewModel: BaseViewModel {
             setDefaultSelectedList()
         }
 
-        print("Set selected List \(String(describing: selectedList?.name))")
+        DDLogInfo("MainItemsListsViewModel: Set selected List '\(String(describing: selectedList?.name))'")
     }
 
     private func setDefaultSelectedList() {
@@ -182,6 +183,8 @@ class MainItemsListsViewModel: BaseViewModel {
         selectedList = lists[0]
         lists[0].selected = true
         saveItemListsChanges()
+
+        DDLogInfo("MainItemsListsViewModel: Set default selected List '\(String(describing: selectedList?.name))'")
     }
 
     @MainActor
@@ -220,10 +223,10 @@ class MainItemsListsViewModel: BaseViewModel {
         )
 
         if createdList {
-            print("List \(name) created successfully.")
+            DDLogInfo("MainItemsListsViewModel: List '\(name)' created successfully.")
             saveItemListsChanges()
         } else {
-            print("There was an error creating the List \(name).")
+            DDLogError("MainItemsListsViewModel: There was an error creating the List '\(name)'.")
         }
     }
 
@@ -244,16 +247,16 @@ class MainItemsListsViewModel: BaseViewModel {
         )
 
         if createdItem {
-            print("Item \(name) created successfully.")
+            DDLogInfo("MainItemsListsViewModel: Item '\(name)' created successfully.")
             saveItemListsChanges()
         } else {
-            print("There was an error creating the Item \(name).")
+            DDLogError("MainItemsListsViewModel: There was an error creating the Item '\(name)'.")
         }
     }
 
     func deleteItemsOfList(_ listToDelete: DMList) {
         guard let itemsToDelete = persistenceManager.fetchItemsForList(withId: listToDelete.id!) else {
-            print("No items found for given list ID.")
+            DDLogWarn("MainItemsListsViewModel: No items found for given list ID.")
             return
         }
 
@@ -275,13 +278,14 @@ class MainItemsListsViewModel: BaseViewModel {
     @MainActor
     func loadItemsForSelectedList() {
         guard let selectedListId = selectedList?.id else {
-            print("There's no list selected")
+            DDLogWarn("MainItemsListsViewModel: There's no list selected")
+
             return
         }
 
         let itemsResult = persistenceManager.fetchItemsForList(withId: selectedListId)
         guard let itemsResult = itemsResult else {
-            print("There are no items in the selected list.")
+            DDLogWarn("MainItemsListsViewModel: There are no items in the selected list.")
             return
         }
         itemsOfSelectedList = itemsResult
@@ -301,7 +305,7 @@ class MainItemsListsViewModel: BaseViewModel {
         } else {
             settingsManager.loadSettings()
         }
-        print("Settings loaded from MainItemsListsViewModel")
+        DDLogInfo("MainItemsListsViewModel: Settings loaded")
     }
 
     func saveProduct(name: String, description: String?, categoryId: Int, active: Bool, favorite: Bool) {
@@ -311,7 +315,7 @@ class MainItemsListsViewModel: BaseViewModel {
     //MARK: - SHARING
     func shareList() {
         guard let currentList = selectedList else {
-            print("No list selected to share.")
+            DDLogWarn("MainItemsListsViewModel: No list selected to share.")
             return
         }
 
@@ -322,7 +326,7 @@ class MainItemsListsViewModel: BaseViewModel {
                 self.showShareSheet = true
             }
         } else {
-            print("List could not be shared.")
+            DDLogWarn("MainItemsListsViewModel: List could not be shared.")
         }
     }
 

@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import Combine
+import CocoaLumberjackSwift
 
 class DataManager {
     //MARK: - PROPERTIES
@@ -22,6 +23,7 @@ class DataManager {
 
     //MARK: - LOAD CATEGORIES + PRODUCTS DATA
     func loadInitialDataIfNeeded<T: NSManagedObject & JSONLoadable>(for entityType: T.Type, context: NSManagedObjectContext) {
+        DDLogInfo("DataManager: Loading initial data for '\(T.entityName)'")
         let languageChanged = localizationManager.checkChangedLanguage()
 
         let requestCurrentData = NSFetchRequest<T>(entityName: T.entityName)
@@ -32,23 +34,23 @@ class DataManager {
 
             // When there's data and language hasn't changed then return
             if count > 0 && !languageChanged {
-                print("Table \(T.entityName) already has data, skipping initial load.")
+                DDLogInfo("DataManager: Table '\(T.entityName)' already has data, skipping initial load.")
                 return
             }
 
             // When language changed we delete data and load new
             if languageChanged {
-                print("Table \(T.entityName) needs to load as language was changed.")
+                DDLogInfo("DataManager: Table '\(T.entityName)' needs to load as language was changed.")
                 loadDataFromJSON(for: entityType, context: context, cleanLoad: true)
             }
 
             // When there's no data we just load new
             if count == 0 {
-                print("Table \(T.entityName) is empty, loading initial data.")
+                DDLogInfo("DataManager: Table '\(T.entityName)' is empty, loading initial data.")
                 loadDataFromJSON(for: entityType, context: context)
             }
         } catch {
-            print("Error checking table for \(T.entityName): \(error.localizedDescription)")
+            DDLogError("DataManager: Error checking table for '\(T.entityName)': '\(error.localizedDescription)'")
         }
     }
 
@@ -58,13 +60,13 @@ class DataManager {
         }
 
         guard let url = Bundle.main.url(forResource: T.jsonFileName, withExtension: "json") else {
-            print("JSON file \(T.jsonFileName).json not found.")
+            DDLogInfo("DataManager: JSON file '\(T.jsonFileName).json' not found.")
             return
         }
-        print("JSON found : \(url)")
+        DDLogInfo("DataManager: JSON found : '\(url)'")
 
         guard let data = try? Data(contentsOf: url) else {
-            print("JSON file in \(url) could not be read.")
+            DDLogInfo("DataManager: JSON file in '\(url)' could not be read.")
             return
         }
 
@@ -76,10 +78,10 @@ class DataManager {
             }
 
             try context.save()
-            print("Succesfully loaded \(jsonData.count) items of data for \(T.entityName)")
+            DDLogInfo("DataManager: Succesfully loaded '\(jsonData.count)' items of data for \(T.entityName)")
 
         } catch {
-            print("Error loading data from JSON: \(error.localizedDescription)")
+            DDLogError("DataManager: Error loading data from JSON: '\(error.localizedDescription)'")
         }
     }
 
@@ -89,13 +91,13 @@ class DataManager {
             let results = try context.fetch(fetchRequest) as? [NSManagedObject]
             results?.forEach { context.delete($0) }
         } catch {
-            print("Error fetching for entity \(entityName): \(error)")
+            DDLogError("DataManager: Error fetching for entity '\(entityName)': '\(error)'")
         }
 
         do {
             try context.save()
         } catch {
-            print("Error saving after deleting entity tables: \(error)")
+            DDLogError("DataManager: Error saving after deleting entity tables: '\(error)'")
         }
     }
 
@@ -112,7 +114,7 @@ class DataManager {
             try data.write(to: url)
             return url
         } catch {
-            print("Export List Data Error: \(error)")
+            DDLogError("DataManager: Export List Data Error: '\(error)'")
             return nil
         }
     }
@@ -121,7 +123,7 @@ class DataManager {
         Task {
             do {
                 guard let data = try? Data(contentsOf: url) else {
-                    print("JSON file import list in \(url) could not be read.")
+                    DDLogInfo("DataManager: JSON file import list in '\(url)' could not be read.")
                     return
                 }
 
@@ -133,7 +135,7 @@ class DataManager {
 
                 try context.save()
             } catch {
-                print("Import List Data Error: \(error)")
+                DDLogError("DataManager: Import List Data Error: '\(error)'")
             }
 
         }

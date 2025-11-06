@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 import Foundation
+import CocoaLumberjackSwift
 
 struct PersistenceManager : PersistenceManagerProtocol {
     //MARK: - PROPERTIES
@@ -22,7 +23,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
 
     //MARK: - ITEMS/LISTS
     func createItem(name: String, description: String?, quantity: Int16, favorite: Bool, priority: Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) -> Bool {
-        print("PersistenceManager: Create item \(name)")
+        DDLogInfo("PersistenceManager: Create item '\(name)'")
 
         let newItem = DMItem(context: viewContext)
         newItem.id = UUID()
@@ -50,14 +51,14 @@ struct PersistenceManager : PersistenceManagerProtocol {
         do {
             return try viewContext.fetch(fetchRequest)
         } catch {
-            print("There was an error fetching items for selected list: \(error.localizedDescription)")
+            DDLogError("PersistenceManager: There was an error fetching items for selected list: '\(error.localizedDescription)'")
         }
 
         return nil
     }
 
     func createList(name: String, description: String, creationDate: Date, endDate: Date?, pinned: Bool, selected: Bool, expanded: Bool, completed: Bool) -> Bool {
-        print("PersistenceManager: Create list \(name)")
+        DDLogInfo("PersistenceManager: Create list '\(name)'")
 
         let newList = DMList(context: viewContext)
         newList.id = UUID()
@@ -91,7 +92,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
             return try viewContext.fetch(listsFetch)
         }
         catch {
-            print("Error fetching lists in PersistenceManager: \(error.localizedDescription)")
+            DDLogError("PersistenceManager: Error fetching lists in PersistenceManager: '\(error.localizedDescription)'")
         }
 
         return nil
@@ -102,7 +103,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
 
         let itemsForList = fetchItemsForList(withId: listId)
         guard let items = itemsForList else {
-            print("Error fetching items for selected list in PersistenceManager.")
+            DDLogError("PersistenceManager: Error fetching items for selected list in PersistenceManager.")
             return isListComplete
         }
 
@@ -114,7 +115,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
 
         if let listToUpdate = fetchList(listId) {
             listToUpdate.completed = isListComplete
-            print("Set list completed : \(listToUpdate.name!) -> \(isListComplete)")
+            DDLogInfo("PersistenceManager: Set list completed - '\(listToUpdate.name!)' -> '\(isListComplete)'")
         }
         return isListComplete
     }
@@ -128,7 +129,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
             let sortedProducts = allProducts.sorted { $0.id < $1.id }
             let lastProduct = sortedProducts.last
             if let lastProduct = lastProduct {
-                print("Last product id: \(lastProduct.id)")
+                DDLogInfo("PersistenceManager: Last product id - '\(lastProduct.id)'")
                 let newId = lastProduct.id + 1
 
                 if !isDuplicateProduct(productId: newId) {
@@ -136,7 +137,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
                 }
             }
         } else {
-            print("No products found.")
+            DDLogWarn("PersistenceManager: No products found.")
         }
 
         return resultNextProductId
@@ -168,7 +169,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
             return try viewContext.fetch(productsFetch)
         }
         catch {
-            print("Error fetching lists in PersistenceManager: \(error.localizedDescription)")
+            DDLogError("PersistenceManager: Error fetching lists in PersistenceManager: '\(error.localizedDescription)'")
         }
 
         return nil
@@ -190,7 +191,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
                 return fetchResult.first
             }
         } catch {
-            print("Error fetching product by id in PersistenceManager: \(error.localizedDescription)")
+            DDLogError("PersistenceManager: Error fetching product by id in PersistenceManager: '\(error.localizedDescription)'")
         }
         return nil
     }
@@ -205,7 +206,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
                 return fetchResult
             }
         } catch {
-            print("There was an error fetching products by category: \(error.localizedDescription)")
+            DDLogError("PersistenceManager: There was an error fetching products by category: '\(error.localizedDescription)'")
         }
 
         return nil
@@ -222,7 +223,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
                 return fetchResultProduct
             }
         } catch {
-            print("There was an error fetching products by category: \(error.localizedDescription)")
+            DDLogError("PersistenceManager: There was an error fetching products by category: '\(error.localizedDescription)'")
         }
 
         return nil
@@ -235,7 +236,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
             return try viewContext.fetch(categoriesFetch)
         }
         catch {
-            print("Error fetching lists in PersistenceManager: \(error.localizedDescription)")
+            DDLogError("PersistenceManager: Error fetching lists in PersistenceManager: '\(error.localizedDescription)'")
         }
 
         return nil
@@ -253,7 +254,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
                     return fetchResultCategory
                 }
             } catch {
-                print("Error fetching category by productId in PersistenceManager: \(error.localizedDescription)")
+                DDLogError("PersistenceManager: Error fetching category by productId in PersistenceManager: '\(error.localizedDescription)'")
             }
         }
 
@@ -285,7 +286,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
             settingsToUpdate.listEndDate = listEndDate
         }
 
-        print("Updated settings -> Item Description:\(itemDescription), Item Quantity:\(itemQuantity), Item End Date:\(itemEndDate), List Description:\(listDescription), List End Date:\(listEndDate)")
+        DDLogInfo("PersistenceManager: Updated settings -> Item Description:'\(itemDescription)', Item Quantity:'\(itemQuantity)', Item End Date:'\(itemEndDate)', List Description:'\(listDescription)', List End Date:'\(listEndDate)'")
 
         return savePersistence()
     }
@@ -296,14 +297,14 @@ struct PersistenceManager : PersistenceManagerProtocol {
         fetchRequest.predicate = predicate
 
         guard let typedRequest = fetchRequest as? NSFetchRequest<T> else {
-            print("Failed to cast fetch request to NSFetchRequest<T>")
+            DDLogError("PersistenceManager: Failed to cast fetch request to NSFetchRequest<T>")
             return nil
         }
 
         do {
             return try viewContext.fetch(typedRequest)
         } catch {
-            print("There was an error fetching items for selected list: \(error.localizedDescription)")
+            DDLogError("PersistenceManager: There was an error fetching items for selected list: '\(error.localizedDescription)'")
         }
 
         return nil
@@ -313,7 +314,7 @@ struct PersistenceManager : PersistenceManagerProtocol {
         do {
             try viewContext.save()
         } catch {
-            print("Error trying to save in PersistenceManager: \(error.localizedDescription)")
+            DDLogError("PersistenceManager: Error trying to save in PersistenceManager: '\(error.localizedDescription)'")
             return false
         }
         return true

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CocoaLumberjackSwift
 
 struct FormItemView: View {
     //MARK: - PROPERTIES
@@ -113,7 +114,7 @@ struct FormItemView: View {
 
             vm.saveItemListsChanges()
         } else {
-            print("Item could not be updated.")
+            DDLogWarn("FormItemView: Item \(name) could not be updated.")
         }
     }
 
@@ -134,7 +135,7 @@ struct FormItemView: View {
                                 .focused($isNameTextFieldFocused)
                                 .foregroundStyle(.primaryText)
                                 .onSubmit {
-                                    print("Name submitted")
+                                    DDLogInfo("FormItemView: Name submitted")
                                     isNameTextFieldFocused = false
                                     isDescriptionFieldFocused = true
                                     showNameSuggestions = false
@@ -173,7 +174,6 @@ struct FormItemView: View {
                                 nameSetFromList != name {
                             showNameSuggestions = true
                         }
-                        print("Text changed: \(oldValue) -> \(newValue)")
                     }
 
                     VStack(spacing: 10) {
@@ -255,7 +255,7 @@ struct FormItemView: View {
                                                 self.name = name
                                                 nameSetFromList = name
                                                 showNameSuggestions = false
-                                                print("Name set from list \(name)")
+                                                DDLogInfo("FormItemView: Name set from list '\(name)'")
                                             }
                                         Divider()
                                     }
@@ -307,7 +307,7 @@ struct FormItemView: View {
                             active: true,
                             favorite: favorite
                         )
-                        print("Added product \(name) to library list")
+                        DDLogInfo("FormItemView: Added product \(name) to library list")
                         vm.showSaveNewProductAlert = false
 
                         vm.fetchProducts()
