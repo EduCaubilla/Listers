@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CocoaLumberjackSwift
 
 struct FormItemView: View {
     //MARK: - PROPERTIES
@@ -35,8 +36,8 @@ struct FormItemView: View {
     @State private var nameSetFromList: String = ""
 
     var searchResults: [String] {
-        print("Search results ongoing...")
-        return vm.productNames.filter { $0.lowercased().contains(name.lowercased()) }
+        guard !name.isEmpty else { return [] }
+        return vm.productNames.filter { $0.localizedCaseInsensitiveContains(name) }
     }
 
     var itemTitle : String {
@@ -48,23 +49,25 @@ struct FormItemView: View {
         self.vm = vm
     }
 
-    init (item: DMItem? = nil, vm: MainItemsListsViewModel) {
+    init(item: DMItem? = nil, vm: MainItemsListsViewModel) {
         self.vm = vm
 
-        if let item = item {
-            _name = State(initialValue: item.name ?? L10n.shared.localize("form_item_unknown"))
-            _description = State(initialValue: item.notes ?? "")
-            _quantity = State(initialValue: String(item.quantity))
-            _favorite = State(initialValue: item.favorite)
-            _priority = State(initialValue: Priority(rawValue: item.priority!)!)
-            _endDate = State(initialValue: endDate)
-
-            itemToUpdate = item
-            isItemToUpdate = true
-        }
+        self.itemToUpdate = item
+        self.isItemToUpdate = item != nil
     }
 
     //MARK: - FUNCTIONS
+    private func loadItemProperties() {
+        guard let item = itemToUpdate else { return }
+
+        name = item.name ?? L10n.shared.localize("form_item_unknown")
+        description = item.notes ?? ""
+        quantity = String(item.quantity)
+        favorite = item.favorite
+        priority = Priority(rawValue: item.priority ?? "") ?? .normal
+        endDate = item.endDate ?? Date.now
+    }
+
     private func triggerAlertSaveNewItemForLibrary() {
         if (!searchResults.contains(name) && !isItemToUpdate) {
             vm.showSaveNewProductAlert = true
@@ -111,7 +114,7 @@ struct FormItemView: View {
 
             vm.saveItemListsChanges()
         } else {
-            print("Item could not be updated.")
+            DDLogWarn("FormItemView: Item \(name) could not be updated.")
         }
     }
 
@@ -132,7 +135,7 @@ struct FormItemView: View {
                                 .focused($isNameTextFieldFocused)
                                 .foregroundStyle(.primaryText)
                                 .onSubmit {
-                                    print("Name submitted")
+                                    DDLogInfo("FormItemView: Name submitted")
                                     isNameTextFieldFocused = false
                                     isDescriptionFieldFocused = true
                                     showNameSuggestions = false
@@ -171,7 +174,6 @@ struct FormItemView: View {
                                 nameSetFromList != name {
                             showNameSuggestions = true
                         }
-                        print("Text changed: \(oldValue) -> \(newValue)")
                     }
 
                     VStack(spacing: 10) {
@@ -236,7 +238,7 @@ struct FormItemView: View {
                             }
                         })
                         .padding(.top, 10)
-                        .accessibilityIdentifier("save_item_button")
+                        .accessibilityIdentifier("form_item_save")
 
                         Spacer()
                     } //: VSTACK FORM
@@ -251,9 +253,9 @@ struct FormItemView: View {
                                             .padding(.leading, 10)
                                             .onTapGesture {
                                                 self.name = name
-                                                self.nameSetFromList = name
+                                                nameSetFromList = name
                                                 showNameSuggestions = false
-                                                print("Name set from list \(name)")
+                                                DDLogInfo("FormItemView: Name set from list '\(name)'")
                                             }
                                         Divider()
                                     }
@@ -297,6 +299,8 @@ struct FormItemView: View {
                 isPresented: $vm.showSaveNewProductAlert) {
                     Button(L10n.shared.localize("form_item_cancel"), role: .cancel){
                     }
+                    .accessibilityIdentifier("form_item_cancel")
+
                     Button(L10n.shared.localize("form_item_add")){
                         vm.saveProduct(
                             name: name,
@@ -305,12 +309,15 @@ struct FormItemView: View {
                             active: true,
                             favorite: favorite
                         )
-                        print("Added product \(name) to library list")
+                        DDLogInfo("FormItemView: Added product \(name) to library list")
                         vm.showSaveNewProductAlert = false
+
+                        vm.fetchProducts()
                         vm.loadProductNames(forceLoad: true)
 
                         closeCurrentFormItemView()
                     }
+
                     Button(L10n.shared.localize("form_item_skip")){
                         vm.showSaveNewProductAlert = false
                         closeCurrentFormItemView()
@@ -320,7 +327,9 @@ struct FormItemView: View {
             }
         } //: NAVIGATION STACK
         .onAppear{
-            DispatchQueue.main.async {
+            loadItemProperties()
+
+            Task {
                 vm.loadProductNames()
             }
         }

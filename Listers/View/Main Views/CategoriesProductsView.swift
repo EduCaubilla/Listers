@@ -98,7 +98,7 @@ struct CategoriesProductsView: View {
                         .listStyle(SidebarListStyle())
                         .listRowSpacing(-3)
                         .onAppear {
-                            DispatchQueue.main.async {
+                            Task {
                                 vm.loadCategoriesProductsData()
                             }
                         }

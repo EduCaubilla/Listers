@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		773446DE2EBCA78100A296FD /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 773446DD2EBCA78100A296FD /* CocoaLumberjackSwift */; };
+		773446E02EBCA78500A296FD /* CocoaLumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = 773446DF2EBCA78500A296FD /* CocoaLumberjack */; };
+		773446E22EBCA78A00A296FD /* CocoaLumberjackSwiftLogBackend in Frameworks */ = {isa = PBXBuildFile; productRef = 773446E12EBCA78A00A296FD /* CocoaLumberjackSwiftLogBackend */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		777C030C2E3A39EB00435C4C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -66,6 +72,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				773446E02EBCA78500A296FD /* CocoaLumberjack in Frameworks */,
+				773446E22EBCA78A00A296FD /* CocoaLumberjackSwiftLogBackend in Frameworks */,
+				773446DE2EBCA78100A296FD /* CocoaLumberjackSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,6 +95,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		773446D92EBCA75300A296FD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		774962312DFAF3200039E8B8 = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +109,7 @@
 				7749623C2DFAF3200039E8B8 /* Listers */,
 				77A0CDC02E38A787003CC2B8 /* ListersTests */,
 				777C03072E3A39EB00435C4C /* ListersUITests */,
+				773446D92EBCA75300A296FD /* Frameworks */,
 				7749623B2DFAF3200039E8B8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -127,6 +144,9 @@
 			);
 			name = Listers;
 			packageProductDependencies = (
+				773446DD2EBCA78100A296FD /* CocoaLumberjackSwift */,
+				773446DF2EBCA78500A296FD /* CocoaLumberjack */,
+				773446E12EBCA78A00A296FD /* CocoaLumberjackSwiftLogBackend */,
 			);
 			productName = Listers;
 			productReference = 7749623A2DFAF3200039E8B8 /* Listers.app */;
@@ -211,6 +231,9 @@
 			);
 			mainGroup = 774962312DFAF3200039E8B8;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				773446DC2EBCA77A00A296FD /* XCRemoteSwiftPackageReference "CocoaLumberjack" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7749623B2DFAF3200039E8B8 /* Products */;
 			projectDirPath = "";
@@ -425,7 +448,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -462,7 +485,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -497,7 +520,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = Listers;
 			};
 			name = Debug;
@@ -519,7 +542,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = Listers;
 			};
 			name = Release;
@@ -542,7 +565,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Listers.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Listers";
 			};
 			name = Debug;
@@ -565,7 +588,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Listers.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Listers";
 			};
 			name = Release;
@@ -610,6 +633,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		773446DC2EBCA77A00A296FD /* XCRemoteSwiftPackageReference "CocoaLumberjack" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CocoaLumberjack/CocoaLumberjack.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		773446DD2EBCA78100A296FD /* CocoaLumberjackSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 773446DC2EBCA77A00A296FD /* XCRemoteSwiftPackageReference "CocoaLumberjack" */;
+			productName = CocoaLumberjackSwift;
+		};
+		773446DF2EBCA78500A296FD /* CocoaLumberjack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 773446DC2EBCA77A00A296FD /* XCRemoteSwiftPackageReference "CocoaLumberjack" */;
+			productName = CocoaLumberjack;
+		};
+		773446E12EBCA78A00A296FD /* CocoaLumberjackSwiftLogBackend */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 773446DC2EBCA77A00A296FD /* XCRemoteSwiftPackageReference "CocoaLumberjack" */;
+			productName = CocoaLumberjackSwiftLogBackend;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 774962322DFAF3200039E8B8 /* Project object */;
 }

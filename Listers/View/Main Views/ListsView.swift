@@ -7,6 +7,7 @@
 
 import SwiftUI
 import CoreData
+import CocoaLumberjackSwift
 
 struct ListsView: View {
     //MARK: - PROPERTIES
@@ -49,12 +50,11 @@ struct ListsView: View {
                             listItems: vm.fetchItemsForList(list),
                             actionEditList: {editList(list)}
                         )
-//                        .padding(.bottom, -20)
                         .listRowSeparator(index == 0 ? .hidden : .visible, edges: .top)
                         .listRowBackground(Color.clear)
                         .onTapGesture {
                             vm.updateSelectedList(list)
-                            print(vm.selectedList!)
+                            DDLogInfo("ListsView: Navigate to main with - '\(vm.selectedList!)'")
 
                             router.navigateTo(.main)
                         }
@@ -106,7 +106,7 @@ struct ListsView: View {
                 .presentationBackground(Color.background)
         }
         .onAppear {
-            DispatchQueue.main.async {
+            Task {
                 vm.loadSettings()
                 vm.currentScreen = .lists
             }

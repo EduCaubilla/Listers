@@ -7,11 +7,12 @@
 
 import SwiftUI
 import CoreData
+import CocoaLumberjackSwift
 
 struct MainItemsView: View {
     //MARK: - PROPERTIES
     @EnvironmentObject var router : NavigationRouter
-    @StateObject var vm : MainItemsListsViewModel
+    @ObservedObject var vm : MainItemsListsViewModel
 
     @State private var selectedItem: DMItem?
 
@@ -29,14 +30,14 @@ struct MainItemsView: View {
 
     //MARK: - INITIALIZER
     init(vm: MainItemsListsViewModel = MainItemsListsViewModel()) {
-        _vm = StateObject(wrappedValue: vm)
+        _vm = ObservedObject(wrappedValue: vm)
     }
 
     //MARK: - FUNCTIONS
     private func editItem(_ item: DMItem) {
         setSelectedItem(item)
         vm.changeFormViewState(to: .openUpdateItem)
-        print("Edit item: \(String(describing: selectedItem))")
+        DDLogInfo("MainItemsView: Edit item - '\(String(describing: selectedItem))'")
     }
 
     private func setSelectedItem(_ item: DMItem) {
@@ -44,7 +45,7 @@ struct MainItemsView: View {
     }
 
     private func goToListsAfterCompletion() {
-        DispatchQueue.main.async {
+        Task {
             router.navigateTo(.lists)
             vm.changeFormViewState(to: .openAddList)
         }
@@ -103,19 +104,11 @@ struct MainItemsView: View {
                                 .onChanged { value in
                                     if vm.lists.isEmpty { return }
 
-                                    Task {
-                                        print("Swipe value start location x: \(value.startLocation.x)")
-                                        print("Swipe value location x: \(value.location.x)")
-                                        print("Swipe value translation width: \(value.translation.width)")
-                                    }
-
                                     guard value.startLocation.x > 300,
                                           value.translation.width < -80 else {
-                                        Task { print("swipeFAILED") }
                                         return
                                     }
 
-                                    Task { print("swipeOK") }
                                     router.navigateTo(.lists)
                                 }
                         )
@@ -168,7 +161,7 @@ struct MainItemsView: View {
                 ShareSheet(items: [vm.sharedURL ?? ""])
             })
             .onAppear {
-                DispatchQueue.main.async {
+                Task {
                     vm.loadInitData()
                     vm.loadProductNames()
                     vm.loadSettings()

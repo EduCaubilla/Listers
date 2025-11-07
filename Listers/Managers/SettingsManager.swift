@@ -7,8 +7,9 @@
 
 import SwiftUI
 import CoreData
+import CocoaLumberjackSwift
 
-class SettingsManager {
+class SettingsManager: SettingsManagerProtocol {
     //MARK: - PROPERTIES
     private let persistenceManager : any PersistenceManagerProtocol
 
@@ -36,9 +37,9 @@ class SettingsManager {
 
             if newDefaultSettings {
                 reloadSettings()
-                print("Default settings created")
+                DDLogInfo("SettingsManager: Default settings created")
             } else {
-                print("There was an error creating default settings")
+                DDLogError("SettingsManager: There was an error creating default settings")
             }
         }
     }
@@ -65,7 +66,7 @@ class SettingsManager {
         if let newSettings = persistenceManager.fetchSettings(), updatedSettings  {
             self.currentSettings = newSettings
         } else {
-            print("There was an error updating the settings")
+            DDLogError("SettingsManager: There was an error updating the settings")
         }
     }
 }

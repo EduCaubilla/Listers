@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CocoaLumberjackSwift
 
 struct FormListView: View {
     //MARK: - PROPERTIES
@@ -48,8 +49,8 @@ struct FormListView: View {
         listToUpdate = list
         isListToUpdate = true
 
-        print("List to edit")
-        print("list name: \(list?.name ?? "Unknown"), list description: \(list?.description ?? "Unknown")")
+        DDLogInfo("FormListView: List to edit")
+        DDLogInfo("list name: '\(list?.name ?? "Unknown")', list description: '\(list?.description ?? "Unknown")'")
     }
 
     //MARK: - FUNCTIONS
@@ -79,7 +80,7 @@ struct FormListView: View {
 
             vm.saveItemListsChanges()
         } else {
-            print("List could not be updated.")
+            DDLogInfo("FormListView: List could not be updated.")
         }
     }
 

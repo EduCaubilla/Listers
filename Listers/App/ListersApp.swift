@@ -19,6 +19,10 @@ struct ListersApp: App {
     let localizationManager = L10n.shared
     let dataManager = DataManager.shared
 
+    init() {
+        LoggingService.shared.setup()
+    }
+
     //MARK: - BODY
     var body: some Scene {
         WindowGroup {

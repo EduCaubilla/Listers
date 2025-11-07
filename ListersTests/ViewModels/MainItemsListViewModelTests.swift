@@ -195,7 +195,8 @@ final class MainItemsListViewModelTests: XCTestCase {
         await sut.checkListCompletedStatus()
 
         // Wait for the delayed alert
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+        Task {
+            try await Task.sleep(nanoseconds: 400_000_000)
             expectation.fulfill()
         }
 

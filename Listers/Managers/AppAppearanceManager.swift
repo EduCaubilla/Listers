@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CocoaLumberjackSwift
 
 struct AppAppearanceManager {
     static let shared = AppAppearanceManager()
@@ -13,16 +14,16 @@ struct AppAppearanceManager {
     public func resolveAppearance(for appearance: String) -> ColorScheme? {
         switch appearance.capitalized {
             case "Light":
-                print("Resolve Appearance light")
+                DDLogInfo("AppAppearanceManager: Resolve Appearance light")
                 return .light
             case "Dark":
-                print("Resolve Appearance dark")
+                DDLogInfo("AppAppearanceManager: Resolve Appearance dark")
                 return .dark
             case "Automatic", "None":
-                print("Resolve Appearance nil")
+                DDLogInfo("AppAppearanceManager: Resolve Appearance nil")
                 return nil
             default :
-                print("Resolve Appearance nil")
+                DDLogInfo("AppAppearanceManager: Resolve Appearance nil")
                 return nil
         }
     }

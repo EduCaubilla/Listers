@@ -7,10 +7,11 @@
 
 import SwiftUI
 import Combine
+import CocoaLumberjackSwift
 
 class SettingsViewModel: ObservableObject {
     //MARK: - PROPERTIES
-    private let settingsManager : SettingsManager = SettingsManager.shared
+    private let settingsManager: SettingsManagerProtocol
     static let shared = SettingsViewModel()
 
     @Published var isItemDescriptionEnable: Bool = true
@@ -21,7 +22,8 @@ class SettingsViewModel: ObservableObject {
     @Published var islistEndDateEnable: Bool = false
 
     //MARK: - INITIALIZER
-    init() {
+    init(settingsManager: SettingsManagerProtocol = SettingsManager.shared) {
+        self.settingsManager = settingsManager
         loadSettingsData()
     }
 
@@ -35,7 +37,7 @@ class SettingsViewModel: ObservableObject {
             isListDescriptionEnable = fetchedSettings.listDescription
             islistEndDateEnable = fetchedSettings.listEndDate
         }
-        print("Settings loaded successfully")
+        DDLogInfo("SettingsViewModel: Settings loaded successfully")
     }
 
     func updateSettingsData() {
