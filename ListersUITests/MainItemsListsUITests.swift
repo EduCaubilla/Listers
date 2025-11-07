@@ -7,6 +7,7 @@
 
 import XCTest
 
+/// These UI test must be launched with the app on english language as these test are written in english
 final class MainItemsUITests: XCTestCase {
     var app: XCUIApplication!
     var timeout: TimeInterval = 2
@@ -75,7 +76,7 @@ final class MainItemsUITests: XCTestCase {
 
         // 1. Verify empty state is shown
         let noItemsText = app.staticTexts["empty_state_view"] // MainItemsView:108
-        XCTAssertTrue(noItemsText.waitForExistence(timeout: 5))
+        XCTAssertTrue(noItemsText.waitForExistence(timeout: 2))
 
         // 2. Tap to create first list
         let addCircleIconButton = app.images["empty_state_view"] // MainItemsView:112
@@ -107,7 +108,7 @@ final class MainItemsUITests: XCTestCase {
         itemNameField.typeText("Milk")
 
         // 8. Save item
-        let saveItemButton = app.buttons["save_item_button"] // FormItemView:240
+        let saveItemButton = app.buttons["form_item_save"] // FormItemView:240
         saveItemButton.tap()
 
         // 9. Verify item appears in list
@@ -121,7 +122,12 @@ final class MainItemsUITests: XCTestCase {
 
         // 1. Find and swipe right on first item
         let firstItemCell = app.cells.firstMatch
-        XCTAssertTrue(firstItemCell.exists)
+        if !firstItemCell.waitForExistence(timeout: timeout){
+            print(app.debugDescription)
+            XCTFail("Item cell does not exist initially")
+            return
+        }
+        XCTAssertTrue(firstItemCell.exists, "Item cell exists")
 
         // Swipe and edit
         firstItemCell.swipeRight()
@@ -137,11 +143,11 @@ final class MainItemsUITests: XCTestCase {
         itemNameField.typeText("Bananas")
 
         // 3. Save changes
-        let saveButton = app.buttons["save_item_button"]
+        let saveButton = app.buttons["form_item_save"]
         saveButton.tap()
 
         // 4. Verify updated item appears
-        let updatedItem = app.staticTexts["Organic Milk"]
+        let updatedItem = app.staticTexts["Bananas"]
         XCTAssertTrue(updatedItem.waitForExistence(timeout: timeout))
     }
 
@@ -151,12 +157,18 @@ final class MainItemsUITests: XCTestCase {
 
         // 1. Mark item as complete
         let firstItemCell = app.cells.firstMatch
-        let completeButton = firstItemCell.switches["complete_item_button"] // Add accessibility identifier
+        if !firstItemCell.waitForExistence(timeout: timeout) {
+            print(app.debugDescription)
+            XCTFail("Failed to find first item cell")
+            return
+        }
+
+        let completeButton = firstItemCell.switches["complete_item_button"]
         completeButton.tap()
 
         // 2. Verify completion alert appears
         let alert = app.alerts.element
-        XCTAssertTrue(alert.waitForExistence(timeout: timeout + 1))
+        XCTAssertTrue(alert.waitForExistence(timeout: 3))
 
         // 3. Test Cancel action
         let cancelButton = alert.buttons["alert_main_items_view_cancel"]
@@ -183,6 +195,11 @@ final class MainItemsUITests: XCTestCase {
 
         // Test the swipe gesture to navigate to lists
         let mainView = app.collectionViews["main_items_view"]
+        if !mainView.waitForExistence(timeout: timeout) {
+            print(app.debugDescription)
+            XCTFail("Main view not found")
+            return
+        }
         mainView.swipeLeft()
 
         // Verify we navigated to lists view
@@ -196,6 +213,11 @@ final class MainItemsUITests: XCTestCase {
 
         //Swipe to Lists View
         let mainView = app.collectionViews["main_items_view"]
+        if !mainView.waitForExistence(timeout: timeout) {
+            print(app.debugDescription)
+            XCTFail("Main view not found")
+            return
+        }
         mainView.swipeLeft()
 
         // Verify navigation to lists view
@@ -225,12 +247,39 @@ final class MainItemsUITests: XCTestCase {
         XCTAssertTrue(listNameField.waitForExistence(timeout: timeout))
     }
 
+
+    func testDeleteItemFromList() throws {
+        // Ensure we have a list with an item
+        createTestListWithItem()
+
+        // 1. Find the item cell
+        let testItemCell = app.cells.firstMatch
+        if !testItemCell.waitForExistence(timeout: timeout) {
+            print(app.debugDescription)
+            XCTFail("The 'Milk' test item cell was not found in the list.")
+            return
+        }
+
+        XCTAssertTrue(testItemCell.exists, "The 'Milk' test item cell exits.")
+
+        // 2. Swipe left on the item to reveal the delete button
+        testItemCell.swipeLeft()
+
+        // 3. Tap the delete button
+        let deleteButton = app.buttons["Delete"] // Assuming the accessibility label is "Delete"
+        XCTAssertTrue(deleteButton.waitForExistence(timeout: timeout))
+        deleteButton.tap()
+
+        // 4. Verify the item no longer exists
+        XCTAssertFalse(testItemCell.exists, "The 'Milk' test item should no longer exist after deletion.")
+    }
+
     // MARK: - Helper Methods
 
     private func createTestListWithItem() {
         // Helper method to set up test data
         let noItemsText = app.staticTexts["empty_state_view"]
-        if noItemsText.waitForExistence(timeout: 1) {
+        if noItemsText.waitForExistence(timeout: timeout) {
             // Create list
             app.images["empty_state_view"].tap()
 
@@ -245,15 +294,25 @@ final class MainItemsUITests: XCTestCase {
 
             let itemNameField = app.textFields["item_name_field"]
             itemNameField.tap()
-            itemNameField.typeText("TestItem")
+            itemNameField.typeText("Milk")
 
-            //Discard saving it in Library
-            app.buttons["form_item_cancel"].tap()
+            //Discard saving it in Library if there's the option
+            let alertCancelButton = app.buttons["form_item_cancel"]
+            if alertCancelButton.exists {
+                alertCancelButton.tap()
+            }
 
             //Save
-            app.buttons["save_item_button"].tap()
+            let saveItemButton = app.buttons["form_item_save"]
+            if !saveItemButton.waitForExistence(timeout: timeout) {
+                print(app.debugDescription)
+                XCTFail("Save button not found")
+                return
+            }
+            saveItemButton.tap()
         }
     }
+
 }
 
 // MARK: - Additional Test Class for Performance Testing

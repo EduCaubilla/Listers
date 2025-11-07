@@ -238,7 +238,7 @@ struct FormItemView: View {
                             }
                         })
                         .padding(.top, 10)
-                        .accessibilityIdentifier("save_item_button")
+                        .accessibilityIdentifier("form_item_save")
 
                         Spacer()
                     } //: VSTACK FORM
@@ -299,6 +299,8 @@ struct FormItemView: View {
                 isPresented: $vm.showSaveNewProductAlert) {
                     Button(L10n.shared.localize("form_item_cancel"), role: .cancel){
                     }
+                    .accessibilityIdentifier("form_item_cancel")
+
                     Button(L10n.shared.localize("form_item_add")){
                         vm.saveProduct(
                             name: name,
@@ -315,6 +317,7 @@ struct FormItemView: View {
 
                         closeCurrentFormItemView()
                     }
+
                     Button(L10n.shared.localize("form_item_skip")){
                         vm.showSaveNewProductAlert = false
                         closeCurrentFormItemView()

@@ -83,7 +83,10 @@ struct PersistenceManager : PersistenceManagerProtocol {
 
     func fetchSelectedList() -> DMList? {
         let lists = fetchAllLists()
-        return lists?.first(where: { $0.selected })!
+        guard let firstList = lists?.first(where: { $0.selected }) else {
+            return nil
+        }
+        return firstList
     }
 
     func fetchAllLists() -> [DMList]? {

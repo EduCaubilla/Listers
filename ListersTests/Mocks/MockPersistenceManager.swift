@@ -93,6 +93,19 @@ class MockPersistenceManager: PersistenceManagerProtocol {
     var lastCreatedListExpanded: Bool?
     var lastCreatedListCompleted: Bool?
 
+    // Tracking parameters for settings
+    var lastCreatedSettingsItemDescription: Bool?
+    var lastCreatedSettingsItemQuantity: Bool?
+    var lastCreatedSettingsItemEndDate: Bool?
+    var lastCreatedSettingsListDescription: Bool?
+    var lastCreatedSettingsListEndDate: Bool?
+
+    var lastUpdatedSettingsItemDescription: Bool?
+    var lastUpdatedSettingsItemQuantity: Bool?
+    var lastUpdatedSettingsItemEndDate: Bool?
+    var lastUpdatedSettingsListDescription: Bool?
+    var lastUpdatedSettingsListEndDate: Bool?
+
     // MARK: - Items/Lists
     func createItem(name: String, description: String?, quantity: Int16, favorite: Bool, priority: Listers.Priority, completed: Bool, selected: Bool, creationDate: Date, endDate: Date?, image: String?, link: String?, listId: UUID?) -> Bool {
         createItemCalled = true
@@ -216,11 +229,21 @@ class MockPersistenceManager: PersistenceManagerProtocol {
 
     func createSettings(itemDescription: Bool, itemQuantity: Bool, itemEndDate: Bool, listDescription: Bool, listEndDate: Bool) -> Bool {
         createSettingsCalled = true
+        lastCreatedSettingsItemDescription = itemDescription
+        lastCreatedSettingsItemQuantity = itemQuantity
+        lastCreatedSettingsItemEndDate = itemEndDate
+        lastCreatedSettingsListDescription = listDescription
+        lastCreatedSettingsListEndDate = listEndDate
         return shouldCreateSettings
     }
 
     func updateSettings(itemDescription: Bool, itemQuantity: Bool, itemEndDate: Bool, listDescription: Bool, listEndDate: Bool) -> Bool {
         updateSettingsCalled = true
+        lastUpdatedSettingsItemDescription = itemDescription
+        lastUpdatedSettingsItemQuantity = itemQuantity
+        lastUpdatedSettingsItemEndDate = itemEndDate
+        lastUpdatedSettingsListDescription = listDescription
+        lastUpdatedSettingsListEndDate = listEndDate
         return shouldUpdateSettings
     }
 
@@ -250,27 +273,5 @@ class MockPersistenceManager: PersistenceManagerProtocol {
     func remove<T: NSManagedObject>(_ object: T) -> Bool {
         removeCalled = true
         return shouldRemoveObject
-    }
-}
-
-class MockManagedObject: NSManagedObject {
-
-}
-
-class MockPersistence {
-    func makeInMemoryPersistentContainer() -> NSPersistentContainer {
-        let container = NSPersistentContainer(name: "Listers")
-
-        let description = NSPersistentStoreDescription()
-        description.type = NSInMemoryStoreType
-        container.persistentStoreDescriptions = [description]
-
-        container.loadPersistentStores { (_, error) in
-            if let error = error {
-                fatalError("In-memory store setup failed '\(error)'")
-            }
-        }
-
-        return container
     }
 }

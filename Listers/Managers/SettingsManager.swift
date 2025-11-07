@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 import CocoaLumberjackSwift
 
-class SettingsManager {
+class SettingsManager: SettingsManagerProtocol {
     //MARK: - PROPERTIES
     private let persistenceManager : any PersistenceManagerProtocol
 
