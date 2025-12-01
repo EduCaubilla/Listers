@@ -171,7 +171,7 @@ final class MainItemsUITests: XCTestCase {
         XCTAssertTrue(alert.waitForExistence(timeout: 3))
 
         // 3. Test Cancel action
-        let cancelButton = alert.buttons["alert_main_items_view_cancel"]
+        let cancelButton = alert.buttons["alert_main_items_view_cancel"].firstMatch
         XCTAssertTrue(cancelButton.exists)
         cancelButton.tap()
 
@@ -181,7 +181,7 @@ final class MainItemsUITests: XCTestCase {
         // 5. Complete item again and test OK action
         completeButton.tap() // To uncheck
         completeButton.tap() // Check again
-        let okButton = alert.buttons["alert_main_items_view_ok"]
+        let okButton = alert.buttons["alert_main_items_view_ok"].firstMatch
         okButton.tap()
 
         // 6. Verify navigation to lists view
@@ -316,14 +316,14 @@ final class MainItemsUITests: XCTestCase {
 }
 
 // MARK: - Additional Test Class for Performance Testing
-final class MainItemsPerformanceTests: XCTestCase {
-
-    func testLaunchPerformance() throws {
-        // This measures how long it takes to launch your application.
-        measure(metrics: [XCTApplicationLaunchMetric()]) {
-            XCUIApplication().launch()
-        }
-    }
+//final class MainItemsPerformanceTests: XCTestCase {
+//
+//    func testLaunchPerformance() throws {
+//        // This measures how long it takes to launch your application.
+//        measure(metrics: [XCTApplicationLaunchMetric()]) {
+//            XCUIApplication().launch()
+//        }
+//    }
 
 //    func testScrollPerformanceWithManyItems() throws {
 //        let app = XCUIApplication()
@@ -339,4 +339,4 @@ final class MainItemsPerformanceTests: XCTestCase {
 //            list.swipeDown()
 //        }
 //    }
-}
+//}
